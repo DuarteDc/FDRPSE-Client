@@ -1,6 +1,7 @@
-const get = (key: string): string => {
-    const item = localStorage.getItem(key) || '';
-    return JSON.parse(item);
+const get = (key: string): string | null => {
+    const item = localStorage.getItem(key) ?? "";
+    
+    return item && typeof item === 'string' ? JSON.parse(item || '') : null;
 }
 
 const set = (key: string, body: any) => {

@@ -11,7 +11,6 @@ export const authRepository = {
             storage.set('session', session);
             return new User(user!.id, user!.name, user!.last_name, user!.created_at, user!.updated_at);
         } catch (error) {
-            console.log(error);
             alert(error as string);
         }
     }

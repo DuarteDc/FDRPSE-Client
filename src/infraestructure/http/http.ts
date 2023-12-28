@@ -19,7 +19,6 @@ const post = async <T>(url: string, body: any): Promise<T> => {
         return data as T;
     } catch (error) {
         if (isAxiosError(error)) throw error.response?.data?.message;
-
         throw new Error("Parece que hubo un error -  Intenta mas tarde");
     }
 }

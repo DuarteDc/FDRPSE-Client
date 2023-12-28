@@ -1,9 +1,9 @@
-import { LoginPage } from "./app/pages/auth/LoginPage"
-import { HomePage } from "./app/pages/user/HomePage"
+
+import { MainRouter } from './infraestructure/routes/';
 
 function App() {
   return (
-    <HomePage />
+    <MainRouter />
   )
 }
 

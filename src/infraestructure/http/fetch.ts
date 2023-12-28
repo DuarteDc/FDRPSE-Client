@@ -9,7 +9,7 @@ export const apiInstance = axios.create({
 apiInstance.interceptors.request.use(
     async config => {
         const session = storage.get('session');
-        if (session) config.headers.session = session;
+        if (typeof session === 'string') config.headers.session = session;
         return config;
     },
     error => {

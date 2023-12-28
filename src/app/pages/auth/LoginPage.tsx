@@ -2,20 +2,22 @@ import { LoginForm } from '../../../infraestructure/components/auth';
 
 export const LoginPage = () => {
   return (
-    <section className="min-h-screen flex items-center flex-col justify-center px-40 relative overflow-hidden">
-      <span className="bg-emerald-500 absolute w-6/12 h-[300px] -top-60 -right-60 -z-30 rounded-full"></span>
-      <span className="bg-emerald-500 absolute w-6/12 h-[300px] -bottom-60 -left-60 -z-30 rounded-full"></span>
-      <div className="grid grid-cols-3 w-full">
-        <div className="flex items-center justify-center col-span-2">
-          <img
-            src="/assets/signin.svg"
-            width={600}
-            height={500}
-          />
+    <main className="relative overflow-hidden flex flex-col justify-center items-center">
+      <section className="w-full px-5 xl:px-28 max-w-[2000px] flex flex-col justify-center items-center min-h-screen">
+        <span className="bg-emerald-500 absolute w-full lg:w-6/12 h-[150px] lg:h-[300px] -top-28 lg:-top-56 -right-20 lg:-right-60 -z-30 rounded-full shadow-lg"></span>
+        <span className="bg-emerald-500 absolute w-full lg:w-6/12 h-[150px] lg:h-[300px]  -bottom-28 lg:-bottom-60 -left-20 lg:-left-60 -z-30 rounded-full shadow-lg rotate-180"></span>
+        <div className="grid grid-cols-1 lg:grid-cols-7 w-full">
+          <div className="flex items-center justify-center col-span-4">
+            <img
+              src="/assets/signin.svg"
+              width={600}
+              height={400}
+            />
+          </div>
+          <LoginForm />
         </div>
-        <LoginForm />
-      </div>
-    </section>
+      </section>
+    </main>
   )
 }
 
