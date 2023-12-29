@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import { AuthRoutes, PublicRoutes } from './';
 import { Layout } from '../components/ui';
-import { LoginPage, HomePage, QuestionsPage, HomeAdminPage } from '../../app/pages/';
+import { LoginPage, HomePage, QuestionsPage, HomeAdminPage, CategoriesPage } from '../../app/pages/';
+import { CategoryProvider } from '../context/category';
 
 
 export const MainRouter = () => {
@@ -23,9 +24,11 @@ export const MainRouter = () => {
                                 <Route path="/" index element={<HomePage />} />
                                 <Route path="questions" element={<QuestionsPage />} />
                                 <Route path="admin/*" element={
-                                    <Routes>
-                                        <Route path="/" index element={<HomeAdminPage />} />
-                                    </Routes>
+                                    <CategoryProvider>
+                                        <Routes>
+                                            <Route path="/" index element={<CategoriesPage />} />
+                                        </Routes>
+                                    </CategoryProvider>
                                 } />
                             </Routes>
                         </Layout>

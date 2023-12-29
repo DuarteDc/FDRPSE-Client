@@ -1,3 +1,5 @@
+export { CategoriesPage } from './categories/CategoriesPage';
+
 export { HomeAdminPage } from './admin/home/HomeAdminPage';
 
 export { HomePage } from './user/HomePage';

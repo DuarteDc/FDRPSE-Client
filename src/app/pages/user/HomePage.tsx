@@ -1,14 +1,19 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@nextui-org/react';
 
 import { ArrowUpRight } from '../../../infraestructure/components/icons';
+import { AuthContext } from '../../../infraestructure/context/auth';
 
 export const HomePage = () => {
+
+    const { user } = useContext(AuthContext);
+
     return (
         <div className="w-full flex justify-center items-center">
             <div className="grid grid-cols-7 py-20 max-w-[2000px]">
                 <div className="flex flex-col justify-center col-span-3">
-                    <h1 className="text-7xl font-bold mb-10">Hola <b className="text-emerald-600">Eduardo Duarte</b></h1>
+                    <h1 className="text-7xl font-bold mb-10">Hola <b className="text-emerald-600">{`${user?.name} ${user?.lastName}`}</b></h1>
                     <h2 className="text-lg my-5 text-gray-600">Bienvenido al portal <b>Identificación y analisis de los factores de riesgo psicologicos y evaluación del entorno de organizacional en los centros de trabajo.</b></h2>
                     <p className="text-xs mb-6 text-gray-600">
                         A continuación se mostraran una serie de preguntas que deberas responder.
