@@ -1,4 +1,6 @@
-import { Button, Spinner } from '@nextui-org/react';
+import { Link } from 'react-router-dom';
+import { Button } from '@nextui-org/react';
+
 import { ArrowUpRight } from '../../../infraestructure/components/icons';
 
 export const HomePage = () => {
@@ -11,8 +13,8 @@ export const HomePage = () => {
                     <p className="text-xs mb-6 text-gray-600">
                         A continuación se mostraran una serie de preguntas que deberas responder.
                     </p>
-                    <Button className="bg-slate-800 w-full text-white font-bold text-xs py-7" size="lg">
-                        Comenzar
+                    <Button className="bg-slate-800 w-full text-white font-bold text-xs py-7" size="lg" type="button" as={Link} to="/auth/admin">
+                        Iniciar ahora
                         <ArrowUpRight />
                     </Button>
                 </div>
@@ -21,11 +23,5 @@ export const HomePage = () => {
                 </div>
             </div>
         </div>
-        // <section className="min-h-lvh absolute z-50 bg-white w-full top-0 left-0">
-        //     <div className="flex min-h-screen w-full flex-col justify-center items-center">
-        //         <p className="font-bold text-6xl text-gray-500/60">IGECEM</p>
-        //         <Spinner size="lg" color="primary" />
-        //     </div>
-        // </section>
     )
 }

@@ -19,8 +19,15 @@ export const authService = () => {
         setLoading(false);
     }
 
-    return {
-        startSignin,
-        loading,
+    const startRevalidateSession = async (): Promise<void> => {
+        setLoading(true);
+        setTimeout(async () => {
+            const user = await authRepository.revalidateSession();
+            user instanceof User && dispatch({ type: 'AUTH - Login', payload: user });
+            setLoading(false)
+        }, 2000)
     }
+
+
+    return { startSignin, startRevalidateSession, loading, }
 }

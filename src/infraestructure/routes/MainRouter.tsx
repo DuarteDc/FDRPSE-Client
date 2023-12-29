@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import { LoginPage } from '../../app/pages/auth/LoginPage';
+
 import { AuthRoutes, PublicRoutes } from './';
-import { HomePage } from '../../app/pages/user/HomePage';
 import { Layout } from '../components/ui';
+import { LoginPage, HomePage, QuestionsPage, HomeAdminPage } from '../../app/pages/';
 
 
 export const MainRouter = () => {
@@ -20,7 +20,13 @@ export const MainRouter = () => {
                     <AuthRoutes>
                         <Layout>
                             <Routes>
-                                <Route path="/" element={<HomePage />} />
+                                <Route path="/" index element={<HomePage />} />
+                                <Route path="questions" element={<QuestionsPage />} />
+                                <Route path="admin/*" element={
+                                    <Routes>
+                                        <Route path="/" index element={<HomeAdminPage />} />
+                                    </Routes>
+                                } />
                             </Routes>
                         </Layout>
                     </AuthRoutes>

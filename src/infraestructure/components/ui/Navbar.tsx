@@ -1,20 +1,18 @@
-import { useState } from 'react';
 
-import { Navbar as Nav, NavbarBrand, NavbarMenuToggle, NavbarContent, NavbarItem, Link, Dropdown, DropdownTrigger, Avatar, DropdownMenu, DropdownItem } from '@nextui-org/react';
+import { Navbar as Nav, NavbarBrand, NavbarMenuToggle, NavbarContent, Dropdown, DropdownTrigger, Avatar, DropdownMenu, DropdownItem } from '@nextui-org/react';
 
-export const Navbar = () => {
-
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+interface Props {
+    toggleDrawer: () => void;
+}
+export const Navbar = ({ toggleDrawer }: Props) => {
 
     return (
         <Nav
             isBordered
-            isMenuOpen={isMenuOpen}
-            onMenuOpenChange={setIsMenuOpen}
             className="fixed"
         >
-            <NavbarContent className="sm:hidden" justify="start">
-                <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+            <NavbarContent justify="start">
+                <NavbarMenuToggle onPress={toggleDrawer}/>
             </NavbarContent>
 
             <NavbarContent className="sm:hidden pr-3" justify="center">
@@ -22,18 +20,6 @@ export const Navbar = () => {
                     <p className="font-bold text-inherit">ACME</p>
                 </NavbarBrand>
             </NavbarContent>
-
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarBrand>
-                    <p className="font-bold text-inherit">ACME</p>
-                </NavbarBrand>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Inicio
-                    </Link>
-                </NavbarItem>
-            </NavbarContent>
-
             <NavbarContent justify="end">
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
