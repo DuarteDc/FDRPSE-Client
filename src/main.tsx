@@ -8,7 +8,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './infraestructure/context/auth/AuthProvider.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProvider>
       <BrowserRouter>
         <NextUIProvider>
@@ -18,5 +18,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </NextUIProvider>
       </BrowserRouter>
     </AuthProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

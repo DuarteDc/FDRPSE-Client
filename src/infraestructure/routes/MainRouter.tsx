@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AuthRoutes, PublicRoutes } from './';
+import { AuthRoutes, CategoryRoutes, PublicRoutes } from './';
 import { Layout } from '../components/ui';
-import { LoginPage, HomePage, QuestionsPage, HomeAdminPage, CategoriesPage } from '../../app/pages/';
+import { LoginPage, HomePage, QuestionsPage, } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
-import { SectionPage } from '../../app/pages/sections/SectionPage';
 import { SectionProvider } from '../context/section';
 
 
@@ -28,8 +27,8 @@ export const MainRouter = () => {
                                 <Route path="admin/*" element={
                                     <CategoryProvider>
                                         <SectionProvider>
-                                            <Routes>
-                                                <Route path="/" index element={<SectionPage />} />
+                                            <Routes>CategoriesPage
+                                                <Route path="/categories/*" index element={<CategoryRoutes />} />
                                             </Routes>
                                         </SectionProvider>
                                     </CategoryProvider>

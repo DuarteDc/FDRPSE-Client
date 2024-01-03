@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowNarrowLeft } from '../icons';
-
-
 interface Props {
     title       : string;
     navigateTo  : string;
@@ -13,7 +11,7 @@ export const PageLayout = ({ title, navigateTo, children }: Props) => {
 
     return (
         <>
-            <header className="flex items-center text-emerald-700 mb-10">
+            <header className="flex items-center text-emerald-600 mb-10">
                 <span className="cursor-pointer" title="Back" onClick={() => navigate(navigateTo)}>
                     <ArrowNarrowLeft width={50} height={50} />
                 </span>

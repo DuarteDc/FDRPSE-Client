@@ -5,18 +5,21 @@ import { AuthContext } from '../../context/auth';
 
 interface Props {
     toggleDrawer: () => void;
+    isOpen: boolean;
 }
-export const Navbar = ({ toggleDrawer }: Props) => {
+export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
 
     const { user } = useContext(AuthContext);
 
     return (
         <Nav
             isBordered
+            isMenuOpen={isOpen}
+            onMenuOpenChange={toggleDrawer}
             className="fixed"
         >
             <NavbarContent justify="start">
-                <NavbarMenuToggle onPress={toggleDrawer} />
+                <NavbarMenuToggle aria-label={isOpen ? "Close menu" : "Open menu"} />
             </NavbarContent>
 
             <NavbarContent className="sm:hidden pr-3" justify="center">

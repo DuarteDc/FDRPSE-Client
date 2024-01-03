@@ -18,7 +18,7 @@ export const HomePage = () => {
                     <p className="text-xs mb-6 text-gray-600">
                         A continuación se mostraran una serie de preguntas que deberas responder.
                     </p>
-                    <Button className="bg-slate-800 w-full text-white font-bold text-xs py-7" size="lg" type="button" as={Link} to="/auth/admin">
+                    <Button className="bg-slate-800 w-full text-white font-bold text-xs py-7" size="lg" type="button" as={Link} to="/auth/admin/categories">
                         Iniciar ahora
                         <ArrowUpRight />
                     </Button>

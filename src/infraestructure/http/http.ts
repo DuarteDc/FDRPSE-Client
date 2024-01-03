@@ -13,7 +13,7 @@ const get = async <T>(url: string): Promise<T> => {
     }
 }
 
-const post = async <T>(url: string, body: any): Promise<T> => {
+const post = async <T>(url: string, body: object): Promise<T> => {
     try {
         const { data } = await apiInstance.post(url, body);
         return data as T;

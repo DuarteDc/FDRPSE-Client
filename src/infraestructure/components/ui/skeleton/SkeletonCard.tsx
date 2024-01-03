@@ -1,10 +1,8 @@
 import { Skeleton } from '@nextui-org/react'
 
-const items = Array.from({ length: 10 }, (_, index) => index + 1);
+const items = Array.from({ length: 8 }, (_, index) => index + 1);
 
 export const SkeletonCard = () => {
-
-    console.log(items)
 
     return (
         <>

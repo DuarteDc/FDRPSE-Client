@@ -1,7 +1,7 @@
 import { http } from '../http/http';
 
-import { CateoriesResponseDto } from '../http/dto/categories';
 import { Category } from '../../domain/models';
+import { CateoriesResponseDto, CommonResponseDto, CreateCategoryDto } from '../http/dto/categories';
 
 export const categoriesRepositories = {
 
@@ -12,6 +12,15 @@ export const categoriesRepositories = {
         } catch (error) {
             return error as string;
         }
+    },
+
+    createCategory: async (createCategoryDto: CreateCategoryDto): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.post<CommonResponseDto>('/categories', createCategoryDto);
+            return { message, success: true }
+        } catch (error) {
+             return { message: error as string, success: false }
+        }
     }
-    
+
 }
