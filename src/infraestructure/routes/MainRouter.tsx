@@ -4,6 +4,8 @@ import { AuthRoutes, PublicRoutes } from './';
 import { Layout } from '../components/ui';
 import { LoginPage, HomePage, QuestionsPage, HomeAdminPage, CategoriesPage } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
+import { SectionPage } from '../../app/pages/sections/SectionPage';
+import { SectionProvider } from '../context/section';
 
 
 export const MainRouter = () => {
@@ -25,9 +27,11 @@ export const MainRouter = () => {
                                 <Route path="questions" element={<QuestionsPage />} />
                                 <Route path="admin/*" element={
                                     <CategoryProvider>
-                                        <Routes>
-                                            <Route path="/" index element={<CategoriesPage />} />
-                                        </Routes>
+                                        <SectionProvider>
+                                            <Routes>
+                                                <Route path="/" index element={<SectionPage />} />
+                                            </Routes>
+                                        </SectionProvider>
                                     </CategoryProvider>
                                 } />
                             </Routes>

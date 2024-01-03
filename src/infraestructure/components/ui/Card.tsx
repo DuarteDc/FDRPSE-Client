@@ -1,23 +1,28 @@
-import { CardFooter, Image, Card as MainCard, Skeleton } from "@nextui-org/react"
+import { Image, Card as MainCard } from '@nextui-org/react';
 
 interface Props {
-    title: string;
+    title        : string;
+    subtitle    ?: string;
+    image       ?: string | JSX.Element;
+    onClick     ?: () => void;
 }
-export const Card = ({ title }: Props) => {
+
+export const Card = ({ title, subtitle, image, onClick }: Props) => {
     return (
-        <MainCard className="w-full h-[20rem]">
-            {/* <Skeleton> */}
+        <MainCard className="w-full h-[18rem] lg:h-[22rem] flex flex-col justify-center items-center" onClick={onClick ? onClick : undefined}>
+            <div className="w-[10rem] h-[10rem] rounded-full">
                 <Image
                     alt="Woman listing to music"
-                    className=" w-full h-full"
+                    className="w-full h-full"
                     height={600}
-                    src="/assets/cat.svg"
+                    src={image ? image : '/assets/cat.svg'}
                     width={500}
                 />
-            {/* </Skeleton> */}
-            <CardFooter className="justify-between bg-emerald-600 border-emerald-600/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-                <p className="text-xs font-bold text-white/80 py-2">{title}</p>
-            </CardFooter>
+            </div>
+            <span className="font-bold">{title}</span> 
+            {
+                subtitle && <span className="text-sm">{subtitle}</span>
+            }
         </MainCard>
     )
 }

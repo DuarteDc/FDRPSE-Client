@@ -8,10 +8,10 @@ export const categoriesService = () => {
     const [loading, setLoading] = useState(false);
 
     const startGetCategories = async (): Promise<void> => {
-        setLoading(true);
+        setLoading(prev => !prev);
         const categories = await categoriesRepositories.getCategories();
         typeof categories !== 'string' && dispatch({ type: 'CATEGORY - Start load categories', payload: categories });
-        setLoading(false);
+        setLoading(prev => !prev);
     }
 
     return {

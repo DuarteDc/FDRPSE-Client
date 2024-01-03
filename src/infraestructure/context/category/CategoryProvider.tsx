@@ -5,7 +5,7 @@ import { Category } from '../../../domain/models';
 
 
 export interface CategoryState {
-    category    : Category | {};
+    category    : Category | null;
     categories  : Array<Category>
 }
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const CATEGOTY_INITIAL_STATE: CategoryState = {
-    category    : {},
+    category    : null,
     categories  : []
 }
 
