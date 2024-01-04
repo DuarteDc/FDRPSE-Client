@@ -1,11 +1,11 @@
-interface CategoryType {
+interface CategorySchema {
     id          : string;
     name        : string;
     createdAt   : Date;
     updatedAt   : Date;
 }
 
-export class Category implements CategoryType {
+export class Category implements CategorySchema {
 
     readonly id         : string;
     readonly name       : string;

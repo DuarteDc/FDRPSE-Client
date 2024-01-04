@@ -1,4 +1,4 @@
-interface UserType  {
+interface UserSchema  {
     id          : string;
     name        : string;
     lastName    : string;
@@ -7,7 +7,7 @@ interface UserType  {
     updatedAt   : Date;
 }
 
-export class User implements UserType {
+export class User implements UserSchema {
 
     readonly id         : string;
     readonly name       : string; 

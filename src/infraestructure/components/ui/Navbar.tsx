@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/auth';
 
 interface Props {
     toggleDrawer: () => void;
-    isOpen: boolean;
+    isOpen      : boolean;
 }
 export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
 

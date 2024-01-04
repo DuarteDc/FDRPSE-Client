@@ -1,10 +1,11 @@
 import { http } from '../http/http';
-import { DomainsResponseDto } from '../http/dto/domains';
+import { CreateDomainDto, DomainsResponseDto } from '../http/dto/domains';
 import { Domain } from '../../domain/models';
+import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 
-export const categoriesRepositories = {
+export const domainRepository = {
 
-    getCategories: async (): Promise<Array<Domain> | string> => {
+    getDomains: async (): Promise<Array<Domain> | string> => {
         try {
             const { domains } = await http.get<DomainsResponseDto>('/domains');
             return domains.map(({ id, name, created_at, updated_at }) => new Domain(id, name, created_at, updated_at));
@@ -12,5 +13,14 @@ export const categoriesRepositories = {
             return error as string;
         }
     },
+
+    createDomain: async (createDomainDto: CreateDomainDto): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.post<CommonResponseDto>('/domains', createDomainDto);
+            return { message, success: true }
+        } catch (error) {
+             return { message: error as string, success: false }
+        }
+    }
 
 }

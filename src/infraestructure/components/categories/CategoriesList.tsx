@@ -12,7 +12,7 @@ interface Props {
     navigate    : NavigateFunction
 }
 export const CategoriesList = ({ categories, loading, navigate }: Props) => {
-
+    
     return (
         <>
             {

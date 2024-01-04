@@ -20,7 +20,7 @@ export const FormCategory = () => {
 
     return (
         <div>
-            <h2 className="bg-gradient-to-r from-primary to-emerald-600 inline-block text-transparent bg-clip-text text-base font-bold mt-40">Crea una categoria para añadir agrupar tus pregustas</h2>
+            <h2 className="bg-gradient-to-r from-primary to-emerald-600 inline-block text-transparent bg-clip-text text-base font-bold mt-40">Crea una categoria para agrupar tus pregustas</h2>
             <form className="mt-10" onSubmit={formik.handleSubmit}>
                 <Input
                     placeholder="Nombre de la categoría"

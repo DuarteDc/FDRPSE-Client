@@ -3,6 +3,7 @@ export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
 export { CategoryIcon } from './CategoryIcon';
 export { ChevonLeft } from './ChevonLeft';
+export { DimensionsIcon } from './DimensionsIcon';
 export { EyeIcon } from './EyeIcon';
 export { FileDescription } from './FileDescription';
 export { GoogleIcon } from './GoogleIcon';

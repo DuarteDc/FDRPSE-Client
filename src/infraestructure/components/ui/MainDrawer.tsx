@@ -1,9 +1,11 @@
-import Drawer from 'react-modern-drawer';
-import 'react-modern-drawer/dist/index.css'
-import { BoxIcon, CategoryIcon, FileDescription, HomeIcon, QuestionIcon } from '../icons';
+import { Link } from 'react-router-dom';
 
+import Drawer from 'react-modern-drawer';
+import 'react-modern-drawer/dist/index.css';
+
+import { routes } from '../../../app/helpers/routes';
 interface Props {
-    isOpen: boolean;
+    isOpen      : boolean;
     toggleDrawer: () => void;
 }
 
@@ -19,28 +21,15 @@ export const MainDrawer = ({ isOpen, toggleDrawer }: Props) => {
             // style={{ backgroundColor: `${theme === 'dark' ? 'black' : 'white'}` }}
             zIndex={20}
         >
-            <ul className="pt-24 [&>li]:mb-12 [&>li]:cursor-pointer [&>li]:flex [&>li]:items-center [&>li>span]:ml-2 [&>li>span]:-mb-1 [&>li>span]:text-sm text-gray-500 font-bold">
-                <li>
-                    <HomeIcon />
-                    <span>Inicio</span>
-                </li>
-                <li>
-                    <FileDescription />
-                    <span>Cuestionarios</span>
-                </li>
-                <li>
-                    <QuestionIcon />
-                    <span>Preguntas</span>
-                </li>
-                <li>
-                    <CategoryIcon />
-                    <span>Categorías</span>
-                </li>
-                <li>
-                    <BoxIcon />
-                    <span>Dominios</span>
-                </li>
-
+            <ul className="pt-24 [&>a]:mb-12 [&>a]:cursor-pointer [&>a]:flex [&>a]:items-center [&>a>span]:ml-2 [&>a>span]:-mb-1 [&>a>span]:text-sm text-gray-500 font-bold">
+                {
+                    routes.map(({ name, icon, path }) => (
+                        <Link key={path} to={path} className="flex items-center">
+                            { icon({width: 20, height: 20}) }
+                            <span>{ name }</span>
+                        </Link>
+                    ))
+                }
             </ul>
         </Drawer>
     )

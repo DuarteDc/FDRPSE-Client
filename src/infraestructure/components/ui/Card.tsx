@@ -1,14 +1,8 @@
 import { isValidElement } from 'react';
-import { Image, Card as MainCard } from '@nextui-org/react';
+import { Card as MainCard } from '@nextui-org/react';
+import { CreateItemCardProps } from './CardList';
 
-interface Props {
-    title        : string;
-    subtitle    ?: string;
-    image       ?: string | JSX.Element;
-    onPress     ?: () => void;
-}
-
-export const Card = ({ title, subtitle, image, onPress }: Props) => {
+export const Card = ({ title, subtitle, image, onPress }: CreateItemCardProps) => {
     return (
         <MainCard className="w-full h-[18rem] lg:h-[22rem] flex flex-col justify-center items-center cursor-pointer hover:border-emerald-600 border-2 hover:transition-all hover:ease-in-out hover:duration-1000 hover:shadow-emerald-600/20 shadow-lg" isPressable onPress={onPress ? onPress : undefined}>
             <div className="w-[10rem] h-[10rem] rounded-full">

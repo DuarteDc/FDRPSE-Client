@@ -3,7 +3,7 @@ import { http } from '../http/http';
 import { Category } from '../../domain/models';
 import { CateoriesResponseDto, CommonResponseDto, CreateCategoryDto } from '../http/dto/categories';
 
-export const categoriesRepositories = {
+export const categoriesRepository = {
 
     getCategories: async (): Promise<Array<Category> | string> => {
         try {
