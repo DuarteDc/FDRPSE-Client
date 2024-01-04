@@ -26,7 +26,7 @@ export const Card = ({ title, subtitle, image, onPress }: CreateItemCardProps) =
             </div>
             <span className="text-xs xl:text-base font-bold text-gray-500">{title}</span> 
             {
-                subtitle && <span className="text-sm">{subtitle}</span>
+                subtitle && <span className="text-xs text-gray-500 font-semibold">{subtitle}</span>
             }
         </MainCard>
     )

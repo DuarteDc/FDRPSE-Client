@@ -1,3 +1,5 @@
+export { ShowQuestionPage } from './questions/ShowQuestionPage';
+
 export { CreateDimensionPage } from './dimensions/CreateDimensionPage';
 export { DimensionsPage } from './dimensions/DimensionsPage';
 
@@ -13,6 +15,5 @@ export { HomeAdminPage } from './admin/home/HomeAdminPage';
 export { HomePage } from './user/HomePage';
 export { LoginPage } from './auth/LoginPage';
 export { QuestionsPage } from './questions/QuestionsPage';
-
 
 
