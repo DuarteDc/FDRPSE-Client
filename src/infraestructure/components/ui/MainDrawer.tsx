@@ -17,15 +17,16 @@ export const MainDrawer = ({ isOpen, toggleDrawer }: Props) => {
             onClose={toggleDrawer}
             direction="left"
             size={350}
-            className="px-4 bg-red-600"
+            className="bg-red-600 px-4"
             // style={{ backgroundColor: `${theme === 'dark' ? 'black' : 'white'}` }}
             zIndex={20}
         >
-            <ul className="pt-24 [&>a]:mb-12 [&>a]:cursor-pointer [&>a]:flex [&>a]:items-center [&>a>span]:ml-2 [&>a>span]:-mb-1 [&>a>span]:text-sm text-gray-500 font-bold">
+            <ul className="pt-24 [&>a]:py-3 [&>a]:cursor-pointer [&>a]:flex [&>a]:items-center [&>a>span]:ml-2 [&>a>span]:-mb-1 [&>a>span]:text-sm text-gray-500 font-bold transition-all duration-400">
                 {
                     routes.map(({ name, icon, path }) => (
-                        <Link key={path} to={path} className="flex items-center">
-                            { icon({width: 20, height: 20}) }
+                        <Link key={path} to={path} className="flex items-center hover:bg-emerald-600 pl-4 hover:transition-all hover:duration-300 hover:ease-in-out rounded-2xl 
+                        hover:text-white [&>svg]:hover:text-emerald-600 [&>svg]:p-3 [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:hover:bg-white">
+                                { icon({width: 45, height: 45}) }
                             <span>{ name }</span>
                         </Link>
                     ))

@@ -1,7 +1,8 @@
 import { http } from '../http/http';
 
 import { Category } from '../../domain/models';
-import { CateoriesResponseDto, CommonResponseDto, CreateCategoryDto } from '../http/dto/categories';
+import { CommonResponseDto } from '../http/dto/CommonResponseDto';
+import { CateoriesResponseDto, CreateCategoryDto } from '../http/dto/categories';
 
 export const categoriesRepository = {
 

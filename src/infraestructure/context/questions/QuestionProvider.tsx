@@ -3,14 +3,16 @@ import { QuestionContext, questionReducer } from './';
 import { Question } from '../../../domain/models';
 
 export interface QuestionState {
-    questions: Array<Question> | [];
+    questions   : Array<Question> | [];
+    question    : Question | null;
 }
 interface Props {
     children: ReactNode;
 }
 
 const QUESTION_INITIAL_STATE: QuestionState = {
-    questions: [],
+    questions   : [],
+    question    : null,
 }
 
 export const QuestionProvider = ({ children }: Props) => {

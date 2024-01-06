@@ -14,7 +14,6 @@ export const questionService = () => {
         typeof questions !== 'string' && dispatch({ type: 'QUESTION - Load questions', payload: questions });
         setLoading(false);
     }
-
     return {
         loading,
         questions, 

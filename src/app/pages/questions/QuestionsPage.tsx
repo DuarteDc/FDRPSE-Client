@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react';
+import { Button, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react';
 
-import { EyeIcon } from '../../../infraestructure/components/icons';
+import { EyeIcon, PlusIcon } from '../../../infraestructure/components/icons';
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { questionService } from '../../../domain/services/question.service';
 import { Link } from 'react-router-dom';
@@ -16,13 +16,16 @@ export const QuestionsPage = () => {
 
     return (
         <PageLayout title="Preguntas" navigateTo="/admin/">
+            <Button startContent={<PlusIcon />} className="float-right mb-10" color="primary" as={Link} to="create">
+                Crear Pregunta
+            </Button>
             <Table aria-label="Example table with custom cells">
                 <TableHeader>
                     <TableColumn> Item </TableColumn>
                     <TableColumn> Pregunta </TableColumn>
                     <TableColumn>  </TableColumn>
                 </TableHeader>
-                <TableBody items={questions} loadingContent={<Spinner />} isLoading={loading}>
+                <TableBody items={questions} loadingContent={<Spinner color="success" />} isLoading={loading}>
                     {
                         questions.map(({ id, question }) => (
                             <TableRow key={id} className="[&>td]:py-4">

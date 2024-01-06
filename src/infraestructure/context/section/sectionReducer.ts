@@ -6,6 +6,7 @@ export type SectionActionType =
     | { type: 'SECTION - Start load sections', payload: Array<Section> }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
+
     switch (action.type) {
         case 'SECTION - Start load section':
             return {
@@ -22,4 +23,5 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
         default:
             return state;
     }
+    
 }
