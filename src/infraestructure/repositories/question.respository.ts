@@ -1,7 +1,7 @@
 import { http } from '../http/http';
 import { Question } from '../../domain/models';
-import { QuestionsResponseDto } from '../http/dto/questions';
-// import { CommonResponseDto } from '../http/dto/CommonResponseDto';
+import { CreateQuestionDto, QuestionsResponseDto } from '../http/dto/questions';
+import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 
 export const questionRepository = {
 
@@ -14,13 +14,13 @@ export const questionRepository = {
         }
     },
 
-    // createDomain: async (createDomainDto: CreateDomainDto): Promise<CommonResponseDto> => {
-    //     try {
-    //         const { message } = await http.post<CommonResponseDto>('/domains', createDomainDto);
-    //         return { message, success: true }
-    //     } catch (error) {
-    //          return { message: error as string, success: false }
-    //     }
-    // }
+    createQuestion: async (createQuestionDto: CreateQuestionDto): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.post<CommonResponseDto>('/questions', createQuestionDto);
+            return { message, success: true }
+        } catch (error) {
+             return { message: error as string, success: false }
+        }
+    }
 
 }

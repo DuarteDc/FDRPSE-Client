@@ -1,5 +1,8 @@
 import * as Yup from 'yup';
 
 export const createDimensionValidation = () => ({
-    name: Yup.string().required('El campo de nombre es obligatorio').min(8, 'El nombre debe contener al menos 8 caracteres').max(200, 'El nombre debe contener 200 caracteres como máximo'),
+    question        : Yup.string().required('El campo pregunta es obligatorio').min(8, 'La pregunta debe contener al menos 8 caracteres').max(200, 'La pregunta debe contener 200 caracteres como máximo'),
+    category_id     : Yup.string().required('El campo de categoría es obligatorio'),
+    domain_id       : Yup.string(), 
+    dimension_id    : Yup.string(), 
 });

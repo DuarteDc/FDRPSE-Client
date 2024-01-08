@@ -1,10 +1,15 @@
 import { ReactNode, useReducer } from 'react';
 import { QuestionContext, questionReducer } from './';
-import { Question } from '../../../domain/models';
+import { Category, Dimension, Domain, Question } from '../../../domain/models';
 
+export interface QuestionDetail extends Question{
+    category    ?: Category;
+    domain      ?: Domain | undefined;
+    dimension   ?: Dimension | undefined;
+}
 export interface QuestionState {
     questions   : Array<Question> | [];
-    question    : Question | null;
+    question    : QuestionDetail | null;
 }
 interface Props {
     children: ReactNode;
