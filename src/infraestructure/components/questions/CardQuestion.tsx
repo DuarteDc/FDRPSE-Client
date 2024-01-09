@@ -4,13 +4,13 @@ import { QuestionDetail } from '../../context/questions'
 
 interface Props {
     question: QuestionDetail;
-    renderButton   ?: () => ReactNode;
+    renderButton   ?: () => ReactNode | Array<ReactNode>;
     renderChildren ?: () => ReactNode;
 }
 
 export const CardQuestion = ({ question, renderButton, renderChildren }: Props) => {
     return (
-        <div className="border-2 border-emerald-600 rounded-xl p-5 my-2" draggable>
+        <div className="border-2 border-emerald-600 rounded-xl p-5 my-2 font-bold text-gray-600">
             {renderButton && renderButton()}
             <div className="py-2">
                 <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">

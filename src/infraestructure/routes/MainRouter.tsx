@@ -8,6 +8,7 @@ import { SectionProvider } from '../context/section';
 import { DomainProvider } from '../context/domain';
 import { DimensionProvider } from '../context/dimension';
 import { QuestionProvider } from '../context/questions';
+import { QualificationProvider } from '../context/qualification';
 
 
 export const MainRouter = () => {
@@ -31,13 +32,15 @@ export const MainRouter = () => {
                                             <DomainProvider>
                                                 <DimensionProvider>
                                                     <QuestionProvider>
-                                                        <Routes>
-                                                            <Route path="/" index element={<h1>xd</h1>} />
-                                                            <Route path="/categories/*" index element={<CategoryRoutes />} />
-                                                            <Route path="/domains/*" index element={<DomainRoutes />} />
-                                                            <Route path="/dimensions/*" index element={<DimensionRoutes />} />
-                                                            <Route path="/questions/*" index element={<QuestionRoutes />} />
-                                                        </Routes>
+                                                        <QualificationProvider>
+                                                            <Routes>
+                                                                <Route path="/" index element={<h1>xd</h1>} />
+                                                                <Route path="/categories/*" index element={<CategoryRoutes />} />
+                                                                <Route path="/domains/*" index element={<DomainRoutes />} />
+                                                                <Route path="/dimensions/*" index element={<DimensionRoutes />} />
+                                                                <Route path="/questions/*" index element={<QuestionRoutes />} />
+                                                            </Routes>
+                                                        </QualificationProvider>
                                                     </QuestionProvider>
                                                 </DimensionProvider>
                                             </DomainProvider>
