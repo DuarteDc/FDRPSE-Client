@@ -3,7 +3,7 @@ import { storage } from '../local-storage/localStorage';
 
 export const apiInstance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
-    responseType: 'json'
+    responseType: 'json',
 })
 
 apiInstance.interceptors.request.use(

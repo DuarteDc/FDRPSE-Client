@@ -1,4 +1,5 @@
-import { useContext, useState, DragEvent } from 'react';
+import { useContext, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { QuestionContext } from '../../infraestructure/context/questions';
 import { Question } from '../../domain/models';
 
@@ -6,20 +7,25 @@ import { categoriesService } from '../../domain/services/categories.service';
 import { domianService } from '../../domain/services/domian.service';
 import { dimensionService } from '../../domain/services/dimension.service';
 import { CreateQuestionDto } from '../../infraestructure/http/dto/questions';
+import { CREATE_QUESTION_ROUTES } from '../helpers/routes';
 
 export const useQuestion = () => {
 
     const [loading, setLoading] = useState(false);
+    const [steps, setSteps] = useState(0);
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const { dispatch, question, questions } = useContext(QuestionContext);
 
     const { startGetCategories, categories } = categoriesService();
     const { startGetDomains, domains } = domianService();
-    const { startGetDimensions, dimensions } = dimensionService()
+    const { startGetDimensions, dimensions } = dimensionService();
 
     const getQuestionDetailsBeforeSave = ({ category_id = '', dimension_id = '', domain_id = '' }) => ({
-        category : categories.find(category => category.id == category_id)!,
+        category: categories.find(category => category.id == category_id),
         dimension: dimensions.find(dimension => dimension.id == dimension_id),
-        domain   : domains.find(domain => domain.id == domain_id),
+        domain: domains.find(domain => domain.id == domain_id),
     });
 
     const preSaveQuestion = ({ question, ...rest }: CreateQuestionDto) => {
@@ -31,6 +37,7 @@ export const useQuestion = () => {
                 ...getDetails,
             },
         });
+        navigate("#/add-qualification");
     }
 
     const startGetCategoriesDomainAndDimenstions = async (): Promise<void> => {
@@ -39,22 +46,20 @@ export const useQuestion = () => {
         setLoading(prev => !prev);
     }
 
-    const onDragStart = (event: DragEvent) => {
-        event.dataTransfer?.setData('text', question!.id);
-        setLoading(true);
+    const increaseSteps = (maxStep: number) => {
+        console.log(maxStep);
+        if (maxStep <= steps) return;
+        setSteps(prev => prev + 1)
     }
 
-    const onDragEnd = () => setLoading(false);
-
-    const allowDrop = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
+    const decreaseSteps = () => {
+        if (steps <= 0) return;
+        setSteps(prev => prev - 1)
     }
 
-    const onDropQuestion = (event: DragEvent<HTMLDivElement>) => {
-        const id = event?.dataTransfer.getData('text');
+    console.log(steps);
 
-        onDragEnd();
-    }
+
 
     return {
         loading,
@@ -62,10 +67,8 @@ export const useQuestion = () => {
         questions,
         preSaveQuestion,
         startGetCategoriesDomainAndDimenstions,
-
-        onDragStart,
-        onDragEnd,
-        allowDrop,
-        onDropQuestion
+        steps,
+        increaseSteps,
+        decreaseSteps
     }
 }

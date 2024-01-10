@@ -12,11 +12,11 @@ import { useQuestion } from '../../../app/hooks/useQuestion';
 
 interface Props {
     categories  : Array<Category>
-    domain      : Array<Domain>
-    dimension   : Array<Dimension>
+    domains     : Array<Domain>
+    dimensions  : Array<Dimension>
 }
 
-export const FormQuestion = ({ categories, dimension, domain }: Props) => {
+export const FormQuestion = ({ categories, dimensions, domains }: Props) => {
 
     const { preSaveQuestion, loading, } = useQuestion();
 
@@ -28,8 +28,7 @@ export const FormQuestion = ({ categories, dimension, domain }: Props) => {
 
     return (
         <div>
-            <h2 className="bg-gradient-to-r from-primary to-emerald-600 inline-block text-transparent bg-clip-text text-base font-bold mt-20">Crea una pregunta y asignala a una categoría, dominio o dimensión</h2>
-            <form className="mt-10" onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit}>
                 <Input
                     placeholder="Pregunta"
                     className="my-2 text-gray-500"
@@ -71,7 +70,7 @@ export const FormQuestion = ({ categories, dimension, domain }: Props) => {
                     size="md"
                 >
                     {
-                        domain?.map(({ id, name }) => (
+                        domains?.map(({ id, name }) => (
                             <SelectItem value={id} key={id}>
                                 { name }
                             </SelectItem>
@@ -89,7 +88,7 @@ export const FormQuestion = ({ categories, dimension, domain }: Props) => {
                     size="md"
                 >
                     {
-                        dimension?.map(({ id, name }) => (
+                        dimensions?.map(({ id, name }) => (
                             <SelectItem value={id} key={id}>
                                 { name }
                             </SelectItem>
