@@ -1,5 +1,5 @@
-
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
+export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
 export { CategoryIcon } from './CategoryIcon';

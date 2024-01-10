@@ -5,29 +5,29 @@ import { Button, Input, Select, SelectItem, Spinner } from '@nextui-org/react';
 import { DimensionsIcon } from '../icons';
 import { createDimensionValidation } from '../../validations/dimension.validation';
 
-import { Category, Dimension, Domain } from '../../../domain/models';
-import { questionService } from '../../../domain/services/question.service';
-import { useQuestion } from '../../../app/hooks/useQuestion';
+import { useContext } from 'react';
+import { CategoryContext } from '../../context/category';
+import { DimensionContext } from '../../context/dimension';
+import { DomainContext } from '../../context/domain';
+import { QuestionContext } from '../../context/questions';
 
 
-interface Props {
-    categories  : Array<Category>
-    domains     : Array<Domain>
-    dimensions  : Array<Dimension>
-}
+export const FormQuestion = () => {
+    const { preSaveQuestion } = useContext(QuestionContext);
 
-export const FormQuestion = ({ categories, dimensions, domains }: Props) => {
-
-    const { preSaveQuestion, loading, } = useQuestion();
+    const { categories } = useContext(CategoryContext);
+    const { dimensions } = useContext(DimensionContext);
+    const { domains } = useContext(DomainContext);
 
     const formik = useFormik({
         initialValues: { question: '', category_id: '', domain_id: '', dimension_id: '' },
         validationSchema: Yup.object(createDimensionValidation()),
-        onSubmit: preSaveQuestion,
+        onSubmit: preSaveQuestion
     })
 
     return (
         <div>
+
             <form onSubmit={formik.handleSubmit}>
                 <Input
                     placeholder="Pregunta"
@@ -54,10 +54,10 @@ export const FormQuestion = ({ categories, dimensions, domains }: Props) => {
                     {
                         categories?.map(({ id, name }) => (
                             <SelectItem value={id} key={id}>
-                                { name }
+                                {name}
                             </SelectItem>
                         ))
-                    } 
+                    }
                 </Select>
                 <Select
                     label="Dominios"
@@ -72,10 +72,10 @@ export const FormQuestion = ({ categories, dimensions, domains }: Props) => {
                     {
                         domains?.map(({ id, name }) => (
                             <SelectItem value={id} key={id}>
-                                { name }
+                                {name}
                             </SelectItem>
                         ))
-                    } 
+                    }
                 </Select>
                 <Select
                     label="Dimensiones"
@@ -90,15 +90,14 @@ export const FormQuestion = ({ categories, dimensions, domains }: Props) => {
                     {
                         dimensions?.map(({ id, name }) => (
                             <SelectItem value={id} key={id}>
-                                { name }
+                                {name}
                             </SelectItem>
                         ))
-                    } 
+                    }
                 </Select>
 
                 <Button
                     className="w-full mt-5 bg-slate-800 py-7 text-white font-bold text-xs"
-                    isLoading={loading}
                     spinner={<Spinner size="sm" color="current" />}
                     size="lg"
                     type="submit"
@@ -106,6 +105,7 @@ export const FormQuestion = ({ categories, dimensions, domains }: Props) => {
                     Crear
                 </Button>
             </form>
+
         </div>
     )
 }
