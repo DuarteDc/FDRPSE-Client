@@ -8,16 +8,16 @@ import { ComponentWapper } from './ComponentWapper';
 
 export const StepsCreateQuestion = () => {
 
-    const { step, increaseStep, decreaseStep, } = useSteps({ stepsComponent: QUESTION_STEPS });
+    const { step, increaseStep, decreaseStep, component, componentName } = useSteps({ stepsComponent: QUESTION_STEPS });
 
     return (
         <Card className="py-5 px-4">
             <span className="font-bold font-xl">Pasos {step + 1} / {QUESTION_STEPS.length}</span>
             <Progress value={getProgessByStep(QUESTION_STEPS.length, step)} classNames={{ indicator: "bg-gradient-to-r from-primary to-emerald-500", }} />
             <CardBody className="p-5">
-                <div> {QUESTION_STEPS[step].name} </div>
+                <div> {componentName } </div>
                 <ComponentWapper>
-                    {QUESTION_STEPS[step].component}
+                    {component}
                 </ComponentWapper>
                 <div className="py-10">
                     <Button

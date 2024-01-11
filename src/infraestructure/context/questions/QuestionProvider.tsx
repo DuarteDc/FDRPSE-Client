@@ -6,28 +6,28 @@ import { domianService } from '../../../domain/services/domian.service';
 import { dimensionService } from '../../../domain/services/dimension.service';
 import { CreateQuestionDto } from '../../http/dto/questions';
 
-export interface QuestionDetail extends Question{
-    category    ?: Category;
-    domain      ?: Domain | undefined;
-    dimension   ?: Dimension | undefined;
+export interface QuestionDetail extends Question {
+    category?: Category;
+    domain?: Domain | undefined;
+    dimension?: Dimension | undefined;
 }
 export interface QuestionState {
-    questions   : Array<Question> | [];
-    question    : QuestionDetail | null;
+    questions: Array<Question> | [];
+    question: QuestionDetail | null;
 }
 interface Props {
     children: ReactNode;
 }
 
 const QUESTION_INITIAL_STATE: QuestionState = {
-    questions   : [],
-    question    : null,
+    questions: [],
+    question: null,
 }
 
 export const QuestionProvider = ({ children }: Props) => {
 
 
-    const [ state, dispatch ] = useReducer(questionReducer, QUESTION_INITIAL_STATE);
+    const [state, dispatch] = useReducer(questionReducer, QUESTION_INITIAL_STATE);
 
     const { categories } = categoriesService();
     const { domains } = domianService();
@@ -50,11 +50,9 @@ export const QuestionProvider = ({ children }: Props) => {
         });
     }
 
-
-
     return (
         <QuestionContext.Provider value={{ ...state, dispatch, preSaveQuestion }}>
-            { children }
+            {children}
         </QuestionContext.Provider>
     )
 }

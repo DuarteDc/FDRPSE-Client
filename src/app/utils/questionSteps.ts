@@ -8,14 +8,14 @@ export interface StepComponent {
 export const QUESTION_STEPS: Array<StepComponent> = [
     {
         name: 'Crear pregunta',
-        component: FormQuestion
+        component: FormQuestion,
     },
     {
         name: 'Agregar calificación',
         component: AddQualification
     },
-    // {
-    //     name: 'Agregar preguntas enlazadas',
-    //     component: FormQuestion
-    // },
+    {
+        name: 'Agregar preguntas enlazadas',
+        component: FormQuestion
+    },
 ];

@@ -1,5 +1,4 @@
-import { Fragment, ReactNode } from 'react'
-
+import { Fragment } from 'react';
 interface Props {
     children: () => JSX.Element;
 }
