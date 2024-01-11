@@ -1,8 +1,9 @@
-import { AddQualification, FormQuestion } from '../../infraestructure/components/questions';
+import { FormQuestion } from '../../infraestructure/components/questions';
+
 
 export interface StepComponent {
-    name        : string;
-    component   : () => JSX.Element;
+    name            : string;
+    component       : any
 }
 
 export const QUESTION_STEPS: Array<StepComponent> = [
@@ -12,7 +13,7 @@ export const QUESTION_STEPS: Array<StepComponent> = [
     },
     {
         name: 'Agregar calificación',
-        component: AddQualification
+        component: FormQuestion
     },
     {
         name: 'Agregar preguntas enlazadas',

@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
 interface Props {
-    children: () => JSX.Element;
+    children: any;
 }
 
 export const ComponentWapper = ({ children }: Props) => {
     return (
         <Fragment>
-            {children()}
+            {children}
         </Fragment>
     )
 }

@@ -1,14 +1,13 @@
+import { ReactNode } from 'react';
 import { Card, CardBody, Progress } from '@nextui-org/react';
+import { useSteps } from '../../../app/hooks/useSteps';
+
 import { StepComponent } from '../../../app/utils/questionSteps';
 import { getProgessByStep } from '../../../app/helpers/getProgessByStep';
-import { useSteps } from '../../../app/hooks/useSteps';
-import { ComponentWapper } from '../questions';
-import { ReactNode } from 'react';
-
 interface RenderButtonsProps {
+    step: number;
     increaseStep: () => void;
     decreaseStep: () => void;
-    step: number;
 }
 
 interface Props {
@@ -18,16 +17,14 @@ interface Props {
 
 export const Steper = ({ steps, renderButtons }: Props) => {
 
-    const { step, increaseStep, decreaseStep, component, componentName } = useSteps({ stepsComponent: steps });
+    const { step, increaseStep, decreaseStep, Component, componentName, currentRef } = useSteps({ stepsComponent: steps });
 
     return (
         <Card className="p-5">
-            <Progress value={getProgessByStep(steps.length, step)} classNames={{ indicator: "bg-gradient-to-r from-primary to-emerald-500", }} />
-            <div> {componentName} </div>
+            <Progress value={getProgessByStep(steps.length, step)} aria-label="progeso" classNames={{ indicator: "bg-gradient-to-r from-primary to-emerald-500", }} />
+            <span className="py-5 px-4 font-bold text-xl"> {componentName} </span>
             <CardBody>
-                <ComponentWapper>
-                    {component}
-                </ComponentWapper>
+                <Component ref={currentRef} />
                 <div className="py-10">
                     {renderButtons({ increaseStep, decreaseStep, step })}
                 </div>

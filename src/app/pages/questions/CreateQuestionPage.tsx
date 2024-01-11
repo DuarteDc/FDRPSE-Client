@@ -1,27 +1,25 @@
 import { Fragment, useEffect } from 'react';
+import { Button } from '@nextui-org/react';
 
-import { useQuestion } from '../../hooks/useQuestion';
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { Steper } from '../../../infraestructure/components/ui/Steper';
-
-import { QUESTION_STEPS } from '../../utils/questionSteps';
-import { Button } from '@nextui-org/react';
 import { ArrowNarrowLeft, ArrowNarrowRight } from '../../../infraestructure/components/icons';
 
+import { useQuestion } from '../../hooks/useQuestion';
+import { QUESTION_STEPS } from '../../utils/questionSteps';
 
 export const CreateQuestionPage = () => {
 
-    const { startGetCategoriesDomainAndDimenstions } = useQuestion();
+    const { startGetCategoriesDomainAndDimenstions, preSaveQuestion } = useQuestion();
 
     useEffect(() => {
         startGetCategoriesDomainAndDimenstions();
     }, []);
-
     return (
         <PageLayout title="Crear Pregunta" navigateTo="/admin/questions">
             <Steper
                 steps={QUESTION_STEPS}
-                renderButtons={({ increaseStep, decreaseStep, step }) =>
+                renderButtons={({ step, increaseStep, decreaseStep }) =>
                     <Fragment>
                         <Button
                             onClick={decreaseStep}
