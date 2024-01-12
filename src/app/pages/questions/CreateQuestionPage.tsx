@@ -10,7 +10,7 @@ import { QUESTION_STEPS } from '../../utils/questionSteps';
 
 export const CreateQuestionPage = () => {
 
-    const { startGetCategoriesDomainAndDimenstions, preSaveQuestion } = useQuestion();
+    const { startGetCategoriesDomainAndDimenstions } = useQuestion();
 
     useEffect(() => {
         startGetCategoriesDomainAndDimenstions();
@@ -19,17 +19,17 @@ export const CreateQuestionPage = () => {
         <PageLayout title="Crear Pregunta" navigateTo="/admin/questions">
             <Steper
                 steps={QUESTION_STEPS}
-                renderButtons={({ step, increaseStep, decreaseStep }) =>
+                renderButtons={({ step, backStep, nextStep }) =>
                     <Fragment>
                         <Button
-                            onClick={decreaseStep}
+                            onClick={backStep}
                             className="bg-slate-800 text-white"
                             isDisabled={(step < 1)}
                             startContent={<ArrowNarrowLeft />}>
                             Atras
                         </Button>
                         <Button
-                            onClick={increaseStep}
+                            onClick={nextStep}
                             color="primary"
                             className="float-right"
                             endContent={<ArrowNarrowRight />}>

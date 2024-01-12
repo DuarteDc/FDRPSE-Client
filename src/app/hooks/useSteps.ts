@@ -15,9 +15,9 @@ export const useSteps = ({ stepsComponent }: Props) => {
 
     const { component, name } = stepsComponent[step];
 
-    const increaseStep = () => {
+    const nextStep = () => {
         const currentStepRef = stepRefs[step].current;
-        if(currentStepRef!.canContinue() || false) {
+        if(currentStepRef?.canContinue()) {
             ((stepsComponent.length - 1) <= step) ? undefined : setStep(prev => prev + 1);
         }else{
             console.log("Error");
@@ -25,13 +25,13 @@ export const useSteps = ({ stepsComponent }: Props) => {
     }
 
 
-    const decreaseStep = () => (step < 1) ? undefined : setStep(prev => prev - 1);
+    const backStep = () => (step < 1) ? undefined : setStep(prev => prev - 1);
 
     const canContinue = (callback: Function, params: any): Promise<void> => {
         return new Promise((resolve) => {
             resolve(callback(params));
         })
-            .then(() => increaseStep())
+            .then(() => nextStep())
             .catch((error) => console.log(error));
     }
 
@@ -40,8 +40,8 @@ export const useSteps = ({ stepsComponent }: Props) => {
         Component: component,
         componentName: name,
         currentRef: stepRefs[step],
-        increaseStep,
-        decreaseStep,
+        nextStep,
+        backStep,
         canContinue,
     }
 

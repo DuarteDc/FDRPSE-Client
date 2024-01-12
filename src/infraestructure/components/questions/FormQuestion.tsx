@@ -14,9 +14,9 @@ import { useQuestion } from '../../../app/hooks/useQuestion';
 
 export const FormQuestion = forwardRef<any>((props: any, ref: any) => {
 
+    const { domains } = useContext(DomainContext);
     const { categories } = useContext(CategoryContext);
     const { dimensions } = useContext(DimensionContext);
-    const { domains } = useContext(DomainContext);
 
     const { preSaveQuestion } = useQuestion();
 
@@ -48,61 +48,63 @@ export const FormQuestion = forwardRef<any>((props: any, ref: any) => {
                 isInvalid={formik.touched.question && formik.errors.question ? true : false}
                 errorMessage={formik.touched.question && formik.errors.question && formik.errors.question}
             />
-            <Select
-                label="Categorías"
-                name="category_id"
-                size="md"
-                className="my-2 text-gray-500"
-                isRequired
-                startContent={<CategoryIcon />}
-                onChange={formik.handleChange}
-                isInvalid={formik.touched.category_id && formik.errors.category_id ? true : false}
-                errorMessage={formik.touched.category_id && formik.errors.category_id && formik.errors.category_id}
-            >
-                {
-                    categories?.map(({ id, name }) => (
-                        <SelectItem value={id} key={id}>
-                            {name}
-                        </SelectItem>
-                    ))
-                }
-            </Select>
-            <Select
-                label="Dominios"
-                name="domain_id"
-                size="md"
-                className="my-2 text-gray-500"
-                startContent={<BoxIcon />}
-                onChange={formik.handleChange}
-                isInvalid={formik.touched.domain_id && formik.errors.domain_id ? true : false}
-                errorMessage={formik.touched.domain_id && formik.errors.domain_id && formik.errors.domain_id}
-            >
-                {
-                    domains?.map(({ id, name }) => (
-                        <SelectItem value={id} key={id}>
-                            {name}
-                        </SelectItem>
-                    ))
-                }
-            </Select>
-            <Select
-                label="Dimensiones"
-                name="dimension_id"
-                size="md"
-                className="my-2 text-gray-500"
-                startContent={<DimensionsIcon />}
-                onChange={formik.handleChange}
-                isInvalid={formik.touched.dimension_id && formik.errors.dimension_id ? true : false}
-                errorMessage={formik.touched.dimension_id && formik.errors.dimension_id && formik.errors.dimension_id}
-            >
-                {
-                    dimensions?.map(({ id, name }) => (
-                        <SelectItem value={id} key={id}>
-                            {name}
-                        </SelectItem>
-                    ))
-                }
-            </Select>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
+                <Select
+                    label="Categorías"
+                    name="category_id"
+                    size="md"
+                    className="my-2 text-gray-500"
+                    isRequired
+                    startContent={<CategoryIcon />}
+                    onChange={formik.handleChange}
+                    isInvalid={formik.touched.category_id && formik.errors.category_id ? true : false}
+                    errorMessage={formik.touched.category_id && formik.errors.category_id && formik.errors.category_id}
+                >
+                    {
+                        categories?.map(({ id, name }) => (
+                            <SelectItem value={id} key={id}>
+                                {name}
+                            </SelectItem>
+                        ))
+                    }
+                </Select>
+                <Select
+                    label="Dominios"
+                    name="domain_id"
+                    size="md"
+                    className="my-2 text-gray-500"
+                    startContent={<BoxIcon />}
+                    onChange={formik.handleChange}
+                    isInvalid={formik.touched.domain_id && formik.errors.domain_id ? true : false}
+                    errorMessage={formik.touched.domain_id && formik.errors.domain_id && formik.errors.domain_id}
+                >
+                    {
+                        domains?.map(({ id, name }) => (
+                            <SelectItem value={id} key={id}>
+                                {name}
+                            </SelectItem>
+                        ))
+                    }
+                </Select>
+                <Select
+                    label="Dimensiones"
+                    name="dimension_id"
+                    size="md"
+                    className="my-2 text-gray-500"
+                    startContent={<DimensionsIcon />}
+                    onChange={formik.handleChange}
+                    isInvalid={formik.touched.dimension_id && formik.errors.dimension_id ? true : false}
+                    errorMessage={formik.touched.dimension_id && formik.errors.dimension_id && formik.errors.dimension_id}
+                >
+                    {
+                        dimensions?.map(({ id, name }) => (
+                            <SelectItem value={id} key={id}>
+                                {name}
+                            </SelectItem>
+                        ))
+                    }
+                </Select>
+            </div>
         </form>
     )
 });

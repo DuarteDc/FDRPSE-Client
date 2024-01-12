@@ -17,6 +17,7 @@ export const qualificationService = () => {
 
     return {
         loading,
+        qualifications,
         startGetQualifications,
     }
 }

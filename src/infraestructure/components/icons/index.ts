@@ -1,8 +1,10 @@
+
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
 export { CategoryIcon } from './CategoryIcon';
+export { CheckIcon } from './CheckIcon';
 export { ChevonLeft } from './ChevonLeft';
 export { DimensionsIcon } from './DimensionsIcon';
 export { EyeIcon } from './EyeIcon';
@@ -14,4 +16,5 @@ export { NumbersIcon } from './NumbersIcon';
 export { PlayListIcon } from './PlayListIcon';
 export { PlusIcon } from './PlusIcon';
 export { QuestionIcon } from './QuestionIcon';
+export { StarsIcon } from './StarsIcon';
 export { UserIcon } from './UserIcon';
