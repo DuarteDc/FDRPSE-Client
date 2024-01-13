@@ -38,16 +38,18 @@ export const AddQualification = forwardRef((props: any, ref: any) => {
         zIndex={20}
       >
         <ul className="pt-24 [&>a]:py-3 [&>a]:cursor-pointer [&>a]:flex [&>a]:items-center [&>a>span]:ml-2 [&>a>span]:-mb-1 [&>a>span]:text-sm text-gray-500 font-bold transition-all duration-400">
-          <Accordion selectionMode="multiple">
+          <Accordion defaultExpandedKeys={qualifications.map(({ id }) => `${id}`)}>
             {
               qualifications?.map(({ name, id, almost_alwyas_op, almost_never_op, always_op, sometimes_op, never_op }) => (
                 <AccordionItem
-                  draggable
-                  key={id}
+                  key={`${id}`}
                   aria-label={name}
                   title={name}
                 >
-                  {name}
+                  <div className="grid grid-cols-5 text-xs text-center border-2 border-transparent hover:border-emerald-600 cursor-pointer transition-all duration-300 ease-in-out">
+                    <span>Siempre</span><span>Casi siempre</span><span>Algunas veces</span><span>Casi nunca</span><span>Nunca</span>
+                    <span>{always_op}</span><span>{almost_alwyas_op}</span><span>{sometimes_op}</span><span>{almost_never_op}</span><span>{never_op}</span>
+                  </div>
                 </AccordionItem>
               ))
             }

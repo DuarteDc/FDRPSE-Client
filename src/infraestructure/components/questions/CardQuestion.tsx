@@ -3,7 +3,7 @@ import { BoxIcon, CategoryIcon, DimensionsIcon, QuestionIcon } from '../icons'
 import { QuestionDetail } from '../../context/questions'
 
 interface Props {
-    question: QuestionDetail;
+    question        : QuestionDetail;
     renderButton   ?: () => ReactNode | Array<ReactNode>;
     renderChildren ?: () => ReactNode;
 }
@@ -19,7 +19,7 @@ export const CardQuestion = ({ question, renderButton, renderChildren }: Props) 
                 </span>
                 <h3 className="text-sm">{question.question}</h3>
             </div>
-            <div className="grid grid-cols-3 [&>div]:text-xs">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>div]:text-xs">
                 <div className="py-2">
                     <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
                         <CategoryIcon width={35} height={35} />
