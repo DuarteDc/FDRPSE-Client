@@ -5,13 +5,13 @@ interface Props {
     stepsComponent: Array<StepComponent>
 }
 interface ImplementsCanContinue {
-    canContinue: () => boolean;
+    canContinue:() => boolean;
 }
 
 export const useSteps = ({ stepsComponent }: Props) => {
 
     const [step, setStep] = useState<number>(0);
-    const stepRefs = stepsComponent.map(() => useRef());
+    const stepRefs = stepsComponent.map(() => useRef<ImplementsCanContinue>());
 
     const { component, name } = stepsComponent[step];
 

@@ -1,4 +1,4 @@
-import { forwardRef, useContext, useImperativeHandle } from 'react';
+import { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
@@ -14,6 +14,8 @@ import { useQuestion } from '../../../app/hooks/useQuestion';
 
 export const FormQuestion = forwardRef<any>((props: any, ref: any) => {
 
+    const isValid = useRef<any>(false);
+
     const { domains } = useContext(DomainContext);
     const { categories } = useContext(CategoryContext);
     const { dimensions } = useContext(DimensionContext);
@@ -27,8 +29,9 @@ export const FormQuestion = forwardRef<any>((props: any, ref: any) => {
     });
 
     const canContinue = () => {
-        formik.handleSubmit();
-        return Object.keys(formik.errors).length <= 0
+        formik.validateForm().then((reason) => isValid.current = reason);
+        console.log(isValid.current);
+        return false;
     }
 
     useImperativeHandle(ref, () => ({

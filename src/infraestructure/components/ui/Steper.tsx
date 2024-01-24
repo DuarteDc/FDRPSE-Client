@@ -4,6 +4,7 @@ import { useSteps } from '../../../app/hooks/useSteps';
 
 import { StepComponent } from '../../../app/utils/questionSteps';
 import { getProgessByStep } from '../../../app/helpers/getProgessByStep';
+import { getSizeByStep } from '../../../app/helpers/getSizeByStep';
 interface RenderButtonsProps {
     step: number;
     nextStep: () => void;
@@ -17,14 +18,14 @@ interface Props {
 
 export const Steper = ({ steps, renderButtons }: Props) => {
 
-    const { step, nextStep, backStep, Component, componentName, currentRef } = useSteps({ stepsComponent: steps });
+    const { step, nextStep, backStep, Component, currentRef } = useSteps({ stepsComponent: steps });
 
     return (
         <Card className="p-5">
             <div className="w-full flex py-6">
                 {
                     steps.map(({ name, icon }, index) => (
-                        <div key={name} style={{ width: `${getProgessByStep(steps.length, 0)}%` }} className="flex flex-col items-center">
+                        <div key={name} style={{ width: `${getSizeByStep(steps.length)}` }} className="flex flex-col items-center">
                             <span className={`transition-all ease-in-out duration-500 rounded-full w-[3rem] h-[3rem] flex items-center justify-center ${(index) <= step ? 'bg-emerald-500 text-white' : 'bg-gray-100'}`}>
                                 {icon ? icon({ width: 20, height: 20 }) : <p>{index + 1}</p>}
                             </span>
