@@ -5,7 +5,7 @@ import { qualificationRepository } from '../../infraestructure/repositories/qual
 
 export const qualificationService = () => {
 
-    const { dispatch, qualifications } = useContext(QualificationContext);
+    const { dispatch, qualifications, qualification } = useContext(QualificationContext);
     const [loading, setLoading] = useState(false);
 
     const startGetQualifications = async (): Promise<void> => {
@@ -17,6 +17,7 @@ export const qualificationService = () => {
 
     return {
         loading,
+        qualification,
         qualifications,
         startGetQualifications,
     }

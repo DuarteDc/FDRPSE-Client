@@ -5,6 +5,7 @@ import { QualificationContext, qualificationReducer } from './';
 
 export interface QualificationState {
     qualifications: Array<Qualification> | [];
+    qualification: Qualification | null;
 }
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 export const QUALIFICATION_INITIAL_STATE: QualificationState = {
     qualifications: [],
+    qualification: null,
 }
 
 export const QualificationProvider = ({ children }: Props) => {

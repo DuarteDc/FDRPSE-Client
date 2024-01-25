@@ -1,29 +1,46 @@
-import { Accordion, AccordionItem, Button } from '@nextui-org/react';
-import { forwardRef, useContext, useEffect, useState } from 'react'
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { Button, Card } from '@nextui-org/react';
 
 import { CardQuestion } from './';
 
-import { QuestionContext } from '../../context/questions';
 import { StarsIcon } from '../icons';
 
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
 import { qualificationService } from '../../../domain/services/qualification.service';
+import { type ValidateStep } from '../../../app/utils/questionSteps';
+import { useQuestion } from '../../../app/hooks/useQuestion';
 
-export const AddQualification = forwardRef((props: any, ref: any) => {
-  const { question } = useContext(QuestionContext);
+export const AddQualification = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const { question, setQualificationBeforeSave } = useQuestion();
+  const [isOpen, setIsOpen] = useState(!question?.qualification);
   const toggleDrawer = () => setIsOpen((prevState) => !prevState);
 
   const { startGetQualifications, qualifications } = qualificationService();
-
-
 
   useEffect(() => {
     startGetQualifications()
   }, [])
 
+  const handleSetQualification = (id: string) => {
+    const qualification = qualifications.find((qualification) => qualification.id === id);
+    setQualificationBeforeSave(qualification!);
+    toggleDrawer();
+  }
+
+
+  const canContinue = (): boolean => {
+    if (!question?.qualification) {
+      toggleDrawer();
+      return false;
+    }
+    return true;
+  }
+
+  useImperativeHandle(ref, () => ({
+    canContinue,
+  }));
 
   return (
     <div>
@@ -32,28 +49,29 @@ export const AddQualification = forwardRef((props: any, ref: any) => {
         onClose={toggleDrawer}
         direction="right"
         size={350}
-        duration={500}
+        duration={400}
         className="bg-red-600 px-4"
         // style={{ backgroundColor: `${theme === 'dark' ? 'black' : 'white'}` }}
         zIndex={20}
       >
-        <ul className="pt-24 [&>a]:py-3 [&>a]:cursor-pointer [&>a]:flex [&>a]:items-center [&>a>span]:ml-2 [&>a>span]:-mb-1 [&>a>span]:text-sm text-gray-500 font-bold transition-all duration-400">
-          <Accordion defaultExpandedKeys={qualifications.map(({ id }) => `${id}`)}>
+        <span className="mt-20 block font-bold text-gray-500 mb-5">Selecciona la calificación con la cual deseas que se califique la pregunta</span>
+        <ul className="[&>li]:cursor-pointer [&>li>span]:ml-2 [&>li>span]:-mb-1 [&>li>span]:text-sm text-gray-500 font-bold">
+          <li>
             {
               qualifications?.map(({ name, id, almost_alwyas_op, almost_never_op, always_op, sometimes_op, never_op }) => (
-                <AccordionItem
+                <div
                   key={`${id}`}
                   aria-label={name}
-                  title={name}
+                  onClick={() => handleSetQualification(id)}
                 >
-                  <div className="grid grid-cols-5 text-xs text-center border-2 border-transparent hover:border-emerald-600 cursor-pointer transition-all duration-300 ease-in-out">
-                    <span>Siempre</span><span>Casi siempre</span><span>Algunas veces</span><span>Casi nunca</span><span>Nunca</span>
+                  <Card className={`grid grid-cols-5 text-xs text-center border-2 ${question?.qualification?.id === id ? 'border-primary' : 'border-transparent'} hover:border-primary cursor-pointer pb-2 my-2 hover:transition-all hover:duration-700 hover:ease-out`}>
+                    <span className="bg-emerald-600 pt-2 mb-2 text-white">Siempre</span><span className="bg-emerald-600 pt-2 mb-2 text-white">Casi siempre</span><span className="bg-emerald-600 pt-2 mb-2 text-white">Algunas veces</span><span className="bg-emerald-600 pt-2 mb-2 text-white">Casi nunca</span><span className="bg-emerald-600 pt-2 mb-2 text-white">Nunca</span>
                     <span>{always_op}</span><span>{almost_alwyas_op}</span><span>{sometimes_op}</span><span>{almost_never_op}</span><span>{never_op}</span>
-                  </div>
-                </AccordionItem>
+                  </Card>
+                </div>
               ))
             }
-          </Accordion>
+          </li>
         </ul>
       </Drawer>
 
@@ -63,7 +81,7 @@ export const AddQualification = forwardRef((props: any, ref: any) => {
           question={question}
           renderButton={() =>
             <Button color="primary" startContent={<StarsIcon />} className="float-right" onClick={toggleDrawer}>
-              Agregar Calificación
+              {question?.qualification ? 'Cambiar Calificación' : 'Agregar Calificación'}
             </Button>
           }
         />

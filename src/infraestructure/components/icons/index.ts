@@ -1,4 +1,4 @@
-
+export { LineIcon } from './LineIcon';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
@@ -16,5 +16,7 @@ export { NumbersIcon } from './NumbersIcon';
 export { PlayListIcon } from './PlayListIcon';
 export { PlusIcon } from './PlusIcon';
 export { QuestionIcon } from './QuestionIcon';
+export { SectionIcon } from './SectionIcon';
 export { StarsIcon } from './StarsIcon';
 export { UserIcon } from './UserIcon';
+

@@ -5,4 +5,5 @@ export const createDimensionValidation = () => ({
     category_id     : Yup.string().required('El campo de categoría es obligatorio'),
     domain_id       : Yup.string(), 
     dimension_id    : Yup.string(), 
+    // section_id      : Yup.string().required('Es necesario seleccionar una sección para poder continuar')
 });
