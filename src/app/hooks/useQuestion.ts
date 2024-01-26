@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { QuestionContext } from '../../infraestructure/context/questions';
 
@@ -45,10 +45,12 @@ export const useQuestion = () => {
     }
 
     const setQualificationBeforeSave = (qualification: Qualification) => {
+        if (qualification.id === question?.qualification?.id) return;
         dispatch({ type: 'QUESTION - Set qualification before save', payload: qualification! });
     }
 
     const setSectionBeforeSave = (section: Section) => {
+        if (section.id === question?.section?.id) return;
         dispatch({ type: 'QUESTION - Set section before save', payload: section });
     }
 

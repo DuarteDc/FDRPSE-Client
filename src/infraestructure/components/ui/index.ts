@@ -1,4 +1,5 @@
 import CardList  from './CardList';
+export { Drawer } from './Drawer';
 export { PageLayout } from './PageLayout';
 export { MainDrawer } from './MainDrawer';
 export { InitialScreen } from './InitialScreen';

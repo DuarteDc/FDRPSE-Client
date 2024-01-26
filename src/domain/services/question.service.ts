@@ -6,7 +6,7 @@ import { CreateQuestionDto } from '../../infraestructure/http/dto/questions';
 export const questionService = () => {
 
     const [loading, setLoading] = useState(false);
-    const { dispatch, questions, setQualificationBeforeSave } = useContext(QuestionContext);
+    const { dispatch, questions } = useContext(QuestionContext);
 
     const startGetQuestions = async (): Promise<void> => {
         setLoading(true);
@@ -15,16 +15,15 @@ export const questionService = () => {
         setLoading(false);
     }
 
-    const startCreateQuestion = async(createQuestionDto: CreateQuestionDto) => {
+    const startCreateQuestion = async (createQuestionDto: CreateQuestionDto) => {
         setLoading(prev => !prev);
-        await questionRepository.createQuestion(createQuestionDto);
-        setLoading(prev => !prev);
+        const { message, success } = await questionRepository.createQuestion(createQuestionDto);
+        return success && alert(success);
     }
 
     return {
         loading,
-        questions, 
-        setQualificationBeforeSave,
+        questions,
         startGetQuestions,
         startCreateQuestion,
     }

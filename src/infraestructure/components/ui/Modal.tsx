@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { ModalContent, ModalHeader, Modal as MainModal, ModalBody } from '@nextui-org/react';
 
 interface Props {
@@ -8,11 +8,12 @@ interface Props {
     onChange        :   () => void;
     renderContent   :   (onClose: () => void) => ReactNode;
     size            :   any;
+    hideCloseButton?:   boolean;
 }
 
 export const Modal = ({ title, renderContent, onChange, ...props }: Props) => {
     return (
-        <MainModal onOpenChange={onChange} isDismissable={false} {...props}>
+        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside">
             <ModalContent>
                 {(onClose) => (
                     <>

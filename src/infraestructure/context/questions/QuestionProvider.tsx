@@ -25,7 +25,6 @@ export const QuestionProvider = ({ children }: Props) => {
 
     const [state, dispatch] = useReducer(questionReducer, QUESTION_INITIAL_STATE);
 
-
     return (
         <QuestionContext.Provider value={{ ...state, dispatch }}>
             {children}

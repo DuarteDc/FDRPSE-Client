@@ -1,7 +1,6 @@
 import { QuestionDetail, QuestionState } from './';
 import type { Qualification, Question, Section } from '../../../domain/models';
 
-
 export type QuestionActionType =
     | { type: 'QUESTION - Load questions', payload: Array<Question> }
     | { type: 'QUESTION - Presave question', payload: QuestionDetail }
@@ -23,12 +22,12 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
             }
 
 
-        case 'QUESTION - Set qualification before save':
+        case 'QUESTION - Set qualification before save': {
             return {
                 ...state,
                 question: { ...state.question!, qualification: action.payload }
             }
-
+        }
         case 'QUESTION - Set section before save':
             return {
                 ...state,

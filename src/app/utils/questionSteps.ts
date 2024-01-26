@@ -1,12 +1,12 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 
-import { AddQualification, FormQuestion, SubquestionForm } from '../../infraestructure/components/questions';
-import { PlusIcon, StarsIcon } from '../../infraestructure/components/icons';
+import { AddQualification, FormQuestion, ReviewQuestion, SubquestionForm } from '../../infraestructure/components/questions';
+import { PlusIcon, SaveIcon, SectionIcon, StarsIcon } from '../../infraestructure/components/icons';
 
 import { IconFunction } from '../../infraestructure/components/icons/IconProps';
 
 export interface ValidateStep {
-    canContinue:() => Promise<boolean> |  boolean;
+    canContinue:() =>  boolean | Promise<boolean>;
 }
 export interface StepComponent {
     name            : string;
@@ -26,7 +26,13 @@ export const QUESTION_STEPS: Array<StepComponent> = [
         icon: StarsIcon,
     },
     {
-        name: 'Agregar preguntas enlazadas',
-        component: SubquestionForm
+        name: 'Asignar sección',
+        component: SubquestionForm,
+        icon: SectionIcon
     },
+    {
+        name: 'Antes de guardar',
+        component: ReviewQuestion,
+        icon: SaveIcon
+    }
 ];
