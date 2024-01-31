@@ -13,7 +13,8 @@ export const ReviewQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Va
   const { startCreateQuestion } = questionService();
 
   const handleCreateQuestion = (): CreateQuestionDto => ({
-    question: question!.question,
+    name: question!.question,
+    section_id: question!.section!.id,
     category_id: question!.category!.id,
     domain_id: question?.domain?.id,
     dimension_id: question?.dimension?.id,

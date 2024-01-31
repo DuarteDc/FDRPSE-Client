@@ -1,5 +1,5 @@
-import { QuestionResponseDto } from './';
+import { CommonQuestionResponseDto } from './';
 
 export interface QuestionsResponseDto {
-    questions: Array<QuestionResponseDto>
+    questions: Array<CommonQuestionResponseDto>
 }

@@ -37,6 +37,11 @@ export const routes: Array<Routes> = [
         name: 'Dimensiones',
         path: '/admin/dimensions',
         icon: DimensionsIcon,
+    },
+    {
+        name: 'Dimensiones',
+        path: '/admin/user-questions',
+        icon: DimensionsIcon,
     }
 ]
 

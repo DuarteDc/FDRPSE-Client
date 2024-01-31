@@ -1,7 +1,7 @@
 import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
 import type { ValidateStep } from '../../../app/utils/questionSteps';
-import { Badge, Button, Card, CardBody, useDisclosure } from '@nextui-org/react';
-import { CheckIcon, CircleCheck, EyeIcon, QuestionIcon, SectionIcon } from '../icons';
+import { Badge, Button, Card, useDisclosure } from '@nextui-org/react';
+import { CheckIcon, QuestionIcon, SectionIcon } from '../icons';
 import { Modal } from '../ui/Modal';
 import { useQuestion } from '../../../app/hooks/useQuestion';
 
@@ -63,10 +63,10 @@ export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                                             placement="top-right"
                                         >
                                             <Card key={id} isPressable onPress={() => { setSectionBeforeSave({ id, name, binary, question, ...rest }); onClose() }}
-                                                className={`${currentQuestion?.section?.id === id ? 'border-primary transition-all duration-700 ease-in' : 'border-transparent  hover:border-primary/60'} border-2 hover:transition-all hover:duration-700 hover:ease-out`}
+                                                className={`${currentQuestion?.section?.id === id ? 'border-primary transition-all duration-700 ease-in' : 'border-transparent  hover:border-primary/60'} border-2 hover:transition-all hover:duration-700 hover:ease-out w-full min-h-[5rem]`}
                                             >
                                                 <div className="text-xs flex items-center [&>span]:py-2 h-full">
-                                                    <span className="h-full px-4 bg-emerald-600 text-white flex items-center"><QuestionIcon /></span>
+                                                    <span className="h-full px-4 bg-emerald-600 text-white flex items-center"><SectionIcon /></span>
                                                     <span className="block px-2 text-left">
                                                         <h3 className="font-bold my-2 flex">{name}</h3>
                                                         {

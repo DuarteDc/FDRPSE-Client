@@ -9,6 +9,7 @@ import { DomainProvider } from '../context/domain';
 import { DimensionProvider } from '../context/dimension';
 import { QuestionProvider } from '../context/questions';
 import { QualificationProvider } from '../context/qualification';
+import { UserQuestion } from '../../app/pages/user-questions/UserQuestion';
 
 
 export const MainRouter = () => {
@@ -39,6 +40,7 @@ export const MainRouter = () => {
                                                                 <Route path="/domains/*" index element={<DomainRoutes />} />
                                                                 <Route path="/dimensions/*" index element={<DimensionRoutes />} />
                                                                 <Route path="/questions/*" index element={<QuestionRoutes />} />
+                                                                <Route path="/user-questions" index element={<UserQuestion />} />
                                                             </Routes>
                                                         </QualificationProvider>
                                                     </QuestionProvider>

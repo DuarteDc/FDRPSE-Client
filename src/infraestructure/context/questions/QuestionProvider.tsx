@@ -2,11 +2,9 @@ import { ReactNode, useReducer } from 'react';
 import { QuestionContext, questionReducer } from './';
 import { Category, Dimension, Domain, Qualification, Question, Section } from '../../../domain/models';
 export interface QuestionDetail extends Question {
-    category        ?: Category;
     domain          ?: Domain | undefined;
     dimension       ?: Dimension | undefined;
     qualification   ?: Qualification | undefined;
-    section         ?: Section | undefined;
 }
 export interface QuestionState {
     questions: Array<Question> | [];

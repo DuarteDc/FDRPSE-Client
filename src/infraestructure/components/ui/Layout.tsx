@@ -8,7 +8,7 @@ interface Props {
 export const Layout = ({ children }: Props) => {
 
     const [isOpen, setIsOpen] = useState(true);
-    const toggleDrawer = () => setIsOpen((prevState) => !prevState)
+    const toggleDrawer = () => setIsOpen((prevState) => !prevState);
 
     return (
         <main className="relative overflow-hidden">

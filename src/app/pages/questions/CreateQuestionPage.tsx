@@ -8,7 +8,6 @@ import { ArrowNarrowLeft, ArrowNarrowRight, SaveIcon } from '../../../infraestru
 import { useQuestion } from '../../hooks/useQuestion';
 import { QUESTION_STEPS } from '../../utils/questionSteps';
 import { questionService } from '../../../domain/services/question.service';
-import { enqueueSnackbar } from 'notistack';
 
 export const CreateQuestionPage = () => {
 
@@ -17,7 +16,6 @@ export const CreateQuestionPage = () => {
 
     useEffect(() => {
         startGetCategoriesDomainAndDimenstions();
-        enqueueSnackbar("xd", { variant: "error", anchorOrigin: { vertical: "top", horizontal: "right" } })
     }, []);
     return (
         <PageLayout title="Crear Pregunta" navigateTo="/admin/questions">
