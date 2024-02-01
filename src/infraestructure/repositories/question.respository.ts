@@ -1,6 +1,6 @@
 import { http } from '../http/http';
 import { Question } from '../../domain/models';
-import { CreateQuestionDto, QuestionResponseDto, QuestionsResponseDto } from '../http/dto/questions';
+import { CreateQuestionDto, QuestionResponseDto, QuestionsBySectionResponse, QuestionsResponseDto } from '../http/dto/questions';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
@@ -30,6 +30,15 @@ export const questionRepository = {
         try {
             const { question } = await http.get<QuestionResponseDto>(`/questions/${questionId}`);
             return new Question(question.id, question.name, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimesion, question?.domain);
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getQuestionBySection: async (page: number): Promise<QuestionsBySectionResponse | string> => {
+        try {
+            const response = await http.get<QuestionsBySectionResponse>(`/questions/section?page=${page}`);
+            return response;
         } catch (error) {
             return error as string;
         }

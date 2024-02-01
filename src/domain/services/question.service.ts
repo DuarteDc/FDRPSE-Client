@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { QuestionContext } from '../../infraestructure/context/questions';
 import { questionRepository } from '../../infraestructure/repositories/question.respository';
-import { CreateQuestionDto } from '../../infraestructure/http/dto/questions';
+import { CreateQuestionDto, QuestionsBySectionResponse } from '../../infraestructure/http/dto/questions';
 import { useNavigate } from 'react-router-dom';
 
 export const questionService = () => {
@@ -31,6 +31,13 @@ export const questionService = () => {
         typeof question !== 'string' && dispatch({ type: 'QUESTION - Load question', payload: question });
     }
 
+
+    const startGetQuestionsBySection = async (page = 1): Promise<QuestionsBySectionResponse> => {
+        setLoading(prev => !prev);
+        return await questionRepository.getQuestionBySection(page);
+    }
+
+
     return {
         loading,
         questions,
@@ -38,5 +45,6 @@ export const questionService = () => {
         startGetQuestions,
         startCreateQuestion,
         startShowQuestion,
+        startGetQuestionsBySection
     }
 }
