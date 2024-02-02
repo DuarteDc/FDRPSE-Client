@@ -1,22 +1,27 @@
 import { ReactNode, useReducer } from 'react';
 import { QuestionContext, questionReducer } from './';
-import { Category, Dimension, Domain, Qualification, Question, Section } from '../../../domain/models';
+import { Question } from '../../../domain/models';
+import { QuestionsBySection } from '../../http/dto/questions/QuestionsBySectionResponse';
 export interface QuestionDetail extends Question {
-    domain          ?: Domain | undefined;
-    dimension       ?: Dimension | undefined;
-    qualification   ?: Qualification | undefined;
+    
 }
 export interface QuestionState {
     questions: Array<Question> | [];
     question: QuestionDetail | null;
+    sectionQuestions: QuestionsBySection | null,
+    totalQuestions: number | null;
+    currentPage: number | null; 
 }
 interface Props {
     children: ReactNode;
 }
 
 const QUESTION_INITIAL_STATE: QuestionState = {
-    questions: [],
-    question: null,
+    questions       : [],
+    question        : null,
+    sectionQuestions: null,
+    totalQuestions  : null,
+    currentPage     : null,
 }
 
 export const QuestionProvider = ({ children }: Props) => {

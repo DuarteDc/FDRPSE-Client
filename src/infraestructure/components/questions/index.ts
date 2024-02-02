@@ -1,3 +1,4 @@
+export { FooterControls } from './FooterControls';
 
 export { AddQualification } from './AddQualification';
 export { CardQuestion } from './CardQuestion';

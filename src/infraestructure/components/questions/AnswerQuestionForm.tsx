@@ -7,6 +7,9 @@ import { getProgessByStep } from "../../../app/helpers/getProgessByStep";
 import { ChevonLeft } from "../icons";
 import { useAnswerQuestion } from "../../../app/hooks/useAnswerQuestion";
 import { qustionAnswerValidation } from '../../validations/question.validations';
+import { questionService } from '../../../domain/services/question.service';
+import { useMemo } from 'react';
+import { FooterControls } from '.';
 
 interface Props {
   questions: Array<QuestionsInsideSection>;
@@ -15,16 +18,17 @@ export const AnswerQuestionForm = ({ questions }: Props) => {
 
   const { handleNextStep, handlePreviousStep, step, handleChangeOptionValue } = useAnswerQuestion();
 
+  const { startGetQuestionsBySection, clearQuestionBySection, totalQuestions, currentPage, saveQuestionUser } = questionService();
+
   const formik = useFormik({
     initialValues: createFieldQuestion(questions),
     validationSchema: Yup.object(qustionAnswerValidation(questions)),
     onSubmit: (data) => {
-      const xd = Object.entries(data).map(([key, value]) => {
-        const question_id = key.split("_").pop();
-        return { question_id, qualification: value }
+      saveQuestionUser(data).then(() => {
+        handleNextStep();
+        clearQuestionBySection();
+        startGetQuestionsBySection(currentPage! + 1);
       })
-      console.log(xd);
-      handleNextStep();
     }
   })
 
@@ -55,22 +59,10 @@ export const AnswerQuestionForm = ({ questions }: Props) => {
           </div>
         ))
       }
-      <footer className="fixed left-0 bottom-0 w-full backdrop-blur-lg bg-background/70 border-t border-divider">
-        <Progress value={getProgessByStep(questions.length, step)} aria-label="question-pogress" classNames={{ indicator: "bg-gradient-to-r from-primary via-emerald-500 to-emerald-500", }} />
-        <div className="flex justify-between py-2 px-4 md:px-40 lg:max-w-[2000px] mx-auto">
-          <Button className="hover:border-slate-800 hover:border-2 border-2 border-transparent"
-            onClick={handlePreviousStep}
-            variant="bordered" startContent={
-              <ChevonLeft />
-            }>
-            Regresar
-          </Button>
-          <Button color="primary" type="submit"
-          >
-            Siguiente
-          </Button>
-        </div>
-      </footer>
+      <FooterControls
+        currentPage={currentPage!}
+        totalItems={totalQuestions!}
+      />
     </form>
   )
 }

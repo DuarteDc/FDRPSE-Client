@@ -2,7 +2,7 @@ import { QuestionsInsideSection } from '../../infraestructure/http/dto/questions
 
 import * as Yup from 'yup';
 
-interface QuestionsField {
+export interface QuestionsField {
     [key: string]: string;
 }
 

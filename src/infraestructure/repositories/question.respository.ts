@@ -1,6 +1,6 @@
 import { http } from '../http/http';
 import { Question } from '../../domain/models';
-import { CreateQuestionDto, QuestionResponseDto, QuestionsBySectionResponse, QuestionsResponseDto } from '../http/dto/questions';
+import { CreateQuestionDto, QuestionResponseDto, QuestionsBySectionResponse, QuestionsResponseDto, SaveUserQuestionDto } from '../http/dto/questions';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
@@ -42,6 +42,18 @@ export const questionRepository = {
         } catch (error) {
             return error as string;
         }
+    },
+
+    saveUserAnswers: async (saveUserQuestionDto: SaveUserQuestionDto): Promise<CommonResponseDto> => {
+        try {
+            const { message, success } = await http.post<CommonResponseDto>('/surveys/save-questions', saveUserQuestionDto);
+            succesAlert(message);
+            return { message, success }
+        } catch (error) {
+            errorAlert(error as string);
+            return { message: error as string, success: false }
+        }
     }
+
 
 }
