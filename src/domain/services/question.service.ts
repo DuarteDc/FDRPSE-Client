@@ -7,9 +7,10 @@ import { QuestionsField } from '../../app/helpers/createFieldsQuestionValidation
 
 export const questionService = () => {
 
+    const { dispatch, questions, question, sectionQuestions, totalQuestions, currentPage } = useContext(QuestionContext);
+
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { dispatch, questions, question, sectionQuestions, totalQuestions, currentPage } = useContext(QuestionContext);
 
     const toggleLoading = useCallback(() => setLoading(prev => !prev), []);
 
@@ -35,10 +36,10 @@ export const questionService = () => {
     }
 
 
-    const startGetQuestionsBySection = async (page = 1) => {
+    const startGetQuestionsBySection = useCallback(async (page = 1) => {
         const sectionQuestions = await questionRepository.getQuestionBySection(page);
         typeof sectionQuestions !== 'string' && dispatch({ type: 'QUESTION - Get Question to user', payload: sectionQuestions });
-    }
+    }, []);
 
     const clearQuestionBySection = () => dispatch({ type: 'QUESTION - Clear Question Cache' });
 
@@ -51,10 +52,10 @@ export const questionService = () => {
         return { questions: body }
     }
 
-    const saveQuestionUser = async (questions: QuestionsField) => {
+    const saveQuestionUser = async (questions: QuestionsField, lastPage: number) => {
         const formQuestionData = createBodyRequest(questions!);
-        const { success } = await questionRepository.saveUserAnswers(formQuestionData);
-        return success;
+        await questionRepository.saveUserAnswers(formQuestionData);
+        localStorage.setItem('last_page', JSON.stringify(lastPage));
     }
 
 
@@ -65,6 +66,7 @@ export const questionService = () => {
         sectionQuestions,
         totalQuestions,
         currentPage,
+        toggleLoading,
         startGetQuestions,
         startCreateQuestion,
         startShowQuestion,

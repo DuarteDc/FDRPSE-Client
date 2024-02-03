@@ -1,11 +1,9 @@
-import { createRef, useCallback, useState } from 'react';
-
+import { useCallback, useState } from 'react';
 export const useAnswerQuestion = () => {
 
     const [step, setStep] = useState(1);
-    const nextButtonRef = createRef<any>();
 
-    const handlePreviousStep = useCallback(() => setStep(step => step - 1), []);
+    const handlePreviousStep = useCallback(() => setStep(step => step <= 1 ? step : step - 1), []);
     const handleNextStep = useCallback(() => setStep(step => step + 1), []);
 
     const handleChangeOptionValue = (formik: any, value: number, questionId: number) => {
@@ -14,7 +12,6 @@ export const useAnswerQuestion = () => {
 
     return {
         step,
-
         handleNextStep,
         handlePreviousStep,
         handleChangeOptionValue,
