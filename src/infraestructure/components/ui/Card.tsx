@@ -10,21 +10,21 @@ export const Card = ({ title, subtitle, image, onPress }: CreateItemCardProps) =
                     isValidElement(image) ? (
                         <div className="h-full w-full flex items-center justify-center">
                             <span className="p-5 rounded-full bg-emerald-600/40">
-                            { image }
+                                {image}
                             </span>
                         </div>
-                    ):(
+                    ) : (
                         <img
                             alt={title}
                             className="w-full h-full"
                             height={600}
                             src={typeof image === 'string' ? image : '/assets/cat.svg'}
                             width={500}
-                        />
+                            loading="lazy" />
                     )
                 }
             </div>
-            <span className="text-xs xl:text-base font-bold text-gray-500">{title}</span> 
+            <span className="text-xs xl:text-base font-bold text-gray-500">{title}</span>
             {
                 subtitle && <span className="text-xs text-gray-500 font-semibold">{subtitle}</span>
             }

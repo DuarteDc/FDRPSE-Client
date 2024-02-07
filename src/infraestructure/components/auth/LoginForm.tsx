@@ -14,7 +14,7 @@ export const LoginForm = () => {
     const { startSignin, loading } = authService();
 
     const formik = useFormik({
-        initialValues: { email: '', password: '' },
+        initialValues: { username: '', password: '' },
         validationSchema: Yup.object(loginValidation()),
         onSubmit: (data: LoginRequestDto) => startSignin(data),
     });
@@ -27,12 +27,12 @@ export const LoginForm = () => {
                     placeholder="Correo electronico"
                     className="my-5 text-gray-500"
                     size="md"
-                    name="email"
+                    name="username"
                     startContent={
                         <UserIcon />
                     }
-                    isInvalid={formik.touched.email && formik.errors.email ? true : false}
-                    errorMessage={formik.touched.email && formik.errors.email && formik.errors.email}
+                    isInvalid={formik.touched.username && formik.errors.username ? true : false}
+                    errorMessage={formik.touched.username && formik.errors.username && formik.errors.username}
                     onChange={formik.handleChange}
                 />
                 <Input

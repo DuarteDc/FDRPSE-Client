@@ -1,4 +1,4 @@
-import { HomeIcon, QuestionIcon, FileDescription, CategoryIcon, BoxIcon, DimensionsIcon } from '../../infraestructure/components/icons';
+import { HomeIcon, QuestionIcon, FileDescription, CategoryIcon, BoxIcon, DimensionsIcon, SectionIcon } from '../../infraestructure/components/icons';
 import { IconFunction } from '../../infraestructure/components/icons/IconProps';
 
 interface Routes {
@@ -17,6 +17,11 @@ export const routes: Array<Routes> = [
         name: 'Encuestas',
         path: '/admin/suveries',
         icon: FileDescription,
+    },
+    {
+        name: 'Secciones',
+        path: '/admin/sections',
+        icon: SectionIcon,
     },
     {
         name: 'Preguntas',

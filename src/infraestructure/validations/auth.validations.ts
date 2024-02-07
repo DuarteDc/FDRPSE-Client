@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const loginValidation = () => ({
-    email: Yup.string().email('La dirección de correo proporcionada no es válida').required('El campo de correo electrónico es obligatorio'),
+    username: Yup.string().required('El campo de usuario es obligatorio'),
     password: Yup.string().min(8, 'La contraseña debe contener al menos 8 caracteres').required('El campo de contraseña es obligatorio'),
 });
 

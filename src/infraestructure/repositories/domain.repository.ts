@@ -16,7 +16,7 @@ export const domainRepository = {
 
     createDomain: async (createDomainDto: CreateDomainDto): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/domains', createDomainDto);
+            const { message } = await http.post<CommonResponseDto>('/domains/create', createDomainDto);
             return { message, success: true }
         } catch (error) {
              return { message: error as string, success: false }

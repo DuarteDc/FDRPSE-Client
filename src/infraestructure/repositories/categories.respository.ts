@@ -17,7 +17,7 @@ export const categoriesRepository = {
 
     createCategory: async (createCategoryDto: CreateCategoryDto): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/categories', createCategoryDto);
+            const { message } = await http.post<CommonResponseDto>('/categories/create', createCategoryDto);
             return { message, success: true }
         } catch (error) {
              return { message: error as string, success: false }

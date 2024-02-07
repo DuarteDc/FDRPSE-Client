@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, UserRoutes } from './';
+import { AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, UserRoutes } from './';
 import { Layout } from '../components/ui';
 import { HomePage, LoginPage, } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
@@ -36,6 +36,7 @@ export const MainRouter = () => {
                                                         <QualificationProvider>
                                                             <Routes>
                                                                 <Route path="/" index element={<h1>xd</h1>} />
+                                                                <Route path="sections/*" index element={<SectionRoutes />} />
                                                                 <Route path="/categories/*" index element={<CategoryRoutes />} />
                                                                 <Route path="/domains/*" index element={<DomainRoutes />} />
                                                                 <Route path="/dimensions/*" index element={<DimensionRoutes />} />

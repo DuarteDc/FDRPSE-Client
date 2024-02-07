@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { HomePage } from '../../app/pages';
 import { UserQuestion } from '../../app/pages/user-questions/UserQuestion';
-import { SuccessAnswer } from '../../app/pages/user-questions/SuccessAnswer';
+import { SuccessAnswer } from '../../app/pages/user-questions/SuccessAnswer.server';
 
 export const UserRoutes = () => {
     return (

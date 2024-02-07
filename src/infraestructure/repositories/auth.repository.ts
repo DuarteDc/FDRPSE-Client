@@ -10,7 +10,7 @@ export const authRepository = {
         try {
             const { user, session } = await http.post<LoginResponseDto>('/auth/signin', data);
             storage.set('session', session);
-            return new User(user.id, user.name, user.last_name, user.email, user.created_at, user.updated_at);
+            return new User(user.id, user.nombre, user.apellidoP, user.userName, user.issemym);
         } catch (error) {
             alert(error as string);
         }
@@ -20,7 +20,7 @@ export const authRepository = {
         try {
             const { user, session } = await http.get<LoginResponseDto>('/auth/me');
             storage.set('session', session);
-            return new User(user.id, user.name, user.last_name, user.email, user.created_at, user.updated_at);
+            return new User(user.id, user.nombre, user.apellidoP, user.userName, user.issemym);
         } catch (error) {
             storage.remove('session');
         }

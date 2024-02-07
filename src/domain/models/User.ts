@@ -2,27 +2,24 @@ interface UserSchema  {
     id          : string;
     name        : string;
     lastName    : string;
-    email       : string;
-    createdAt   : Date
-    updatedAt   : Date;
+    userName    : string;
+    issemym     : string;
 }
 
 export class User implements UserSchema {
 
-    readonly id         : string;
-    readonly name       : string; 
-    readonly lastName   : string; 
-    readonly email      : string;
-    readonly createdAt  : Date; 
-    readonly updatedAt  : Date;
+    readonly id;
+    readonly name;
+    readonly lastName;
+    readonly userName;
+    readonly issemym;
 
-    constructor(id: string, name: string, lastName: string, email: string, createdAt: string, updatedAt: string) { 
+    constructor(id: string, name: string, lastName: string, userName: string, issemym: string) { 
         this.id         = id;
         this.name       = name;
         this.lastName   = lastName;
-        this.email      = email;
-        this.createdAt  = new Date(createdAt);
-        this.updatedAt  = new Date(updatedAt);
+        this.userName   = userName;
+        this.issemym    = issemym;
     }
 
 }

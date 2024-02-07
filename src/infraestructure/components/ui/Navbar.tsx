@@ -21,12 +21,6 @@ export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
             <NavbarContent justify="start">
                 <NavbarMenuToggle aria-label={isOpen ? "Close menu" : "Open menu"} />
             </NavbarContent>
-
-            <NavbarContent className="sm:hidden pr-3" justify="center">
-                <NavbarBrand>
-                    <p className="font-bold text-inherit">ACME</p>
-                </NavbarBrand>
-            </NavbarContent>
             <NavbarContent justify="end">
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
@@ -43,7 +37,7 @@ export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem key="profile" className="h-14 gap-2">
                             <p className="font-semibold">Conectado como</p>
-                            <p className="font-semibold">{user?.email}</p>
+                            <p className="font-semibold text-xs">{user?.userName}</p>
                         </DropdownItem>
                         <DropdownItem key="logout" color="danger">
                             Log Out

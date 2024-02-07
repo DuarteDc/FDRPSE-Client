@@ -1,3 +1,5 @@
+export { SectionRoutes } from './SectionRoutes';
+
 export { UserRoutes } from './UserRoutes';
 
 export { AuthRoutes } from './AuthRoutes';

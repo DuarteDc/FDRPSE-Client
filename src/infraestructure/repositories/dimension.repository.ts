@@ -17,7 +17,7 @@ export const dimensionRepository = {
 
     createDimension: async (createDimensionDto: CreateDimensionDto): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/dimensions', createDimensionDto);
+            const { message } = await http.post<CommonResponseDto>('/dimensions/create', createDimensionDto);
             return { message, success: true }
         } catch (error) {
              return { message: error as string, success: false }
