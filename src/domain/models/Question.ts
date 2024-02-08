@@ -7,7 +7,7 @@ import { DomainResponseDto } from '../../infraestructure/http/dto/domains';
 
 interface QuestionSchema {
     id              : string;
-    question        : string;
+    name            : string;
     section         : Section | null;
     category        : Category | null;
     qualification   : Qualification | null;
@@ -20,7 +20,7 @@ interface QuestionSchema {
 export class Question implements QuestionSchema {
 
     readonly id;
-    readonly question;
+    readonly name;
     readonly section;
     readonly category;
     readonly qualification;
@@ -29,9 +29,9 @@ export class Question implements QuestionSchema {
     readonly createdAt;
     readonly updatedAt;
 
-    constructor(id: string, question: string, createdAt: string, updatedAt: string, section ?: SectionResponseDto, category ?: CategoryResponseDto, qualification ?: QualificationResponseDto, dimension?: DimensionResponseDto, domain?: DomainResponseDto ) {
+    constructor(id: string, name: string, createdAt: string, updatedAt: string, section ?: SectionResponseDto, category ?: CategoryResponseDto, qualification ?: QualificationResponseDto, dimension?: DimensionResponseDto, domain?: DomainResponseDto ) {
         this.id             = id;
-        this.question       = question;
+        this.name           = name;
         this.section        = section ? new Section(section.id, section.name, section.question, section.binary, section.created_at, section.updated_at) : null;
         this.category       = category ? new Category(category.id, category.name, category.created_at, category.updated_at) : null;
         this.qualification  = qualification ? new Qualification(qualification.id, qualification.name, qualification.always_op, qualification.almost_alwyas_op, qualification.sometimes_op, qualification.almost_never_op, qualification.never_op, qualification.created_at, qualification.updated_at) : null;

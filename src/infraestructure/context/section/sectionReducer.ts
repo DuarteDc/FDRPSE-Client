@@ -4,6 +4,7 @@ import { SectionState } from './';
 export type SectionActionType =
     | { type: 'SECTION - Start load section', payload: Section }
     | { type: 'SECTION - Start load sections', payload: Array<Section> }
+    | { type: 'SECTION - Create new section', payload: Section }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
 
@@ -20,8 +21,14 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
                 sections: action.payload
             }
 
+        case 'SECTION - Create new section':
+            return {
+                ...state,
+                sections: [action.payload, ...state.sections],
+            }
+
         default:
             return state;
     }
-    
+
 }

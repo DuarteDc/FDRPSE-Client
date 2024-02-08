@@ -1,3 +1,5 @@
+export { Survey } from './Survey';
+
 export { Category } from './Category';
 export { Dimension } from './Dimension';
 export { Domain } from './Domain';

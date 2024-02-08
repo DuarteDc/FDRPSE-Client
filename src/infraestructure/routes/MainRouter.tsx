@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, UserRoutes } from './';
+import { AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
 import { Layout } from '../components/ui';
 import { HomePage, LoginPage, } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
@@ -9,8 +9,7 @@ import { DomainProvider } from '../context/domain';
 import { DimensionProvider } from '../context/dimension';
 import { QuestionProvider } from '../context/questions';
 import { QualificationProvider } from '../context/qualification';
-import { UserQuestion } from '../../app/pages/user-questions/UserQuestion';
-
+import SurveyProvider from '../context/survey/SurveyProvider';
 
 export const MainRouter = () => {
     return (
@@ -34,15 +33,18 @@ export const MainRouter = () => {
                                                 <DimensionProvider>
                                                     <QuestionProvider>
                                                         <QualificationProvider>
-                                                            <Routes>
-                                                                <Route path="/" index element={<h1>xd</h1>} />
-                                                                <Route path="sections/*" index element={<SectionRoutes />} />
-                                                                <Route path="/categories/*" index element={<CategoryRoutes />} />
-                                                                <Route path="/domains/*" index element={<DomainRoutes />} />
-                                                                <Route path="/dimensions/*" index element={<DimensionRoutes />} />
-                                                                <Route path="/questions/*" index element={<QuestionRoutes />} />
-                                                                <Route path="user-questions/*" index element={<UserRoutes />} />
-                                                            </Routes>
+                                                            <SurveyProvider>
+                                                                <Routes>
+                                                                    <Route path="/" index element={<h1>xd</h1>} />
+                                                                    <Route path="surveys/*" index element={<SurveyRoutes />} />
+                                                                    <Route path="sections/*" index element={<SectionRoutes />} />
+                                                                    <Route path="/categories/*" index element={<CategoryRoutes />} />
+                                                                    <Route path="/domains/*" index element={<DomainRoutes />} />
+                                                                    <Route path="/dimensions/*" index element={<DimensionRoutes />} />
+                                                                    <Route path="/questions/*" index element={<QuestionRoutes />} />
+                                                                    <Route path="user-questions/*" index element={<UserRoutes />} />
+                                                                </Routes>
+                                                            </SurveyProvider>
                                                         </QualificationProvider>
                                                     </QuestionProvider>
                                                 </DimensionProvider>

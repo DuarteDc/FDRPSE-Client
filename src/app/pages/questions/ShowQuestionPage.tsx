@@ -16,7 +16,7 @@ export const ShowQuestionPage = () => {
   return (
     <PageLayout title="Preguntas" navigateTo="/admin/questions">
       <section className="grid grid-cols-1">
-        <h2 className="bg-gradient-to-r from-primary via-emerald-600 to-emerald-600 inline-block text-transparent py-5 bg-clip-text text-4xl lg:text-6xl font-bold">{question?.question}</h2>
+        <h2 className="bg-gradient-to-r from-primary via-emerald-600 to-emerald-600 inline-block text-transparent py-5 bg-clip-text text-4xl lg:text-6xl font-bold">{question?.name}</h2>
         <div>
           <h3 className="my-5 text-2xl font-bold text-emerald-600">Detalles</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

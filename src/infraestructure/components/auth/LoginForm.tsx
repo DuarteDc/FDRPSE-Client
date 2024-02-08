@@ -24,7 +24,7 @@ export const LoginForm = () => {
                 <h1 className="text-center font-bold text-3xl mb-20 mt-10">Iniciar sesión <b className="text-emerald-600">en tu cuenta</b></h1>
                 <h2 className="text-gray-500 font-semibold text-center text-sm">¡Bienvenido de vuelta! Por favor, introduce tus credenciales para acceder a tu cuenta.</h2>
                 <Input
-                    placeholder="Correo electronico"
+                    placeholder="Username"
                     className="my-5 text-gray-500"
                     size="md"
                     name="username"

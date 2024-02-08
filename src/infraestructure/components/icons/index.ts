@@ -15,6 +15,7 @@ export { HomeIcon } from './HomeIcon';
 export { LineIcon } from './LineIcon';
 export { LockIcon } from './LockIcon';
 export { NumbersIcon } from './NumbersIcon';
+export { PlayerPlay } from './PlayerPlay';
 export { PlayListIcon } from './PlayListIcon';
 export { PlusIcon } from './PlusIcon';
 export { QuestionIcon } from './QuestionIcon';

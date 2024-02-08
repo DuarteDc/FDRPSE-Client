@@ -15,7 +15,7 @@ export const routes: Array<Routes> = [
     },
     {
         name: 'Encuestas',
-        path: '/admin/suveries',
+        path: '/admin/surveys',
         icon: FileDescription,
     },
     {

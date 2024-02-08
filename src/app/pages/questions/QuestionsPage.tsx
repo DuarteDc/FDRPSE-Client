@@ -27,10 +27,10 @@ export const QuestionsPage = () => {
                 </TableHeader>
                 <TableBody items={questions} loadingContent={<Spinner color="success" />} isLoading={loading}>
                     {
-                        questions.map(({ id, question }) => (
+                        questions.map(({ id, name }) => (
                             <TableRow key={id} className="[&>td]:py-4">
                                 <TableCell>{id}</TableCell>
-                                <TableCell>{question}</TableCell>
+                                <TableCell>{name}</TableCell>
                                 <TableCell>
                                     <Tooltip content="Ver" color="success">
                                         <Link to={`show/${id}`} className="text-lg text-emerald-600 cursor-pointer active:opacity-10">

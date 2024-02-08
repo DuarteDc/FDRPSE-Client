@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { Input, Select, SelectItem } from '@nextui-org/react';
 
 import { BoxIcon, CategoryIcon, DimensionsIcon, QuestionIcon } from '../icons';
-import { createDimensionValidation } from '../../validations/dimension.validation';
+import { createQuestionValidation } from '../../validations/question.validations';
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import type { ValidateStep } from '../../../app/utils/questionSteps';
@@ -16,8 +16,8 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
 
     const formik = useFormik({
-        initialValues: { question: question?.question || '', category_id: question?.category?.id || '', domain_id: question?.domain?.id || '', dimension_id: question?.dimension?.id || '' },
-        validationSchema: Yup.object(createDimensionValidation()),
+        initialValues: { name: question?.name || '', category_id: question?.category?.id || '', domain_id: question?.domain?.id || '', dimension_id: question?.dimension?.id || '', section_id: '' },
+        validationSchema: Yup.object(createQuestionValidation()),
         onSubmit: preSaveQuestion,
     });
 
@@ -37,13 +37,13 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 placeholder="Pregunta"
                 className="my-2 text-gray-500"
                 size="md"
-                name="question"
+                name="name"
                 isRequired
                 startContent={<QuestionIcon />}
-                value={formik.values.question}
+                value={formik.values.name}
                 onChange={formik.handleChange}
-                isInvalid={formik.touched.question && formik.errors.question ? true : false}
-                errorMessage={formik.touched.question && formik.errors.question && formik.errors.question}
+                isInvalid={formik.touched.name && formik.errors.name ? true : false}
+                errorMessage={formik.touched.name && formik.errors.name && formik.errors.name}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
                 <Select

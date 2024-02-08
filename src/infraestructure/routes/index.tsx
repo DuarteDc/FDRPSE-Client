@@ -1,3 +1,5 @@
+export { SurveyRoutes } from './SurveyRoutes';
+
 export { SectionRoutes } from './SectionRoutes';
 
 export { UserRoutes } from './UserRoutes';

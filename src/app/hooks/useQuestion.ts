@@ -26,19 +26,18 @@ export const useQuestion = () => {
         setLoading(prev => !prev);
     }
 
-    const getQuestionDetailsBeforeSave = ({ category_id = '', dimension_id = '', domain_id = '', section_id = '' }) => ({
+    const getQuestionDetailsBeforeSave = ({ category_id = '', dimension_id = '', domain_id = '', }) => ({
         category: categories.find(category => category.id == category_id),
         dimension: dimensions.find(dimension => dimension.id == dimension_id),
         domain: domains.find(domain => domain.id == domain_id),
-        section: sections.find(section => section.id == section_id)
     });
 
-    const preSaveQuestion = ({ question, ...rest }: CreateQuestionDto): void => {
+    const preSaveQuestion = ({ name, ...rest }: CreateQuestionDto): void => {
         const getDetails = getQuestionDetailsBeforeSave(rest);
         dispatch({
             type: 'QUESTION - Presave question',
             payload: {
-                ...new Question(crypto.randomUUID(), question, new Date().toLocaleString(), new Date().toLocaleString()),
+                ...new Question(crypto.randomUUID(), name, new Date().toLocaleString(), new Date().toLocaleString()),
                 ...getDetails,
             },
         });
