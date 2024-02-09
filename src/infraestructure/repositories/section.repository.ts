@@ -1,6 +1,6 @@
 import { http } from '../http/http';
 import { Section } from '../../domain/models';
-import { CreateSectioResponseDto, CreateSectionDto, GetOneSectionResponseDto, SectionsResponseDto } from '../http/dto/sections';
+import { CreateSectioResponseDto, CreateSectionDto, SectionsResponseDto } from '../http/dto/sections';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
 export const sectionRespository = {

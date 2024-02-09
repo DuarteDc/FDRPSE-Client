@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { PageLayout } from '../../../infraestructure/components/ui';
-import { Button, Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { Button, Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react';
 import { PlayerPlay } from '../../../infraestructure/components/icons';
 import { Link } from 'react-router-dom';
 
@@ -34,6 +34,7 @@ export const SurveyPage = () => {
           <TableColumn>Fecha de inicio</TableColumn>
           <TableColumn>Fecha de finalización</TableColumn>
           <TableColumn>Estatus</TableColumn>
+          <TableColumn> </TableColumn>
         </TableHeader>
         <TableBody>
           {
@@ -46,6 +47,22 @@ export const SurveyPage = () => {
                   <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
                     {status ? 'Finalizado' : 'En proceso'}
                   </Chip>
+                </TableCell>
+                <TableCell>
+                  <div className="relative flex items-center gap-2">
+                    <Link to={`show/${id}`}>
+                      <Tooltip content="Detalles">
+                        <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                          ver
+                        </span>
+                      </Tooltip>
+                    </Link>
+                    <Tooltip color="danger" content="Delete user">
+                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                        terminar
+                      </span>
+                    </Tooltip>
+                  </div>
                 </TableCell>
               </TableRow>
             ))

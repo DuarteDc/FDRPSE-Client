@@ -2,6 +2,7 @@
 import { useContext } from 'react';
 import { Navbar as Nav, NavbarBrand, NavbarMenuToggle, NavbarContent, Dropdown, DropdownTrigger, Avatar, DropdownMenu, DropdownItem } from '@nextui-org/react';
 import { AuthContext } from '../../context/auth';
+import { authService } from '../../../domain/services/auth.service';
 
 interface Props {
     toggleDrawer: () => void;
@@ -9,6 +10,7 @@ interface Props {
 }
 export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
 
+    const { startLogout } = authService();
     const { user } = useContext(AuthContext);
 
     return (
@@ -39,7 +41,7 @@ export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
                             <p className="font-semibold">Conectado como</p>
                             <p className="font-semibold text-xs">{user?.userName}</p>
                         </DropdownItem>
-                        <DropdownItem key="logout" color="danger">
+                        <DropdownItem key="logout" color="danger" onClick={startLogout}>
                             Log Out
                         </DropdownItem>
                     </DropdownMenu>

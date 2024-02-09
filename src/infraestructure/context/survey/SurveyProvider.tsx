@@ -14,13 +14,15 @@ export interface SurveysPagination {
 }
 
 export interface SurveyState {
-    survey: Survey | null;
-    surveys: Array<Survey> | []
+    survey      : Survey | null;
+    surveys     : Array<Survey> | []
+    hasSurvey   : boolean | null;
 }
 
 const INITIAL_STATE: SurveyState = {
-    survey: null,
-    surveys: [],
+    survey      : null,
+    surveys     : [],
+    hasSurvey   : null
 }
 
 const SurveyProvider = ({ children }: Props) => {

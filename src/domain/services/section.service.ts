@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { sectionRespository } from '../../infraestructure/repositories/section.repository';
 import { SectionContext } from '../../infraestructure/context/section';
 import { CreateSectionDto } from '../../infraestructure/http/dto/sections';
@@ -22,12 +22,12 @@ export const sectionService = () => {
         setLoading(prev => !prev);
     }
 
-    const startGetSectionsWithQuestions = async (): Promise<void> => {
+    const startGetSectionsWithQuestions = useCallback(async (): Promise<void> => {
         setLoading(prev => !prev);
         const sections = await sectionRespository.getSectionWithQuestions();
         typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });
         setLoading(prev => !prev);
-    }
+    }, []);
 
 
     return {

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { Radio, RadioGroup } from "@nextui-org/react";
 import { QuestionsInsideSection } from "../../http/dto/questions/QuestionsBySectionResponse"
@@ -7,8 +8,7 @@ import { useAnswerQuestion } from "../../../app/hooks/useAnswerQuestion";
 import { qustionAnswerValidation } from '../../validations/question.validations';
 import { questionService } from '../../../domain/services/question.service';
 import { FooterControls } from '.';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { surveyService } from '../../../domain/services/survey.service';
 interface Props {
   questions: Array<QuestionsInsideSection>;
   hasSubquestions: string | null;
@@ -17,11 +17,9 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
 
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();
   const { totalQuestions, currentPage, saveQuestionUser, clearQuestionBySection, startGetQuestionsBySection } = questionService();
+  const { endSurveyUser } = surveyService();
 
   const [isBinary, setIsBinary] = useState(!hasSubquestions);
-
-  const navigate = useNavigate();
-
   const formik = useFormik({
     initialValues: createFieldQuestion(questions),
     validationSchema: isBinary ? Yup.object(qustionAnswerValidation(questions)) : false,
@@ -33,7 +31,8 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
       saveQuestionUser(data, currentPage!).then(() => {
         clearQuestionBySection();
       }).then(() => {
-        if ((currentPage) === totalQuestions) return navigate("success-answer", { replace: true })
+        if ((currentPage) === totalQuestions) return endSurveyUser();
+        
         startGetQuestionsBySection(currentPage! + 1);
       })
 

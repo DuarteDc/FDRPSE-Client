@@ -58,7 +58,7 @@ export const questionService = () => {
         localStorage.setItem('last_page', JSON.stringify(lastPage));
     }
 
-
+    
     return {
         loading,
         questions,
@@ -72,6 +72,6 @@ export const questionService = () => {
         startShowQuestion,
         clearQuestionBySection,
         saveQuestionUser,
-        startGetQuestionsBySection
+        startGetQuestionsBySection,
     }
 }

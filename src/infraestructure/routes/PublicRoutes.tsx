@@ -9,7 +9,7 @@ interface Props {
 
 export const PublicRoutes = ({ children }: Props) => {
 
-    const { user, logged } = useContext(AuthContext);
+    const { logged } = useContext(AuthContext);
 
     return logged ? <Navigate to="/admin/" replace /> : children;
 }

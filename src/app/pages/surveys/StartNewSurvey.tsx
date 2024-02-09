@@ -4,7 +4,7 @@ import { PageLayout } from "../../../infraestructure/components/ui";
 
 export const StartNewSurvey = () => {
 
-    const { startGetSectionsWithQuestions, sections } = sectionService();
+    const { startGetSectionsWithQuestions, sections, loading } = sectionService();
 
     useEffect(() => {
         startGetSectionsWithQuestions();
@@ -16,6 +16,9 @@ export const StartNewSurvey = () => {
                 {
                     JSON.stringify(sections)
                 }
+            </code>
+            <code>
+                { JSON.stringify(loading)}
             </code>
         </PageLayout>
     )

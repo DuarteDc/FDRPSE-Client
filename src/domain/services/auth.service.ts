@@ -28,6 +28,13 @@ export const authService = () => {
         }, 2000)
     }
 
+    const startLogout = async (): Promise<void> => {
+        setLoading(true);
+        dispatch({ type: 'AUTH - Logout' });
+        localStorage.removeItem('session');
+        setLoading(false);
+    }
 
-    return { startSignin, startRevalidateSession, loading, }
+
+    return { startSignin, startRevalidateSession, loading, startLogout }
 }

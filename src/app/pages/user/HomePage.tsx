@@ -1,14 +1,15 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '@nextui-org/react';
 
 import { ArrowUpRight } from '../../../infraestructure/components/icons';
 import { AuthContext } from '../../../infraestructure/context/auth';
+import { surveyService } from '../../../domain/services/survey.service';
 
 export const HomePage = () => {
 
+    const { startSurveyUser } = surveyService();
     const { user } = useContext(AuthContext);
-
+    
     return (
         <div className="w-full flex justify-center items-center">
             <div className="grid lg:grid-cols-7 py-5 lg:py-20 max-w-[2000px]">
@@ -21,7 +22,7 @@ export const HomePage = () => {
                     <p className="text-xs mb-6 text-gray-600">
                         A continuación se mostraran una serie de preguntas que deberas responder.
                     </p>
-                    <Button className="bg-slate-800 w-full text-white font-bold text-xs py-7" size="lg" type="button" as={Link} to="questions">
+                    <Button className="bg-slate-800 w-full text-white font-bold text-xs py-7" size="lg" type="button" onClick={startSurveyUser}>
                         Iniciar ahora
                         <ArrowUpRight />
                     </Button>
