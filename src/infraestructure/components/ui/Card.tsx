@@ -4,7 +4,7 @@ import { CreateItemCardProps } from './CardList';
 
 export const Card = ({ title, subtitle, image, onPress }: CreateItemCardProps) => {
     return (
-        <MainCard className="w-full h-[18rem] lg:h-[22rem] flex flex-col justify-center items-center cursor-pointer hover:border-emerald-600 border-2 hover:transition-all hover:ease-in-out hover:duration-1000 hover:shadow-emerald-600/20 shadow-lg overflow-hidden break-words px-3" isPressable onPress={onPress ? onPress : undefined}>
+        <MainCard className="w-full h-[18rem] lg:h-[22rem] flex flex-col justify-center items-center cursor-pointer hover:border-emerald-600 border-2 hover:transition-all hover:ease-in-out hover:duration-1000 hover:shadow-emerald-600/20 shadow-lg overflow-hidden break-words px-3 hover:scale-[1.03]" isPressable onPress={onPress ? onPress : undefined}>
             <div className="w-[10rem] h-[10rem] rounded-full">
                 {
                     isValidElement(image) ? (

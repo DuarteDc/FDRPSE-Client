@@ -17,6 +17,7 @@ export const CreateQuestionPage = () => {
     useEffect(() => {
         startGetCategoriesDomainAndDimenstions();
     }, []);
+    
     return (
         <PageLayout title="Crear Pregunta" navigateTo="/admin/questions">
             <Steper
@@ -25,14 +26,14 @@ export const CreateQuestionPage = () => {
                     <Fragment>
                         <Button
                             onClick={backStep}
-                            className="bg-slate-800 text-white"
+                            className="border-2 border-transparent hover:border-slate-800  bg-transparent"
                             isDisabled={(step < 1)}
                             startContent={<ArrowNarrowLeft />}>
                             Atras
                         </Button>
                         <Button
                             onClick={nextStep}
-                            className="float-right bg-emerald-600 text-white"
+                            className="float-right bg-slate-800 text-white"
                             endContent={(step + 1) >= QUESTION_STEPS.length ? <SaveIcon /> : <ArrowNarrowRight />}
                             isLoading={loading}
                             spinner={<Spinner />}

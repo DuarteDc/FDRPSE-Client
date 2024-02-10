@@ -15,8 +15,15 @@ export const CardQuestion = memo(({ question, showOptionQualification, buttonFun
     return (
         <div className="border-2 border-emerald-600 rounded-xl p-5 my-2 font-bold text-gray-600">
             {showOptionQualification && (
-                <Button color="primary" startContent={<StarsIcon />} className="float-right" onClick={buttonFunction}>
-                    {question?.qualification ? 'Cambiar Calificación' : 'Agregar Calificación'}
+                <Button
+                    className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right"
+                    onClick={buttonFunction}
+                    startContent={
+                        <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
+                            <StarsIcon height={20} width={20} />
+                        </span>
+                    }>
+                    {question?.qualification ? 'Cambiar calificación' : 'Agregar calificación'}
                 </Button>
             )}
             <div className="py-2">
@@ -24,7 +31,7 @@ export const CardQuestion = memo(({ question, showOptionQualification, buttonFun
                     <QuestionIcon width={35} height={35} />
                     Pregunta:
                 </span>
-                <h3 className="text-sm">{question.question}</h3>
+                <h3 className="text-sm">{question.name}</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>div]:text-xs">
                 <div className="py-2">

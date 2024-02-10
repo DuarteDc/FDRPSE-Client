@@ -2,6 +2,7 @@ import { http } from '../http/http';
 import { CreateDomainDto, DomainsResponseDto } from '../http/dto/domains';
 import { Domain } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
+import { errorAlert, succesAlert } from '../alert/alerts';
 
 export const domainRepository = {
 
@@ -17,9 +18,11 @@ export const domainRepository = {
     createDomain: async (createDomainDto: CreateDomainDto): Promise<CommonResponseDto> => {
         try {
             const { message } = await http.post<CommonResponseDto>('/domains/create', createDomainDto);
+            succesAlert(message);
             return { message, success: true }
         } catch (error) {
-             return { message: error as string, success: false }
+            errorAlert(error as string)
+            return { message: error as string, success: false }
         }
     }
 

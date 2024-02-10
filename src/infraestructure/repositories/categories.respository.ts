@@ -3,6 +3,7 @@ import { http } from '../http/http';
 import { Category } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { CateoriesResponseDto, CreateCategoryDto } from '../http/dto/categories';
+import { errorAlert, succesAlert } from '../alert/alerts';
 
 export const categoriesRepository = {
 
@@ -18,9 +19,11 @@ export const categoriesRepository = {
     createCategory: async (createCategoryDto: CreateCategoryDto): Promise<CommonResponseDto> => {
         try {
             const { message } = await http.post<CommonResponseDto>('/categories/create', createCategoryDto);
+            succesAlert(message)
             return { message, success: true }
         } catch (error) {
-             return { message: error as string, success: false }
+            errorAlert(error as string);
+            return { message: error as string, success: false }
         }
     }
 

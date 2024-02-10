@@ -32,7 +32,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     }));
 
     return (
-        <form>
+        <form className="[&>div>*]:text-emerald-600">
             <Input
                 placeholder="Pregunta"
                 className="my-2 text-gray-500"

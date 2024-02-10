@@ -20,7 +20,7 @@ export const SectionPage = () => {
     return (
         <PageLayout title="Secciones" navigateTo="/admin">
             <span className="flex justify-end my-10">
-                <Button className="bg-slate-800 text-white py-6 px-8 font-bold"
+                <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold"
                     onClick={onOpen}
                     startContent={
                         <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">

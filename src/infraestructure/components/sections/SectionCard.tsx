@@ -3,13 +3,17 @@ import { Section } from '../../../domain/models';
 
 interface Props {
   section: Section
+  handleSelectSection ?: (section: Section) => void;
 }
 
-export const SectionCard = ({ section }: Props) => {
+export const SectionCard = ({ section, handleSelectSection }: Props) => {
   return (
-    <div className="shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-105">
+    <div className="shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-105 w-full"
+    onClick={() => handleSelectSection ? handleSelectSection(section) : undefined}
+    
+    >
       <div>
-        
+
         <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] bg-emerald-600  text-white mx-4 flex items-center justify-center rounded-full">
           <SectionIcon width={30} height={30} />
         </span>

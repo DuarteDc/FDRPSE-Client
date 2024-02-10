@@ -4,6 +4,7 @@ import { Badge, Button, Card, useDisclosure } from '@nextui-org/react';
 import { CheckIcon, QuestionIcon, SectionIcon } from '../icons';
 import { Modal } from '../ui/Modal';
 import { useQuestion } from '../../../app/hooks/useQuestion';
+import { SectionCard } from '../sections';
 
 
 export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
@@ -54,29 +55,15 @@ export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                         <section className="h-full">
                             <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
                                 {
-                                    sections.map(({ id, name, binary, question, ...rest }) => (
+                                    sections.map((section) => (
                                         <Badge
                                             isOneChar
-                                            content={currentQuestion?.section?.id === id && <CheckIcon />}
-                                            key={id}
-                                            color={currentQuestion?.section?.id === id ? "primary" : "default"}
+                                            content={currentQuestion?.section?.id === section.id && <CheckIcon />}
+                                            key={section.id}
+                                            color={currentQuestion?.section?.id === section.id ? "primary" : "default"}
                                             placement="top-right"
                                         >
-                                            <Card key={id} isPressable onPress={() => { setSectionBeforeSave({ id, name, binary, question, ...rest }); onClose() }}
-                                                className={`${currentQuestion?.section?.id === id ? 'border-primary transition-all duration-700 ease-in' : 'border-transparent  hover:border-primary/60'} border-2 hover:transition-all hover:duration-700 hover:ease-out w-full min-h-[5rem]`}
-                                            >
-                                                <div className="text-xs flex items-center [&>span]:py-2 h-full">
-                                                    <span className="h-full px-4 bg-emerald-600 text-white flex items-center"><SectionIcon /></span>
-                                                    <span className="block px-2 text-left">
-                                                        <h3 className="font-bold my-2 flex">{name}</h3>
-                                                        {
-                                                            binary && (
-                                                                <span>{question} - {binary} Si/ No</span>
-                                                            )
-                                                        }
-                                                    </span>
-                                                </div>
-                                            </Card>
+                                            <SectionCard section={section} handleSelectSection={setSectionBeforeSave} />
                                         </Badge>
                                     ))
                                 }
