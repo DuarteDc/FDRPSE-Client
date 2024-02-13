@@ -1,6 +1,6 @@
 import { ReactNode, useReducer } from 'react';
 import { SurveyContext, surveyReducer } from './';
-import { Survey } from '../../../domain/models';
+import { Survey, SurveyUser } from '../../../domain/models';
 
 
 interface Props {
@@ -17,12 +17,14 @@ export interface SurveyState {
     survey      : Survey | null;
     surveys     : Array<Survey> | []
     hasSurvey   : boolean | null;
+    surveyUser  : Array<SurveyUser> | [];
 }
 
 const INITIAL_STATE: SurveyState = {
     survey      : null,
     surveys     : [],
-    hasSurvey   : null
+    hasSurvey   : null,
+    surveyUser  : [],
 }
 
 const SurveyProvider = ({ children }: Props) => {

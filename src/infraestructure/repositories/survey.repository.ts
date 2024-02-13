@@ -1,7 +1,7 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey } from '../../domain/models';
+import { Survey, SurveyUser } from '../../domain/models';
 import { SurveysPagination } from '../context/survey';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { GetOneSurveyResponseDto, SurveysResponseDto } from '../http/dto/surveys';
@@ -46,6 +46,18 @@ export const surveyRepository = {
             return survey ? true : false;
         } catch (error) {
             return false;
+        }
+    },
+
+    getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
+        try {
+            const { survey } = await http.get<GetOneSurveyResponseDto>(`/surveys/${surveyId}`);
+            return survey.map(({ user_id, total, answers, user }) => {
+                const answer = answers.map((currentAnswer) => ({ questionId: Number(currentAnswer.question_id), ...currentAnswer }));
+                return new SurveyUser(user_id, answer, total, { ...user, area: { id: user.area.id, name: user.area.nombreArea } });
+            });
+        } catch (error) {
+            return error as string;
         }
     }
 }

@@ -8,7 +8,7 @@ export const surveyService = () => {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { dispatch, surveys, hasSurvey } = useContext(SurveyContext);
+    const { dispatch, surveys, hasSurvey, surveyUser } = useContext(SurveyContext);
 
     const toggleLoading = () => setLoading(prev => !prev);
 
@@ -31,21 +31,28 @@ export const surveyService = () => {
 
     const hasAvailableSurvey = async () => {
         const hasSurvey = await surveyRepository.existAvailableSurvey();
-        console.log(hasSurvey)
         dispatch({ type: 'SURVEY - Exist available survey', payload: hasSurvey });
     }
 
     const clearCacheForAvailableSurvey = () => dispatch({type: 'SURVEY - Clear cache for available survey'});
 
+    const getSurveyById = async(surveyId: string) => {
+        const response = await surveyRepository.getSurvey(surveyId);
+        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey details', payload: response });
+    }
+
+
     return {
         loading,
         surveys,
         hasSurvey,
+        surveyUser,
         startGetSurveys,
         startSurveyUser,
         endSurveyUser,
         hasAvailableSurvey,
         clearCacheForAvailableSurvey,
+        getSurveyById,
     }
 
 }
