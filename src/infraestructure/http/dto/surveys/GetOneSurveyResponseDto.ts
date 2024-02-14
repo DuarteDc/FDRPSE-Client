@@ -7,6 +7,7 @@ interface SurveyDetail {
     answers: Array<Answer>,
     user: User;
     total: string;
+    status: boolean;
 }
 
 interface Answer {
@@ -26,10 +27,11 @@ interface DetailAnswer {
 }
 
 interface User {
-    id      : string;
-    nombre  : string;
-    userName: string;
-    area    :  {
+    id          : string;
+    nombre      : string;
+    apellidoP   : string;
+    apellidoM   : string;
+    area: {
         id          : string;
         nombreArea  : string;
     }

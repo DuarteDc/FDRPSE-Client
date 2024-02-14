@@ -1,10 +1,10 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey, SurveyUser } from '../../domain/models';
+import { Area, Survey, SurveyUser, User } from '../../domain/models';
 import { SurveysPagination } from '../context/survey';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { GetOneSurveyResponseDto, SurveysResponseDto } from '../http/dto/surveys';
+import { GetAreasDto, GetOneSurveyResponseDto, SurveysResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 
 export const surveyRepository = {
     startGetSurveys: async (): Promise<SurveysPagination | string> => {
@@ -52,10 +52,38 @@ export const surveyRepository = {
     getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
         try {
             const { survey } = await http.get<GetOneSurveyResponseDto>(`/surveys/${surveyId}`);
-            return survey.map(({ user_id, total, answers, user }) => {
-                const answer = answers.map((currentAnswer) => ({ questionId: Number(currentAnswer.question_id), ...currentAnswer }));
-                return new SurveyUser(user_id, answer, total, { ...user, area: { id: user.area.id, name: user.area.nombreArea } });
+            return survey.map(({ user_id, total, user, status }) => {
+                return new SurveyUser(user_id, [], total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
             });
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    searchByNameAndArea: async (surveyId: string, name = '', area = ''): Promise<Array<SurveyUser> | string> => {
+        try {
+            const { survey } = await http.get<GetOneSurveyResponseDto>(`/surveys/${surveyId}/find-by?name=${name}&area=${area}`);
+            return survey.map(({ user_id, total, user, status, answers }) => {
+                return new SurveyUser(user_id, answers, total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
+            });
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getAreas: async (): Promise<Array<Area> | string> => {
+        try {
+            const { areas } = await http.get<GetAreasDto>(`/areas`);
+            return areas.map(({ id, nombreArea }) => new Area(id, nombreArea));
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getTotalUsers: async (): Promise<number | string> => {
+        try {
+            const { users } = await http.get<TotalUsersResponseDto>(`/survey/total-users`);
+            return users;
         } catch (error) {
             return error as string;
         }

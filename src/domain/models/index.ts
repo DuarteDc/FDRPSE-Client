@@ -1,3 +1,5 @@
+
+export { Area } from './Area';
 export { Category } from './Category';
 export { Dimension } from './Dimension';
 export { Domain } from './Domain';

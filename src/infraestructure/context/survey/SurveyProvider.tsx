@@ -18,6 +18,7 @@ export interface SurveyState {
     surveys     : Array<Survey> | []
     hasSurvey   : boolean | null;
     surveyUser  : Array<SurveyUser> | [];
+    users       : number;
 }
 
 const INITIAL_STATE: SurveyState = {
@@ -25,6 +26,7 @@ const INITIAL_STATE: SurveyState = {
     surveys     : [],
     hasSurvey   : null,
     surveyUser  : [],
+    users       : 0,
 }
 
 const SurveyProvider = ({ children }: Props) => {

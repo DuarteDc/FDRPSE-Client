@@ -6,6 +6,7 @@ export type SurveyActionType =
     | { type: 'SURVEY - Exist available survey', payload: boolean }
     | { type: 'SURVEY - Clear cache for available survey' }
     | { type: 'SURVEY - Get survey details', payload: Array<SurveyUser> }
+    | { type: 'SURVEY - Get total users', payload: number }
 
 export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
 
@@ -33,6 +34,12 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
             return {
                 ...state,
                 surveyUser: action.payload
+            }
+
+        case 'SURVEY - Get total users':
+            return {
+                ...state,
+                users: action.payload
             }
 
         default:

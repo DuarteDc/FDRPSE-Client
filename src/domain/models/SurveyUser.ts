@@ -1,12 +1,13 @@
 interface SurveyUserSchema {
     userId      : string;
-    answers     : Array<Answer>;
+    answers     : Array<Answer> | [];
     total       : string;
     user        : User;
+    status      : boolean;
 }
 
 interface Answer{
-    questionId      : number,
+    question_id      : number,
     name            : string;
     qualification   : number;
     category        : DetailAnswer;
@@ -21,9 +22,9 @@ interface DetailAnswer {
 }
 
 interface User {
-    id      : string;
-    nombre  : string;
-    userName: string;
+    id          : string;
+    name        : string;
+    last_name   : string;
     area    : {
         id      : string;
         name    : string;
@@ -34,16 +35,17 @@ export class SurveyUser implements SurveyUserSchema {
 
     
     readonly userId: string;
-    readonly answers: Answer[];
+    readonly answers: Answer[] | [];
     readonly total: string;
     readonly user: User;   
-    
+    readonly status: boolean; 
 
-    constructor(userId: string, answers: Answer[], total: string, user: User) {
+    constructor(userId: string, answers: Answer[], total: string, user: User, status: boolean) {
         this.userId     = userId;
         this.answers    = answers;
         this.total      = total;
         this.user       = user;
+        this.status     = status;
     }
 
 }
