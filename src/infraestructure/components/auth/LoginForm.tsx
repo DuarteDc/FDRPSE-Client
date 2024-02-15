@@ -64,16 +64,6 @@ export const LoginForm = () => {
                 <span>O</span>
                 <span className="w-full h-[2px] block bg-gray-400/40 ml-1"></span>
             </div>
-            <div className="flex justify-center">
-                <GoogleLogin
-                    onSuccess={credentialResponse => {
-                        console.log(credentialResponse);
-                    }}
-                    onError={() => {
-                        console.log('Login Failed');
-                    }}
-                />
-            </div>
         </div>
     )
 }

@@ -1,8 +1,8 @@
 export interface GetOneSurveyResponseDto {
-    survey: Array<SurveyDetail>;
+    survey: Array<SurveyDetailDto>;
 }
 
-interface SurveyDetail {
+export interface SurveyDetailDto {
     user_id: string;
     answers: Array<Answer>,
     user: User;

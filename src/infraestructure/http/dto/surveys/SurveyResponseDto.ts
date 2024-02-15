@@ -6,3 +6,8 @@ export interface SurveyResponseDto {
     created_at      : string;
     updated_at      : string;
 }
+
+export interface StartNewSurveyResponseDto {
+    survey: SurveyResponseDto;
+    messgae: string;
+}

@@ -1,10 +1,10 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Area, Survey, SurveyUser, User } from '../../domain/models';
+import { Area, Survey, SurveyUser } from '../../domain/models';
 import { SurveysPagination } from '../context/survey';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { GetAreasDto, GetOneSurveyResponseDto, SurveysResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
+import { GetAreasDto, GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, StartNewSurveyResponseDto, SurveysResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 
 export const surveyRepository = {
     startGetSurveys: async (): Promise<SurveysPagination | string> => {
@@ -17,6 +17,17 @@ export const surveyRepository = {
                 prevPageUrl: prev_page_url,
             }
         } catch (error) {
+            return error as string;
+        }
+    },
+
+    startNewSurvey: async (): Promise<Survey | string> => {
+        try {
+            const { survey, messgae } = await http.post<StartNewSurveyResponseDto>('/surveys/start', {});
+            succesAlert(messgae);
+            return new Survey(survey.id, survey.start_date, survey.end_date || '', survey.status, survey.created_at, survey.updated_at);
+        } catch (error) {
+            errorAlert(error as string);
             return error as string;
         }
     },
@@ -82,8 +93,17 @@ export const surveyRepository = {
 
     getTotalUsers: async (): Promise<number | string> => {
         try {
-            const { users } = await http.get<TotalUsersResponseDto>(`/survey/total-users`);
+            const { users } = await http.get<TotalUsersResponseDto>(`/surveys/total-users`);
             return users;
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getUserDetail: async (surveyId: string, userId: string): Promise<SurveyUser | string> => {
+        try {
+            const { survey_user } = await http.get<GetOneSurveyUserResponseDto>(`/surveys/details/${surveyId}/${userId}`);
+            return new SurveyUser(survey_user.user_id, survey_user.answers, survey_user.total, { id: survey_user.user.id, name: survey_user.user.nombre, last_name: `${survey_user.user.apellidoP} ${survey_user.user.apellidoM}`, area: { id: survey_user.user.area.id, name: survey_user.user.area.nombreArea } }, survey_user.status)
         } catch (error) {
             return error as string;
         }

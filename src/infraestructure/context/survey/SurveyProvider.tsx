@@ -14,19 +14,23 @@ export interface SurveysPagination {
 }
 
 export interface SurveyState {
-    survey      : Survey | null;
-    surveys     : Array<Survey> | []
-    hasSurvey   : boolean | null;
-    surveyUser  : Array<SurveyUser> | [];
-    users       : number;
+    survey              : Survey | null;
+    surveys             : Array<Survey> | []
+    hasSurvey           : boolean | null;
+    surveyUser          : Array<SurveyUser> | [];
+    users               : number;
+    userDetail          : SurveyUser | null;
+    totalUsersInSurvey  : number;
 }
 
 const INITIAL_STATE: SurveyState = {
-    survey      : null,
-    surveys     : [],
-    hasSurvey   : null,
-    surveyUser  : [],
-    users       : 0,
+    survey              : null,
+    surveys             : [],
+    hasSurvey           : null,
+    surveyUser          : [],
+    users               : 0,
+    userDetail          : null,
+    totalUsersInSurvey  : 0
 }
 
 const SurveyProvider = ({ children }: Props) => {

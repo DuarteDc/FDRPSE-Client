@@ -1,8 +1,8 @@
 import { http } from '../http/http';
 
-import { Category } from '../../domain/models';
+import { Category, CategoryQualifications } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { CateoriesResponseDto, CreateCategoryDto } from '../http/dto/categories';
+import { CategoriesWithQualificationDto, CateoriesResponseDto, CreateCategoryDto } from '../http/dto/categories';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
 export const categoriesRepository = {
@@ -24,6 +24,15 @@ export const categoriesRepository = {
         } catch (error) {
             errorAlert(error as string);
             return { message: error as string, success: false }
+        }
+    },
+
+    getCategoriesWithQualification: async (): Promise<Array<CategoryQualifications> | string> => {
+        try {
+            const { categories } = await http.get<CategoriesWithQualificationDto>('/categories/with/qualification');
+            return categories.map(({ id, name, created_at, qualification, updated_at }) => new CategoryQualifications(id, name, { ...qualification, veryHigh: qualification.very_hight }, created_at, updated_at));
+        } catch (error) {
+            return error as string;
         }
     }
 

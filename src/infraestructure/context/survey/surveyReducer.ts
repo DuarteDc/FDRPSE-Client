@@ -3,10 +3,12 @@ import { type SurveyState } from './';
 
 export type SurveyActionType =
     | { type: 'SURVEY - Get all surveys', payload: Array<Survey> }
+    | { type: 'SURVEY - Start new survey', payload: Survey }
     | { type: 'SURVEY - Exist available survey', payload: boolean }
     | { type: 'SURVEY - Clear cache for available survey' }
     | { type: 'SURVEY - Get survey details', payload: Array<SurveyUser> }
     | { type: 'SURVEY - Get total users', payload: number }
+    | { type: 'SURVEY - Get survey user detail', payload: SurveyUser }
 
 export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
 
@@ -16,6 +18,12 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
             return {
                 ...state,
                 surveys: action.payload
+            }
+
+        case 'SURVEY - Start new survey':
+            return {
+                ...state,
+                surveys: [...state.surveys, action.payload]
             }
 
         case 'SURVEY - Exist available survey':
@@ -33,13 +41,21 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
         case 'SURVEY - Get survey details':
             return {
                 ...state,
-                surveyUser: action.payload
+                surveyUser: action.payload,
+                totalUsersInSurvey: state.totalUsersInSurvey > 0 ? state.totalUsersInSurvey : action.payload.length,
             }
 
         case 'SURVEY - Get total users':
             return {
                 ...state,
                 users: action.payload
+            }
+
+
+        case 'SURVEY - Get survey user detail':
+            return {
+                ...state,
+                userDetail: action.payload,
             }
 
         default:

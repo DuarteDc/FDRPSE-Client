@@ -10,7 +10,7 @@ export const surveyService = () => {
     const [loading, setLoading] = useState(false);
     const [areas, setAreas] = useState<Array<Area>>([]);
     const navigate = useNavigate();
-    const { dispatch, surveys, hasSurvey, surveyUser } = useContext(SurveyContext);
+    const { dispatch, surveys, hasSurvey, surveyUser, users, userDetail, totalUsersInSurvey } = useContext(SurveyContext);
 
     const toggleLoading = () => setLoading(prev => !prev);
 
@@ -57,6 +57,24 @@ export const surveyService = () => {
         toggleLoading();
     }
 
+    const getTotalUsersInSurvey = async () => {
+        const response = await surveyRepository.getTotalUsers();
+        typeof response === 'number' && dispatch({ type: 'SURVEY - Get total users', payload: response });
+    }
+
+    const getUserDetail = async (surveyId: string, userId: string) => {
+        toggleLoading();
+        const response = await surveyRepository.getUserDetail(surveyId, userId);
+        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey user detail', payload: response });
+        toggleLoading();
+    }
+
+    const startNewSurvey = async () => {
+        toggleLoading();
+        const response = await surveyRepository.startNewSurvey();
+        typeof response !== 'string' && dispatch({ type: 'SURVEY - Start new survey', payload: response });
+        toggleLoading();
+    }
 
     return {
         loading,
@@ -64,7 +82,11 @@ export const surveyService = () => {
         hasSurvey,
         surveyUser,
         areas,
+        users,
+        totalUsersInSurvey,
+        userDetail,
         startGetSurveys,
+        startNewSurvey,
         startSurveyUser,
         endSurveyUser,
         hasAvailableSurvey,
@@ -72,6 +94,8 @@ export const surveyService = () => {
         getSurveyById,
         searchByNameAndArea,
         getAreasToSearch,
+        getTotalUsersInSurvey,
+        getUserDetail
     }
 
 }

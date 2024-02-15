@@ -1,7 +1,62 @@
-import React from 'react'
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { LoadingScreen } from '../ui';
+import { Fragment, useEffect } from 'react';
+import { surveyService } from '../../../domain/services/survey.service';
+import { trasformDataToBarChart } from '../../../app/helpers/transformDataToBarChart';
+import { categoriesService } from '../../../domain/services/categories.service';
+import { BarChart } from '../charts/BarChart';
+interface Props {
+  userId: string;
+  surveyId: string;
+}
 
-export const UserDetails = () => {
+export const UserDetails = ({ userId, surveyId }: Props) => {
+
+  const { getUserDetail, userDetail, loading } = surveyService();
+  const { startGetCategoriesWithQualifications, categoriesQualifications } = categoriesService();
+
+  useEffect(() => {
+    getUserDetail(surveyId, userId);
+    startGetCategoriesWithQualifications();
+  }, []);
+
   return (
-    <div>UserDetails</div>
+    <>
+      {(loading || !userDetail || !categoriesQualifications) ? <LoadingScreen title="Cargando ..." /> :
+        <Fragment>
+          <h3>{userDetail.user.name} {userDetail.user.last_name}</h3>
+          <section className="grid grid-cols-2">
+            <BarChart
+              data={trasformDataToBarChart(userDetail, categoriesQualifications)}
+            />
+          </section>
+          <Table aria-label="Example table with custom cells">
+            <TableHeader>
+              <TableColumn> # </TableColumn>
+              <TableColumn> Nombre </TableColumn>
+              <TableColumn> Calificación </TableColumn>
+              <TableColumn> Categoría </TableColumn>
+              <TableColumn> Domino </TableColumn>
+              <TableColumn> Dimension </TableColumn>
+            </TableHeader>
+            <TableBody>
+              {
+                userDetail?.answers?.map(({ name, qualification, category, dimension, domain }, index) => (
+                  <TableRow key={name} className="[&>td]:py-4">
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{qualification}</TableCell>
+                    <TableCell>{category.name || 'NA'}</TableCell>
+                    <TableCell>{dimension.name || 'NA'}</TableCell>
+                    <TableCell>{domain.name || 'NA'}</TableCell>
+
+                  </TableRow>
+                ))
+              }
+            </TableBody>
+          </Table>
+        </Fragment>
+      }
+    </>
   )
 }
