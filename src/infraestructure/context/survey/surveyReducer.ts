@@ -9,6 +9,7 @@ export type SurveyActionType =
     | { type: 'SURVEY - Get survey details', payload: Array<SurveyUser> }
     | { type: 'SURVEY - Get total users', payload: number }
     | { type: 'SURVEY - Get survey user detail', payload: SurveyUser }
+    | { type: 'SURVEY - End survey', payload: string }
 
 export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
 
@@ -23,7 +24,7 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
         case 'SURVEY - Start new survey':
             return {
                 ...state,
-                surveys: [...state.surveys, action.payload]
+                surveys: [action.payload, ...state.surveys]
             }
 
         case 'SURVEY - Exist available survey':
@@ -56,6 +57,12 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
             return {
                 ...state,
                 userDetail: action.payload,
+            }
+
+        case 'SURVEY - End survey':
+            return {
+                ...state,
+                surveys: state.surveys.map((survey) => survey.id === action.payload ? { ...survey, status: survey.status = !survey.status }: survey)
             }
 
         default:

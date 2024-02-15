@@ -9,7 +9,7 @@ export const categoriesRepository = {
 
     getCategories: async (): Promise<Array<Category> | string> => {
         try {
-            const { categories } = await http.get<CateoriesResponseDto>('/categories');
+            const { categories } = await http.get<CateoriesResponseDto>('/auth/categories');
             return categories.map(({ id, name, created_at, updated_at }) => new Category(id, name, created_at, updated_at));
         } catch (error) {
             return error as string;
@@ -18,7 +18,7 @@ export const categoriesRepository = {
 
     createCategory: async (createCategoryDto: CreateCategoryDto): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/categories/create', createCategoryDto);
+            const { message } = await http.post<CommonResponseDto>('/auth/categories/create', createCategoryDto);
             succesAlert(message)
             return { message, success: true }
         } catch (error) {
@@ -29,7 +29,7 @@ export const categoriesRepository = {
 
     getCategoriesWithQualification: async (): Promise<Array<CategoryQualifications> | string> => {
         try {
-            const { categories } = await http.get<CategoriesWithQualificationDto>('/categories/with/qualification');
+            const { categories } = await http.get<CategoriesWithQualificationDto>('/auth/categories/with/qualification');
             return categories.map(({ id, name, created_at, qualification, updated_at }) => new CategoryQualifications(id, name, { ...qualification, veryHigh: qualification.very_hight }, created_at, updated_at));
         } catch (error) {
             return error as string;

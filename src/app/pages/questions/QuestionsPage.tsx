@@ -15,7 +15,7 @@ export const QuestionsPage = () => {
     }, []);
 
     return (
-        <PageLayout title="Preguntas" navigateTo="/admin/">
+        <PageLayout title="Preguntas" navigateTo="/auth/">
             <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right" color="primary" as={Link} to="create"
                 startContent={
                     <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">

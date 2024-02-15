@@ -58,7 +58,9 @@ export const questionService = () => {
         localStorage.setItem('last_page', JSON.stringify(lastPage));
     }
 
-    
+    const clearNewQuestionCache = () => dispatch({ type: 'QUESTION - Clear new Question Cache' });
+
+
     return {
         loading,
         questions,
@@ -73,5 +75,6 @@ export const questionService = () => {
         clearQuestionBySection,
         saveQuestionUser,
         startGetQuestionsBySection,
+        clearNewQuestionCache,
     }
 }

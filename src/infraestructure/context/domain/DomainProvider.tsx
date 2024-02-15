@@ -1,11 +1,12 @@
 import { ReactNode, useReducer } from 'react';
-import { Domain } from '../../../domain/models';
+import { Domain, DomainQualifications } from '../../../domain/models';
 
 import { DomainContext, domainReducer } from './';
 
 export interface DomainState {
-    domain   : Domain | null;
-    domains  : Array<Domain>
+    domain                  : Domain | null;
+    domains                 : Array<Domain>
+    domainsQualifications   : Array<DomainQualifications>
 }
 
 interface Props {
@@ -13,8 +14,9 @@ interface Props {
 }
 
 const DOMAIN_INITIAL_STATE: DomainState = {
-    domain   : null,
-    domains  : []
+    domain                  : null,
+    domains                 : [],
+    domainsQualifications   : []
 }
 
 export const DomainProvider = ({ children }: Props) => {

@@ -19,7 +19,7 @@ export const ShowSurveyPage = () => {
   const [query, setQuery] = useState('');
   const [area, setArea] = useState('');
   const [userId, setUserId] = useState<string>();
-  
+
   useEffect(() => {
     getAreasToSearch();
     getTotalUsersInSurvey();
@@ -38,10 +38,10 @@ export const ShowSurveyPage = () => {
   }, [updated, area])
 
   return (
-    <PageLayout navigateTo="/admin/surveys" title="Detalle de cuestionario">
+    <PageLayout navigateTo="/auth/surveys" title="Detalle de cuestionario">
       <>
         {
-          loading ? <LoadingScreen title="Cargando ..."/> :
+          loading ? <LoadingScreen title="Cargando ..." /> :
             <>
               <section className="w-full px-10 grid grid-cols-1 lg:grid-cols-2 items-center place-items-center">
 
@@ -73,7 +73,7 @@ export const ShowSurveyPage = () => {
                   </CardFooter>
                 </Card>
               </section>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 py-5 text-emerald-600 items-center">
+              <div className="grid gap-y-3 lg:gap-y-0 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 py-5 text-emerald-600 items-center">
                 <Input
                   className="w-full"
                   placeholder="Buscar por nombre..."
@@ -135,14 +135,17 @@ export const ShowSurveyPage = () => {
                           </Chip>
                         </TableCell>
                         <TableCell>
-                          <Button onClick={() => { onOpen(); setUserId(user.id) }}
-                            className="bg-slate-800 text-white text-xs h-7 font-bold"
-                            endContent={
-                              <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
-                                <EyeIcon width={15} height={15} />
-                              </span>}>
-                            Ver
-                          </Button>
+                          {
+                            status &&
+                            <Button onClick={() => { onOpen(); setUserId(user.id) }}
+                              className="bg-slate-800 text-white text-xs h-7 font-bold"
+                              endContent={
+                                <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
+                                  <EyeIcon width={15} height={15} />
+                                </span>}>
+                              Ver
+                            </Button>
+                          }
                         </TableCell>
                       </TableRow>
                     ))
@@ -151,7 +154,7 @@ export const ShowSurveyPage = () => {
               </Table>
 
               <Modal
-                title="Detalle del usuario"
+                title=""
                 isOpen={isOpen}
                 onChange={onOpenChange}
                 size="full"

@@ -12,7 +12,7 @@ export class Survey implements SurveySchema {
     readonly id;
     readonly startDate;
     readonly endDate;
-    readonly status;
+    status;
     readonly createdAt;
     readonly updatedAt;
 

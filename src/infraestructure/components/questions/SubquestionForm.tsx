@@ -63,7 +63,21 @@ export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                                             color={currentQuestion?.section?.id === section.id ? "primary" : "default"}
                                             placement="top-right"
                                         >
-                                            <SectionCard section={section} handleSelectSection={setSectionBeforeSave} />
+                                            <Card key={section.id} isPressable onPress={() => { setSectionBeforeSave(section); onClose() }}
+                                                className={`${currentQuestion?.section?.id === section.id ? 'border-primary transition-all duration-700 ease-in' : 'border-transparent  hover:border-primary/60'} border-2 hover:transition-all hover:duration-700 hover:ease-out w-full min-h-[5rem]`}
+                                            >
+                                                <div className="text-xs flex items-center [&>span]:py-2 h-full">
+                                                    <span className="h-full px-4 bg-emerald-600 text-white flex items-center"><SectionIcon /></span>
+                                                    <span className="block px-2 text-left">
+                                                        <h3 className="font-bold my-2 flex">{section.name}</h3>
+                                                        {
+                                                            section.binary && (
+                                                                <span>{section.question} - {section.binary} Si/ No</span>
+                                                            )
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </Card>
                                         </Badge>
                                     ))
                                 }

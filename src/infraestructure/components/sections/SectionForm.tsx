@@ -41,7 +41,7 @@ export const SectionForm = ({ onClose }: Props) => {
                 onChange={formik.handleChange}
             />
             <RadioGroup
-                label="Seleciona la opción que necesitas"
+                label="¿La pregunta es opcional?"
                 orientation="horizontal"
                 name="binary"
                 defaultValue="false"
@@ -50,13 +50,13 @@ export const SectionForm = ({ onClose }: Props) => {
                 errorMessage={formik.touched.binary && formik.errors.binary && formik.errors.binary}
                 value={formik.values.binary + ''}
             >
-                <Radio value="false">No</Radio>
                 <Radio value="true">Si</Radio>
+                <Radio value="false">No</Radio>
             </RadioGroup>
             {
                 formik.values.binary && (
                     <Input
-                        placeholder="Nombre de la sección"
+                        placeholder="Nombre de la pregunta"
                         className="my-5 text-gray-500"
                         size="md"
                         name="question"

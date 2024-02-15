@@ -7,7 +7,7 @@ export const sectionRespository = {
 
     getSections: async (): Promise<Array<Section> | string> => {
         try {
-            const { sections } = await http.get<SectionsResponseDto>('/sections');
+            const { sections } = await http.get<SectionsResponseDto>('/auth/sections');
             return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
         } catch (error) {
             return error as string;
@@ -16,7 +16,7 @@ export const sectionRespository = {
 
     createSection: async (createSectionDto: CreateSectionDto): Promise<Section | string> => {
         try {
-            const { message, section } = await http.post<CreateSectioResponseDto>('/sections/create', createSectionDto);
+            const { message, section } = await http.post<CreateSectioResponseDto>('/auth/sections/create', createSectionDto);
             succesAlert(message);
             return new Section(section.id, section.name, section.question, section.binary, section.questions_count, section.created_at, section.updated_at);
         } catch (error) {
@@ -27,7 +27,7 @@ export const sectionRespository = {
 
     getSectionWithQuestions: async (): Promise<Array<Section> | string> => {
         try {
-            const { sections } = await http.get<SectionsResponseDto>('/sections/questions');
+            const { sections } = await http.get<SectionsResponseDto>('/auth/sections/questions');
             return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
         } catch (error) {
             return error as string;

@@ -15,16 +15,18 @@ export const CardQuestion = memo(({ question, showOptionQualification, buttonFun
     return (
         <div className="border-2 border-emerald-600 rounded-xl p-5 my-2 font-bold text-gray-600">
             {showOptionQualification && (
-                <Button
-                    className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right"
-                    onClick={buttonFunction}
-                    startContent={
-                        <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
-                            <StarsIcon height={20} width={20} />
-                        </span>
-                    }>
-                    {question?.qualification ? 'Cambiar calificación' : 'Agregar calificación'}
-                </Button>
+                <div className="flex justify-end">
+                    <Button
+                        className="bg-slate-800 text-white py-[23px] px-8 font-bold"
+                        onClick={buttonFunction}
+                        startContent={
+                            <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
+                                <StarsIcon height={20} width={20} />
+                            </span>
+                        }>
+                        {question?.qualification ? 'Cambiar calificación' : 'Agregar calificación'}
+                    </Button>
+                </div>
             )}
             <div className="py-2">
                 <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">

@@ -26,6 +26,7 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
     onSubmit: (data) => {
       if (!isBinary) {
         clearQuestionBySection();
+        if ((currentPage) === totalQuestions) return endSurveyUser();
         return startGetQuestionsBySection(currentPage! + 1);
       }
       saveQuestionUser(data, currentPage!).then(() => {

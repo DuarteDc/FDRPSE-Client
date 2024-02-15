@@ -9,7 +9,7 @@ import { GetAreasDto, GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, Star
 export const surveyRepository = {
     startGetSurveys: async (): Promise<SurveysPagination | string> => {
         try {
-            const { data, current_page, next_page_url, prev_page_url } = await http.get<SurveysResponseDto>('/surveys');
+            const { data, current_page, next_page_url, prev_page_url } = await http.get<SurveysResponseDto>('/auth/surveys');
             return {
                 surveys: data.map(({ id, start_date, end_date, status, created_at, updated_at }) => new Survey(id, start_date, end_date || '', status, created_at, updated_at)),
                 currentPage: current_page,
@@ -23,8 +23,8 @@ export const surveyRepository = {
 
     startNewSurvey: async (): Promise<Survey | string> => {
         try {
-            const { survey, messgae } = await http.post<StartNewSurveyResponseDto>('/surveys/start', {});
-            succesAlert(messgae);
+            const { survey, message } = await http.post<StartNewSurveyResponseDto>('/auth/surveys/start', {});
+            succesAlert(message);
             return new Survey(survey.id, survey.start_date, survey.end_date || '', survey.status, survey.created_at, survey.updated_at);
         } catch (error) {
             errorAlert(error as string);
@@ -34,7 +34,7 @@ export const surveyRepository = {
 
     startSurveyByUser: async (): Promise<CommonResponseDto> => {
         try {
-            return await http.post<CommonResponseDto>('/surveys/start-user', {});
+            return await http.post<CommonResponseDto>('/auth/surveys/start-user', {});
         } catch (error) {
             errorAlert(error as string);
             return { message: error as string, success: false }
@@ -43,7 +43,7 @@ export const surveyRepository = {
 
     endSurveyByUser: async (): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/surveys/end-user', {});
+            const { message } = await http.post<CommonResponseDto>('/auth/surveys/end-user', {});
             succesAlert(message);
             return { message, success: true }
         } catch (error) {
@@ -53,7 +53,7 @@ export const surveyRepository = {
 
     existAvailableSurvey: async (): Promise<boolean> => {
         try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>('/surveys/current');
+            const { survey } = await http.get<GetOneSurveyResponseDto>('/auth/surveys/current');
             return survey ? true : false;
         } catch (error) {
             return false;
@@ -62,7 +62,7 @@ export const surveyRepository = {
 
     getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
         try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>(`/surveys/${surveyId}`);
+            const { survey } = await http.get<GetOneSurveyResponseDto>(`/auth/surveys/${surveyId}`);
             return survey.map(({ user_id, total, user, status }) => {
                 return new SurveyUser(user_id, [], total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
             });
@@ -73,7 +73,7 @@ export const surveyRepository = {
 
     searchByNameAndArea: async (surveyId: string, name = '', area = ''): Promise<Array<SurveyUser> | string> => {
         try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>(`/surveys/${surveyId}/find-by?name=${name}&area=${area}`);
+            const { survey } = await http.get<GetOneSurveyResponseDto>(`/auth/surveys/${surveyId}/find-by?name=${name}&area=${area}`);
             return survey.map(({ user_id, total, user, status, answers }) => {
                 return new SurveyUser(user_id, answers, total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
             });
@@ -84,7 +84,7 @@ export const surveyRepository = {
 
     getAreas: async (): Promise<Array<Area> | string> => {
         try {
-            const { areas } = await http.get<GetAreasDto>(`/areas`);
+            const { areas } = await http.get<GetAreasDto>(`/auth/areas`);
             return areas.map(({ id, nombreArea }) => new Area(id, nombreArea));
         } catch (error) {
             return error as string;
@@ -93,7 +93,7 @@ export const surveyRepository = {
 
     getTotalUsers: async (): Promise<number | string> => {
         try {
-            const { users } = await http.get<TotalUsersResponseDto>(`/surveys/total-users`);
+            const { users } = await http.get<TotalUsersResponseDto>(`/auth/surveys/total-users`);
             return users;
         } catch (error) {
             return error as string;
@@ -102,10 +102,21 @@ export const surveyRepository = {
 
     getUserDetail: async (surveyId: string, userId: string): Promise<SurveyUser | string> => {
         try {
-            const { survey_user } = await http.get<GetOneSurveyUserResponseDto>(`/surveys/details/${surveyId}/${userId}`);
+            const { survey_user } = await http.get<GetOneSurveyUserResponseDto>(`/auth/surveys/details/${surveyId}/${userId}`);
             return new SurveyUser(survey_user.user_id, survey_user.answers, survey_user.total, { id: survey_user.user.id, name: survey_user.user.nombre, last_name: `${survey_user.user.apellidoP} ${survey_user.user.apellidoM}`, area: { id: survey_user.user.area.id, name: survey_user.user.area.nombreArea } }, survey_user.status)
         } catch (error) {
             return error as string;
+        }
+    },
+
+    finalizeSurvey: async (surveyId: string): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.post<CommonResponseDto>(`/auth/surveys/end/${surveyId}`, {});
+            succesAlert(message);
+            return { success: true, message };
+        } catch (error) {
+            errorAlert(error as string);
+            return { success: false, message: error as string };
         }
     }
 }

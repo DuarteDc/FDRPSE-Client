@@ -17,10 +17,10 @@ export const CategoriesPage = () => {
   }, []);
 
   return (
-    <PageLayout title="Categorías" navigateTo="/admin">
+    <PageLayout title="Categorías" navigateTo="/auth">
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 xl:gap-5 my-4 lg:mt-20">
         <CardList data={categories} loading={loading}>
-          <CardList.CreateItem title="Crear categoría" image={<PlusIcon />} onPress={()=> navigate('/admin/categories/create')}/> 
+          <CardList.CreateItem title="Crear categoría" image={<PlusIcon />} onPress={()=> navigate('/auth/categories/create')}/> 
         </CardList>
       </div>
     </PageLayout>

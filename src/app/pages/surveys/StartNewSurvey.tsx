@@ -11,7 +11,7 @@ export const StartNewSurvey = () => {
     }, []);
 
     return (
-        <PageLayout navigateTo="/admin/surveys" title="Comenzar encuesta">
+        <PageLayout navigateTo="/auth/surveys" title="Comenzar encuesta">
             <code>
                 {
                     JSON.stringify(sections)

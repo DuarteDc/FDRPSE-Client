@@ -1,10 +1,10 @@
 import { Button, useDisclosure } from '@nextui-org/react';
 import { PageLayout } from '../../../infraestructure/components/ui';
-import { PlusIcon, SectionIcon } from '../../../infraestructure/components/icons';
+import { PlusIcon } from '../../../infraestructure/components/icons';
 import { sectionService } from '../../../domain/services/section.service';
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
-import { SectionCard, SectionForm } from '../../../infraestructure/components/sections';
+import { SectionForm } from '../../../infraestructure/components/sections';
 import { SectionList } from '../../../infraestructure/components/sections/SectionList';
 
 export const SectionPage = () => {
@@ -18,7 +18,7 @@ export const SectionPage = () => {
     }, []);
 
     return (
-        <PageLayout title="Secciones" navigateTo="/admin">
+        <PageLayout title="Secciones" navigateTo="/auth">
             <span className="flex justify-end my-10">
                 <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold"
                     onClick={onOpen}

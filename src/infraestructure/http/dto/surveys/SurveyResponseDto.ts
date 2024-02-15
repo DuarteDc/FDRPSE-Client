@@ -9,5 +9,5 @@ export interface SurveyResponseDto {
 
 export interface StartNewSurveyResponseDto {
     survey: SurveyResponseDto;
-    messgae: string;
+    message: string;
 }

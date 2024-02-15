@@ -1,22 +1,27 @@
-import { CategoryQualifications, SurveyUser } from '../../domain/models';
+import { CategoryQualifications, DomainQualifications, SurveyUser } from '../../domain/models';
 
 interface Props {
     [key: string]: number;
 }
 
-export const trasformDataToBarChart = (surveyUser: SurveyUser, categories: Array<CategoryQualifications>) => {
+type dataType = 'category' | 'domain';
 
-    const x = surveyUser?.answers.reduce((prev: Props, curr) => {
-        const { category, qualification, } = curr;
-        prev[category.name] = prev[category.name] ? prev[category.name] + qualification : qualification;
+const tarnsformDataByType = (surveyUser: SurveyUser, type: dataType): Props => {
+    return surveyUser?.answers.reduce((prev: Props, curr) => {
+        const { qualification, } = curr;
+        prev[curr[type].name] = prev[curr[type].name] ? prev[curr[type].name] + qualification : qualification;
         return prev;
     }, {});
+}
 
-    return Object.entries(x).map(([key, value]) => {
+export const trasformDataToBarChart = (surveyUser: SurveyUser, type: dataType, data: Array<CategoryQualifications | DomainQualifications>) => {
+
+    const newData = tarnsformDataByType(surveyUser, type);
+    return Object.entries(newData).map(([key, value]) => {
         return {
             name: key,
             calificación: value,
-            qualifications: categories.map(({ qualification, name }) => {
+            qualifications: data.map(({ qualification, name }) => {
                 const { despicable, low, middle, high } = qualification;
                 return name === key ?
                     getNameOfQualification(+despicable, +low, +middle, +high, value)

@@ -8,9 +8,9 @@ export const authRepository = {
 
     signin: async (data: LoginRequestDto): Promise<User | undefined> => {
         try {
-            const { user, session } = await http.post<LoginResponseDto>('/auth/signin', data);
+            const { user, session } = await http.post<LoginResponseDto>('/signin', data);
             storage.set('session', session);
-            return new User(user.id, user.nombre, user.apellidoP, user.userName, user.issemym);
+            return new User(user.id, user.nombre, user.apellidoP, user.userName, user.tipo);
         } catch (error) {
             alert(error as string);
         }
@@ -18,9 +18,9 @@ export const authRepository = {
 
     revalidateSession: async (): Promise<User | undefined> => {
         try {
-            const { user, session } = await http.get<LoginResponseDto>('/auth/me');
+            const { user, session } = await http.get<LoginResponseDto>('/me');
             storage.set('session', session);
-            return new User(user.id, user.nombre, user.apellidoP, user.userName, user.issemym);
+            return new User(user.id, user.nombre, user.apellidoP, user.userName, user.tipo);
         } catch (error) {
             storage.remove('session');
         }

@@ -3,7 +3,7 @@ interface UserSchema  {
     name        : string;
     lastName    : string;
     userName    : string;
-    issemym     : string;
+    role        : string;
 }
 
 export class User implements UserSchema {
@@ -12,14 +12,14 @@ export class User implements UserSchema {
     readonly name;
     readonly lastName;
     readonly userName;
-    readonly issemym;
+    readonly role;
 
-    constructor(id: string, name: string, lastName: string, userName: string, issemym: string) { 
+    constructor(id: string, name: string, lastName: string, userName: string, role: string) { 
         this.id         = id;
         this.name       = name;
         this.lastName   = lastName;
         this.userName   = userName;
-        this.issemym    = issemym;
+        this.role       = role;
     }
 
 }

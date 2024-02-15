@@ -12,14 +12,17 @@ import { questionService } from '../../../domain/services/question.service';
 export const CreateQuestionPage = () => {
 
     const { startGetCategoriesDomainAndDimenstions } = useQuestion();
-    const { loading } = questionService();
+    const { loading, clearNewQuestionCache } = questionService();
 
     useEffect(() => {
         startGetCategoriesDomainAndDimenstions();
+        return () => {
+            clearNewQuestionCache();
+        }
     }, []);
     
     return (
-        <PageLayout title="Crear Pregunta" navigateTo="/admin/questions">
+        <PageLayout title="Crear Pregunta" navigateTo="/auth/questions">
             <Steper
                 steps={QUESTION_STEPS}
                 renderButtons={({ step, backStep, nextStep }) =>

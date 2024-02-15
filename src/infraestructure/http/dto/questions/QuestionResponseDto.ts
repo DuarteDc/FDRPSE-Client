@@ -12,7 +12,7 @@ export interface CommonQuestionResponseDto {
     section         ?: SectionResponseDto,
     category        ?: CategoryResponseDto,
     qualification   ?: QualificationResponseDto,
-    dimesion        ?: DimensionResponseDto,
+    dimension        ?: DimensionResponseDto,
     domain          ?: DomainResponseDto
 }
 

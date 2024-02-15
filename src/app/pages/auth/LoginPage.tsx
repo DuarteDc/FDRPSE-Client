@@ -10,8 +10,10 @@ export const LoginPage = () => {
           <div className="flex items-center justify-center col-span-4">
             <img
               src="/assets/signin.svg"
-              width={600}
-              height={400}
+              width={80}
+              height={80}
+              alt="Icon-login"
+              className="w-[8rem] h-[8rem] md:w-[20rem] md:h-[20rem] xl:w-[35rem] lg:h-[35rem]"
             />
           </div>
           <LoginForm />

@@ -3,5 +3,5 @@ export interface UserDto {
     nombre      : string;
     userName    : string;
     apellidoP   : string;
-    issemym     : string;
+    tipo        : string;
 }

@@ -21,7 +21,7 @@ export const CategoriesList = ({ categories, loading, navigate }: Props) => {
                         <>
                             <Card 
                                 title="Crear categoría"  
-                                onPress={() => navigate('/auth/admin/categories/create')} 
+                                onPress={() => navigate('/auth/auth/categories/create')} 
                                 image={<PlusIcon width={50} height={50} />} 
                             />
                             {

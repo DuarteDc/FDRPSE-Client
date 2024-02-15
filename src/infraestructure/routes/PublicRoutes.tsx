@@ -11,5 +11,5 @@ export const PublicRoutes = ({ children }: Props) => {
 
     const { logged } = useContext(AuthContext);
 
-    return logged ? <Navigate to="/admin/" replace /> : children;
+    return logged ? <Navigate to="/auth/" replace /> : children;
 }

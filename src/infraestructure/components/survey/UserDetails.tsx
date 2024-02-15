@@ -5,6 +5,7 @@ import { surveyService } from '../../../domain/services/survey.service';
 import { trasformDataToBarChart } from '../../../app/helpers/transformDataToBarChart';
 import { categoriesService } from '../../../domain/services/categories.service';
 import { BarChart } from '../charts/BarChart';
+import { domianService } from '../../../domain/services/domian.service';
 interface Props {
   userId: string;
   surveyId: string;
@@ -14,10 +15,12 @@ export const UserDetails = ({ userId, surveyId }: Props) => {
 
   const { getUserDetail, userDetail, loading } = surveyService();
   const { startGetCategoriesWithQualifications, categoriesQualifications } = categoriesService();
+  const { startDomainsWithQualifications, domainsQualifications } = domianService();
 
   useEffect(() => {
     getUserDetail(surveyId, userId);
     startGetCategoriesWithQualifications();
+    startDomainsWithQualifications();
   }, []);
 
   return (
@@ -25,9 +28,12 @@ export const UserDetails = ({ userId, surveyId }: Props) => {
       {(loading || !userDetail || !categoriesQualifications) ? <LoadingScreen title="Cargando ..." /> :
         <Fragment>
           <h3>{userDetail.user.name} {userDetail.user.last_name}</h3>
-          <section className="grid grid-cols-2">
+          <section className="grid grid-cols-1 lg:grid-cols-2 overflow-scroll">
             <BarChart
-              data={trasformDataToBarChart(userDetail, categoriesQualifications)}
+              data={trasformDataToBarChart(userDetail, 'category', categoriesQualifications)}
+            />
+            <BarChart
+              data={trasformDataToBarChart(userDetail, 'domain', domainsQualifications)}
             />
           </section>
           <Table aria-label="Example table with custom cells">
@@ -47,8 +53,8 @@ export const UserDetails = ({ userId, surveyId }: Props) => {
                     <TableCell>{name}</TableCell>
                     <TableCell>{qualification}</TableCell>
                     <TableCell>{category.name || 'NA'}</TableCell>
-                    <TableCell>{dimension.name || 'NA'}</TableCell>
                     <TableCell>{domain.name || 'NA'}</TableCell>
+                    <TableCell>{dimension.name || 'NA'}</TableCell>
 
                   </TableRow>
                 ))

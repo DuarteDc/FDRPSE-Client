@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import { HomePage } from '../../app/pages';
-import { UserQuestion } from '../../app/pages/user-questions/UserQuestion';
-import { SuccessAnswer } from '../../app/pages/user-questions/SuccessAnswer.server';
 import { CanAnswerQuestions } from '../middlewares/user/CanAnswerQuestions';
+import { HomePage } from '../../app/pages';
+import { NoAvailableSurveys, SuccessAnswer, UserQuestion } from '../../app/pages/user-questions';
 
 export const UserRoutes = () => {
     return (
@@ -16,7 +15,7 @@ export const UserRoutes = () => {
                     </Routes>
                 </CanAnswerQuestions>
             } />
-            <Route path="/no-available" element={<h1>xD</h1>} />
+            <Route path="/no-available" element={<NoAvailableSurveys />} />
         </Routes>
     )
 }

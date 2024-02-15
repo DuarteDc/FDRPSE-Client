@@ -3,7 +3,7 @@ import { FormCategory } from '../../../infraestructure/components/categories';
 
 export const CreateCategoryPage = () => {
   return (
-    <PageLayout title="Crear categoría" navigateTo="/admin/categories">
+    <PageLayout title="Crear categoría" navigateTo="/auth/categories">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-10 mt-20">
         <FormCategory />
         <div className="lg:flex justify-center hidden">

@@ -10,6 +10,7 @@ export type QuestionActionType =
     | { type: 'QUESTION - Set section before save', payload: Section }
     | { type: 'QUESTION - Get Question to user', payload: QuestionsBySectionResponse }
     | { type: 'QUESTION - Clear Question Cache' }
+    | { type: 'QUESTION - Clear new Question Cache' }
 
 export const questionReducer = (state: QuestionState, action: QuestionActionType) => {
     switch (action.type) {
@@ -60,6 +61,11 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
             }
 
 
+        case 'QUESTION - Clear new Question Cache': 
+            return {
+                ...state,
+                question: null,
+            }
         default:
             return state;
     }

@@ -8,7 +8,7 @@ export const questionRepository = {
 
     getQuestions: async (): Promise<Array<Question> | string> => {
         try {
-            const { questions } = await http.get<QuestionsResponseDto>('/questions');
+            const { questions } = await http.get<QuestionsResponseDto>('/auth/questions');
             return questions.map(({ id, name, created_at, updated_at }) => new Question(id, name, created_at, updated_at));
         } catch (error) {
             return error as string;
@@ -17,7 +17,7 @@ export const questionRepository = {
 
     createQuestion: async (createQuestionDto: CreateQuestionDto): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/questions/create', createQuestionDto);
+            const { message } = await http.post<CommonResponseDto>('/auth/questions/create', createQuestionDto);
             succesAlert(message);
             return { message, success: true }
         } catch (error) {
@@ -28,8 +28,8 @@ export const questionRepository = {
 
     getQuestionById: async (questionId: string): Promise<Question | string> => {
         try {
-            const { question } = await http.get<QuestionResponseDto>(`/questions/${questionId}`);
-            return new Question(question.id, question.name, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimesion, question?.domain);
+            const { question } = await http.get<QuestionResponseDto>(`/auth/questions/${questionId}`);
+            return new Question(question.id, question.name, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimension, question?.domain);
         } catch (error) {
             return error as string;
         }
@@ -37,7 +37,7 @@ export const questionRepository = {
 
     getQuestionBySection: async (page: number): Promise<QuestionsBySectionResponse | string> => {
         try {
-            const response = await http.get<QuestionsBySectionResponse>(`/questions/section?page=${page}`);
+            const response = await http.get<QuestionsBySectionResponse>(`/auth/questions/section?page=${page}`);
             return response;
         } catch (error) {
             return error as string;
@@ -46,7 +46,7 @@ export const questionRepository = {
 
     saveUserAnswers: async (saveUserQuestionDto: SaveUserQuestionDto): Promise<CommonResponseDto> => {
         try {
-            const { message, success } = await http.post<CommonResponseDto>('/surveys/save-questions', saveUserQuestionDto);
+            const { message, success } = await http.post<CommonResponseDto>('/auth/surveys/save-questions', saveUserQuestionDto);
             succesAlert(message);
             return { message, success }
         } catch (error) {

@@ -10,42 +10,37 @@ interface Routes {
 export const routes: Array<Routes> = [
     {
         name: 'Inicio',
-        path: '/admin',
+        path: '/auth',
         icon: HomeIcon,
     },
     {
-        name: 'Encuestas',
-        path: '/admin/surveys',
+        name: 'Cuestionarios',
+        path: '/auth/surveys',
         icon: FileDescription,
     },
     {
         name: 'Secciones',
-        path: '/admin/sections',
+        path: '/auth/sections',
         icon: SectionIcon,
     },
     {
         name: 'Preguntas',
-        path: '/admin/questions',
+        path: '/auth/questions',
         icon: QuestionIcon,
     },
     {
         name: 'Categorías',
-        path: '/admin/categories',
+        path: '/auth/categories',
         icon: CategoryIcon,
     },
     {
         name: 'Dominios',
-        path: '/admin/domains',
+        path: '/auth/domains',
         icon: BoxIcon,
     },
     {
         name: 'Dimensiones',
-        path: '/admin/dimensions',
-        icon: DimensionsIcon,
-    },
-    {
-        name: 'Dimensiones',
-        path: '/admin/user-questions',
+        path: '/auth/dimensions',
         icon: DimensionsIcon,
     }
 ]

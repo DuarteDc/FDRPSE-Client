@@ -8,7 +8,7 @@ import type { LoginRequestDto } from '../../infraestructure/http/dto/auth';
 
 export const authService = () => {
 
-    const { dispatch } = useContext(AuthContext);
+    const { dispatch, user } = useContext(AuthContext);
 
     const [loading, setLoading] = useState(false);
 
@@ -36,5 +36,5 @@ export const authService = () => {
     }
 
 
-    return { startSignin, startRevalidateSession, loading, startLogout }
+    return { startSignin, startRevalidateSession, loading, startLogout, user }
 }

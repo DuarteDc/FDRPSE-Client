@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
+import { AdminRoutes, AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
 import { Layout } from '../components/ui';
-import { HomePage, LoginPage, } from '../../app/pages/';
+import { HomeAdminPage, LoginPage, } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
 import { SectionProvider } from '../context/section';
 import { DomainProvider } from '../context/domain';
@@ -22,35 +22,45 @@ export const MainRouter = () => {
                 </PublicRoutes>
             } />
             <Route
-                path="/admin/*" element={
+                path="/auth/*" element={
                     <AuthRoutes>
                         <Layout>
                             <Routes>
-                                <Route path="*" element={
-                                    <CategoryProvider>
-                                        <SectionProvider>
-                                            <DomainProvider>
-                                                <DimensionProvider>
-                                                    <QuestionProvider>
-                                                        <QualificationProvider>
-                                                            <SurveyProvider>
-                                                                <Routes>
-                                                                    <Route path="/" index element={<h1>xd</h1>} />
-                                                                    <Route path="surveys/*" index element={<SurveyRoutes />} />
-                                                                    <Route path="sections/*" index element={<SectionRoutes />} />
-                                                                    <Route path="/categories/*" index element={<CategoryRoutes />} />
-                                                                    <Route path="/domains/*" index element={<DomainRoutes />} />
-                                                                    <Route path="/dimensions/*" index element={<DimensionRoutes />} />
-                                                                    <Route path="/questions/*" index element={<QuestionRoutes />} />
-                                                                    <Route path="user-questions/*" index element={<UserRoutes />} />
-                                                                </Routes>
-                                                            </SurveyProvider>
-                                                        </QualificationProvider>
-                                                    </QuestionProvider>
-                                                </DimensionProvider>
-                                            </DomainProvider>
-                                        </SectionProvider>
-                                    </CategoryProvider>
+                                <Route path="/*" element={
+                                    <AdminRoutes>
+                                        <CategoryProvider>
+                                            <SectionProvider>
+                                                <DomainProvider>
+                                                    <DimensionProvider>
+                                                        <QuestionProvider>
+                                                            <QualificationProvider>
+                                                                <SurveyProvider>
+                                                                    <Routes>
+                                                                        <Route path="/" index element={<HomeAdminPage />} />
+                                                                        <Route path="surveys/*" index element={<SurveyRoutes />} />
+                                                                        <Route path="sections/*" index element={<SectionRoutes />} />
+                                                                        <Route path="/categories/*" index element={<CategoryRoutes />} />
+                                                                        <Route path="/domains/*" index element={<DomainRoutes />} />
+                                                                        <Route path="/dimensions/*" index element={<DimensionRoutes />} />
+                                                                        <Route path="/questions/*" index element={<QuestionRoutes />} />
+                                                                    </Routes>
+                                                                </SurveyProvider>
+                                                            </QualificationProvider>
+                                                        </QuestionProvider>
+                                                    </DimensionProvider>
+                                                </DomainProvider>
+                                            </SectionProvider>
+                                        </CategoryProvider>
+                                    </AdminRoutes>
+                                } />
+                                <Route path="/user/*" element={
+                                    <QuestionProvider>
+                                        <SurveyProvider>
+                                            <Routes>
+                                                <Route path="questions/*" index element={<UserRoutes />} />
+                                            </Routes>
+                                        </SurveyProvider>
+                                    </QuestionProvider>
                                 } />
                             </Routes>
                         </Layout>

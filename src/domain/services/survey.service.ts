@@ -76,6 +76,13 @@ export const surveyService = () => {
         toggleLoading();
     }
 
+    const startFinalizeSurvey = async (surveyId: string) => {
+        toggleLoading();
+        const { success } = await surveyRepository.finalizeSurvey(surveyId);
+        success && dispatch({ type: 'SURVEY - End survey', payload: surveyId });
+        toggleLoading();
+    }
+
     return {
         loading,
         surveys,
@@ -95,7 +102,8 @@ export const surveyService = () => {
         searchByNameAndArea,
         getAreasToSearch,
         getTotalUsersInSurvey,
-        getUserDetail
+        getUserDetail,
+        startFinalizeSurvey,
     }
 
 }
