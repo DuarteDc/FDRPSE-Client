@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 export const loginValidation = () => ({
     username: Yup.string().required('El campo de usuario es obligatorio'),
-    password: Yup.string().min(8, 'La contraseña debe contener al menos 8 caracteres').required('El campo de contraseña es obligatorio'),
+    password: Yup.string().min(5, 'La contraseña debe contener al menos 5 caracteres').required('El campo de contraseña es obligatorio'),
 });
 
 export const forgotPasswordValidations = () => ({

@@ -16,7 +16,7 @@ export const HomePage = () => {
                 <div className="flex flex-col justify-center col-span-3">
                     <h1 className="text-5xl md:text-7xl font-bold lg:mb-10 mt-10">HOLA <b className="text-emerald-600 capitalize">{`${user?.userName}`}</b></h1>
                     <span className="lg:hidden mx-auto my-10">
-                        <img src="/assets/question-home.svg" alt="home-icon" loading="lazy" width="200" height="200" />
+                        <img src="/cuestionario/public/assets/question-home.svg" alt="home-icon" loading="lazy" width="200" height="200" />
                     </span>
                     <h2 className="text-lg my-5 text-gray-600">Bienvenido al portal <b>Identificación y analisis de los factores de riesgo psicologicos y evaluación del entorno de organizacional en los centros de trabajo.</b></h2>
                     <p className="text-xs mb-6 text-gray-600">
@@ -28,7 +28,7 @@ export const HomePage = () => {
                     </Button>
                 </div>
                 <div className="hidden col-span-4 lg:flex justify-end">
-                    <img src="/assets/question-home.svg" alt="home-icon" loading="eager" width="600" height="600" />
+                    <img src="/cuestionario/public/assets/question-home.svg" alt="home-icon" loading="eager" width="600" height="600" />
                 </div>
             </div>
         </div>

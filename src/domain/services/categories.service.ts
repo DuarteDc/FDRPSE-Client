@@ -2,11 +2,13 @@ import { useContext, useState } from 'react';
 import { CategoryContext } from '../../infraestructure/context/category';
 import { categoriesRepository } from '../../infraestructure/repositories/categories.respository';
 import { CreateCategoryDto } from '../../infraestructure/http/dto/categories';
+import { useNavigate } from 'react-router-dom';
 
 export const categoriesService = () => {
 
     const [loading, setLoading] = useState(false);
     const { dispatch, categories, categoriesQualifications } = useContext(CategoryContext);
+    const navigate = useNavigate();
 
     const startGetCategories = async (): Promise<void> => {
         setLoading(true);
@@ -17,7 +19,8 @@ export const categoriesService = () => {
 
     const startCreateCategory = async (createCategoryDto: CreateCategoryDto): Promise<void> => {
         setLoading(true);
-        await categoriesRepository.createCategory(createCategoryDto);
+        const { success } = await categoriesRepository.createCategory(createCategoryDto);
+        success && navigate(-1);
         setLoading(false);
     }
 

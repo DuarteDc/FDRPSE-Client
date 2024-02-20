@@ -3,6 +3,7 @@ import { storage } from '../local-storage/localStorage';
 
 import { LoginRequestDto, LoginResponseDto } from '../http/dto/auth';
 import { User } from '../../domain/models/User';
+import { errorAlert } from '../alert/alerts';
 
 export const authRepository = {
 
@@ -12,7 +13,7 @@ export const authRepository = {
             storage.set('session', session);
             return new User(user.id, user.nombre, user.apellidoP, user.userName, user.tipo);
         } catch (error) {
-            alert(error as string);
+            errorAlert(error as string);
         }
     },
 

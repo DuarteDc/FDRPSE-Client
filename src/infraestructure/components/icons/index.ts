@@ -1,4 +1,6 @@
 
+
+
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
@@ -12,11 +14,13 @@ export { CircleCheck } from './CircleCheck';
 export { ClearAllIcon } from './ClearAllIcon';
 export { DimensionsIcon } from './DimensionsIcon';
 export { EyeIcon } from './EyeIcon';
+export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
 export { GoogleIcon } from './GoogleIcon';
 export { HomeIcon } from './HomeIcon';
 export { LineIcon } from './LineIcon';
 export { LockIcon } from './LockIcon';
+export { LogoutIcon } from './LogoutIcon';
 export { NumbersIcon } from './NumbersIcon';
 export { PlayerPlay } from './PlayerPlay';
 export { PlayListIcon } from './PlayListIcon';

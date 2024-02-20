@@ -29,7 +29,7 @@ export const trasformDataToBarChart = (surveyUser: SurveyUser, type: dataType, d
             }).find(value => value !== 'NA')
         }
     }
-    );
+    ).filter(data => data.name !== '');
 }
 
 

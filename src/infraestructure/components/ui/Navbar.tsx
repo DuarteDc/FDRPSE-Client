@@ -6,7 +6,7 @@ import { authService } from '../../../domain/services/auth.service';
 
 interface Props {
     toggleDrawer: () => void;
-    isOpen      : boolean;
+    isOpen: boolean;
 }
 export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
 
@@ -33,7 +33,7 @@ export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
                             color="success"
                             name={`${user?.name} ${user?.lastName}`}
                             size="sm"
-                            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                            src={`https://ui-avatars.com/api?name=${user?.userName}&background=EAFAF5&`}
                         />
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Profile Actions" variant="flat">

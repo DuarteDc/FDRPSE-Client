@@ -1,17 +1,22 @@
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { GoogleLogin } from '@react-oauth/google';
 import { Button, Input, Spinner } from '@nextui-org/react';
 2
-import { LockIcon, UserIcon } from '../icons';
+import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '../icons';
 import { loginValidation } from '../../validations/auth.validations';
 import { authService } from '../../../domain/services/auth.service';
 
 import { LoginRequestDto } from '../../http/dto/auth';
+import { useState } from 'react';
 
 export const LoginForm = () => {
 
     const { startSignin, loading } = authService();
+
+
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const formik = useFormik({
         initialValues: { username: '', password: '' },
@@ -39,10 +44,19 @@ export const LoginForm = () => {
                     placeholder="Contraseña"
                     className="my-5 text-gray-500"
                     name="password"
-                    type="password"
+                    type={isVisible ? "text" : "password"}
                     size="md"
                     startContent={
                         <LockIcon />
+                    }
+                    endContent={
+                        <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                            {isVisible ? (
+                                <EyeOffIcon />
+                            ) : (
+                                <EyeIcon />
+                            )}
+                        </button>
                     }
                     isInvalid={formik.touched.password && formik.errors.password ? true : false}
                     errorMessage={formik.touched.password && formik.errors.password && formik.errors.password}

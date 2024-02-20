@@ -47,6 +47,25 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
                 <Select
+                    label="Dimensiones"
+                    name="dimension_id"
+                    size="md"
+                    className="my-2 text-gray-500"
+                    startContent={<DimensionsIcon />}
+                    onChange={formik.handleChange}
+                    selectedKeys={[`${formik.values?.dimension_id}`]}
+                    isInvalid={formik.touched.dimension_id && formik.errors.dimension_id ? true : false}
+                    errorMessage={formik.touched.dimension_id && formik.errors.dimension_id && formik.errors.dimension_id}
+                >
+                    {
+                        dimensions?.map(({ id, name }) => (
+                            <SelectItem value={`${id}`} key={id}>
+                                {name}
+                            </SelectItem>
+                        ))
+                    }
+                </Select>
+                <Select
                     label="Categorías"
                     name="category_id"
                     size="md"
@@ -85,25 +104,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                         ))
                     }
                 </Select>
-                <Select
-                    label="Dimensiones"
-                    name="dimension_id"
-                    size="md"
-                    className="my-2 text-gray-500"
-                    startContent={<DimensionsIcon />}
-                    onChange={formik.handleChange}
-                    selectedKeys={[`${formik.values?.dimension_id}`]}
-                    isInvalid={formik.touched.dimension_id && formik.errors.dimension_id ? true : false}
-                    errorMessage={formik.touched.dimension_id && formik.errors.dimension_id && formik.errors.dimension_id}
-                >
-                    {
-                        dimensions?.map(({ id, name }) => (
-                            <SelectItem value={`${id}`} key={id}>
-                                {name}
-                            </SelectItem>
-                        ))
-                    }
-                </Select>
+
             </div>
         </form>
     )

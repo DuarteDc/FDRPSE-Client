@@ -15,7 +15,7 @@ export const Table = ({ headerColumns, dataRow }: Props) => {
         <MainTable aria-label="Ususarios" color="danger">
             <TableHeader>
                 {
-                    headerColumns.map(({ name, icon }) => (
+                    headerColumns.map(({ name }) => (
                         <TableColumn key={name}> {name} </TableColumn>
                     ))
                 }

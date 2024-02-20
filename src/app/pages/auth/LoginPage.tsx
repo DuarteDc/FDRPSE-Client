@@ -9,7 +9,7 @@ export const LoginPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-7 w-full">
           <div className="flex items-center justify-center col-span-4">
             <img
-              src="/assets/signin.svg"
+              src="/cuestionario/public/assets/signin.svg"
               width={80}
               height={80}
               alt="Icon-login"

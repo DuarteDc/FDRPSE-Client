@@ -38,7 +38,7 @@ export const ShowSurveyPage = () => {
   }, [updated, area])
 
   return (
-    <PageLayout navigateTo="/auth/surveys" title="Detalle de cuestionario">
+    <PageLayout navigateTo="/auth" title="Detalle de cuestionario">
       <>
         {
           loading ? <LoadingScreen title="Cargando ..." /> :
@@ -158,7 +158,7 @@ export const ShowSurveyPage = () => {
                 isOpen={isOpen}
                 onChange={onOpenChange}
                 size="full"
-                renderContent={(onClose) => (
+                renderContent={() => (
                   <Fragment>
                     <UserDetails
                       surveyId={id!}

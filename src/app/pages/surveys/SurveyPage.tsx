@@ -1,13 +1,16 @@
 import { Fragment, useEffect, useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
-import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
-import { Button, Chip, ModalFooter, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
+import { LoadingScreen } from '../../../infraestructure/components/ui';
+import { Button, Card, CardBody, Chip, ModalFooter, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
 import { CircleCheck, EyeIcon, PlayerPlay, QuestionIcon } from '../../../infraestructure/components/icons';
 import { Link } from 'react-router-dom';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
+import { parseDate } from '../../helpers/parseDate';
+import { authService } from '../../../domain/services/auth.service';
 
 export const SurveyPage = () => {
 
+  const { user } = authService();
   const { startGetSurveys, surveys, startNewSurvey, loading, startFinalizeSurvey } = surveyService();
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -18,11 +21,20 @@ export const SurveyPage = () => {
   }, []);
 
   return (
+    <>
+      <Card className="p-10 bg-emerald-600/10">
+        <CardBody className=" grid grid-cols-1 lg:grid-cols-2 lg:grid-col-2">
+          <div>
+            <span className="text-3xl lg:text-6xl mb-5 block text-slate-800">Bienvenido de vuelta </span>
+            <span className="text-emerald-600 text-2xl lg:text-5xl font-bold">{user?.name}</span>
+          </div>
+          <div className="lg:flex justify-end text-slate-800 font-bold text-sm lg:text-lg">
+            <span>{parseDate(new Date())}</span>
+          </div>
+        </CardBody>
+      </Card>
+      {loading && <LoadingScreen title="Cargando ..." />}
 
-    <PageLayout navigateTo="/auth" title="Cuestionarios">
-      <>
-        {loading && <LoadingScreen title="Cargando ..." />}
-      </>
       <span className="flex justify-end my-10">
         <Button className="bg-slate-800 text-white py-6 px-8 font-bold" onClick={startNewSurvey}
           startContent={
@@ -108,7 +120,7 @@ export const SurveyPage = () => {
           </Fragment>
         )}
       />
-    </PageLayout >
+    </>
 
   )
 }

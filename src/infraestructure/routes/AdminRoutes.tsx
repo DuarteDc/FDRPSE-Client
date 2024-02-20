@@ -7,7 +7,7 @@ interface Props {
     children   : ReactNode | Array<ReactNode>
 }
 
-const ADMIN_ROLE = "5";
+export const ADMIN_ROLE = "5";
 
 export const AdminRoutes = ({ children }: Props) => {
 

@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from 'react';
 
 import { Drawer } from '../ui';
 import { QualificationList } from '../qualification';

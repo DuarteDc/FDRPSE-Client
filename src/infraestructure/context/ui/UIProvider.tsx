@@ -15,10 +15,10 @@ interface Props {
 }
 
 export const UIProvider = ({ children }: Props) => {
-    const [state, dispatch] = useReducer(uiReducer, UI_INITIAL_STATE);
+    const [state, __] = useReducer(uiReducer, UI_INITIAL_STATE);
 
     return (
-        <UIContext.Provider value={{ ...state }}>
+        <UIContext.Provider value={{ ...state, }}>
             {children}
         </UIContext.Provider>
     )

@@ -17,7 +17,7 @@ export const FormDimension = () => {
     })
 
     return (
-        <div>
+        <div className="col-span-2">
             <h2 className="bg-gradient-to-r from-primary to-emerald-600 inline-block text-transparent bg-clip-text text-base font-bold mt-40">Crea una dimensión para agrupar tus pregustas</h2>
             <form className="mt-10" onSubmit={formik.handleSubmit}>
                 <Input

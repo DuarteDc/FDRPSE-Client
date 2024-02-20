@@ -4,7 +4,6 @@ import { Badge, Button, Card, useDisclosure } from '@nextui-org/react';
 import { CheckIcon, QuestionIcon, SectionIcon } from '../icons';
 import { Modal } from '../ui/Modal';
 import { useQuestion } from '../../../app/hooks/useQuestion';
-import { SectionCard } from '../sections';
 
 
 export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {

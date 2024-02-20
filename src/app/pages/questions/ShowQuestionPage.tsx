@@ -7,10 +7,13 @@ import { useParams } from 'react-router-dom';
 export const ShowQuestionPage = () => {
 
   const { id } = useParams();
-  const { startShowQuestion, question } = questionService();
+  const { startShowQuestion, question, clearNewQuestionCache } = questionService();
 
   useEffect(() => {
     startShowQuestion(id!);
+    return () => {
+      clearNewQuestionCache();
+    }
   }, []);
 
   return (
