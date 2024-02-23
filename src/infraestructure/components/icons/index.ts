@@ -1,6 +1,3 @@
-
-
-
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
@@ -13,6 +10,7 @@ export { ChevronRight } from './ChevronRight';
 export { CircleCheck } from './CircleCheck';
 export { ClearAllIcon } from './ClearAllIcon';
 export { DimensionsIcon } from './DimensionsIcon';
+export { DownloadIcon } from './DownloadIcon';
 export { EyeIcon } from './EyeIcon';
 export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
