@@ -13,7 +13,6 @@ export const LoginForm = () => {
 
     const { startSignin, loading } = authService();
 
-
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);

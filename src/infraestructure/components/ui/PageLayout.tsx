@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { ArrowNarrowLeft } from '../icons';
+import { useNavigation } from '../../../app/hooks/useNavigation';
 interface Props {
     title       : string;
     navigateTo  : string;
@@ -7,7 +7,7 @@ interface Props {
 }
 export const PageLayout = ({ title, navigateTo, children }: Props) => {
 
-    const navigate = useNavigate();
+    const { navigate } = useNavigation();
 
     return (
         <>

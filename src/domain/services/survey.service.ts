@@ -83,6 +83,12 @@ export const surveyService = () => {
         toggleLoading();
     }
 
+    const startDownloadSurveyUserResume = async () => {
+        toggleLoading();
+        await surveyRepository.downloadSurveyUserResume();
+        toggleLoading();
+    }
+
     return {
         loading,
         surveys,
@@ -104,6 +110,7 @@ export const surveyService = () => {
         getTotalUsersInSurvey,
         getUserDetail,
         startFinalizeSurvey,
+        startDownloadSurveyUserResume,
     }
 
 }

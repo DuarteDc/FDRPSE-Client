@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { PlusIcon } from '../../../infraestructure/components/icons';
 import CardList, { PageLayout } from '../../../infraestructure/components/ui';
 import { domianService } from '../../../domain/services/domian.service';
+import { useNavigation } from '../../hooks/useNavigation';
 
 export const DomainsPage = () => {
 
-    const navigate = useNavigate();
+    const { navigate } = useNavigation();
     const { domains, loading, startGetDomains } = domianService();
 
     useEffect(() => {

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { parseDate } from '../../helpers/parseDate';
 import { authService } from '../../../domain/services/auth.service';
+import { useNavigation } from '../../hooks/useNavigation';
 
 export const SurveyPage = () => {
 
@@ -15,6 +16,8 @@ export const SurveyPage = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [surveyId, setSurveyId] = useState<string>();
+
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     startGetSurveys();
@@ -36,13 +39,13 @@ export const SurveyPage = () => {
       {loading && <LoadingScreen title="Cargando ..." />}
 
       <span className="flex justify-end my-10">
-        <Button className="bg-slate-800 text-white py-6 px-8 font-bold" onClick={startNewSurvey}
+        <Button className="bg-slate-800 text-white py-6 px-8 font-bold" onClick={() =>navigate('start')}
           startContent={
             <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
               <PlayerPlay width={20} height={20} />
             </span>
           }>
-          Comenzar encuesta
+          Comenzar cuestionario
         </Button>
       </span>
 
@@ -68,7 +71,7 @@ export const SurveyPage = () => {
                 </TableCell>
                 <TableCell>
                   <div className="relative flex items-center gap-2">
-                    <Button as={Link} to={`show/${id}`}
+                    <Button onClick={() => navigate(`show/${id}`)}
                       className="bg-slate-800 text-white text-xs h-9 font-bold"
                       endContent={
                         <span className="bg-white text-slate-800 rounded-full p-[1.2px]">

@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
-import { Button, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@nextui-org/react';
+import { Button, Input, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 
-import { EyeIcon, PlusIcon } from '../../../infraestructure/components/icons';
+import { EyeIcon, PlusIcon, QuestionIcon, SearchIcon } from '../../../infraestructure/components/icons';
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { questionService } from '../../../domain/services/question.service';
-import { Link } from 'react-router-dom';
+import { useNavigation } from '../../hooks/useNavigation';
 
 export const QuestionsPage = () => {
 
     const { loading, questions, startGetQuestions } = questionService();
+    const { navigate } = useNavigation();
 
     useEffect(() => {
         startGetQuestions();
@@ -16,7 +17,8 @@ export const QuestionsPage = () => {
 
     return (
         <PageLayout title="Preguntas" navigateTo="/auth/">
-            <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10" color="primary" as={Link} to="create"
+            <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10" color="primary"
+                onClick={() => navigate('create')}
                 startContent={
                     <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
                         <PlusIcon />
@@ -24,24 +26,47 @@ export const QuestionsPage = () => {
                 }>
                 Crear Pregunta
             </Button>
-            <Table aria-label="Example table with custom cells">
+            <span className="mb-3 mt-20 block">
+                <Input
+                    className="w-full md:w-8/12 lg:w-4/12"
+                    placeholder="Buscar por nombre..."
+                    startContent={
+                        <span className="text-emerald-600">
+                            <SearchIcon />
+                        </span>
+                    }
+                // onChange={({ target }) => setQuery(target.value)}
+                // value={query}
+                />
+            </span>
+            <Table aria-label="Table for users">
                 <TableHeader>
-                    <TableColumn> Item </TableColumn>
-                    <TableColumn> Pregunta </TableColumn>
-                    <TableColumn>  </TableColumn>
+                    <TableColumn className="py-5 text-emerald-700 font-extrabold text-base"> # </TableColumn>
+                    <TableColumn className="py-5 text-emerald-700 font-extrabold text-base"> Pregunta </TableColumn>
+                    <TableColumn className="py-5 text-emerald-700 font-extrabold text-base">  </TableColumn>
                 </TableHeader>
                 <TableBody items={questions} loadingContent={<Spinner color="success" />} isLoading={loading}>
                     {
-                        questions.map(({ id, name }) => (
-                            <TableRow key={id} className="[&>td]:py-4">
-                                <TableCell>{id}</TableCell>
-                                <TableCell>{name}</TableCell>
+                        questions.map(({ id, name }, index) => (
+                            <TableRow key={id} className="[&>td]:py-4 hover:bg-gray-100 hover:cursor-pointer transition-all duration-400 ease-in [&>*:first-child]:rounded-s-large [&>*:last-child]:rounded-e-large">
+                                <TableCell>{index + 1}</TableCell>
                                 <TableCell>
-                                    <Tooltip content="Ver" color="success">
-                                        <Link to={`show/${id}`} className="text-lg text-emerald-600 cursor-pointer active:opacity-10">
-                                            <EyeIcon />
-                                        </Link>
-                                    </Tooltip>
+                                    <span className="flex items-center gap-x-3">
+                                        <span className="bg-emerald-600 h-[2.5rem] w-[2.5rem] flex items-center justify-center text-white rounded-xl">
+                                            <QuestionIcon />
+                                        </span>
+                                        {name}
+                                    </span>
+                                </TableCell>
+                                <TableCell>
+                                    <Button onClick={() => navigate(`show/${id}`)}
+                                        className="bg-slate-800 text-white text-xs h-9 font-bold"
+                                        endContent={
+                                            <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
+                                                <EyeIcon width={15} height={15} />
+                                            </span>}>
+                                        Ver
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))

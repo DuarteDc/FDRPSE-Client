@@ -9,7 +9,7 @@ interface Props {
 
 export const Layout = ({ children }: Props) => {
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const { user } = authService();
     const toggleDrawer = () => setIsOpen((prevState) => !prevState);
 

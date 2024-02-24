@@ -50,6 +50,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                     label="Dimensiones"
                     name="dimension_id"
                     size="md"
+                    isRequired
                     className="my-2 text-gray-500"
                     startContent={<DimensionsIcon />}
                     onChange={formik.handleChange}
@@ -70,7 +71,6 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                     name="category_id"
                     size="md"
                     className="my-2 text-gray-500"
-                    isRequired
                     startContent={<CategoryIcon />}
                     onChange={formik.handleChange}
                     selectedKeys={[`${formik.values?.category_id}`]}

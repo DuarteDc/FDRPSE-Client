@@ -118,5 +118,16 @@ export const surveyRepository = {
             errorAlert(error as string);
             return { success: false, message: error as string };
         }
+    },
+
+    downloadSurveyUserResume: async (): Promise<CommonResponseDto> => {
+        try {
+            await http.download(`/auth/surveys/report`);
+            return { success: true, message: '|'};
+        } catch (error) {
+            // errorAlert(error as string);
+            console.log(error)
+            return { success: false, message: error as string };
+        }
     }
 }

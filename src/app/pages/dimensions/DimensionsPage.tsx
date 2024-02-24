@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { PlusIcon } from '../../../infraestructure/components/icons';
 import CardList, { PageLayout } from '../../../infraestructure/components/ui';
 
 import { dimensionService } from '../../../domain/services/dimension.service';
+import { useNavigation } from '../../hooks/useNavigation';
 
 
 export const DimensionsPage = () => {
 
-    const navigate = useNavigate();
+    const { navigate } = useNavigation();
 
     const { dimensions, loading, startGetDimensions } = dimensionService();
 

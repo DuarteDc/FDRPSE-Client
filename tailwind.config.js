@@ -1,4 +1,4 @@
-const {nextui} = require("@nextui-org/react");
+const { nextui } = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
 
@@ -9,7 +9,14 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
+        }
+      }
+    },
   },
   darkMode: "class",
   plugins: [nextui()],

@@ -1,15 +1,17 @@
-import { useContext } from 'react';
-import { AuthContext } from '../../../infraestructure/context/auth';
 import { Button } from '@nextui-org/react';
 import { authService } from '../../../domain/services/auth.service';
 import { LogoutIcon } from '../../../infraestructure/components/icons';
+import { surveyService } from '../../../domain/services/survey.service';
+import { LoadingScreen } from '../../../infraestructure/components/ui';
 
 export const NoAvailableSurveys = () => {
-  const { startLogout } = authService();
-  const { user } = useContext(AuthContext);
+
+  const { startDownloadSurveyUserResume, loading } = surveyService();
+  const { startLogout, user } = authService();
 
   return (
     <div className="w-full flex justify-center items-center px-5">
+      {loading && <LoadingScreen title='Espere ...' />}
       <div className="grid lg:grid-cols-7 py-5 lg:py-20 max-w-[2000px]">
         <div className="flex flex-col justify-center col-span-3">
           <h1 className="text-5xl md:text-7xl font-bold lg:mb-10 mt-10">HOLA <b className="text-emerald-600 capitalize">{`${user?.userName}`}</b></h1>
@@ -24,6 +26,11 @@ export const NoAvailableSurveys = () => {
             Salir
             <LogoutIcon />
           </Button>
+
+          <span className="text-gray-900/40 transition-all duration-500 ease-in hover:text-emerald-600 text-xs font-bold cursor-pointer mt-5" onClick={startDownloadSurveyUserResume}>
+            ¿Olvidaste descargar tu resumen? Haz clic aquí para descargarlo
+          </span>
+
         </div>
         <div className="hidden col-span-4 lg:flex justify-end">
           <img src="/cuestionario/public/assets/question-home.svg" alt="home-icon" loading="eager" width="600" height="600" />

@@ -1,3 +1,5 @@
+
+
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
@@ -9,6 +11,7 @@ export { ChevronLeft } from './ChevronLeft';
 export { ChevronRight } from './ChevronRight';
 export { CircleCheck } from './CircleCheck';
 export { ClearAllIcon } from './ClearAllIcon';
+export { ClockIcon } from './ClockIcon';
 export { DimensionsIcon } from './DimensionsIcon';
 export { DownloadIcon } from './DownloadIcon';
 export { EyeIcon } from './EyeIcon';
