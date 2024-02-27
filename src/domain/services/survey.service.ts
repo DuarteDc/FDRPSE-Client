@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { SurveyContext } from '../../infraestructure/context/survey';
 import { surveyRepository } from '../../infraestructure/repositories/survey.repository';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,13 @@ export const surveyService = () => {
     const [areas, setAreas] = useState<Array<Area>>([]);
     const navigate = useNavigate();
     const { dispatch, surveys, hasSurvey, surveyUser, users, userDetail, totalUsersInSurvey } = useContext(SurveyContext);
+
+    const handleAddAndDeleteAreas = useCallback((area: Area, add: boolean) => {
+        if (add) {
+            return setAreas(prev => [area, ...prev]);
+        }
+        setAreas(prev => prev.filter(memoArea => memoArea.id !== area.id))
+    }, []);
 
     const toggleLoading = () => setLoading(prev => !prev);
 
@@ -103,6 +110,7 @@ export const surveyService = () => {
         startSurveyUser,
         endSurveyUser,
         hasAvailableSurvey,
+        handleAddAndDeleteAreas, 
         clearCacheForAvailableSurvey,
         getSurveyById,
         searchByNameAndArea,
