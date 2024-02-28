@@ -2,6 +2,8 @@ import { isAxiosError } from 'axios';
 import { apiInstance } from './fetch';
 
 
+const DEFAULT_ERROR = 'Parece que hubo un error -  Intenta mas tarde';
+
 const get = async <T>(url: string): Promise<T> => {
     try {
         const { data } = await apiInstance.get(url);
@@ -9,7 +11,7 @@ const get = async <T>(url: string): Promise<T> => {
     } catch (error) {
         if (isAxiosError(error)) throw error.response?.data;
 
-        throw new Error("Parece que hubo un error -  Intenta mas tarde");
+        throw new Error(DEFAULT_ERROR);
     }
 }
 
@@ -19,7 +21,7 @@ const post = async <T>(url: string, body: object): Promise<T> => {
         return data as T;
     } catch (error) {
         if (isAxiosError(error)) throw error.response?.data?.message;
-        throw new Error("Parece que hubo un error -  Intenta mas tarde");
+        throw new Error(DEFAULT_ERROR);
     }
 }
 
@@ -32,7 +34,7 @@ const download = async (url: string): Promise<void> => {
         window.open(downloadUrl, '__blank');
     } catch (error) {
         if (isAxiosError(error)) throw error.response?.data?.message;
-        throw new Error("Parece que hubo un error -  Intenta mas tarde");
+        throw new Error(DEFAULT_ERROR);
     }
 }
 

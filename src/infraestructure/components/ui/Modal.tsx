@@ -13,7 +13,7 @@ interface Props {
 
 export const Modal = ({ title, renderContent, onChange, ...props }: Props) => {
     return (
-        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="inside">
+        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled>
             <ModalContent className="overflow-y-auto">
                 {(onClose) => (
                     <>
