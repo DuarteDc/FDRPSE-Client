@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react';
+import { ForwardedRef, forwardRef, useImperativeHandle } from 'react';
 import { SelectSingleEventHandler } from 'react-day-picker';
 
 import { DatePicker } from '../ui'

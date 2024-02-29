@@ -17,6 +17,7 @@ export interface AreaState {
     datetime            : DATETIME;
     areasWithDatetime   : Array<Area> | [];
     areaWithDatetime    : Area | null;
+    selectedAreas       : Array<Area> | [];
 }
 
 const INITIAL_STATE: AreaState = {
@@ -24,6 +25,7 @@ const INITIAL_STATE: AreaState = {
     areas               : [],
     areasWithDatetime   : [],
     areaWithDatetime    : null,
+    selectedAreas       : [],
     datetime: {
         startDate : null,
         endDate   : null

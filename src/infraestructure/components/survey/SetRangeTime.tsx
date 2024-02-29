@@ -1,16 +1,19 @@
+import { format, parse } from 'date-fns';
 import { ForwardedRef, forwardRef, useImperativeHandle, useState } from "react"
 import { ValidateStep } from "../../../app/utils/dateTimeSteps"
 import TimeKeeper, { TimeOutput } from "react-timekeeper";
 import { areaService } from "../../../domain/services/area.service";
-import { compareDesc, format } from "date-fns";
+import { compareDesc } from "date-fns";
 import { errorAlert } from "../../alert/alerts";
 
 import { es } from 'date-fns/locale';
 
+const INITIAL_HOUR = 12.00;
+
 export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
-    const { area, datetime, setTimeInDate } = areaService();
-    const [time, setTime] = useState({ startTime: '06:00', endTime: '06:00' });
+    const { datetime, setTimeInDate } = areaService();
+    const [time, setTime] = useState({ startTime: format(datetime?.startDate || INITIAL_HOUR, 'H:mm'), endTime: format(datetime?.endDate || INITIAL_HOUR, 'H:mm') });
 
     const handleSetStartTime = (newTime: TimeOutput) => {
         setTime(prev => ({ ...prev, startTime: newTime.formatted24 }));
@@ -20,7 +23,6 @@ export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
         setTime(prev => ({ ...prev, endTime: newTime.formatted24 }));
         setTimeInDate(newTime.formatted24, 'endDate');
     }
-
 
     const canContinue = () => {
         if (!datetime?.startDate || !datetime?.endDate) {
@@ -32,7 +34,7 @@ export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
             errorAlert('La fecha final de aplicación debe ser mayor a la fecha inicial');
             return false;
         }
-        return false;
+        return true;
     }
 
     useImperativeHandle(ref, () => ({
@@ -53,11 +55,9 @@ export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 />
                 <span className="uppercase font-bold text-emerald-600 [&>*]:text-black mt-2 block">
                     Fecha:
-                    <b>
-                        {
-                            datetime && format(datetime.startDate!, 'PPpp', { locale: es })
-                        }
-
+                    <b> {
+                        datetime && format(datetime.startDate!, 'd-MMM-y h:mm a', { locale: es })
+                    }
                     </b>
 
                 </span>
@@ -74,10 +74,9 @@ export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 />
                 <span className="uppercase font-bold text-emerald-600 [&>*]:text-black mt-2 block">
                     Fecha:
-                    <b>
-                        {
-                            datetime && format(datetime.endDate!, 'd-MMM-y', { locale: es })
-                        }
+                    <b> {
+                        datetime && format(datetime.endDate!, 'd-MMM-y h:mm a', { locale: es })
+                    }
                     </b>
                 </span>
             </div>

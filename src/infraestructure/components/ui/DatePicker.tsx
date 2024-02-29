@@ -42,12 +42,7 @@ export const DatePicker = ({ title, value, onSelected, from }: Props) => {
                 footer={
                     <span className="uppercase font-bold text-emerald-600 [&>*]:text-black mt-2 block">
                         Fecha:
-                        <b>
-                            {
-                                value && format(value, 'd-MMM-y', { locale: es })
-                            }
-                        </b>
-
+                        <b> { value && format(value, 'd-MMM-y', { locale: es }) }</b>
                     </span>
                 }
 

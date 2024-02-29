@@ -9,16 +9,17 @@ interface RenderButtonsProps {
     step: number;
     nextStep: () => void;
     backStep: () => void;
+    isValidStep: boolean;
 }
 
 interface Props {
     steps: Array<StepComponent>;
-    renderButtons: ({ nextStep, backStep, step }: RenderButtonsProps) => ReactNode | Array<ReactNode>;
+    renderButtons: ({ nextStep, backStep, step, isValidStep }: RenderButtonsProps) => ReactNode | Array<ReactNode>;
 }
 
 export const Steper = ({ steps, renderButtons }: Props) => {
 
-    const { step, nextStep, backStep, Component, currentRef } = useSteps({ stepsComponent: steps });
+    const { step, nextStep, backStep, Component, currentRef, isValidStep } = useSteps({ stepsComponent: steps });
 
     return (
         <Card className="p-5">
@@ -38,7 +39,7 @@ export const Steper = ({ steps, renderButtons }: Props) => {
             <CardBody>
                 <Component ref={currentRef} />
                 <div className="py-10">
-                    {renderButtons({ nextStep, backStep, step })}
+                    {renderButtons({ nextStep, backStep, step, isValidStep })}
                 </div>
             </CardBody>
         </Card>
