@@ -10,6 +10,7 @@ import { DimensionProvider } from '../context/dimension';
 import { QuestionProvider } from '../context/questions';
 import { QualificationProvider } from '../context/qualification';
 import SurveyProvider from '../context/survey/SurveyProvider';
+import { AreaProvider } from '../context/area';
 
 export const MainRouter = () => {
     return (
@@ -36,16 +37,17 @@ export const MainRouter = () => {
                                                         <QuestionProvider>
                                                             <QualificationProvider>
                                                                 <SurveyProvider>
-                                                                    <Routes>
-                                                                        <Route path="/*" index element={<SurveyRoutes />} />
-                                                                        {/* <Route path="surveys/*" index element={<SurveyRoutes />} /> */}
-                                                                        <Route path="sections/*" index element={<SectionRoutes />} />
-                                                                        <Route path="/categories/*" index element={<CategoryRoutes />} />
-                                                                        <Route path="/domains/*" index element={<DomainRoutes />} />
-                                                                        <Route path="/dimensions/*" index element={<DimensionRoutes />} />
-                                                                        <Route path="/questions/*" index element={<QuestionRoutes />} />
-                                                                        <Route path="*" element={<NotFound />} />
-                                                                    </Routes>
+                                                                    <AreaProvider>
+                                                                        <Routes>
+                                                                            <Route path="/*" index element={<SurveyRoutes />} />
+                                                                            <Route path="sections/*" index element={<SectionRoutes />} />
+                                                                            <Route path="/categories/*" index element={<CategoryRoutes />} />
+                                                                            <Route path="/domains/*" index element={<DomainRoutes />} />
+                                                                            <Route path="/dimensions/*" index element={<DimensionRoutes />} />
+                                                                            <Route path="/questions/*" index element={<QuestionRoutes />} />
+                                                                            <Route path="*" element={<NotFound />} />
+                                                                        </Routes>
+                                                                    </AreaProvider>
                                                                 </SurveyProvider>
                                                             </QualificationProvider>
                                                         </QuestionProvider>

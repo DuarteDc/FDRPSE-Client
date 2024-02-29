@@ -1,10 +1,9 @@
-
-
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
 export { BuildingComunity } from './BuildingComunity';
+export { CalendarMonth } from './CalendarMonth';
 export { CategoryIcon } from './CategoryIcon';
 export { CheckboxIcon } from './CheckboxIcon';
 export { CheckIcon } from './CheckIcon';
@@ -33,5 +32,6 @@ export { SearchIcon } from './SearchIcon';
 export { SectionIcon } from './SectionIcon';
 export { SquareRoundedX } from './SquareRoundedX';
 export { StarsIcon } from './StarsIcon';
+export { TrashIcon } from './TrashIcon';
 export { UserIcon } from './UserIcon';
 export { XIcon } from './XIcon';

@@ -1,13 +1,18 @@
+import { DragEvent, Fragment, useEffect, useState } from 'react';
+import { Button, Checkbox, CheckboxGroup, Tooltip, cn, useDisclosure } from '@nextui-org/react';
+import { SelectSingleEventHandler } from 'react-day-picker';
 
-import { DragEvent, Fragment, useEffect, useState } from "react"
-import { DatePicker, PageLayout } from "../../../infraestructure/components/ui";
-import { surveyService } from "../../../domain/services/survey.service";
-import { Area } from "../../../domain/models";
-import { BuildingComunity, CheckIcon, CheckboxIcon, ClearAllIcon, PlusIcon, XIcon } from "../../../infraestructure/components/icons";
-import { Button, Checkbox, CheckboxGroup, Tooltip, cn, useDisclosure } from "@nextui-org/react";
-import { Modal } from "../../../infraestructure/components/ui/Modal";
+import { Area } from '../../../domain/models';
+
+import { Modal } from '../../../infraestructure/components/ui/Modal';
+import { DatePicker, PageLayout } from '../../../infraestructure/components/ui';
+import { ArrowNarrowLeft, ArrowNarrowRight, BuildingComunity, CheckIcon, CheckboxIcon, ClearAllIcon, PlusIcon, SaveIcon, XIcon } from '../../../infraestructure/components/icons';
+
+import { surveyService } from '../../../domain/services/survey.service';
 import 'react-day-picker/dist/style.css';
-
+import { Steper } from '../../../infraestructure/components/ui/Steper';
+import { DATETIME_STEP } from '../../utils/dateTimeSteps';
+import { areaService } from '../../../domain/services/area.service';
 
 export const StartNewSurvey = () => {
 
@@ -18,6 +23,8 @@ export const StartNewSurvey = () => {
     const [groupSelectAreas, setGroupSelectAreas] = useState<Array<string>>([]);
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    const { setDatetime } = areaService();
 
 
     const onDragStart = (event: DragEvent<HTMLDivElement>, id: string) => {
@@ -70,42 +77,39 @@ export const StartNewSurvey = () => {
         onOpen()
     }
 
-    const setDateTime = (e: any) => {
-        console.log(e._d);
-        setGroupSelectAreas([]);
-    }
-    const [selectedDay, setSelectedDay] = useState<Date>();
-
     return (
         <PageLayout navigateTo="/admin" title="Comenzar encuesta">
             <Modal
-                title="Asignar Horario"
+                title=""
                 isOpen={isOpen}
                 onChange={onOpenChange}
                 size="3xl"
                 hideCloseButton
                 renderContent={(onClose) => (
-                    <Fragment>
-                        <div className="grid md:grid-cols-2">
-                            <DatePicker
-                                value={selectedDay!}
-                                onSelected={setSelectedDay}
-                            />
-                            <DatePicker
-                                value={selectedDay!}
-                                onSelected={setSelectedDay}
-                            />
-                        </div>
-                        <Button onClick={onClose} className="w-full bg-slate-800 text-white py-6 px-8 font-bold"
-                            endContent={
-                                <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
-                                    <CheckIcon width={20} height={20} />
-                                </span>
+                    <div className="-mx-4 -mt-8">
+                        <Steper
+                            steps={DATETIME_STEP}
+                            renderButtons={({ step, backStep, nextStep }) =>
+                                <Fragment>
+                                    <Button
+                                        onClick={backStep}
+                                        className="border-2 border-transparent hover:border-slate-800  bg-transparent"
+                                        isDisabled={(step < 1)}
+                                        startContent={<ArrowNarrowLeft />}>
+                                        Atras
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        className="float-right bg-slate-800 text-white"
+                                        endContent={(step + 1) >= DATETIME_STEP.length ? <SaveIcon /> : <ArrowNarrowRight />}
+                                    // spinner={<Spinner />}
+                                    >
+                                        {(step + 1) >= DATETIME_STEP.length ? 'Guardar' : 'Sieguiente'}
+                                    </Button>
+                                </Fragment>
                             }
-                        >
-                            Aceptar
-                        </Button>
-                    </Fragment>
+                        />
+                    </div>
                 )}
             />
             <div className="flex justify-end my-4 gap-x-2">
@@ -141,9 +145,14 @@ export const StartNewSurvey = () => {
                                 key={area?.id}
                             >
                                 <div>
-                                    <span className="text-red-500 hover:text-white hover:bg-red-500 right-1 absolute top-1 rounded-full p-[2px] transition-all duration-500" aria-label={`delete-area-${area.id}`} onClick={() => onDeleteSelectedAres(area)}>
-                                        <XIcon width={16} height={16} />
-                                    </span>
+                                    <Tooltip content="Eliminar" color="danger">
+                                        <span className="text-white hover:bg-danger right-1 absolute top-1 rounded-full p-[3px] transition-all duration-500
+                                        bg-emerald-600 after:absolute after:border-2 after:border-white after:rounded-full after:z-50  after:w-[calc(100%-4px)] 
+                                        after:h-[calc(100%-4px)] z-20 after:top-0 after:left-0 after:m-auto after:bottom-0 after:right-0
+                                    " aria-label={`delete-area-${area.id}`} onClick={() => onDeleteSelectedAres(area)}>
+                                            <XIcon width={18} height={18} />
+                                        </span>
+                                    </Tooltip>
                                     <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] bg-emerald-600  text-white mx-4 flex items-center justify-center rounded-full">
                                         <BuildingComunity width={30} height={30} />
                                     </span>

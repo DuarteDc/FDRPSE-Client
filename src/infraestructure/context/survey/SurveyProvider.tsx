@@ -2,7 +2,6 @@ import { ReactNode, useReducer } from 'react';
 import { SurveyContext, surveyReducer } from './';
 import { Survey, SurveyUser } from '../../../domain/models';
 
-
 interface Props {
     children: ReactNode
 }
