@@ -22,7 +22,7 @@ export const areaService = () => {
             dispatch({ type: 'AREA - Change StartDateTime', payload: newDate })
             return newDate;
         }
-        const newDate = createCustomDatetime(datetime.startDate!, hours);
+        const newDate = createCustomDatetime(datetime.endDate!, hours);
         dispatch({ type: 'AREA - Change EndDateTime', payload: newDate });
         return newDate
     }

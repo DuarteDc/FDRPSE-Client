@@ -50,7 +50,7 @@ export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 </span>
                 <TimeKeeper
                     switchToMinuteOnHourSelect
-                    time={time?.startTime}
+                    time={time?.startTime || '12:00'}
                     onChange={handleSetStartTime}
                 />
                 <span className="uppercase font-bold text-emerald-600 [&>*]:text-black mt-2 block">
@@ -69,7 +69,7 @@ export const SetRangeTime = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 </span>
                 <TimeKeeper
                     switchToMinuteOnHourSelect
-                    time={time?.endTime}
+                    time={time?.endTime || '12:00'}
                     onChange={handleEndTime}
                 />
                 <span className="uppercase font-bold text-emerald-600 [&>*]:text-black mt-2 block">

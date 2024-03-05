@@ -2,18 +2,19 @@ import { ReactNode } from 'react';
 import { ModalContent, ModalHeader, Modal as MainModal, ModalBody } from '@nextui-org/react';
 
 interface Props {
-    className      ?:   string;
-    isOpen          :   boolean;
-    title           :   string;
-    onChange        :   () => void;
-    renderContent   :   (onClose: () => void) => ReactNode;
-    size            :   any;
-    hideCloseButton?:   boolean;
+    className       ?:   string;
+    isOpen           :   boolean;
+    title            :   string;
+    onChange         :   () => void;
+    renderContent    :   (onClose: () => void) => ReactNode;
+    size             :   any;
+    hideCloseButton ?:   boolean;
+    closeButton     ?:   ReactNode
 }
 
 export const Modal = ({ title, renderContent, onChange, ...props }: Props) => {
     return (
-        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled>
+        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled >
             <ModalContent className="overflow-y-auto">
                 {(onClose) => (
                     <>

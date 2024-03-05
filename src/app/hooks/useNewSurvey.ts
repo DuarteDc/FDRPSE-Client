@@ -1,4 +1,4 @@
-import { DragEvent, useCallback, useMemo, useState } from 'react';
+import { DragEvent, useCallback, useState } from 'react';
 import { Area } from '../../domain/models';
 import { areaService } from '../../domain/services/area.service';
 import { DATETIME } from '../../infraestructure/context/area';
@@ -9,8 +9,10 @@ interface Props {
 }
 export const useNewSurvey = (props: Props) => {
 
-    const { dispatch, selectedAreas } = areaService();
+    const { dispatch, selectedAreas, areas } = areaService();
     const [isDrag, setIsDrag] = useState<boolean>(false);
+    const [multiSelect, setMultiSelect] = useState<boolean>(false);
+    const [multipleAreasSelected, setMultipleAreasSelected] = useState<Array<string>>([]);
 
     const selectedAreasMemorized = useCallback((areas: Array<Area>) => dispatch({ type: 'AREA - Set Current Areas', payload: areas }), []);
 
@@ -33,10 +35,18 @@ export const useNewSurvey = (props: Props) => {
         onDragEnd()
     }
 
+    const handleMultiSelect = useCallback(() => setMultiSelect(prev => !prev), []);
+
+    const handleOnChageSelectedAreas = useCallback((areasId: Array<string>) => setMultipleAreasSelected(areasId), []);
+
     const onDeleteArea = (area: Area) => dispatch({ type: 'AREA - Delete Area', payload: area });
 
-    const handleSelectMultiplesAreas = (areasId: Array<string>) => {
-        dispatch({ type: 'AREA - Add Multiple Areas', payload: areasId })
+    const handleSelectMultiplesAreas = () => {
+        const selectedAreas = multipleAreasSelected.map((areaId) => areas.find(({ id }) => id === areaId)!);
+        dispatch({ type: 'AREA - Add Multiple Areas', payload: { areas: selectedAreas, deleteAreas: multipleAreasSelected } });
+        setMultipleAreasSelected([]);
+        handleMultiSelect()
+        props.openDatetime!()
     }
 
     const handleSelectAllAreas = () => {
@@ -54,13 +64,20 @@ export const useNewSurvey = (props: Props) => {
         isDrag,
         selectedAreas,
 
+        multiSelect,
+        multipleAreasSelected,
+
         onDragEnd,
         onDragStart,
         allowDrop,
         onDropArea,
 
+        handleMultiSelect,
+        handleOnChageSelectedAreas,
+
         onDeleteArea,
         handleSetDatetimeToArea,
         handleSelectAllAreas,
+        handleSelectMultiplesAreas,
     }
 }

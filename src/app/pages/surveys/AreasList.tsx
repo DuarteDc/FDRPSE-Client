@@ -1,4 +1,4 @@
-import { DragEvent, memo } from 'react';
+import { DragEvent, FormEvent, memo } from 'react';
 import { CheckboxGroup } from '@nextui-org/react';
 
 import { AreaItem } from './';
@@ -7,12 +7,15 @@ import { SkeletonSectionCard } from '../../../infraestructure/components/ui/skel
 import { Area } from '../../../domain/models';
 
 interface Props {
-    areas: Array<Area>
-    onDragStart : (event: DragEvent<HTMLDivElement>, area: Area) => void;
-    onDragEnd   : () => void;
+    areas               : Array<Area>
+    onDragStart         : (event: DragEvent<HTMLDivElement>, area: Area) => void;
+    onDragEnd           : () => void;
+    canMultiSelect      : boolean;
+    onChangeSelected    : (areas: Array<string>) => void;
+    selectedAreas       : Array<string>
 }
 
-export const AreasList = memo(({ areas, onDragStart, onDragEnd }: Props) => {
+export const AreasList = memo(({ areas, onDragStart, onDragEnd, canMultiSelect, onChangeSelected, selectedAreas }: Props) => {
     return (
         <div className="col-span-2 w-full min-h-screen max-h-[300px] overflow-y-auto [&>*:last-child]:px-3">
             <span className="sticky top-0 z-10 bg-white pb-4 block w-full after:absolute after:-bottom-10 after:h-10 after:w-full after:z-10 after:left-0 after:bg-gradient-to-b after:from-emerald-600/15 after:to-transparent">
@@ -21,8 +24,11 @@ export const AreasList = memo(({ areas, onDragStart, onDragEnd }: Props) => {
 
             {
                 areas.length ? (
-                    <CheckboxGroup>
-                        {/* label={m   ultiSelect ? 'Selecciona multiples areas' : 'Selecciona una area'} */}
+                    <CheckboxGroup
+                        label={canMultiSelect ? 'Selecciona multiples áreas' : 'Selecciona una área'}
+                        onChange={(value: Array<string> | FormEvent<HTMLDivElement>) => onChangeSelected(value as Array<string>)}
+                        value={selectedAreas}
+                        >
                         {
                             areas.map((area) => (
                                 <AreaItem
@@ -30,6 +36,7 @@ export const AreasList = memo(({ areas, onDragStart, onDragEnd }: Props) => {
                                     area={area}
                                     onDragStart={onDragStart}
                                     onDragEnd={onDragEnd}
+                                    canMultiSelect={canMultiSelect}
                                 />
                             ))
                         }

@@ -7,7 +7,7 @@ export type AreaActionType =
     | { type: 'AREA - Set Datetime', payload: DATETIME }
     | { type: 'AREA - Change StartDateTime', payload: Date }
     | { type: 'AREA - Change EndDateTime', payload: Date }
-    | { type: 'AREA - Add Multiple Areas', payload: Array<string> }
+    | { type: 'AREA - Add Multiple Areas', payload: { areas: Array<Area>, deleteAreas: Array<string> } }
     | { type: 'AREA - Add Area', payload: Area }
     | { type: 'AREA - Delete Area', payload: Area }
     | { type: 'AREA - Select All Areas' }
@@ -58,8 +58,9 @@ export const areaReducer = (state: AreaState, action: AreaActionType) => {
         case 'AREA - Add Multiple Areas':
             return {
                 ...state,
-                // areasWithDatetime: [...state.areasWithDatetime, state.areas.filter(({ id }) => id === action.payload.find(areaId => areaId === id))],
-                // areas: state.areas.map((area) => area.id !== action.payload.find(areaId => areaId === area.id))
+                areas: state.areas.filter(({ id }) => id !== action.payload.deleteAreas.find(areaId => areaId === id)),
+                areasWithDatetime: [...state.areasWithDatetime, ...action.payload.areas],
+                selectedAreas: action.payload.areas,
             }
 
         case 'AREA - Add Area':

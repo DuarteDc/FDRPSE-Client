@@ -1,3 +1,4 @@
+export { AreaSubareasDepartments } from './AreaSubareasDepartaments';
 
 export { Area } from './Area';
 export { Category } from './Category';

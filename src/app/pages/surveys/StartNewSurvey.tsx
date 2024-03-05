@@ -1,7 +1,6 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Button, Skeleton, Tooltip, useDisclosure } from '@nextui-org/react';
 
-import { Area } from '../../../domain/models';
 
 import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { PageLayout } from '../../../infraestructure/components/ui';
@@ -15,15 +14,13 @@ import { AreasList } from '.';
 import { useNewSurvey } from '../../hooks/useNewSurvey';
 import { es } from 'date-fns/locale';
 import { format } from 'date-fns-tz';
+import { groupAreasByParentArea } from '../../helpers/groupAreasByParentArea';
 
 export const StartNewSurvey = () => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { startLoadAreas, areas, areasWithDatetime } = areaService();
-    const { onDragStart, onDragEnd, allowDrop, onDropArea, isDrag, onDeleteArea, handleSelectAllAreas } = useNewSurvey({ openDatetime: onOpen });
-
-    const [multiSelect, setMiltiSelect] = useState<boolean>(false);
-    const [groupSelectAreas, setGroupSelectAreas] = useState<Array<string>>([]);
+    const { onDragStart, onDragEnd, allowDrop, onDropArea, isDrag, onDeleteArea, handleSelectAllAreas, multiSelect, handleMultiSelect, handleSelectMultiplesAreas, handleOnChageSelectedAreas, multipleAreasSelected } = useNewSurvey({ openDatetime: onOpen });
 
     useEffect(() => {
         startLoadAreas();
@@ -35,10 +32,14 @@ export const StartNewSurvey = () => {
                 title=""
                 isOpen={isOpen}
                 onChange={onOpenChange}
-                size="3xl"
+                size="5xl"
                 hideCloseButton
                 renderContent={(onClose) => (
-                    <div className="-mx-4 -mt-8">
+                    <div className="-mx-4 my-4">
+                        <Button className="absolute top-2 right-2 bg-transparent border-2 hover:bg-danger hover:text-white transition-all hover:border-danger-600 duration-700" isIconOnly
+                        onClick={onClose}>
+                            <XIcon width={16} height={16} />
+                        </Button>
                         <Steper
                             steps={DATETIME_STEP}
                             renderButtons={({ step, backStep, nextStep, isValidStep }) =>
@@ -80,7 +81,7 @@ export const StartNewSurvey = () => {
                 >
                     Seleccionar todas
                 </Button>
-                <Button onClick={() => setMiltiSelect(prev => !prev)} isDisabled={!areas.length}
+                <Button onClick={handleMultiSelect} isDisabled={!areas.length}
                     className="bg-slate-800 text-white py-6 px-8 font-bold"
                     endContent={
                         <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
@@ -138,16 +139,24 @@ export const StartNewSurvey = () => {
 
                 </div>
 
-                <AreasList areas={areas} onDragStart={onDragStart} onDragEnd={onDragEnd} />
+                <AreasList
+                    areas={areas}
+                    onDragStart={onDragStart}
+                    onDragEnd={onDragEnd}
+                    canMultiSelect={multiSelect}
+                    onChangeSelected={handleOnChageSelectedAreas}
+                    selectedAreas={multipleAreasSelected}
+                />
 
 
                 {
-                    multiSelect && groupSelectAreas.length && (
+                    multiSelect && (
                         <Tooltip content="Agregar areas seleccionadas" color="primary">
-                            <Button className="animate-[fadeIn_0.5s] bottom-20 h-[3.5rem] w-[3.5rem] right-20 shadow-lg z-[999] rounded-full fixed bg-emerald-600 text-white font-bold"
-                            // isIconOnly onClick={() => handleAddMultipleAreas(groupSelectAreas)}
+                            <Button className="animate-[fadeIn_0.5s] bottom-20 h-[3.5rem] w-[3.5rem] right-20 z-[999] rounded-full fixed bg-emerald-600 text-white font-bold
+                            shadow-xl" onClick={handleSelectMultiplesAreas}
+                                isIconOnly
                             >
-                                <PlusIcon width={40} height={40} />
+                                <PlusIcon width={30} height={30} />
                             </Button>
                         </Tooltip>
                     )
