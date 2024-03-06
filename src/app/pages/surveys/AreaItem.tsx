@@ -1,17 +1,22 @@
-import { DragEvent, Fragment, memo } from 'react';
+import { DragEvent, Fragment, memo, useCallback, useState } from 'react';
 import { Checkbox, cn } from '@nextui-org/react';
 
-import { BuildingComunity } from '../../../infraestructure/components/icons'
-import { Area } from '../../../domain/models'
+import { BuildingComunity, ChevronLeft } from '../../../infraestructure/components/icons'
+import { Area, AreaSubareasDepartments, Departments } from '../../../domain/models'
+import { SubdirectionItem } from '../../../infraestructure/components/areas';
 
 interface Props {
-    area            : Area;
-    canMultiSelect  : boolean;
-    onDragStart     : (event: DragEvent<HTMLDivElement>, area: Area) => void;
-    onDragEnd       : () => void;
+    area: AreaSubareasDepartments;
+    canMultiSelect: boolean;
+    onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => void;
+    onDragEnd: () => void;
 }
 
 export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: Props) => {
+
+
+    const [openSudirection, setOpenSubdirection] = useState(false);
+    const toggleSubdirections = useCallback(() => setOpenSubdirection(toggle => !toggle), []);
 
     return (
         <Fragment>
@@ -42,24 +47,48 @@ export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: 
                     </Checkbox>
                 ) :
                     (
-                        <div className="shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-105 w-full my-2"
+                        <div
                             draggable
-                            onDragStart={(event: DragEvent<HTMLDivElement>) => onDragStart(event, area)}
+                            onDragStart={(event) => onDragStart(event, area)}
                             onDragEnd={onDragEnd}
+                            className={`shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer  hover:border-emerald-600 transition-all duration-300 ease-in w-full my-2 border-2 border-slate-2 ${openSudirection ? 'ease-in' : 'max-h-none'} overflow-hidden `}
                         >
-                            <div>
-                                <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] bg-emerald-600  text-white mx-4 flex items-center justify-center rounded-full">
-                                    <BuildingComunity width={30} height={30} />
-                                </span>
+                            <div className="flex items-center">
+                                <div>
+                                    <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] bg-emerald-600  text-white mx-4 flex items-center justify-center rounded-full">
+                                        <BuildingComunity width={30} height={30} />
+                                    </span>
+                                </div>
+                                <div className="relative w-full">
+                                    <h2 className="font-bold text-sm">{area.name}</h2>
+                                </div>
+                                {
+                                    area?.subdirections?.length > 0 && area.usersCount > 0 && (
+                                        <span className={`${openSudirection ? 'rotate-90' : 'rotate-[275deg]'} transition-all duration-700 text-gray-400 hover:text-emerald-500`} onClick={toggleSubdirections}>
+                                            <ChevronLeft />
+                                        </span>
+                                    )
+                                }
                             </div>
-                            <div className="relative w-full">
-                                <h2 className="font-bold text-sm">{area.name}</h2>
-                            </div>
+                            {
+                                openSudirection && (
+                                    area.subdirections.map((subdirection) => (
+                                        <SubdirectionItem
+                                            key={subdirection.id}
+                                            onDragStart={onDragStart}
+                                            onDragEnd={onDragEnd}
+                                            subdirection={subdirection}
+                                        />
+                                    ))
+                                )
+                            }
+
+
                         </div>
                     )
             }
         </Fragment>
     )
 
-});
+})
 

@@ -1,7 +1,9 @@
+
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
+export { BoxOff } from './BoxOff';
 export { BuildingComunity } from './BuildingComunity';
 export { CalendarMonth } from './CalendarMonth';
 export { CategoryIcon } from './CategoryIcon';

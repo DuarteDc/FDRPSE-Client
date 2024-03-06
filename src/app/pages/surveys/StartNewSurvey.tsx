@@ -14,17 +14,18 @@ import { AreasList } from '.';
 import { useNewSurvey } from '../../hooks/useNewSurvey';
 import { es } from 'date-fns/locale';
 import { format } from 'date-fns-tz';
-import { groupAreasByParentArea } from '../../helpers/groupAreasByParentArea';
 
 export const StartNewSurvey = () => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { startLoadAreas, areas, areasWithDatetime } = areaService();
-    const { onDragStart, onDragEnd, allowDrop, onDropArea, isDrag, onDeleteArea, handleSelectAllAreas, multiSelect, handleMultiSelect, handleSelectMultiplesAreas, handleOnChageSelectedAreas, multipleAreasSelected } = useNewSurvey({ openDatetime: onOpen });
+    const { startLoadAreas, areas, areasWithDatetime, selectedAreas } = areaService();
+    const { onDragStart, onDragEnd, allowDrop, onDropArea, isDrag, onDeleteArea, handleSelectAllAreas, multiSelect, handleMultiSelect, handleSelectMultiplesAreas, handleOnChageSelectedAreas, multipleAreasSelected, handleRollbackSelectedAreas } = useNewSurvey({ openDatetime: onOpen });
 
     useEffect(() => {
         startLoadAreas();
     }, []);
+
+    console.log({ areasWithDatetime, selectedAreas })
 
     return (
         <PageLayout navigateTo="/admin" title="Comenzar encuesta">
@@ -37,7 +38,7 @@ export const StartNewSurvey = () => {
                 renderContent={(onClose) => (
                     <div className="-mx-4 my-4">
                         <Button className="absolute top-2 right-2 bg-transparent border-2 hover:bg-danger hover:text-white transition-all hover:border-danger-600 duration-700" isIconOnly
-                        onClick={onClose}>
+                            onClick={() => { onClose(); handleRollbackSelectedAreas(); }} >
                             <XIcon width={16} height={16} />
                         </Button>
                         <Steper
@@ -124,8 +125,8 @@ export const StartNewSurvey = () => {
                                     {
                                         area.startDate && area.endDate ? (
                                             <Fragment>
-                                                <b>{format(area.startDate!, 'P h:mm a', { locale: es })} - </b>
-                                                <b>{format(area.endDate!, 'P h:mm a', { locale: es })}</b>
+                                                <b>{format(area?.startDate!, 'P h:mm a', { locale: es })} - </b>
+                                                <b>{format(area?.endDate!, 'P h:mm a', { locale: es })}</b>
                                             </Fragment>
                                         ) :
                                             (
@@ -140,12 +141,13 @@ export const StartNewSurvey = () => {
                 </div>
 
                 <AreasList
-                    areas={areas}
+                    areas={areas as any}
                     onDragStart={onDragStart}
                     onDragEnd={onDragEnd}
                     canMultiSelect={multiSelect}
                     onChangeSelected={handleOnChageSelectedAreas}
                     selectedAreas={multipleAreasSelected}
+                    areasWithDatetime={areasWithDatetime}
                 />
 
 

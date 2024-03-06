@@ -3,9 +3,10 @@ import { ValidateStep } from '../../../app/utils/dateTimeSteps';
 import { areaService } from '../../../domain/services/area.service';
 import { CalendarMonth } from '../icons';
 import { format } from 'date-fns-tz';
-import { ar, es } from 'date-fns/locale';
+import { es } from 'date-fns/locale';
 import { useNewSurvey } from '../../../app/hooks/useNewSurvey';
 import { Accordion, AccordionItem } from '@nextui-org/react';
+import { Departments } from '../../../domain/models';
 
 export const PreviewSelectedDatetime = forwardRef<ValidateStep>((_, ref: ForwardedRef<ValidateStep>) => {
 
@@ -28,9 +29,26 @@ export const PreviewSelectedDatetime = forwardRef<ValidateStep>((_, ref: Forward
                     {
                         selectedAreas.map((area, index) => (
                             <span key={area.id}
-                            className="font-bold block cursor-pointer hover:text-emerald-500 transition-all duration-300"
+                                className="font-bold block cursor-pointer transition-all duration-300 w-full [&>*]:my-4 [&>*:first-child]:px-0 py-2
+                                    border-2 hover:border-emerald-600 rounded-lg p-4 mb-2
+                                    [&>div]:ml-2 [&>div]:text-sm [&>div>span]:block [&>div>span]:text-xs [&>div>span]:ml-4 [&>div]:text-emerald-600 [&>div>span]:text-emerald-700/60
+                                "
                             >
                                 {index + 1}.- {area.name}
+                                    {
+                                        area.hasOwnProperty('subdirections') && area?.subdirections?.map((subdirection: Departments) => (
+                                            <div key={subdirection.id} aria-label={`area-${subdirection.name}`}>
+                                                {
+                                                    subdirection.name
+                                                }
+                                                {
+                                                    subdirection.departments.map((department) => (
+                                                        <span key={department.id}>{department.name}</span>
+                                                    ))
+                                                }
+                                            </div>
+                                        ))
+                                    }
                             </span>
                         ))
                     }

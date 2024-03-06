@@ -1,11 +1,11 @@
 import { Area } from './';
-import { AreaSchema } from './Area';
+import { AreaSchema, TypeAreas } from './Area';
 
-interface AreaSubareasDepartmentsSchema extends AreaSchema {
+export interface AreaSubareasDepartmentsSchema extends AreaSchema {
     subdirections: Array<Departments>
 }
 
-interface Departments extends AreaSchema {
+export interface Departments extends AreaSchema {
     departments: Array<AreaSchema>
 }
 
@@ -13,8 +13,8 @@ export class AreaSubareasDepartments extends Area implements AreaSubareasDepartm
 
     readonly subdirections;
 
-    constructor(id: string, name: string, parentArea: string, subdirections: Array<Departments>, usersCount = "", startDate?: Date, endDate?: Date) {
-        super(id, name, parentArea, usersCount, startDate, endDate);
+    constructor(id: string, name: string, parentArea: string, subdirections: Array<Departments>, usersCount = "", typeArea = TypeAreas.Subdirection, startDate?: Date, endDate?: Date) {
+        super(id, name, parentArea, usersCount, typeArea, startDate, endDate);
         this.subdirections = subdirections;
     }
 

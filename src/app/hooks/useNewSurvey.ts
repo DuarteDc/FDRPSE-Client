@@ -1,5 +1,5 @@
 import { DragEvent, useCallback, useState } from 'react';
-import { Area } from '../../domain/models';
+import { Area, AreaSubareasDepartments, Departments } from '../../domain/models';
 import { areaService } from '../../domain/services/area.service';
 import { DATETIME } from '../../infraestructure/context/area';
 
@@ -16,23 +16,24 @@ export const useNewSurvey = (props: Props) => {
 
     const selectedAreasMemorized = useCallback((areas: Array<Area>) => dispatch({ type: 'AREA - Set Current Areas', payload: areas }), []);
 
-    const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, area: Area) => {
+    const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => {
+        event.stopPropagation();
         event.dataTransfer.setData('area', JSON.stringify(area));
-        setIsDrag(prev => !prev);
+        setIsDrag(true);
     }, []);
 
-    const onDragEnd = useCallback(() => setIsDrag(prev => !prev), []);
+    const onDragEnd = useCallback(() => setIsDrag(false), []);
 
     const allowDrop = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
     }
 
     const onDropArea = (event: DragEvent<HTMLDivElement>) => {
-        const area = JSON.parse(event.dataTransfer.getData('area')) as Area;
+        const area = JSON.parse(event.dataTransfer.getData('area'));
         selectedAreasMemorized([area]);
         dispatch({ type: 'AREA - Add Area', payload: area })
-        props.openDatetime!();
         onDragEnd()
+        props.openDatetime!();
     }
 
     const handleMultiSelect = useCallback(() => setMultiSelect(prev => !prev), []);
@@ -55,9 +56,10 @@ export const useNewSurvey = (props: Props) => {
     }
 
     const handleSetDatetimeToArea = (datetime: DATETIME) => {
-        dispatch({ type: 'AREA - Set Datetime to areas', payload: { datetime, areas: selectedAreas } })
+        dispatch({ type: 'AREA - Set Datetime to areas', payload: { datetime, areas: selectedAreas } });
     }
 
+    const handleRollbackSelectedAreas = () => dispatch({ type: 'AREA - Rollback Selected Areas' });
 
 
     return {
@@ -79,5 +81,6 @@ export const useNewSurvey = (props: Props) => {
         handleSetDatetimeToArea,
         handleSelectAllAreas,
         handleSelectMultiplesAreas,
+        handleRollbackSelectedAreas,
     }
 }

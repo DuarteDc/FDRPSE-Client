@@ -15,11 +15,11 @@ export interface StepComponent {
 }
 
 export const DATETIME_STEP: Array<StepComponent> = [
-    {
-        name: 'Áreas seleccionadas',
-        component: ViewAreasSelected, 
-        icon: BuildingComunity
-    },
+    // {
+    //     name: 'Áreas seleccionadas',
+    //     component: ViewAreasSelected, 
+    //     icon: BuildingComunity
+    // },
     {
         name: 'Seleccionar fecha',
         component: SelectRangeDates,

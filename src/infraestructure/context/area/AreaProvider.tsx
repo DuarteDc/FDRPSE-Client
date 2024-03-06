@@ -1,6 +1,6 @@
 import { ReactNode, useReducer } from 'react';
 import { AreaContext, areaReducer } from './';
-import { Area } from '../../../domain/models';
+import { Area, AreaSubareasDepartments } from '../../../domain/models';
 
 
 interface Props {
@@ -13,9 +13,9 @@ export interface DATETIME {
 
 export interface AreaState {
     area                : Area | null;
-    areas               : Array<Area> | [];
+    areas               : Array<Area | AreaSubareasDepartments> | [];
     datetime            : DATETIME;
-    areasWithDatetime   : Array<Area> | [];
+    areasWithDatetime   : Array<Area> | Array<AreaSubareasDepartments>| [];
     areaWithDatetime    : Area | null;
     selectedAreas       : Array<Area> | [];
 }

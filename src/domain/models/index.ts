@@ -1,6 +1,6 @@
-export { AreaSubareasDepartments } from './AreaSubareasDepartaments';
 
 export { Area } from './Area';
+export * from './AreaSubareasDepartaments';
 export { Category } from './Category';
 export { CategoryQualifications } from './CategoryQualifications';
 export { Dimension } from './Dimension';
