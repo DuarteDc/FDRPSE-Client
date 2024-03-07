@@ -5,6 +5,7 @@ export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
 export { BoxOff } from './BoxOff';
 export { BuildingComunity } from './BuildingComunity';
+export { BuildingIcon } from './BuildingIcon';
 export { CalendarMonth } from './CalendarMonth';
 export { CategoryIcon } from './CategoryIcon';
 export { CheckboxIcon } from './CheckboxIcon';

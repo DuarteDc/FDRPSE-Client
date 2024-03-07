@@ -1,9 +1,10 @@
 import { DragEvent, Fragment, memo, useCallback, useState } from 'react';
 import { Checkbox, cn } from '@nextui-org/react';
 
-import { BuildingComunity, ChevronLeft } from '../../../infraestructure/components/icons'
+import { BuildingComunity, BuildingIcon, ChevronLeft, HomeIcon } from '../../../infraestructure/components/icons'
 import { Area, AreaSubareasDepartments, Departments } from '../../../domain/models'
 import { SubdirectionItem } from '../../../infraestructure/components/areas';
+import { TypeAreas } from '../../../domain/models/Area';
 
 interface Props {
     area: AreaSubareasDepartments;
@@ -25,7 +26,7 @@ export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: 
                     <Checkbox
                         classNames={{
                             base: cn(
-                                "inline-flex max-w-md w-full",
+                                "inline-flex max-w-md w-full animate-[fadeIn_0.5s]",
                                 "hover:bg-content2 items-center justify-start",
                                 "cursor-pointer rounded-lg",
                             ),
@@ -51,12 +52,22 @@ export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: 
                             draggable
                             onDragStart={(event) => onDragStart(event, area)}
                             onDragEnd={onDragEnd}
-                            className={`shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer  hover:border-emerald-600 transition-all duration-300 ease-in w-full my-2 border-2 border-slate-2 ${openSudirection ? 'ease-in' : 'max-h-none'} overflow-hidden `}
+                            className={`shadow-emerald-600/10 shadow-xl rounded-xl py-4 px-2 cursor-pointer  hover:border-emerald-600 transition-all duration-300 ease-in w-full my-2 border-2 border-slate-2 ${openSudirection ? 'ease-in' : 'max-h-none'} overflow-hidden animate-[fadeIn_0.5s]`}
                         >
                             <div className="flex items-center">
                                 <div>
                                     <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] bg-emerald-600  text-white mx-4 flex items-center justify-center rounded-full">
-                                        <BuildingComunity width={30} height={30} />
+                                        {
+                                            area.typeArea === TypeAreas.Direction ? (
+                                                <BuildingComunity width={30} height={30} />
+                                            ) : (
+                                                area.typeArea === TypeAreas.Subdirection ? (
+                                                    <BuildingIcon width={30} height={30} />
+                                                ) : (
+                                                    <HomeIcon width={30} height={30} />
+                                                )
+                                            )
+                                        }
                                     </span>
                                 </div>
                                 <div className="relative w-full">

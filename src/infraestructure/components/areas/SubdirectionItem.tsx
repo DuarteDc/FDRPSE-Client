@@ -1,7 +1,7 @@
 import { DragEvent, memo, useCallback, useState } from 'react';
 import { Area, Departments } from '../../../domain/models'
-import { ChevronLeft, HomeIcon } from '../icons';
-import { Deparment } from '.';
+import { BuildingIcon, ChevronLeft } from '../icons';
+import { Deparment } from './';
 
 interface Props {
     subdirection: Departments;
@@ -25,9 +25,9 @@ export const SubdirectionItem = memo(({ subdirection, onDragEnd, onDragStart }: 
              hover:border-emerald-600 transition-all duration-300 ease-in w-full my-2 border-2 border-slate-2 `}
         >
             <div className="flex items-center py-3">
-                <div className="w-full flex items-center text-sm">
+                <div className="w-full flex items-center text-sm [&>p]:font-bold">
                     <div className="lg:w-[3rem] lg:h-[3rem] w-[3rem] h-[3rem] min-w-[3rem] bg-emerald-600 text-white mx-1 inline-flex items-center justify-center rounded-full">
-                        <HomeIcon width={20} height={20} />
+                        <BuildingIcon width={20} height={20} />
                     </div>
                     <p>{subdirection.name}</p>
                 </div>

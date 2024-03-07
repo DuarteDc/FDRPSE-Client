@@ -12,7 +12,7 @@ export const areaRepository = {
                 area.subdirections.map((subdirection) => ({
                     id: subdirection.id,
                     name: subdirection.nombreArea,
-                    usersCount: +(subdirection?.users_count) ?? 0,
+                    usersCount: subdirection?.users_count ? +subdirection.users_count : 0,
                     parentArea: subdirection.area_padre,
                     departments: subdirection.departments.map((deparment) =>
                         new Area(deparment.id, deparment.nombreArea, deparment.area_padre, deparment.users_count, TypeAreas.Deparment)),

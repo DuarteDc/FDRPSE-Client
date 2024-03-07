@@ -44,7 +44,6 @@ export const CreateQuestionPage = () => {
                             {(step + 1) >= QUESTION_STEPS.length ? 'Guardar' : 'Sieguiente'}
                         </Button>
                     </Fragment>
-
                 }
             />
         </PageLayout>
