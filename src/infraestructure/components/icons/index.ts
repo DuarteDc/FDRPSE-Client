@@ -16,6 +16,7 @@ export { CircleCheck } from './CircleCheck';
 export { ClearAllIcon } from './ClearAllIcon';
 export { ClockIcon } from './ClockIcon';
 export { DimensionsIcon } from './DimensionsIcon';
+export { DotsVertical } from './DotsVertical';
 export { DownloadIcon } from './DownloadIcon';
 export { EyeIcon } from './EyeIcon';
 export { EyeOffIcon } from './EyeOffIcon';

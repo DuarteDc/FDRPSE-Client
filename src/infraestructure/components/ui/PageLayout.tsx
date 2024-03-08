@@ -11,9 +11,9 @@ export const PageLayout = ({ title, navigateTo, children }: Props) => {
 
     return (
         <>
-            <header className="flex items-center text-emerald-600 mb-10">
-                <span className="cursor-pointer" title="Back" onClick={() => navigate(navigateTo)}>
-                    <ArrowNarrowLeft width={50} height={50} />
+            <header className="flex items-center text-emerald-600 mb-10 cursor-pointer transition-all">
+                <span className="cursor-pointer rounded-lg border-2 transition-all hover:border-emerald-600" title="Back" onClick={() => navigate(navigateTo)}>
+                    <ArrowNarrowLeft width={40} height={40} />
                 </span>
                 <h1 className="text-4xl font-extrabold ml-2">{title}</h1>
             </header>

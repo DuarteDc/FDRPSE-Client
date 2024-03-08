@@ -11,6 +11,7 @@ import { QuestionProvider } from '../context/questions';
 import { QualificationProvider } from '../context/qualification';
 import SurveyProvider from '../context/survey/SurveyProvider';
 import { AreaProvider } from '../context/area';
+import { GuidesPage } from '../../app/pages/guides';
 
 export const MainRouter = () => {
     return (
@@ -40,11 +41,12 @@ export const MainRouter = () => {
                                                                     <AreaProvider>
                                                                         <Routes>
                                                                             <Route path="/*" index element={<SurveyRoutes />} />
+                                                                            <Route path="surveys/*" index element={<GuidesPage />} />
                                                                             <Route path="sections/*" index element={<SectionRoutes />} />
-                                                                            <Route path="/categories/*" index element={<CategoryRoutes />} />
-                                                                            <Route path="/domains/*" index element={<DomainRoutes />} />
-                                                                            <Route path="/dimensions/*" index element={<DimensionRoutes />} />
-                                                                            <Route path="/questions/*" index element={<QuestionRoutes />} />
+                                                                            <Route path="categories/*" index element={<CategoryRoutes />} />
+                                                                            <Route path="domains/*" index element={<DomainRoutes />} />
+                                                                            <Route path="dimensions/*" index element={<DimensionRoutes />} />
+                                                                            <Route path="questions/*" index element={<QuestionRoutes />} />
                                                                             <Route path="*" element={<NotFound />} />
                                                                         </Routes>
                                                                     </AreaProvider>

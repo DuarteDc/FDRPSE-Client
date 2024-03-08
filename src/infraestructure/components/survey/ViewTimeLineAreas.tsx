@@ -1,12 +1,12 @@
 import { ForwardedRef, forwardRef, useImperativeHandle, useMemo } from 'react';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { CalendarMonth } from '../icons';
+
 import { ValidateStep } from '../../../app/utils/surveySteps';
 import { areaService } from '../../../domain/services/area.service';
 import { parseDate } from '../../../app/helpers/parseDate';
-import { CalendarMonth } from '../icons';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { prepareAreasToCreateSurvey } from '../../../app/helpers/prepareAreasToCreateSurvey';
-
 
 export const ViewTimeLineAreas = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 

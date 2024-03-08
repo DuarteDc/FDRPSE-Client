@@ -14,7 +14,10 @@ export const Layout = ({ children }: Props) => {
     const toggleDrawer = () => setIsOpen((prevState) => !prevState);
 
     return (
-        <main className="relative overflow-hidden">
+        <main className="relative overflow-hidden 
+         after:absolute after:w-full after:h-full after:blur-3xl after:top-0 after:-z-[99999]
+            before:w-full before:h-full before:fixed before:top-0 before:left-0 before:backdrop-blur-3xl before:bg-white/20 before:-z-50
+        ">
             {
                 user?.role === ADMIN_ROLE && (
                     <Fragment>
