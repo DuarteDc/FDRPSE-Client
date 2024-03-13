@@ -25,11 +25,11 @@ export const QUESTION_STEPS: Array<StepComponent> = [
         component: AddQualification,
         icon: StarsIcon,
     },
-    {
-        name: 'Asignar sección',
-        component: SubquestionForm,
-        icon: SectionIcon
-    },
+    // {
+    //     name: 'Asignar sección',
+    //     component: SubquestionForm,
+    //     icon: SectionIcon
+    // },
     {
         name: 'Antes de guardar',
         component: ReviewQuestion,

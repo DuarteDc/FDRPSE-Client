@@ -19,7 +19,7 @@ export const SectionList = ({ className = classList, loading, sections, renderCh
     return (
         <div className={className}>
             {
-                (loading && !sections) ? <SkeletonSectionCard /> : sections.map((section) => <Fragment key={section.id}>{renderChilds({ section })}</Fragment>)
+                (loading && sections) ? <SkeletonSectionCard countSkeletonItems={6} /> : sections.map((section) => <Fragment key={section.id}>{renderChilds({ section })}</Fragment>)
             }
         </div>
     )

@@ -36,7 +36,7 @@ export const sectionRespository = {
         }
     },
 
-    getSectionsByType: async (type: string): Promise<Array<Section> | string> => {
+    getSectionsByType: async (type: boolean): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>(`/auth/sections/questions/by?type=${type}`);
             return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))

@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { sectionRespository } from '../../infraestructure/repositories/section.repository';
 import { SectionContext } from '../../infraestructure/context/section';
 import { CreateSectionDto, PostSectionsIdDto } from '../../infraestructure/http/dto/sections';
-import { Section } from '../models';
+import { Section, SectionQuesions } from '../models';
 
 interface Props {
     onOpenAuxiliarModel?: () => void;
@@ -34,7 +34,7 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }, []);
 
-    const startGetSectionsBy = useCallback(async (type: string): Promise<void> => {
+    const startGetSectionsBy = useCallback(async (type: boolean): Promise<void> => {
         setLoading(prev => !prev);
         const sections = await sectionRespository.getSectionsByType(type);
         typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });
@@ -62,12 +62,20 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }
 
+
+
+    const findCurrentSection = (currentSection: SectionQuesions) => {
+        if (currentSection && currentSection.id === section?.id) return;
+        dispatch({ type: 'SECTION - Get current section', payload: currentSection });
+    }
+
     return {
         loading,
         section,
         sections,
         sectionsSelected,
 
+        findCurrentSection,
         getSectionDetail,
         startGetSections,
         startCreateSection,

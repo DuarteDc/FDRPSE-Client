@@ -1,3 +1,4 @@
+import { Qualification } from '../questions/QuestionsBySectionResponse';
 import { SectionResponseDto } from './';
 
 export interface GetOneSectionWithQuestions {
@@ -16,7 +17,7 @@ export interface QuestionInsideSection {
     section_id: number;
     domain_id: number | null;
     dimension_id: number;
-    qualification_id: number;
+    qualification: Qualification;
     created_at: string;
     updated_at: string;
     deleted_at: string;

@@ -81,7 +81,7 @@ export const SectionDetail = ({ section, loading, onClose }: Props) => {
                                 </div>
                             </span>
                         </section>
-                        <footer className="flex [&>*]:mx-1 [&>*]:font-bold [&>*]:text-xs">
+                        <footer className="flex border-t-2 pt-2 [&>*]:mx-1 [&>*]:font-bold [&>*]:text-xs">
                             <Button
                                 startContent={<LinkIcon strokeWidth={3} width={20} height={20} />}
                                 className="w-full border-2 bg-transparent hover:bg-emerald-600 hover:border-emerald-600 transition-all duration-400 hover:text-white">

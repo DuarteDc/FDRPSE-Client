@@ -1,3 +1,4 @@
+import { Qualification } from '.';
 import { QuestionInsideSection } from '../../infraestructure/http/dto/sections/GetOneSectionWithQuestions';
 import { Section, SectionSchema } from './Section';
 
@@ -12,7 +13,7 @@ interface Question {
     sectionId: number,
     domainId: number | null,
     dimensionId: number;
-    qualificationId: number,
+    qualification: Qualification,
     type: string;
 }
 export class SectionQuesions extends Section implements SectionQuestionsSchema {
@@ -28,7 +29,7 @@ export class SectionQuesions extends Section implements SectionQuestionsSchema {
             sectionId: question.section_id,
             domainId: question.domain_id,
             dimensionId: question.dimension_id,
-            qualificationId: question.qualification_id,
+            qualification: { ...question.qualification, createdAt: new Date, updatedAt: new Date },
             type: 'graddable'
         }))
     }

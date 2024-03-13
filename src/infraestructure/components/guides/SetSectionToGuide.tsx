@@ -2,12 +2,13 @@ import { ForwardedRef, Fragment, forwardRef, useEffect, useImperativeHandle } fr
 import { ValidateStep } from "../../../app/utils/guideSteps"
 import { sectionService } from "../../../domain/services/section.service";
 import { SectionList } from "../sections/SectionList";
-import { SectionCard } from "../sections";
-import { Button, useDisclosure } from "@nextui-org/react";
-import { Modal } from "../ui/Modal";
-import { AlertTriangle, CheckIcon, LinkIcon, QuestionIcon, SectionIcon, XIcon } from "../icons";
-import { useGuide } from "../../../app/hooks/useGuide";
-import { SectionDetail } from "./";
+import { SectionCard } from '../sections';
+import { useDisclosure } from '@nextui-org/react';
+import { Modal } from '../ui/Modal';
+import { SectionIcon, XIcon } from '../icons';
+import { useGuide } from '../../../app/hooks/useGuide';
+import { SectionDetail } from './';
+import { guideService } from "../../../domain/services/guide.service";
 
 
 export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
@@ -15,10 +16,11 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { onDragStart, onDragEnd, allowDrop, onDropArea, isDrag, handleRemoveSectionSelected } = useGuide({});
     const { startGetSectionsBy, sections, loading, getSectionDetail, section, sectionsSelected } = sectionService({ onOpenAuxiliarModel: onOpen });
+    const { guide } = guideService();
 
     useEffect(() => {
-        startGetSectionsBy('gradable')
-    }, []);
+        startGetSectionsBy(guide!.gradable)
+    }, []); 
 
     useImperativeHandle(ref, () => ({
         canContinue: () => true,
@@ -45,7 +47,7 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
                     <SectionIcon width={35} height={35} strokeWidth={1.5} />
                     <p className="font-bold">Asignar Secciones</p>
                 </span>
-                <p className="text-gray-500 font-bold text-xs pl-4">Arrastra las secciones que deseas que contenga el cuestionario </p>
+                <p className="text-gray-500 font-bold text-xs pl-10">Arrastra las secciones que deseas que contenga el cuestionario </p>
             </span>
             <div className={`min-h-[500px] col-span-5 w-full border-2 transition-all duration-400 rounded-xl flex flex-wrap p-2 gap-2 mt-16 ${isDrag ? 'bg-gray-200 border-dashed border-gray-400 ease-in' : 'opacity-100 ease-in-out'}`}
                 onDrop={onDropArea}
@@ -54,7 +56,7 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
                 {
                     sectionsSelected.map((section) => (
                         <SectionCard
-                            classList="py-5 cursor-pointer flex items-center border-2 lg:w-[calc(50%-5px)] xl:w-[calc(33%-5px)] h-[7rem] rounded-lg hover:border-emerald-600 transition-all duration-400
+                            classList="py-5 cursor-pointer flex items-center border-2 md:w-[calc(50%-5px)] xl:w-[calc(33%-5px)] h-[7rem] rounded-lg hover:border-emerald-600 transition-all duration-400
                             shadow-md shadow-emerald-600/10 relative px-3"
                             key={section.id}
                             section={section}

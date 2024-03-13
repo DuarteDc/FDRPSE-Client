@@ -8,6 +8,7 @@ export type SectionActionType =
     | { type: 'SECTION - Add section to guide', payload: Section }
     | { type: 'SECTION - Delete section to guide', payload: Section }
     | { type: 'SECTION - Start load sections with questions', payload: Array<SectionQuesions> }
+    | { type: 'SECTION - Get current section', payload: SectionQuesions }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
 
@@ -51,10 +52,17 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
         }
 
         case 'SECTION - Start load sections with questions':
-            return{
+            return {
                 ...state,
                 sections: action.payload
             }
+
+        case 'SECTION - Get current section':
+            return {
+                ...state,
+                section: state.sections.find(section => section.id === action.payload.id),
+            }
+
 
         default:
             return state;

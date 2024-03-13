@@ -1,9 +1,12 @@
 import { Skeleton } from '@nextui-org/react';
 import { Fragment } from 'react';
 
-const items = Array.from({ length: 12 }, (_, index) => index + 1);
+interface Props {
+    countSkeletonItems?: number
+}
 
-export const SkeletonSectionCard = () => {
+export const SkeletonSectionCard = ({ countSkeletonItems = 12 }: Props) => {
+    const items = Array.from({ length: countSkeletonItems }, (_, index) => index + 1);
     return (
         <Fragment>
             {

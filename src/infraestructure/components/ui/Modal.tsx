@@ -4,7 +4,7 @@ import { ModalContent, ModalHeader, Modal as MainModal, ModalBody } from '@nextu
 interface Props {
     className       ?:   string;
     isOpen           :   boolean;
-    title            :   string;
+    title           ?:   string;
     onChange         :   () => void;
     renderContent    :   (onClose: () => void) => ReactNode;
     size             :   any;
@@ -13,9 +13,9 @@ interface Props {
     isKeyboardDismissDisabled ?: boolean;
 }
 
-export const Modal = ({ title, renderContent, onChange, isKeyboardDismissDisabled = false, ...props }: Props) => {
+export const Modal = ({ title = '', renderContent, onChange, isKeyboardDismissDisabled = false, ...props }: Props) => {
     return (
-        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled={isKeyboardDismissDisabled}>
+        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled={isKeyboardDismissDisabled} className="rounded-lg border-2">
             <ModalContent className="overflow-y-auto">
                 {(onClose) => (
                     <>

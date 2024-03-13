@@ -3,16 +3,19 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Input, Radio, RadioGroup, cn } from '@nextui-org/react';
 
-import { BoxIcon, FileDescription, StarsIcon } from '../icons';
+import { BrandDatabricks, FileDescription, InfoCircle, StarsIcon } from '../icons';
 import { ValidateStep } from '../../../app/utils/guideSteps'
 import { preSaveGuideValidation } from '../../validations/guide.validations';
+import { guideService } from '../../../domain/services/guide.service';
 
 export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
+    const { handleSetNameAndType, guide } = guideService();
+
     const formik = useFormik({
-        initialValues: { name: '', gradable: true },
+        initialValues: { name: guide?.name || '', gradable: guide?.gradable || true },
         validationSchema: Yup.object(preSaveGuideValidation()),
-        onSubmit: () => console.log('TODO send data'),
+        onSubmit: (data) => handleSetNameAndType({...data, gradable: data.gradable })
     })
 
     const canContinue = async (): Promise<boolean> => {
@@ -21,14 +24,21 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
         return Object.keys(reasons).length <= 0;
     }
 
-
     useImperativeHandle(ref, () => ({
         canContinue,
     }));
 
+
     return (
-        <div className="grid grid-cols-1">
-            <form action="#" className="col-span-2">
+        <div>
+            <span className="mb-5 block col-span-7">
+                <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
+                    <BrandDatabricks width={35} height={35} strokeWidth={1.5} />
+                    <p className="font-bold">Datos Generales</p>
+                </span>
+                <p className="text-gray-500 font-bold text-xs pl-10">Arrastra las secciones que deseas que contenga el cuestionario </p>
+            </span>
+            <form onSubmit={formik.handleSubmit} className="pl-5">
                 <div className="my-10">
                     <span className="mb-5 block">
                         <p className="font-bold">Nombre del cuestionario</p>
@@ -38,7 +48,7 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
                         placeholder="Nombre"
                         classNames={{
                             mainWrapper: cn(
-                                "[&>div>div>svg]:text-emerald-600"
+                                "[&>div>div>svg]:text-gray-500"
                             )
                         }}
                         name="name"
@@ -76,7 +86,7 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
                                 )
                             }}
                         >
-                            <StarsIcon strokeWidth={1} width={20} height={20} />
+                            <StarsIcon strokeWidth={2} width={20} height={20} />
                             Cuestionario evaluativo
                         </Radio>
 
@@ -95,7 +105,7 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
                                 )
                             }}
                         >
-                            <BoxIcon strokeWidth={1} width={20} height={20} />
+                            <InfoCircle strokeWidth={2} width={20} height={20} />
                             Cuestionario informativo
                         </Radio>
                     </RadioGroup>

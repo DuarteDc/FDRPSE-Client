@@ -21,7 +21,7 @@ export interface QuestionsInsideSection {
     qualification   : Qualification;
 }
 
-interface Qualification {
+export interface Qualification {
     id: string;
     name: string;
     always_op: string;

@@ -1,9 +1,12 @@
+
+
 export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
 export { BoxIcon } from './BoxIcon';
 export { BoxOff } from './BoxOff';
+export { BrandDatabricks } from './BrandDatabricks';
 export { BuildingComunity } from './BuildingComunity';
 export { BuildingIcon } from './BuildingIcon';
 export { CalendarMonth } from './CalendarMonth';
@@ -24,6 +27,7 @@ export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
 export { GoogleIcon } from './GoogleIcon';
 export { HomeIcon } from './HomeIcon';
+export { InfoCircle } from './InfoCircle';
 export { LineIcon } from './LineIcon';
 export { LinkIcon } from './LinkIcon';
 export { LockIcon } from './LockIcon';

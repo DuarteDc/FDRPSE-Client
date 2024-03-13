@@ -1,3 +1,5 @@
+export * from './Guide';
+
 export { SectionQuesions } from './SectionQuestions';
 
 export { Area } from './Area';

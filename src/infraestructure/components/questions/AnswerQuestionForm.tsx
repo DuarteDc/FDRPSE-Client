@@ -12,8 +12,9 @@ import { surveyService } from '../../../domain/services/survey.service';
 interface Props {
   questions: Array<QuestionsInsideSection>;
   hasSubquestions: string | null;
+  showFooterControls?: boolean;
 }
-export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
+export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterControls = true }: Props) => {
 
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();
   const { totalQuestions, currentPage, saveQuestionUser, clearQuestionBySection, startGetQuestionsBySection } = questionService();
@@ -33,7 +34,7 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
         clearQuestionBySection();
       }).then(() => {
         if ((currentPage) === totalQuestions) return endSurveyUser();
-        
+
         startGetQuestionsBySection(currentPage! + 1);
       })
 
@@ -45,8 +46,8 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
       {
         hasSubquestions && (
           <>
-            <h3>{hasSubquestions}</h3>
-            <RadioGroup defaultValue="false" onValueChange={(value) => setIsBinary(JSON.parse(value))}>
+            <h3 className="mb-2">{hasSubquestions}</h3>
+            <RadioGroup defaultValue="false" orientation="horizontal" onValueChange={(value) => setIsBinary(JSON.parse(value))}>
               <Radio value="false">No</Radio>
               <Radio value="true">Si</Radio>
             </RadioGroup>
@@ -80,12 +81,15 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions }: Props) => {
           ))
         )
       }
-
-      <FooterControls
-        handlePreviousStep={handlePreviousStep}
-        currentPage={currentPage!}
-        totalItems={totalQuestions!}
-      />
+      {
+        showFooterControls && (
+          <FooterControls
+            handlePreviousStep={handlePreviousStep}
+            currentPage={currentPage!}
+            totalItems={totalQuestions!}
+          />
+        )
+      }
     </form >
   )
 }
