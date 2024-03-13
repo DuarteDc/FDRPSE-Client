@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AdminRoutes, AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
+import { AdminRoutes, AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, GuideRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
 import { Layout } from '../components/ui';
 import { LoginPage, NotFound, } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
@@ -41,7 +41,7 @@ export const MainRouter = () => {
                                                                     <AreaProvider>
                                                                         <Routes>
                                                                             <Route path="/*" index element={<SurveyRoutes />} />
-                                                                            <Route path="surveys/*" index element={<GuidesPage />} />
+                                                                            <Route path="surveys/*" index element={<GuideRoutes />} />
                                                                             <Route path="sections/*" index element={<SectionRoutes />} />
                                                                             <Route path="categories/*" index element={<CategoryRoutes />} />
                                                                             <Route path="domains/*" index element={<DomainRoutes />} />

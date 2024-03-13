@@ -1,32 +1,76 @@
-import { SectionIcon } from '../icons';
+import { DragEvent, ReactNode } from 'react';
+import { DotsVertical, EyeIcon, PlusIcon, SectionIcon } from '../icons';
 import { Section } from '../../../domain/models';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@nextui-org/react';
 
 interface Props {
   section: Section
-  handleSelectSection ?: (section: Section) => void;
+  draggable: boolean
+  onDragStart?: (event: DragEvent<HTMLDivElement>, section: Section) => void;
+  onDragEnd?: () => void;
+  classList?: string;
+  showControlls?: boolean;
+  handleSelectSection?: (section: Section) => void;
+  renderContent?: () => ReactNode
 }
 
-export const SectionCard = ({ section, handleSelectSection }: Props) => {
-  return (
-    <div className="shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-105 w-full"
-    onClick={() => handleSelectSection ? handleSelectSection(section) : undefined}
-    
-    >
-      <div>
+const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-105 w-full'
 
-        <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] bg-emerald-600  text-white mx-4 flex items-center justify-center rounded-full">
+export const SectionCard = ({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent }: Props) => {
+
+  return (
+    <div
+      className={classList}
+      draggable={draggable}
+      onDragStart={(event) => { draggable && onDragStart!(event, section) }}
+      onDragEnd={() => { draggable && onDragEnd!() }}
+    >
+      {
+        renderContent && renderContent()
+      }
+      <div>
+        <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] text-emerald-600 border-2 mx-4 flex items-center justify-center rounded-full">
           <SectionIcon width={30} height={30} />
         </span>
       </div>
       <div className="relative w-full">
-        {/* <span className="text-xs right-0 top-0 absolute">{section.questionCount}</span> */}
-        <h2 className="font-bold text-sm">{section.name}</h2>
+        <h2 className="font-bold text-xs">{section.name}</h2>
         {
           section.binary && (
             <p className="text-xs text-gray-500 font-bold">{section.question}</p>
           )
         }
       </div>
+      {
+        showControlls && (
+          <span className="flex items-center [&>svg]:hover:text-emerald-600">
+            <Dropdown
+              showArrow
+            >
+              <DropdownTrigger>
+                <Button className="bg-transparent max-w-1 px-0 border-2" isIconOnly>
+                  <DotsVertical />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu variant="flat" aria-label="Dropdown menu with description">
+                <DropdownItem
+                  key="new"
+                  onClick={() => handleSelectSection && handleSelectSection(section)}
+                  classNames={{
+                    base: cn(
+                      "font-bold text-red-600",
+                      "font-bold"
+                    )
+                  }}
+                  title="Detalles"
+                  description="Ver las preguntas dentro de la sección"
+                  startContent={<EyeIcon />}
+                />
+              </DropdownMenu>
+            </Dropdown>
+          </span>
+        )
+      }
     </div>
   )
 }

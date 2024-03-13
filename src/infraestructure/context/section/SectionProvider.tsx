@@ -1,11 +1,12 @@
 import { ReactNode, useReducer } from 'react';
 
-import { Section } from '../../../domain/models';
+import { Section, SectionQuesions } from '../../../domain/models';
 import { SectionContext, sectionReducer } from './';
 
 export interface SectionState {
-  section: Section | null;
-  sections: Array<Section>
+  section           : null | SectionQuesions;
+  sections          : Array<Section | SectionQuesions> | [];
+  sectionsSelected  : Array<Section> | [];
 }
 
 interface Props {
@@ -13,8 +14,9 @@ interface Props {
 }
 
 const SECTION_INITIAL_STATE: SectionState = {
-  section: null,
-  sections: []
+  section           : null,
+  sections          : [],
+  sectionsSelected  : [],
 }
 
 export const SectionProvider = ({ children }: Props) => {

@@ -10,11 +10,12 @@ interface Props {
     size             :   any;
     hideCloseButton ?:   boolean;
     closeButton     ?:   ReactNode
+    isKeyboardDismissDisabled ?: boolean;
 }
 
-export const Modal = ({ title, renderContent, onChange, ...props }: Props) => {
+export const Modal = ({ title, renderContent, onChange, isKeyboardDismissDisabled = false, ...props }: Props) => {
     return (
-        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled >
+        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled={isKeyboardDismissDisabled}>
             <ModalContent className="overflow-y-auto">
                 {(onClose) => (
                     <>

@@ -17,7 +17,7 @@ export const QuestionsPage = () => {
 
     return (
         <PageLayout title="Preguntas" navigateTo="/auth/">
-            <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10" color="primary"
+            <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10" 
                 onClick={() => navigate('create')}
                 startContent={
                     <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">

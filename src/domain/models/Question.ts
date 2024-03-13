@@ -5,7 +5,7 @@ import { QualificationResponseDto } from '../../infraestructure/http/dto/qualifi
 import { DimensionResponseDto } from '../../infraestructure/http/dto/dimensions';
 import { DomainResponseDto } from '../../infraestructure/http/dto/domains';
 
-interface QuestionSchema {
+export interface QuestionSchema {
     id              : string;
     name            : string;
     section         : Section | null;

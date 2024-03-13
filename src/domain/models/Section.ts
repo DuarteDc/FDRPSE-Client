@@ -1,4 +1,4 @@
-interface SectionSchema {
+export interface SectionSchema {
     id              : string;
     name            : string;
     question        : string | null;

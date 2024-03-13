@@ -1,3 +1,5 @@
+export { GuideRoutes } from './GuideRoutes';
+
 export { AdminRoutes } from './AdminRoutes';
 export { AuthRoutes } from './AuthRoutes';
 export { CategoryRoutes } from './CategoryRoutes';

@@ -20,16 +20,16 @@ export const SURVEY_STEPS: Array<StepComponent> = [
     //     component: ViewAreasSelected, 
     //     icon: BuildingComunity
     // },
-    {
-        name: 'Asignar horarios',
-        component: StartSurvey,
-        icon: CalendarMonth,
-    },
-    {
-        name: 'Programación',
-        component: ViewTimeLineAreas,
-        icon: CalendarMonth,
-    },
+    // {
+    //     name: 'Asignar horarios',
+    //     component: StartSurvey,
+    //     icon: CalendarMonth,
+    // },
+    // {
+    //     name: 'Programación',
+    //     component: ViewTimeLineAreas,
+    //     icon: CalendarMonth,
+    // },
     // {
     //     name: 'Asignar horario',
     //     component: SetRangeTime,

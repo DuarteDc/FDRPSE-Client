@@ -1,5 +1,5 @@
 import { DragEvent, useCallback, useState } from 'react';
-import { Area, AreaSubareasDepartments, Departments } from '../../domain/models';
+import { Area, AreaSubareasDepartments, Departments, Section } from '../../domain/models';
 import { areaService } from '../../domain/services/area.service';
 import { DATETIME } from '../../infraestructure/context/area';
 
@@ -16,9 +16,9 @@ export const useNewSurvey = (props: Props) => {
 
     const selectedAreasMemorized = useCallback((areas: Array<Area>) => dispatch({ type: 'AREA - Set Current Areas', payload: areas }), []);
 
-    const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => {
+    const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, section: Section) => {
         event.stopPropagation();
-        event.dataTransfer.setData('area', JSON.stringify(area));
+        event.dataTransfer.setData('section', JSON.stringify(section));
         setIsDrag(true);
     }, []);
 
@@ -29,9 +29,9 @@ export const useNewSurvey = (props: Props) => {
     }
 
     const onDropArea = (event: DragEvent<HTMLDivElement>) => {
-        const area = JSON.parse(event.dataTransfer.getData('area'));
-        selectedAreasMemorized([area]);
-        dispatch({ type: 'AREA - Add Area', payload: area })
+        const area = JSON.parse(event.dataTransfer.getData('section'));
+        // selectedAreasMemorized([area]);
+        // dispatch({ type: 'AREA - Add Area', payload: area })
         onDragEnd()
         props.openDatetime!();
     }

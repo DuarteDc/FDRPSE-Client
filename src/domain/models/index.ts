@@ -1,3 +1,4 @@
+export { SectionQuesions } from './SectionQuestions';
 
 export { Area } from './Area';
 export * from './AreaSubareasDepartaments';

@@ -4,7 +4,7 @@ import { PlusIcon } from '../../../infraestructure/components/icons';
 import { sectionService } from '../../../domain/services/section.service';
 import { useEffect } from 'react';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
-import { SectionForm } from '../../../infraestructure/components/sections';
+import { SectionCard, SectionForm } from '../../../infraestructure/components/sections';
 import { SectionList } from '../../../infraestructure/components/sections/SectionList';
 
 export const SectionPage = () => {
@@ -31,8 +31,12 @@ export const SectionPage = () => {
                 </Button>
             </span>
 
-            <SectionList sections={sections} loading={loading} />
-
+            <SectionList sections={sections} loading={loading}
+                renderChilds={({ section }) => (
+                    <SectionCard section={section} draggable={false}
+                        classList="border-2 py-4 bg-red-400"
+                    />)}
+            />
             <Modal
                 title="Agregar Sección"
                 isOpen={isOpen}

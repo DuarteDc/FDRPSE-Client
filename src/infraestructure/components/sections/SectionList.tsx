@@ -1,20 +1,25 @@
+import { Fragment, ReactNode } from 'react';
 import { Section } from '../../../domain/models';
 import { SkeletonSectionCard } from '../ui/skeleton';
-import { SectionCard } from '.';
 
-interface Props {
-    sections: Array<Section>;
-    loading: boolean;
+interface RenderChildProps {
+    section: Section;
 }
 
-export const SectionList = ({ sections, loading }: Props) => {
+interface Props {
+    sections    : Array<Section>;
+    loading     : boolean;
+    className  ?: string,
+    renderChilds: ({ section }: RenderChildProps) => ReactNode | Array<ReactNode>;
+}
+
+const classList = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-5 lg:gap-y-8 gap-y-4';
+
+export const SectionList = ({ className = classList, loading, sections, renderChilds }: Props) => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-5 lg:gap-y-8 gap-y-4">
-            
+        <div className={className}>
             {
-                loading
-                    ? <SkeletonSectionCard />
-                    : sections.map((section) => <SectionCard section={section} key={section.id} />)
+                (loading && !sections) ? <SkeletonSectionCard /> : sections.map((section) => <Fragment key={section.id}>{renderChilds({ section })}</Fragment>)
             }
         </div>
     )

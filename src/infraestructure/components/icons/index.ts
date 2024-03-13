@@ -1,4 +1,4 @@
-
+export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
 export { ArrowUpRight } from './ArrowUpRight';
@@ -18,12 +18,14 @@ export { ClockIcon } from './ClockIcon';
 export { DimensionsIcon } from './DimensionsIcon';
 export { DotsVertical } from './DotsVertical';
 export { DownloadIcon } from './DownloadIcon';
+export { EditIcon } from './EditIcon';
 export { EyeIcon } from './EyeIcon';
 export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
 export { GoogleIcon } from './GoogleIcon';
 export { HomeIcon } from './HomeIcon';
 export { LineIcon } from './LineIcon';
+export { LinkIcon } from './LinkIcon';
 export { LockIcon } from './LockIcon';
 export { LogoutIcon } from './LogoutIcon';
 export { NumbersIcon } from './NumbersIcon';

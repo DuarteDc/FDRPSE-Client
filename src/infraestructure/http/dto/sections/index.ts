@@ -1,5 +1,8 @@
-export type { CreateSectionDto } from './CreateSectionDto';
-export type { CreateSectioResponseDto } from './CreateSectionResponseDto';
-export type { GetOneSectionResponseDto} from './GetOneSectionResponse';
-export type { SectionResponseDto } from './SectionResponseDto';
-export type { SectionsResponseDto } from './SectionsResponseDto';
+export type * from './CreateSectionDto';
+export type * from './CreateSectionResponseDto';
+export type * from './GetOneSectionResponse';
+export type * from './SectionResponseDto';
+export type * from './SectionsResponseDto';
+export type * from './GetOneSectionWithQuestions';
+export type * from './GetSectionsWithQuestions';
+export type * from './PostSectionsIdDto';
