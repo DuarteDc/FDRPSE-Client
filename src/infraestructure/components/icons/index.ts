@@ -1,3 +1,7 @@
+export { CircleOff } from './CircleOff';
+
+
+
 
 
 export { AlertTriangle } from './AlertTriangle';
@@ -25,6 +29,7 @@ export { EditIcon } from './EditIcon';
 export { EyeIcon } from './EyeIcon';
 export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
+export { FilterIcon } from './FilterIcon';
 export { GoogleIcon } from './GoogleIcon';
 export { HomeIcon } from './HomeIcon';
 export { InfoCircle } from './InfoCircle';
@@ -36,6 +41,7 @@ export { NumbersIcon } from './NumbersIcon';
 export { PlayerPlay } from './PlayerPlay';
 export { PlayListIcon } from './PlayListIcon';
 export { PlusIcon } from './PlusIcon';
+export { PowerIcon } from './PowerIcon';
 export { QuestionIcon } from './QuestionIcon';
 export { SaveIcon } from './SaveIcon';
 export { SearchIcon } from './SearchIcon';

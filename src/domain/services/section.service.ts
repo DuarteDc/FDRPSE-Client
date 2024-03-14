@@ -2,7 +2,8 @@ import { useCallback, useContext, useState } from 'react';
 import { sectionRespository } from '../../infraestructure/repositories/section.repository';
 import { SectionContext } from '../../infraestructure/context/section';
 import { CreateSectionDto, PostSectionsIdDto } from '../../infraestructure/http/dto/sections';
-import { Section, SectionQuesions } from '../models';
+import { Guide, Section, SectionQuesions } from '../models';
+import { TypeQuestion } from '../models/SectionQuestions';
 
 interface Props {
     onOpenAuxiliarModel?: () => void;
@@ -62,12 +63,15 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }
 
-
-
     const findCurrentSection = (currentSection: SectionQuesions) => {
         if (currentSection && currentSection.id === section?.id) return;
         dispatch({ type: 'SECTION - Get current section', payload: currentSection });
     }
+
+    const clearSectionsSelected = useCallback(() => {
+        if (sectionsSelected.length < 0) return;
+        dispatch({ type: 'SECTION - Filter bad selection by type gudide' });
+    }, []);
 
     return {
         loading,
@@ -80,6 +84,7 @@ export const sectionService = (props: Props) => {
         startGetSections,
         startCreateSection,
         startGetSectionsBy,
+        clearSectionsSelected,
         startGetSectionsWithQuestions,
         getSectionsDetailWithQuestions,
     }

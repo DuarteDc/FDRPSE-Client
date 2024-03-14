@@ -5,8 +5,8 @@ import { SectionContext, sectionReducer } from './';
 
 export interface SectionState {
   section           : null | SectionQuesions;
-  sections          : Array<Section | SectionQuesions> | [];
-  sectionsSelected  : Array<Section> | [];
+  sections          : Array<Section> | [];
+  sectionsSelected  : Array<SectionQuesions> | [];
 }
 
 interface Props {

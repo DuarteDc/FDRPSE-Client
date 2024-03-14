@@ -1,9 +1,8 @@
 import { http } from '../http/http';
 import { Section } from '../../domain/models';
-import { CreateSectioResponseDto, CreateSectionDto, GetOneSectionResponseDto, GetOneSectionWithQuestions, GetSectionsWithQuestions, PostSectionsIdDto, SectionsResponseDto } from '../http/dto/sections';
+import { CreateSectioResponseDto, CreateSectionDto, GetOneSectionWithQuestions, GetSectionsWithQuestions, PostSectionsIdDto, SectionsResponseDto } from '../http/dto/sections';
 import { errorAlert, succesAlert } from '../alert/alerts';
 import { SectionQuesions } from '../../domain/models/SectionQuestions';
-import { SectionWithQuestions } from '../http/dto/sections/GetOneSectionWithQuestions';
 
 export const sectionRespository = {
 

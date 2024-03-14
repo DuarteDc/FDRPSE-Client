@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useImperativeHandle } from 'react'
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from 'react'
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Input, Radio, RadioGroup, cn } from '@nextui-org/react';
@@ -7,15 +7,21 @@ import { BrandDatabricks, FileDescription, InfoCircle, StarsIcon } from '../icon
 import { ValidateStep } from '../../../app/utils/guideSteps'
 import { preSaveGuideValidation } from '../../validations/guide.validations';
 import { guideService } from '../../../domain/services/guide.service';
+import { sectionService } from '../../../domain/services/section.service';
 
 export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
     const { handleSetNameAndType, guide } = guideService();
+    const { clearSectionsSelected } = sectionService({});
+
+    useEffect(() => {
+        clearSectionsSelected();
+    }, [])
 
     const formik = useFormik({
         initialValues: { name: guide?.name || '', gradable: guide?.gradable || true },
         validationSchema: Yup.object(preSaveGuideValidation()),
-        onSubmit: (data) => handleSetNameAndType({...data, gradable: data.gradable })
+        onSubmit: (data) => handleSetNameAndType({ ...data, gradable: data.gradable })
     })
 
     const canContinue = async (): Promise<boolean> => {

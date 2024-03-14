@@ -1,3 +1,4 @@
+import { TypeQuestion } from '../../../../domain/models/SectionQuestions';
 import { Qualification } from '../questions/QuestionsBySectionResponse';
 import { SectionResponseDto } from './';
 
@@ -21,5 +22,5 @@ export interface QuestionInsideSection {
     created_at: string;
     updated_at: string;
     deleted_at: string;
-    type: string;
+    type: TypeQuestion;
 }

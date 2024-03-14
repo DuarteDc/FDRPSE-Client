@@ -17,7 +17,7 @@ export interface QuestionsBySection {
 export interface QuestionsInsideSection {
     id              : number;
     name            : string;
-    section_id      : number;
+    sectionId      : number;
     qualification   : Qualification;
 }
 

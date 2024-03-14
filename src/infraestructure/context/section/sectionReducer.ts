@@ -9,6 +9,7 @@ export type SectionActionType =
     | { type: 'SECTION - Delete section to guide', payload: Section }
     | { type: 'SECTION - Start load sections with questions', payload: Array<SectionQuesions> }
     | { type: 'SECTION - Get current section', payload: SectionQuesions }
+    | { type: 'SECTION - Filter bad selection by type gudide' }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
 
@@ -19,11 +20,17 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
                 section: action.payload,
             }
 
-        case 'SECTION - Start load sections':
-            return {
+        case 'SECTION - Start load sections': {
+
+            return state.sectionsSelected.length > 0 ? {
                 ...state,
-                sections: action.payload
-            }
+                sections: action.payload.filter(section => section.id !== state.sectionsSelected.find(currSection => currSection.id === section.id)?.id),
+            } :
+                {
+                    ...state,
+                    sections: action.payload,
+                }
+        }
 
         case 'SECTION - Create new section':
             return {
@@ -54,16 +61,21 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
         case 'SECTION - Start load sections with questions':
             return {
                 ...state,
-                sections: action.payload
+                sectionsSelected: action.payload
             }
 
         case 'SECTION - Get current section':
             return {
                 ...state,
-                section: state.sections.find(section => section.id === action.payload.id),
+                section: state.sectionsSelected.find(section => section.id === action.payload.id),
             }
 
 
+        case 'SECTION - Filter bad selection by type gudide':
+            return {
+                ...state,
+                sectionsSelected: []
+            }
         default:
             return state;
     }

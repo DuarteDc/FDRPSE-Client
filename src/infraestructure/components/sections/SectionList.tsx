@@ -7,9 +7,9 @@ interface RenderChildProps {
 }
 
 interface Props {
-    sections    : Array<Section>;
-    loading     : boolean;
-    className  ?: string,
+    sections: Array<Section>;
+    loading: boolean;
+    className?: string,
     renderChilds: ({ section }: RenderChildProps) => ReactNode | Array<ReactNode>;
 }
 
@@ -19,7 +19,12 @@ export const SectionList = ({ className = classList, loading, sections, renderCh
     return (
         <div className={className}>
             {
-                (loading && sections) ? <SkeletonSectionCard countSkeletonItems={6} /> : sections.map((section) => <Fragment key={section.id}>{renderChilds({ section })}</Fragment>)
+                (loading && !sections.length) ?
+                    <SkeletonSectionCard skeletonItems={6} /> :
+                    sections.map((section) =>
+                        <Fragment key={section.id}>
+                            {renderChilds({ section })}
+                        </Fragment>)
             }
         </div>
     )

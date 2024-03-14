@@ -1,7 +1,7 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 
 import { IconFunction } from '../../infraestructure/components/icons/IconProps';
-import { FormNameAndTypeGuide, PreviewNewGuide, SetSectionToGuide } from '../../infraestructure/components/guides';
+import { FormNameAndTypeGuide, PreviewNewGuide, SetQualification, SetSectionToGuide } from '../../infraestructure/components/guides';
 
 export interface ValidateStep {
     canContinue: () => boolean | Promise<boolean>;
@@ -20,6 +20,10 @@ export const GUIDE_STEPS: Array<StepComponent> = [
     {
         name: 'Secciones dentro del cuestionario',
         component: SetSectionToGuide,
+    },
+    {
+        name: 'Asignar calificación al cuestionario',
+        component: SetQualification,
     },
     {
         name: 'Antes de guardar',

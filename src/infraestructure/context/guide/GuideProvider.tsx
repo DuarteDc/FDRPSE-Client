@@ -1,10 +1,11 @@
 import { ReactNode, useReducer } from 'react'
-import { Guide } from '../../../domain/models';
+import { Guide, GuideQualifications } from '../../../domain/models';
 import { GuideContext, guideReducer } from '.';
 
 export interface GudieState {
     guide   : Guide | null;
     guides  : Array<Guide> | [];
+    qualifications: GuideQualifications | null;
 }
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 const GUIDE_INITIAL_STATE: GudieState = {
     guide  : null,
     guides : [],
+    qualifications: null,
 }
 
 

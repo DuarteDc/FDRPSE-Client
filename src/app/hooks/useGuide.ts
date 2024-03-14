@@ -2,14 +2,10 @@ import { DragEvent, useCallback, useContext, useState } from 'react';
 import { Section } from '../../domain/models';
 import { SectionContext } from '../../infraestructure/context/section';
 
-interface Props {
-    onOpenAuxiliarModel?: () => void;
-}
+export const useGuide = () => {
 
-export const useGuide = ({ onOpenAuxiliarModel }: Props) => {
-
+    const { dispatch } = useContext(SectionContext);
     const [isDrag, setIsDrag] = useState<boolean>(false);
-    const { dispatch, sectionsSelected } = useContext(SectionContext);
 
     const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, section: Section) => {
         event.stopPropagation();
@@ -23,7 +19,7 @@ export const useGuide = ({ onOpenAuxiliarModel }: Props) => {
         event.preventDefault();
     }
 
-    const onDropArea = (event: DragEvent<HTMLDivElement>) => {
+    const onDropSection = (event: DragEvent<HTMLDivElement>) => {
         const section = JSON.parse(event.dataTransfer.getData('section')) as Section;
         dispatch({ type: 'SECTION - Add section to guide', payload: section });
         onDragEnd()
@@ -34,12 +30,10 @@ export const useGuide = ({ onOpenAuxiliarModel }: Props) => {
     return {
         isDrag,
 
-
-
         onDragStart,
         onDragEnd,
         allowDrop,
-        onDropArea,
+        onDropSection,
         handleRemoveSectionSelected
     }
 }

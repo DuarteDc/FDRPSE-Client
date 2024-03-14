@@ -7,7 +7,7 @@ export const SkeletonQualification = () => {
     <>
         {
             items.map((__, index) => (
-                <div className="w-full my-4 h-[5rem] rounded-lg overflow-hidden h-[18rem]" key={index}>
+                <div className="w-full my-4 h-[5rem] rounded-lg overflow-hidden" key={index}>
                     <Skeleton className="w-full h-full"/>
                 </div>
             ))

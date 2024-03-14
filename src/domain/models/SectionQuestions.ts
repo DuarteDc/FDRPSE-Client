@@ -6,6 +6,7 @@ interface SectionQuestionsSchema extends SectionSchema {
     questions: Array<Question>
 }
 
+export type TypeQuestion = 'gradable'| 'nongradable';
 interface Question {
     id: number;
     name: string;
@@ -14,7 +15,7 @@ interface Question {
     domainId: number | null,
     dimensionId: number;
     qualification: Qualification,
-    type: string;
+    type: TypeQuestion;
 }
 export class SectionQuesions extends Section implements SectionQuestionsSchema {
 
@@ -30,7 +31,7 @@ export class SectionQuesions extends Section implements SectionQuestionsSchema {
             domainId: question.domain_id,
             dimensionId: question.dimension_id,
             qualification: { ...question.qualification, createdAt: new Date, updatedAt: new Date },
-            type: 'graddable'
+            type: question.type
         }))
     }
 
