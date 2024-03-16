@@ -16,6 +16,7 @@ export const ReviewQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Va
 
   const handleCreateQuestion = (): CreateQuestionDto => ({
     name: question!.name,
+    type: 'gradable',
     section_id: question!.section!.id,
     category_id: question?.category?.id,
     domain_id: question?.domain?.id,

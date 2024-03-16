@@ -46,7 +46,7 @@ export const Steper = ({ steps, renderButtons, showProgress = true }: Props) => 
                 )
             }
             <CardBody>
-                <Component ref={currentRef} />
+                <Component ref={currentRef} nextStep={nextStep} backStep={backStep} step={step}/>
                 <div className="py-10">
                     {renderButtons({ nextStep, backStep, step, isValidStep })}
                 </div>

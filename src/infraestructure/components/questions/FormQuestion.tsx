@@ -1,14 +1,15 @@
-import { ForwardedRef, forwardRef, useImperativeHandle } from 'react';
+import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import { Input, Select, SelectItem } from '@nextui-org/react';
+import { Input, Select, SelectItem, SelectSection } from '@nextui-org/react';
 
-import { BoxIcon, CategoryIcon, DimensionsIcon, QuestionIcon } from '../icons';
+import { BoxIcon, CategoryIcon, DimensionsIcon, InfoCircle, QuestionIcon, StarsIcon } from '../icons';
 import { createQuestionValidation } from '../../validations/question.validations';
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import type { ValidateStep } from '../../../app/utils/questionSteps';
+import { RadioGroupStyled } from '../ui';
 
 
 export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
@@ -16,7 +17,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
 
     const formik = useFormik({
-        initialValues: { name: question?.name || '', category_id: question?.category?.id || '', domain_id: question?.domain?.id || '', dimension_id: question?.dimension?.id || '', section_id: '' },
+        initialValues: { name: question?.name || '', type: question?.type || 'gradable', category_id: question?.category?.id || '', domain_id: question?.domain?.id || '', dimension_id: question?.dimension?.id || '', section_id: '' },
         validationSchema: Yup.object(createQuestionValidation()),
         onSubmit: preSaveQuestion,
     });
@@ -45,67 +46,104 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 isInvalid={formik.touched.name && formik.errors.name ? true : false}
                 errorMessage={formik.touched.name && formik.errors.name && formik.errors.name}
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
-                <Select
-                    label="Dimensiones"
-                    name="dimension_id"
-                    size="md"
-                    isRequired
-                    className="my-2 text-gray-500"
-                    startContent={<DimensionsIcon />}
-                    onChange={formik.handleChange}
-                    selectedKeys={[`${formik.values?.dimension_id}`]}
-                    isInvalid={formik.touched.dimension_id && formik.errors.dimension_id ? true : false}
-                    errorMessage={formik.touched.dimension_id && formik.errors.dimension_id && formik.errors.dimension_id}
-                >
-                    {
-                        dimensions?.map(({ id, name }) => (
-                            <SelectItem value={`${id}`} key={id}>
-                                {name}
-                            </SelectItem>
-                        ))
-                    }
-                </Select>
-                <Select
-                    label="Categorías"
-                    name="category_id"
-                    size="md"
-                    className="my-2 text-gray-500"
-                    startContent={<CategoryIcon />}
-                    onChange={formik.handleChange}
-                    selectedKeys={[`${formik.values?.category_id}`]}
-                    isInvalid={formik.touched.category_id && formik.errors.category_id ? true : false}
-                    errorMessage={formik.touched.category_id && formik.errors.category_id && formik.errors.category_id}
-                >
-                    {
-                        categories?.map(({ id, name }) => (
-                            <SelectItem value={`${id}`} key={id}>
-                                {name}
-                            </SelectItem>
-                        ))
-                    }
-                </Select>
-                <Select
-                    label="Dominios"
-                    name="domain_id"
-                    size="md"
-                    className="my-2 text-gray-500"
-                    startContent={<BoxIcon />}
-                    onChange={formik.handleChange}
-                    selectedKeys={[`${formik.values?.domain_id}`]}
-                    isInvalid={formik.touched.domain_id && formik.errors.domain_id ? true : false}
-                    errorMessage={formik.touched.domain_id && formik.errors.domain_id && formik.errors.domain_id}
-                >
-                    {
-                        domains?.map(({ id, name }) => (
-                            <SelectItem value={`${id}`} key={id}>
-                                {name}
-                            </SelectItem>
-                        ))
-                    }
-                </Select>
+            <RadioGroupStyled
+                value={formik.values.type}
+                onValueChange={formik.handleChange}
+                isInvalid={formik.touched.type && formik.errors.type ? true : false}
+                errorMessage={formik.touched.type && formik.errors.type && formik.errors.type}
+                name="type"
+                orientation="horizontal"
+                className="my-10"
+            >
+                <RadioGroupStyled.RadioItem
+                    title="Pregunta con calificación"
+                    value="gradable"
+                    description="Esta opcion te permite crear preguntas con calificación"
+                    icon={<StarsIcon strokeWidth={2} />}
+                />
+                <RadioGroupStyled.RadioItem
+                    title="Pregunta sin calificación"
+                    value="nongradable"
+                    description="Esta opcion te permite crear preguntas sin calificación"
+                    icon={<InfoCircle strokeWidth={2} />}
+                />
+            </RadioGroupStyled>
+            {
+                formik.values.type === 'gradable' && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
+                        <Select
+                            items={dimensions}
+                            label="Dimensiones"
+                            name="dimension_id"
+                            size="md"
+                            isRequired
+                            className="my-2 text-gray-500"
+                            startContent={<DimensionsIcon />}
+                            defaultSelectedKeys={formik.values.dimension_id ? [`${formik.values?.dimension_id}`] : []}
+                            disallowEmptySelection={false}
+                            onChange={formik.handleChange}
+                            placeholder=""
+                            isInvalid={formik.touched.dimension_id && formik.errors.dimension_id ? true : false}
+                            errorMessage={formik.touched.dimension_id && formik.errors.dimension_id && formik.errors.dimension_id}
+                        >
+                            {
 
-            </div>
+                                ({ id, name }) => (
+                                    <SelectItem key={id} textValue={name}>
+                                        {name}
+                                    </SelectItem>
+                                )
+                            }
+
+                        </Select>
+
+                        <Select
+                            items={categories}
+                            label="Categorías"
+                            name="category_id"
+                            size="md"
+                            className="my-2 text-gray-500"
+                            startContent={<CategoryIcon />}
+                            onChange={formik.handleChange}
+                            defaultSelectedKeys={formik.values.category_id ? [`${formik.values?.category_id}`] : []}
+                            placeholder=""
+                            isInvalid={formik.touched.category_id && formik.errors.category_id ? true : false}
+                            errorMessage={formik.touched.category_id && formik.errors.category_id && formik.errors.category_id}
+                        >
+                            {
+                                ({ id, name }) => (
+                                    <SelectItem key={id} textValue={name}>
+                                        {name}
+                                    </SelectItem>
+                                )
+                            }
+                        </Select>
+                        <Select
+                            items={domains}
+                            label="Dominios"
+                            name="domain_id"
+                            size="md"
+                            className="my-2 text-gray-500"
+                            startContent={<BoxIcon />}
+                            onChange={formik.handleChange}
+                            defaultSelectedKeys={formik.values.domain_id ? [`${formik.values?.domain_id}`] : []}
+                            placeholder=""
+                            isInvalid={formik.touched.domain_id && formik.errors.domain_id ? true : false}
+                            errorMessage={formik.touched.domain_id && formik.errors.domain_id && formik.errors.domain_id}
+                        >
+                            {
+                                ({ id, name }) => (
+                                    <SelectItem value={`${id}`} key={id}>
+                                        {name}
+                                    </SelectItem>
+                                )
+                            }
+                        </Select>
+
+                    </div>
+
+                )
+            }
         </form>
     )
 });

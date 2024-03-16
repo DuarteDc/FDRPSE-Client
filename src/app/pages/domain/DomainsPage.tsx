@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { PlusIcon } from '../../../infraestructure/components/icons';
-import CardList, { PageLayout } from '../../../infraestructure/components/ui';
+import { CardList, PageLayout } from '../../../infraestructure/components/ui';
 import { domianService } from '../../../domain/services/domian.service';
 import { useNavigation } from '../../hooks/useNavigation';
 

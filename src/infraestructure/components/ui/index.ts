@@ -1,4 +1,5 @@
 import CardList  from './CardList';
+import RadioGroupStyled from './RadioGroupStyled';
 export { DatePicker } from './DatePicker';
 export { LoadingScreen } from './LoadingScreen';
 export { Drawer } from './Drawer';
@@ -9,4 +10,8 @@ export { Layout } from './Layout';
 export { Navbar } from './Navbar';
 export { Card } from './Card';
 
-export default CardList;
+export  {
+    CardList,
+    RadioGroupStyled,
+} 
+

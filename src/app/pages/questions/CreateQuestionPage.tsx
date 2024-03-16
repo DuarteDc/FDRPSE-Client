@@ -12,7 +12,7 @@ import { questionService } from '../../../domain/services/question.service';
 export const CreateQuestionPage = () => {
 
     const { startGetCategoriesDomainAndDimenstions } = useQuestion();
-    const { loading, clearNewQuestionCache } = questionService();
+    const { loading, clearNewQuestionCache, question } = questionService();
 
     useEffect(() => {
         startGetCategoriesDomainAndDimenstions();
@@ -20,15 +20,16 @@ export const CreateQuestionPage = () => {
             clearNewQuestionCache();
         }
     }, []);
-    
+
     return (
         <PageLayout title="Crear Pregunta" navigateTo="/auth/questions">
             <Steper
                 steps={QUESTION_STEPS}
+                showProgress={false}
                 renderButtons={({ step, backStep, nextStep }) =>
                     <Fragment>
                         <Button
-                            onClick={backStep}
+                            onClick={question?.type === 'nongradable' ? () => { backStep(); backStep(); } : backStep}
                             className="border-2 border-transparent hover:border-slate-800  bg-transparent"
                             isDisabled={(step < 1)}
                             startContent={<ArrowNarrowLeft />}>

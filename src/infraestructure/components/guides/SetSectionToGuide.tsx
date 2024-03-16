@@ -29,7 +29,6 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
     return (
         <section className="grid grid-cols-7">
             <Modal
-                title=""
                 isOpen={isOpen}
                 onChange={onOpenChange}
                 size="3xl"

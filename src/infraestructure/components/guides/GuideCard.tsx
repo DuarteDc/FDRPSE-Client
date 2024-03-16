@@ -1,8 +1,12 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { DotsVertical, EditIcon, FileDescription, PlusIcon, TrashIcon } from '../icons';
+import { Guide } from '../../../domain/models';
 
+interface Props {
+    guide: Guide
+}
 
-export const GuideCard = () => {
+export const GuideCard = ({ guide }: Props) => {
     return (
         <article className="isolate rounded-xl bg-white/20 shadow-lg relative p-5 overflow-hidden hover:border-emerald-600 border-2 transition-all duration-400 cursor-pointer">
             <div className="flex items-center justify-between w-full border-b-2 pb-2">
@@ -47,7 +51,7 @@ export const GuideCard = () => {
                 </span>
             </div>
             <span className="text-xs capitalize">
-                CUESTIONARIO PARA IDENTIFICAR A LOS TRABAJADORES QUE FUERON SUJETOS A ACONTECIMIENTOS TRAUMÁTICOS SEVEROS
+                {guide.name}
             </span>
         </article>
     )

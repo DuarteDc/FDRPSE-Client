@@ -1,12 +1,14 @@
 import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
-import type { ValidateStep } from '../../../app/utils/questionSteps';
 import { Badge, Button, Card, useDisclosure } from '@nextui-org/react';
 import { CheckIcon, QuestionIcon, SectionIcon } from '../icons';
+
 import { Modal } from '../ui/Modal';
 import { useQuestion } from '../../../app/hooks/useQuestion';
+import type { ValidateStep, Props as PropsComponent } from '../../../app/utils/questionSteps';
+import { SectionCard } from '../sections';
 
 
-export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
+export const SetSection = forwardRef<PropsComponent & ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { sections, setSectionBeforeSave, question: currentQuestion } = useQuestion();
@@ -47,7 +49,12 @@ export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                     </div>
                 </div>
             </div>
-            <Modal isOpen={isOpen} onChange={onOpenChange} size="full" title="Establecer sección" hideCloseButton
+            <Modal
+                isOpen={isOpen} 
+                onChange={onOpenChange} 
+                size="full" 
+                title="Establecer sección" 
+                hideCloseButton
                 renderContent={(onClose) =>
                     <Fragment>
                         <span className="text-sm text-gray-500 font-semibold">Selecciona la opción a la cual quieres que pertenezca la pregunta</span>
@@ -61,22 +68,13 @@ export const SubquestionForm = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                                             key={section.id}
                                             color={currentQuestion?.section?.id === section.id ? "primary" : "default"}
                                             placement="top-right"
+                                            onClick={() => {setSectionBeforeSave(section)}}
                                         >
-                                            <Card key={section.id} isPressable onPress={() => { setSectionBeforeSave(section); onClose() }}
-                                                className={`${currentQuestion?.section?.id === section.id ? 'border-primary transition-all duration-700 ease-in' : 'border-transparent  hover:border-primary/60'} border-2 hover:transition-all hover:duration-700 hover:ease-out w-full min-h-[5rem]`}
-                                            >
-                                                <div className="text-xs flex items-center [&>span]:py-2 h-full">
-                                                    <span className="h-full px-4 bg-emerald-600 text-white flex items-center"><SectionIcon /></span>
-                                                    <span className="block px-2 text-left">
-                                                        <h3 className="font-bold my-2 flex">{section.name}</h3>
-                                                        {
-                                                            section.binary && (
-                                                                <span>{section.question} - {section.binary} Si/ No</span>
-                                                            )
-                                                        }
-                                                    </span>
-                                                </div>
-                                            </Card>
+                                            <SectionCard 
+                                                key={section.id}
+                                                section={section}
+                                                draggable={false}
+                                            />
                                         </Badge>
                                     ))
                                 }

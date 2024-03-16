@@ -18,7 +18,7 @@ export const useQuestion = () => {
     const { startGetCategories, categories } = categoriesService();
     const { startGetDomains, domains } = domianService();
     const { startGetDimensions, dimensions } = dimensionService();
-    const { startGetSections, sections } = sectionService();
+    const { startGetSections, sections } = sectionService({});
 
     const startGetCategoriesDomainAndDimenstions = async (): Promise<void> => {
         setLoading(prev => !prev);
@@ -32,12 +32,12 @@ export const useQuestion = () => {
         domain: domains.find(domain => domain.id == domain_id) || null,
     });
 
-    const preSaveQuestion = ({ name, ...rest }: CreateQuestionDto): void => {
+    const preSaveQuestion = ({ name, type, ...rest }: CreateQuestionDto): void => {
         const getDetails = getQuestionDetailsBeforeSave(rest);
         dispatch({
             type: 'QUESTION - Presave question',
             payload: {
-                ...new Question(crypto.randomUUID(), name, new Date().toLocaleString(), new Date().toLocaleString()),
+                ...new Question(crypto.randomUUID(), name, type, new Date().toLocaleString(), new Date().toLocaleString()),
                 ...getDetails,
             },
         });

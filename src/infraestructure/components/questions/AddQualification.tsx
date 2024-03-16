@@ -4,23 +4,27 @@ import { Drawer } from '../ui';
 import { QualificationList } from '../qualification';
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import { qualificationService } from '../../../domain/services/qualification.service';
-import { type ValidateStep } from '../../../app/utils/questionSteps';
-
+import { type ValidateStep, type Props as PropsComponent } from '../../../app/utils/questionSteps';
 
 import { CardQuestion } from './';
 import { useDrawer } from '../../../app/hooks/useDrawer';
 
-export const AddQualification = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
+export const AddQualification = forwardRef<PropsComponent & ValidateStep>(({ nextStep }: PropsComponent, ref: ForwardedRef<ValidateStep>) => {
 
   const { question } = useQuestion();
   const { startGetQualifications } = qualificationService();
   const { isOpen, onOpenDrawer } = useDrawer(!question?.qualification);
 
   useEffect(() => {
-    startGetQualifications();
+    if (question?.type === 'nongradable' && nextStep)
+      nextStep();
+    else
+      startGetQualifications();
   }, [])
 
   const canContinue = (): boolean => {
+    if (question?.type === 'nongradable') return true;
+
     if (!question?.qualification) {
       onOpenDrawer();
       return false;
@@ -49,7 +53,10 @@ export const AddQualification = forwardRef<ValidateStep>((__, ref: ForwardedRef<
 
 
       <CardQuestion
-        question={question!} showOptionQualification buttonFunction={onOpenDrawer}/>
+        question={question!}
+        showOptionQualification
+        buttonFunction={onOpenDrawer}
+      />
 
     </div>
   )

@@ -2,7 +2,7 @@ import { createRef, useRef, useState } from 'react'
 import { StepComponent, type ValidateStep } from '../utils/questionSteps';
 
 interface Props {
-    stepsComponent: Array<StepComponent>
+    stepsComponent: Array<StepComponent>    
 }
 
 export const useSteps = ({ stepsComponent }: Props) => {

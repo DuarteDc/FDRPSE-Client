@@ -11,8 +11,8 @@ export const GuideList = memo(({ guides, loading }: Props) => {
     return (
         <Fragment>
             {
-                loading ? (<SkeletonGuideCard />) :
-                    guides.map(guide => <GuideCard key={guide.id} />)
+                loading ? (<SkeletonGuideCard skeletonItems={4} />) :
+                    guides.map(guide => <GuideCard key={guide.id} guide={guide} />)
             }
         </Fragment>
     )
