@@ -1,14 +1,14 @@
-import { DragEvent, Fragment, memo } from 'react';
-import { Area, AreaSubareasDepartments, Departments } from '../../../domain/models';
+import { Fragment, memo } from 'react';
+import { Area, AreaSubareasDepartments  } from '../../../domain/models';
 import { AreaItem } from '../../../app/pages/surveys';
 
 interface Props {
     deparments: Array<Area>
-    onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | Departments) => void;
+    // onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | Departments) => void;
     onDragEnd: () => void;
 }
 
-export const Deparment = memo(({ deparments, onDragStart, onDragEnd }: Props) => {
+export const Deparment = memo(({ deparments, onDragEnd }: Props) => {
     return (
         <Fragment>
             {
@@ -17,7 +17,7 @@ export const Deparment = memo(({ deparments, onDragStart, onDragEnd }: Props) =>
                         key={deparment.id}
                         area={deparment as AreaSubareasDepartments}
                         onDragEnd={onDragEnd}
-                        onDragStart={onDragStart}
+
                         canMultiSelect={false}
                     />
                 ))

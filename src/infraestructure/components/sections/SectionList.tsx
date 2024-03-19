@@ -20,7 +20,7 @@ export const SectionList = ({ className = classList, loading, sections, renderCh
         <div className={className}>
             {
                 (loading && !sections.length) ?
-                    <SkeletonSectionCard skeletonItems={6} /> :
+                    <SkeletonSectionCard skeletonItems={10} /> :
                     sections.map((section) =>
                         <Fragment key={section.id}>
                             {renderChilds({ section })}

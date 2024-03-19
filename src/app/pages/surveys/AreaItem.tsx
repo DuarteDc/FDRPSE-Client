@@ -1,19 +1,19 @@
-import { DragEvent, Fragment, memo, useCallback, useState } from 'react';
+import { Fragment, memo, useCallback, useState } from 'react';
 import { Checkbox, cn } from '@nextui-org/react';
 
 import { BuildingComunity, BuildingIcon, ChevronLeft, HomeIcon } from '../../../infraestructure/components/icons'
-import { Area, AreaSubareasDepartments, Departments } from '../../../domain/models'
+import { AreaSubareasDepartments } from '../../../domain/models'
 import { SubdirectionItem } from '../../../infraestructure/components/areas';
 import { TypeAreas } from '../../../domain/models/Area';
 
 interface Props {
     area: AreaSubareasDepartments;
     canMultiSelect: boolean;
-    onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => void;
+    // onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => void;
     onDragEnd: () => void;
 }
 
-export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: Props) => {
+export const AreaItem = memo(({ area, onDragEnd, canMultiSelect }: Props) => {
 
 
     const [openSudirection, setOpenSubdirection] = useState(false);
@@ -50,7 +50,7 @@ export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: 
                     (
                         <div
                             draggable
-                            onDragStart={(event) => onDragStart(event, area)}
+                            // onDragStart={(event) => onDragStart(event, area)}
                             onDragEnd={onDragEnd}
                             className={`shadow-emerald-600/10 shadow-xl rounded-xl py-4 px-2 cursor-pointer  hover:border-emerald-600 transition-all duration-300 ease-in w-full my-2 border-2 border-slate-2 ${openSudirection ? 'ease-in' : 'max-h-none'} overflow-hidden animate-[fadeIn_0.5s]`}
                         >
@@ -86,7 +86,7 @@ export const AreaItem = memo(({ area, onDragStart, onDragEnd, canMultiSelect }: 
                                     area.subdirections.map((subdirection) => (
                                         <SubdirectionItem
                                             key={subdirection.id}
-                                            onDragStart={onDragStart}
+                                            // onDragStart={onDragStart}
                                             onDragEnd={onDragEnd}
                                             subdirection={subdirection}
                                         />

@@ -5,11 +5,10 @@ import { Deparment } from './';
 
 interface Props {
     subdirection: Departments;
-    onDragStart: (event: DragEvent<HTMLDivElement>, area: Departments | Area) => void;
     onDragEnd: () => void;
 }
 
-export const SubdirectionItem = memo(({ subdirection, onDragEnd, onDragStart }: Props) => {
+export const SubdirectionItem = memo(({ subdirection, onDragEnd }: Props) => {
 
     const [openDeparments, setOpenDeparments] = useState(false);
     const toggleDeparments = useCallback(() => setOpenDeparments(toggle => !toggle), []);
@@ -19,7 +18,7 @@ export const SubdirectionItem = memo(({ subdirection, onDragEnd, onDragStart }: 
     return (
         <div
             draggable
-            onDragStart={(event) => onDragStart(event, subdirection)}
+            // onDragStart={(event) => onDragStart(event, subdirection)}
             onDragEnd={onDragEnd}
             className={`shadow-emerald-600/10 shadow-xl rounded-xl py-1 px-2 cursor-pointer 
              hover:border-emerald-600 transition-all duration-300 ease-in w-full my-2 border-2 border-slate-2 `}
@@ -44,7 +43,6 @@ export const SubdirectionItem = memo(({ subdirection, onDragEnd, onDragStart }: 
                 (
                     <Deparment
                         onDragEnd={onDragEnd}
-                        onDragStart={onDragStart}
                         deparments={subdirection.departments as Array<Area>}
                     />
                 )

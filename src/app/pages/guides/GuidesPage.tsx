@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, ButtonGroup, Input, Tab, Tabs, Tooltip } from '@nextui-org/react';
+import { Button, Input, Tab, Tabs } from '@nextui-org/react';
 
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { GuideList } from '../../../infraestructure/components/guides';

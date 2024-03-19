@@ -18,11 +18,11 @@ export const useQuestion = () => {
     const { startGetCategories, categories } = categoriesService();
     const { startGetDomains, domains } = domianService();
     const { startGetDimensions, dimensions } = dimensionService();
-    const { startGetSections, sections } = sectionService({});
+    const { sections } = sectionService({});
 
     const startGetCategoriesDomainAndDimenstions = async (): Promise<void> => {
         setLoading(prev => !prev);
-        await Promise.all([startGetCategories(), startGetDomains(), startGetDimensions(), startGetSections()]);
+        await Promise.all([startGetCategories(), startGetDomains(), startGetDimensions()]);
         setLoading(prev => !prev);
     }
 

@@ -6,7 +6,7 @@ import { format } from 'date-fns-tz';
 import { es } from 'date-fns/locale';
 import { useNewSurvey } from '../../../app/hooks/useNewSurvey';
 import { Accordion, AccordionItem } from '@nextui-org/react';
-import { Departments } from '../../../domain/models';
+
 
 export const PreviewSelectedDatetime = forwardRef<ValidateStep>((_, ref: ForwardedRef<ValidateStep>) => {
 
@@ -34,7 +34,7 @@ export const PreviewSelectedDatetime = forwardRef<ValidateStep>((_, ref: Forward
                                     [&>div]:ml-2 [&>div]:text-sm [&>div>span]:block [&>div>span]:text-xs [&>div>span]:ml-4 [&>div]:text-emerald-600 [&>div>span]:text-emerald-700/60
                                 "
                             >
-                                {index + 1}.- {area.name}
+                                {/* {index + 1}.- {area.name}
                                     {
                                         area.hasOwnProperty('subdirections') && area?.subdirections?.map((subdirection: Departments) => (
                                             <div key={subdirection.id} aria-label={`area-${subdirection.name}`}>
@@ -48,7 +48,7 @@ export const PreviewSelectedDatetime = forwardRef<ValidateStep>((_, ref: Forward
                                                 }
                                             </div>
                                         ))
-                                    }
+                                    } */}
                             </span>
                         ))
                     }

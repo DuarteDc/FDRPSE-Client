@@ -2,8 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { sectionRespository } from '../../infraestructure/repositories/section.repository';
 import { SectionContext } from '../../infraestructure/context/section';
 import { CreateSectionDto, PostSectionsIdDto } from '../../infraestructure/http/dto/sections';
-import { Guide, Section, SectionQuesions } from '../models';
-import { TypeQuestion } from '../models/SectionQuestions';
+import { Section, SectionQuesions } from '../models';
 
 interface Props {
     onOpenAuxiliarModel?: () => void;
@@ -14,9 +13,10 @@ export const sectionService = (props: Props) => {
     const [loading, setLoading] = useState(false);
     const { dispatch, section, sections, sectionsSelected } = useContext(SectionContext);
 
-    const startGetSections = async (): Promise<void> => {
+    const startGetSections = async (type: string): Promise<void> => {
+        dispatch({ type: 'SECTION - Start load sections', payload: [] })
         setLoading(prev => !prev);
-        const sections = await sectionRespository.getSections();
+        const sections = await sectionRespository.getSections(type);
         typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });
         setLoading(prev => !prev);
     }
@@ -73,14 +73,27 @@ export const sectionService = (props: Props) => {
         dispatch({ type: 'SECTION - Filter bad selection by type gudide' });
     }, []);
 
+
+    const getSecionById = useCallback(async (sectionId: string) => {
+        setLoading(prev => !prev);
+        const section = await sectionRespository.getSectionDetail(sectionId);
+        typeof section !== 'string' && dispatch({ type: 'SECTION - Start load section', payload: section });
+        setLoading(prev => !prev);
+    }, []);
+
+
+    const clearSectionCache = () => dispatch({ type: 'SECTION - Clear cache section' })
+
     return {
         loading,
         section,
         sections,
         sectionsSelected,
 
+        clearSectionCache,
         findCurrentSection,
         getSectionDetail,
+        getSecionById,
         startGetSections,
         startCreateSection,
         startGetSectionsBy,

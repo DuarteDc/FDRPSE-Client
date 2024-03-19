@@ -1,5 +1,5 @@
 import { DragEvent, useCallback, useState } from 'react';
-import { Area, AreaSubareasDepartments, Departments, Section } from '../../domain/models';
+import { Area, Section } from '../../domain/models';
 import { areaService } from '../../domain/services/area.service';
 import { DATETIME } from '../../infraestructure/context/area';
 
@@ -14,7 +14,7 @@ export const useNewSurvey = (props: Props) => {
     const [multiSelect, setMultiSelect] = useState<boolean>(false);
     const [multipleAreasSelected, setMultipleAreasSelected] = useState<Array<string>>([]);
 
-    const selectedAreasMemorized = useCallback((areas: Array<Area>) => dispatch({ type: 'AREA - Set Current Areas', payload: areas }), []);
+    // const selectedAreasMemorized = useCallback((areas: Array<Area>) => dispatch({ type: 'AREA - Set Current Areas', payload: areas }), []);
 
     const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, section: Section) => {
         event.stopPropagation();
@@ -29,7 +29,8 @@ export const useNewSurvey = (props: Props) => {
     }
 
     const onDropArea = (event: DragEvent<HTMLDivElement>) => {
-        const area = JSON.parse(event.dataTransfer.getData('section'));
+        console.log(event)
+        // const area = JSON.parse(event.dataTransfer.getData('section'));
         // selectedAreasMemorized([area]);
         // dispatch({ type: 'AREA - Add Area', payload: area })
         onDragEnd()

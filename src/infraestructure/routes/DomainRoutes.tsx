@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { DomainsPage, CreateDomainPage } from '../../app/pages';
 
-export const DomainRoutes = () => {
+const DomainRoutes = () => {
   return (
     <Routes>
       <Route path="/" index element={<DomainsPage />} />
@@ -9,3 +9,6 @@ export const DomainRoutes = () => {
     </Routes>
   )
 }
+
+
+export default DomainRoutes;

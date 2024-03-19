@@ -1,4 +1,4 @@
-import { useNavigate, To, NavigateOptions } from 'react-router-dom';
+import { useNavigate, NavigateOptions } from 'react-router-dom';
 
 
 export const useNavigation = () => {

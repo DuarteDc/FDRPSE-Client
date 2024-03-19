@@ -15,7 +15,14 @@ interface Props {
 
 export const Modal = ({ title = '', renderContent, onChange, isKeyboardDismissDisabled = false, ...props }: Props) => {
     return (
-        <MainModal onOpenChange={onChange} isDismissable={false} {...props} scrollBehavior="outside" isKeyboardDismissDisabled={isKeyboardDismissDisabled} className="rounded-lg border-2">
+        <MainModal 
+            onOpenChange={onChange} 
+            isDismissable={false} 
+            scrollBehavior="outside" 
+            isKeyboardDismissDisabled={isKeyboardDismissDisabled} 
+            className="rounded-lg border-2"
+            {...props} 
+            >
             <ModalContent className="overflow-y-auto">
                 {(onClose) => (
                     <>

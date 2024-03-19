@@ -1,6 +1,7 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { AdminRoutes, AuthRoutes, CategoryRoutes, DimensionRoutes, DomainRoutes, GuideRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
+import { AdminRoutes, AuthRoutes, GuideRoutes, PublicRoutes, QuestionRoutes, SectionRoutes, SurveyRoutes, UserRoutes } from './';
 import { Layout } from '../components/ui';
 import { LoginPage, NotFound, } from '../../app/pages/';
 import { CategoryProvider } from '../context/category';
@@ -11,8 +12,11 @@ import { QuestionProvider } from '../context/questions';
 import { QualificationProvider } from '../context/qualification';
 import SurveyProvider from '../context/survey/SurveyProvider';
 import { AreaProvider } from '../context/area';
-import { GuidesPage } from '../../app/pages/guides';
 import { GuideProvider } from '../context/guide';
+
+const CategoryRoutes = lazy(() => import('./CategoryRoutes'));
+const DimensionRoutes = lazy(() => import('./DimensionRoutes'));
+const DomainRoutes = lazy(() => import('./DomainRoutes'));
 
 export const MainRouter = () => {
     return (
@@ -44,11 +48,11 @@ export const MainRouter = () => {
                                                                             <Routes>
                                                                                 <Route path="/*" index element={<SurveyRoutes />} />
                                                                                 <Route path="surveys/*" index element={<GuideRoutes />} />
+                                                                                <Route path="questions/*" index element={<QuestionRoutes />} />
                                                                                 <Route path="sections/*" index element={<SectionRoutes />} />
                                                                                 <Route path="categories/*" index element={<CategoryRoutes />} />
                                                                                 <Route path="domains/*" index element={<DomainRoutes />} />
                                                                                 <Route path="dimensions/*" index element={<DimensionRoutes />} />
-                                                                                <Route path="questions/*" index element={<QuestionRoutes />} />
                                                                                 <Route path="*" element={<NotFound />} />
                                                                             </Routes>
                                                                         </GuideProvider>

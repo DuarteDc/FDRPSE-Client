@@ -1,8 +1,8 @@
+import { memo } from 'react';
 import { QualificationCard } from './';
 import { QuestionDetail } from '../../context/questions';
 import { qualificationService } from '../../../domain/services/qualification.service';
 import { SkeletonQualification } from '../ui/skeleton';
-import { memo } from 'react';
 import { useQuestion } from '../../../app/hooks/useQuestion';
 
 interface Props {

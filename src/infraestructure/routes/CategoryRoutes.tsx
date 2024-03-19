@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { CategoriesPage, CreateCategoryPage } from '../../app/pages';
 
-export const CategoryRoutes = () => {
+const CategoryRoutes = () => {
   return (
       <Routes>
         <Route path="/" index element={<CategoriesPage />} />
@@ -9,3 +9,5 @@ export const CategoryRoutes = () => {
       </Routes>
   )
 }
+
+export default CategoryRoutes;

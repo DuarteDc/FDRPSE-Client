@@ -16,7 +16,7 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
     const { guide } = guideService();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { onDragStart, onDragEnd, allowDrop, onDropSection, isDrag, handleRemoveSectionSelected } = useGuide();
-    const { startGetSectionsBy, sections, loading, getSectionDetail, section, sectionsSelected, clearSectionsSelected } = sectionService({ onOpenAuxiliarModel: onOpen });
+    const { startGetSectionsBy, sections, loading, getSectionDetail, section, sectionsSelected  } = sectionService({ onOpenAuxiliarModel: onOpen });
 
     useEffect(() => {
         startGetSectionsBy(guide!.gradable)

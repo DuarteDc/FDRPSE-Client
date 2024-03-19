@@ -4,17 +4,17 @@ import { Section } from '../../../domain/models';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@nextui-org/react';
 
 interface Props {
-  section              : Section
-  draggable            : boolean
-  onDragStart         ?: (event: DragEvent<HTMLDivElement>, section: Section) => void;
-  onDragEnd           ?: () => void;
-  classList           ?: string;
-  showControlls       ?: boolean;
-  handleSelectSection ?: (section: Section) => void;
-  renderContent       ?: () => ReactNode
+  section: Section
+  draggable: boolean
+  onDragStart?: (event: DragEvent<HTMLDivElement>, section: Section) => void;
+  onDragEnd?: () => void;
+  classList?: string;
+  showControlls?: boolean;
+  handleSelectSection?: (section: Section) => void;
+  renderContent?: () => ReactNode
 }
 
-const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-[1.02]  hover:lg:scale-105 w-full'
+const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-[1.02]  hover:lg:scale-[1.01] w-full'
 
 export const SectionCard = ({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent }: Props) => {
 
@@ -34,7 +34,7 @@ export const SectionCard = ({ section, draggable = false, onDragStart, onDragEnd
         </span>
       </div>
       <div className="relative w-full">
-        <h2 className="font-bold text-xs">{section.name}</h2>
+        <h2 className="font-bold text-[10px] break-all">{section.name}</h2>
         {
           section.binary && (
             <p className="text-xs text-gray-500 font-bold">{section.question}</p>
@@ -62,9 +62,13 @@ export const SectionCard = ({ section, draggable = false, onDragStart, onDragEnd
                       "font-bold"
                     )
                   }}
+                  startContent={
+                    <span className="bg-emerald-600/80 rounded-lg p-2 text-white">
+                      <EyeIcon />
+                    </span>
+                  }
                   title="Detalles"
                   description="Ver las preguntas dentro de la sección"
-                  startContent={<EyeIcon />}
                 />
               </DropdownMenu>
             </Dropdown>

@@ -26,14 +26,14 @@ export const questionRepository = {
         }
     },
 
-    getQuestionById: async (questionId: string): Promise<Question | string> => {
-        try {
-            const { question } = await http.get<QuestionResponseDto>(`/auth/questions/${questionId}`);
-            return new Question(question.id, question.name, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimension, question?.domain);
-        } catch (error) {
-            return error as string;
-        }
-    },
+    // getQuestionById: async (questionId: string): Promise<Question | string> => {
+    //     try {
+    //         const { question } = await http.get<QuestionResponseDto>(`/auth/questions/${questionId}`);
+    //         return new Question(question.id, question.name, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimension, question?.domain);
+    //     } catch (error) {
+    //         return error as string;
+    //     }
+    // },
 
     getQuestionBySection: async (page: number): Promise<QuestionsBySectionResponse | string> => {
         try {

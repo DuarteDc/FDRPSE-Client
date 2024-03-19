@@ -6,10 +6,19 @@ import { SectionQuesions } from '../../domain/models/SectionQuestions';
 
 export const sectionRespository = {
 
-    getSections: async (): Promise<Array<Section> | string> => {
+    getSections: async (type: string): Promise<Array<Section> | string> => {
         try {
-            const { sections } = await http.get<SectionsResponseDto>('/auth/sections');
+            const { sections } = await http.get<SectionsResponseDto>(`/auth/sections${type}`);
             return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getOneSection: async (sectionId: string): Promise<SectionQuesions | string> => {
+        try {
+            const { sections } = await http.get<SectionsResponseDto>(`/auth/sections/${sectionId}`);
+            return new SectionQuesions('asd', 'dad', 'dada', false, 2, 'xd', 'xd', []);
         } catch (error) {
             return error as string;
         }

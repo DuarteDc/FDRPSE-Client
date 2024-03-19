@@ -10,6 +10,7 @@ export type SectionActionType =
     | { type: 'SECTION - Start load sections with questions', payload: Array<SectionQuesions> }
     | { type: 'SECTION - Get current section', payload: SectionQuesions }
     | { type: 'SECTION - Filter bad selection by type gudide' }
+    | { type: 'SECTION - Clear cache section' }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
 
@@ -76,6 +77,13 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
                 ...state,
                 sectionsSelected: []
             }
+
+        case 'SECTION - Clear cache section':
+            return {
+                ...state,
+                section: null
+            }
+
         default:
             return state;
     }

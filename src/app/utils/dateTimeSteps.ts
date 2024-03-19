@@ -1,7 +1,7 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 
-import { PreviewSelectedDatetime, SelectRangeDates, SetRangeTime, ViewAreasSelected } from '../../infraestructure/components/survey';
-import { BuildingComunity, CalendarMonth, ClockIcon, SaveIcon } from '../../infraestructure/components/icons';
+import { PreviewSelectedDatetime, SelectRangeDates, SetRangeTime } from '../../infraestructure/components/survey';
+import { CalendarMonth, ClockIcon, SaveIcon } from '../../infraestructure/components/icons';
 
 import { IconFunction } from '../../infraestructure/components/icons/IconProps';
 

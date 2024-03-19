@@ -18,7 +18,7 @@ export const Subdirection = memo(({ subdirections, onDragStart, onDragEnd }: Pro
                         key={subdirection.id}
                         subdirection={subdirection}
                         onDragEnd={onDragEnd}
-                        onDragStart={onDragStart}
+                        
                     />
                 ))
             }

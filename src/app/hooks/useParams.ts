@@ -5,8 +5,7 @@ interface Params {
     [key: string]: string;
 }
 export const useParams = () => {
-
-    const [__, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [params, setParams] = useState<Params>({});
 
@@ -29,7 +28,7 @@ export const useParams = () => {
 
     const getQueryParams = (key: string) => ({ key: params[key] });
 
-    const getValueOfQueryParams = (key: string) => params[key];
+    const getValueOfQueryParams = (key: string) => params[key] ?? searchParams.get(key);
 
     const parseToString = useCallback(() => {
         return Object.entries(params).length > 0 ?

@@ -9,7 +9,7 @@ import { BoxOff } from '../../../infraestructure/components/icons';
 
 interface Props {
     areas: Array<AreaSubareasDepartments>
-    onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => void;
+    // onDragStart: (event: DragEvent<HTMLDivElement>, area: Area | AreaSubareasDepartments | Departments) => void;
     onDragEnd: () => void;
     canMultiSelect: boolean;
     onChangeSelected: (areas: Array<string>) => void;
@@ -17,7 +17,7 @@ interface Props {
     areasWithDatetime: Array<any>
 }
 
-export const AreasList = memo(({ areas, onDragStart, onDragEnd, canMultiSelect, onChangeSelected, selectedAreas, areasWithDatetime }: Props) => {
+export const AreasList = memo(({ areas, onDragEnd, canMultiSelect, onChangeSelected, selectedAreas, areasWithDatetime }: Props) => {
     return (
         <div className="col-span-2 w-full max-h-[800px] overflow-y-auto [&>*:last-child]:px-3">
             <span className="sticky top-0 z-10 bg-white pb-4 block w-full after:absolute after:-bottom-10 after:h-10 after:w-full after:z-10 after:left-0 after:bg-gradient-to-b after:from-emerald-600/15 after:to-transparent">
@@ -36,7 +36,6 @@ export const AreasList = memo(({ areas, onDragStart, onDragEnd, canMultiSelect, 
                                 <AreaItem
                                     key={area.id}
                                     area={area}
-                                    onDragStart={onDragStart}
                                     onDragEnd={onDragEnd}
                                     canMultiSelect={canMultiSelect}
                                 />

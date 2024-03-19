@@ -4,20 +4,22 @@ import { Radio, RadioGroup, cn } from '@nextui-org/react'
 type OrientationType = 'horizontal' | 'vertical'
 
 interface Props {
+    label ?: string;
     children: Array<ReactNode> | ReactNode;
     isInvalid: boolean;
     name: string;
+    defautlValue ?: string;
+    onValueChange?: (value: string) => void
     value: string;
     errorMessage: string | false | undefined;
     className?: string;
     orientation?: OrientationType;
-    onValueChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const RadioGroupStyled = ({ children, onValueChange, ...props }: Props) => {
+const RadioGroupStyled = ({ children, ...props }: Props) => {
     return (
         <RadioGroup
-            onChange={onValueChange}
             {...props}
         >
             {children}

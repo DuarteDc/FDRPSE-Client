@@ -3,7 +3,6 @@ import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
 import { Button, Card, CardBody, Chip, ModalFooter, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
 import { CircleCheck, EyeIcon, PlayerPlay, QuestionIcon } from '../../../infraestructure/components/icons';
-import { Link } from 'react-router-dom';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { parseDate } from '../../helpers/parseDate';
 import { authService } from '../../../domain/services/auth.service';
@@ -12,7 +11,7 @@ import { useNavigation } from '../../hooks/useNavigation';
 export const SurveyPage = () => {
 
   const { user } = authService();
-  const { startGetSurveys, surveys, startNewSurvey, loading, startFinalizeSurvey } = surveyService();
+  const { startGetSurveys, surveys, loading, startFinalizeSurvey } = surveyService();
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [surveyId, setSurveyId] = useState<string>();

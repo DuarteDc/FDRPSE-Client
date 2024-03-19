@@ -1,9 +1,3 @@
-export { CircleOff } from './CircleOff';
-
-
-
-
-
 export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
@@ -20,6 +14,7 @@ export { CheckIcon } from './CheckIcon';
 export { ChevronLeft } from './ChevronLeft';
 export { ChevronRight } from './ChevronRight';
 export { CircleCheck } from './CircleCheck';
+export { CircleOff } from './CircleOff';
 export { ClearAllIcon } from './ClearAllIcon';
 export { ClockIcon } from './ClockIcon';
 export { DimensionsIcon } from './DimensionsIcon';
@@ -48,6 +43,7 @@ export { SearchIcon } from './SearchIcon';
 export { SectionIcon } from './SectionIcon';
 export { SquareRoundedX } from './SquareRoundedX';
 export { StarsIcon } from './StarsIcon';
+export { StarsOff } from './StarsOff';
 export { TrashIcon } from './TrashIcon';
 export { UserIcon } from './UserIcon';
 export { XIcon } from './XIcon';

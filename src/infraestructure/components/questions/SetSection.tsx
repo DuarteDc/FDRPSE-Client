@@ -1,5 +1,5 @@
 import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
-import { Badge, Button, Card, useDisclosure } from '@nextui-org/react';
+import { Badge, Button, useDisclosure } from '@nextui-org/react';
 import { CheckIcon, QuestionIcon, SectionIcon } from '../icons';
 
 import { Modal } from '../ui/Modal';
@@ -55,7 +55,7 @@ export const SetSection = forwardRef<PropsComponent & ValidateStep>((__, ref: Fo
                 size="full" 
                 title="Establecer sección" 
                 hideCloseButton
-                renderContent={(onClose) =>
+                renderContent={() =>
                     <Fragment>
                         <span className="text-sm text-gray-500 font-semibold">Selecciona la opción a la cual quieres que pertenezca la pregunta</span>
                         <section className="h-full">

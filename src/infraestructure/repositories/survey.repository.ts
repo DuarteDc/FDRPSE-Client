@@ -82,14 +82,14 @@ export const surveyRepository = {
         }
     },
 
-    getAreas: async (): Promise<Array<Area> | string> => {
-        try {
-            const { areas } = await http.get<GetAreasDto>(`/auth/areas`);
-            return areas.map(({ id, nombreArea }) => new Area(id, nombreArea));
-        } catch (error) {
-            return error as string;
-        }
-    },
+    // getAreas: async (): Promise<Array<Area> | string> => {
+    //     try {
+    //         const { areas } = await http.get<GetAreasDto>(`/auth/areas`);
+    //         return areas.map(({ id, nombreArea }) => new Area(id, nombreArea));
+    //     } catch (error) {
+    //         return error as string;
+    //     }
+    // },
 
     getTotalUsers: async (): Promise<number | string> => {
         try {

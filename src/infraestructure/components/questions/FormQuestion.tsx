@@ -1,8 +1,8 @@
-import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
+import { ForwardedRef, forwardRef, useImperativeHandle } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import { Input, Select, SelectItem, SelectSection } from '@nextui-org/react';
+import { Input, Select, SelectItem } from '@nextui-org/react';
 
 import { BoxIcon, CategoryIcon, DimensionsIcon, InfoCircle, QuestionIcon, StarsIcon } from '../icons';
 import { createQuestionValidation } from '../../validations/question.validations';
