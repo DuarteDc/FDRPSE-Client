@@ -11,7 +11,7 @@ interface Props {
 export const sectionService = (props: Props) => {
 
     const [loading, setLoading] = useState(false);
-    const { dispatch, section, sections, sectionsSelected } = useContext(SectionContext);
+    const { dispatch, section, sections, sectionsSelected, sectionDetail } = useContext(SectionContext);
 
     const startGetSections = async (type: string): Promise<void> => {
         dispatch({ type: 'SECTION - Start load sections', payload: [] })
@@ -76,8 +76,8 @@ export const sectionService = (props: Props) => {
 
     const getSecionById = useCallback(async (sectionId: string) => {
         setLoading(prev => !prev);
-        const section = await sectionRespository.getSectionDetail(sectionId);
-        typeof section !== 'string' && dispatch({ type: 'SECTION - Start load section', payload: section });
+        const section = await sectionRespository.getOneSection(sectionId);
+        typeof section !== 'string' && dispatch({ type: 'SECTION - Load section detail', payload: section });
         setLoading(prev => !prev);
     }, []);
 
@@ -88,6 +88,7 @@ export const sectionService = (props: Props) => {
         loading,
         section,
         sections,
+        sectionDetail,
         sectionsSelected,
 
         clearSectionCache,

@@ -26,6 +26,7 @@ export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
 export { FilterIcon } from './FilterIcon';
 export { GoogleIcon } from './GoogleIcon';
+export { HelpHexagon } from './HelpHexagon';
 export { HomeIcon } from './HomeIcon';
 export { InfoCircle } from './InfoCircle';
 export { LineIcon } from './LineIcon';

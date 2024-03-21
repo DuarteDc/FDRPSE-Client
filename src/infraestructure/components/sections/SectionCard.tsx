@@ -1,4 +1,4 @@
-import { DragEvent, ReactNode } from 'react';
+import { DragEvent, ReactNode, memo } from 'react';
 import { DotsVertical, EyeIcon, SectionIcon } from '../icons';
 import { Section } from '../../../domain/models';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, cn } from '@nextui-org/react';
@@ -16,7 +16,7 @@ interface Props {
 
 const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-[1.02]  hover:lg:scale-[1.01] w-full'
 
-export const SectionCard = ({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent }: Props) => {
+export const SectionCard = memo(({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent }: Props) => {
 
   return (
     <div
@@ -77,4 +77,4 @@ export const SectionCard = ({ section, draggable = false, onDragStart, onDragEnd
       }
     </div>
   )
-}
+});

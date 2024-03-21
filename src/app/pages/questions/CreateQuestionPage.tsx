@@ -22,7 +22,7 @@ export const CreateQuestionPage = () => {
     }, []);
 
     return (
-        <PageLayout title="Crear Pregunta" navigateTo="/auth/questions">
+        <PageLayout title="Crear Pregunta">
             <Steper
                 steps={QUESTION_STEPS}
                 showProgress={false}

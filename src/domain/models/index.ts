@@ -1,3 +1,5 @@
+export type * from './SectionDetail';
+
 export * from './Guide';
 
 export { SectionQuesions } from './SectionQuestions';

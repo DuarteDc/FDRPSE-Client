@@ -1,10 +1,11 @@
 import { ReactNode, useReducer } from 'react';
 
-import { Section, SectionQuesions } from '../../../domain/models';
-import { SectionContext, sectionReducer } from './';
+import { Section, SectionQuesions, type SectionDetail } from '../../../domain/models';
+import { SectionContext, sectionReducer, } from './';
 
 export interface SectionState {
   section           : null | SectionQuesions;
+  sectionDetail     : SectionDetail | null;
   sections          : Array<Section> | [];
   sectionsSelected  : Array<SectionQuesions> | [];
 }
@@ -15,6 +16,7 @@ interface Props {
 
 const SECTION_INITIAL_STATE: SectionState = {
   section           : null,
+  sectionDetail     : null,
   sections          : [],
   sectionsSelected  : [],
 }

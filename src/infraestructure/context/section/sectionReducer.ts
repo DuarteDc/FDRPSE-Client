@@ -1,4 +1,5 @@
 import { Section, SectionQuesions } from '../../../domain/models';
+import { SectionDetail } from '../../../domain/models/SectionDetail';
 import { SectionState } from './';
 
 export type SectionActionType =
@@ -10,6 +11,7 @@ export type SectionActionType =
     | { type: 'SECTION - Start load sections with questions', payload: Array<SectionQuesions> }
     | { type: 'SECTION - Get current section', payload: SectionQuesions }
     | { type: 'SECTION - Filter bad selection by type gudide' }
+    | { type: 'SECTION - Load section detail', payload: SectionDetail }
     | { type: 'SECTION - Clear cache section' }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
@@ -78,10 +80,16 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
                 sectionsSelected: []
             }
 
+            case 'SECTION - Load section detail':
+                return {
+                    ...state,
+                    sectionDetail: action.payload,
+                }
+
         case 'SECTION - Clear cache section':
             return {
                 ...state,
-                section: null
+                sectionDetail: null
             }
 
         default:

@@ -48,7 +48,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
             />
             <RadioGroupStyled
                 value={formik.values.type}
-                onValueChange={formik.handleChange}
+                onChange={formik.handleChange}
                 isInvalid={formik.touched.type && formik.errors.type ? true : false}
                 errorMessage={formik.touched.type && formik.errors.type && formik.errors.type}
                 name="type"

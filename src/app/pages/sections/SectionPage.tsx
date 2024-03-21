@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Input, Tab, Tabs, useDisclosure } from '@nextui-org/react';
 
 import { PageLayout } from '../../../infraestructure/components/ui';
@@ -17,16 +17,20 @@ import { useLocation } from 'react-router-dom';
 export const SectionPage = () => {
 
     const { search } = useLocation();
+    const { navigate } = useNavigation();
+
+    const { setQueryParams, parseToString, getValueOfQueryParams } = useParams();
+
     const firstRender = useRef<boolean>(true);
     
-
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-    const { navigate } = useNavigation();
-    const { setQueryParams, parseToString, getValueOfQueryParams } = useParams();
+    
     const { startGetSections, sections, loading } = sectionService({});
-
-    const [query, setQuery] = useState<string>(getValueOfQueryParams('name'));
+    const [query, setQuery] = useState<string>(getValueOfQueryParams('name') || '');
+    
+    const handleSearch = useCallback((value: string) => {
+        setQuery(value)
+    }, []);
 
     const debounce = useDebounce(query, 500);
 
@@ -40,7 +44,7 @@ export const SectionPage = () => {
     }, [debounce])
 
     return (
-        <PageLayout title="Secciones" navigateTo="/auth">
+        <PageLayout title="Secciones">
             <span className="flex justify-end my-10">
                 <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold"
                     onClick={onOpen}
@@ -56,8 +60,8 @@ export const SectionPage = () => {
                 <Input
                     className="w-full"
                     placeholder="Buscar por nombre..."
-                    value={query}
-                    onValueChange={setQuery}
+                    value={query || ''}
+                    onValueChange={handleSearch}
                     startContent={
                         <SearchIcon />
                     }

@@ -1,10 +1,45 @@
-// import { Section } from './';
+export interface QuestionInsideSection {
+    id:              number;
+    name:            string;
+    createdAt:       Date;
+    updatedAt:       Date;
+    deletedAt:       Date;
+    type:            string;
+    qualification?:   Qualification;
+    category ?:       Dimension;
+    dimension?:       Dimension;
+    domain?:          Dimension | null;
+}
 
-// interface SectionDetailSchema {
-//     id: string;
-// }
+export interface SectionDetail {
+    id:             number;
+    name:           string;
+    createdAt:      Date;
+    updatedAt:      Date;
+    binary:         boolean;
+    question:       string;
+    type:           string;
+    canFinishGuide: boolean;
+    questionsCount: number;
+    questions?:     QuestionInsideSection[];
+}
 
+export interface Dimension {
+    id:        number;
+    name:      string;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
-// export class SectionDetail extends Section implements SectionDetail {
-    
-// }
+export interface Qualification {
+    id:             number;
+    name:           string;
+    alwaysOp:       number;
+    almostAlwyasOp: number;
+    sometimesOp:    number;
+    almostNeverOp:  number;
+    neverOp:        number;
+    createdAt:      Date;
+    updatedAt:      Date;
+    deletedAt:      Date | null;
+}

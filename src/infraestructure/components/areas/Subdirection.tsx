@@ -8,7 +8,7 @@ interface Props {
     onDragEnd: () => void;
 }
 
-export const Subdirection = memo(({ subdirections, onDragStart, onDragEnd }: Props) => {
+export const Subdirection = memo(({ subdirections, onDragEnd }: Props) => {
 
     return (
         <Fragment>
