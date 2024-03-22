@@ -1,13 +1,14 @@
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from 'react'
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { Input, Radio, RadioGroup, cn } from '@nextui-org/react';
+import { Input, cn } from '@nextui-org/react';
 
-import { BrandDatabricks, FileDescription, InfoCircle, StarsIcon } from '../icons';
+import { BrandDatabricks, FileDescription, StarsIcon, StarsOff } from '../icons';
 import { ValidateStep } from '../../../app/utils/guideSteps'
 import { preSaveGuideValidation } from '../../validations/guide.validations';
 import { guideService } from '../../../domain/services/guide.service';
 import { sectionService } from '../../../domain/services/section.service';
+import { RadioGroupStyled } from '../ui';
 
 export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
@@ -70,53 +71,29 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
                         <p className="font-bold">Tipo de cuestionario</p>
                         <p className="text-gray-500 font-bold text-xs pl-4">Seleciona el tipo de cuestionario que deseas crear</p>
                     </span>
-                    <RadioGroup orientation="horizontal"
+                    <RadioGroupStyled
                         onChange={formik.handleChange}
                         name="gradable"
                         isInvalid={formik.touched.gradable && formik.errors.gradable ? true : false}
                         errorMessage={formik.touched.gradable && formik.errors.gradable && formik.errors.gradable}
                         value={formik.values.gradable + ''}
+                        orientation="horizontal"
                     >
-                        <Radio description="Esta opción te permite asignar secciones que contienen preguntas con un valor" value="true"
-                            classNames={{
-                                label: cn(
-                                    "[&>svg]:text-emerald-600"
-                                ),
-                                base: cn(
-                                    "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between font-bold",
-                                    "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-2",
-                                    "data-[selected=true]:border-emerald-500"
-                                ),
-                                description: cn(
-                                    "text-xs"
-                                )
-                            }}
-                        >
-                            <StarsIcon strokeWidth={2} width={20} height={20} />
-                            Cuestionario evaluativo
-                        </Radio>
-
-                        <Radio description="Esta opcion te permite crear cuestionarios con secciones que contienen preguntas sin valor" value="false" name="gradables"
-                            classNames={{
-                                label: cn(
-                                    "[&>svg]:text-emerald-600"
-                                ),
-                                base: cn(
-                                    "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between font-bold",
-                                    "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-2",
-                                    "data-[selected=true]:border-emerald-500",
-                                ),
-                                description: cn(
-                                    "text-xs"
-                                )
-                            }}
-                        >
-                            <InfoCircle strokeWidth={2} width={20} height={20} />
-                            Cuestionario informativo
-                        </Radio>
-                    </RadioGroup>
+                        <RadioGroupStyled.RadioItem 
+                            description="Esta opción te permite asignar secciones que contienen preguntas con un valor"
+                            value="true"
+                            icon={<StarsIcon strokeWidth={2} width={20} height={20} />}
+                            title="Cuestionario evaluativo"
+                        />
+                        <RadioGroupStyled.RadioItem 
+                            description="Esta opcion te permite crear cuestionarios con secciones que contienen preguntas sin valor" 
+                            value="false"
+                            icon={<StarsOff strokeWidth={2} width={20} height={20} />}
+                            title="Cuestionario informativo"
+                        />
+                    </RadioGroupStyled>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 })

@@ -16,7 +16,7 @@ interface Props {
 const classList = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-5 lg:gap-y-8 gap-y-4';
 
 export const SectionList = memo(({ className = classList, loading, sections, renderChilds }: Props) => {
-    console.log('render')
+
     return (
         <div className={className}>
             {

@@ -19,7 +19,7 @@ export const QuestionDetailList = ({ questions, renderChilds }: Props) => {
                 ) :
                     (
                         questions.map((question) =>
-                            <Fragment>
+                            <Fragment key={question.id}>
                                 {renderChilds({ navigate, question })}
                             </Fragment>
                         )

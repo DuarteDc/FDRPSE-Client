@@ -6,10 +6,10 @@ import { errorAlert, succesAlert } from '../alert/alerts';
 
 export const questionRepository = {
 
-    getQuestions: async (): Promise<Array<Question> | string> => {
+    getQuestions: async (query: string): Promise<Array<Question> | string> => {
         try {
-            const { questions } = await http.get<QuestionsResponseDto>('/auth/questions');
-            return questions.map(({ id, name, created_at, updated_at }) => new Question(id, name, created_at, updated_at));
+            const { questions } = await http.get<QuestionsResponseDto>(`/auth/questions${query}`);
+            return questions.map(({ id, name, type, created_at, updated_at }) => new Question(id, name, type, created_at, updated_at));
         } catch (error) {
             return error as string;
         }
@@ -26,14 +26,14 @@ export const questionRepository = {
         }
     },
 
-    // getQuestionById: async (questionId: string): Promise<Question | string> => {
-    //     try {
-    //         const { question } = await http.get<QuestionResponseDto>(`/auth/questions/${questionId}`);
-    //         return new Question(question.id, question.name, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimension, question?.domain);
-    //     } catch (error) {
-    //         return error as string;
-    //     }
-    // },
+    getQuestionById: async (questionId: string): Promise<Question | string> => {
+        try {
+            const { question } = await http.get<QuestionResponseDto>(`/auth/questions/${questionId}`);
+            return new Question(question.id, question.name, question.type, question.created_at, question.updated_at, question.section!, question.category!, question?.qualification, question?.dimension, question?.domain);
+        } catch (error) {
+            return error as string;
+        }
+    },
 
     getQuestionBySection: async (page: number): Promise<QuestionsBySectionResponse | string> => {
         try {

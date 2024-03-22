@@ -4,7 +4,7 @@ import { PageLayout } from '../../../infraestructure/components/ui';
 
 export const CreateDomainPage = () => {
   return (
-    <PageLayout title="Crear dominio" navigateTo="/auth/domains">
+    <PageLayout title="Crear dominio">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-10">
           <FormDomain />
           <div className="lg:flex justify-center hidden">

@@ -5,7 +5,7 @@ import { createFieldQuestionValidations } from '../../app/helpers/createFieldsQu
 export const qustionAnswerValidation = (questions: any) => createFieldQuestionValidations(questions);
 
 export const createQuestionValidation = () => ({
-    name            : Yup.string().required('El campo pregunta es obligatorio').min(8, 'La pregunta debe contener al menos 8 caracteres').max(200, 'La pregunta debe contener 200 caracteres como máximo'),
+    name            : Yup.string().required('El campo pregunta es obligatorio').min(8, 'La pregunta debe contener al menos 8 caracteres').max(1000, 'La pregunta debe contener 1000 caracteres como máximo'),
     type            : Yup.string().required('El tipo de pregunta es requerido'),
     category_id     : Yup.string(),
     domain_id       : Yup.string(), 

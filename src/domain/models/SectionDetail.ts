@@ -1,10 +1,12 @@
+import { TypeQuestion } from "./SectionQuestions";
+
 export interface QuestionInsideSection {
     id:              number;
     name:            string;
     createdAt:       Date;
     updatedAt:       Date;
     deletedAt:       Date;
-    type:            string;
+    type:            TypeQuestion;
     qualification?:   Qualification;
     category ?:       Dimension;
     dimension?:       Dimension;

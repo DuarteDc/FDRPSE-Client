@@ -38,7 +38,7 @@ export const ShowSurveyPage = () => {
   }, [updated, area])
 
   return (
-    <PageLayout navigateTo="/auth" title="Detalle de cuestionario">
+    <PageLayout title="Detalle de cuestionario">
       <>
         {
           loading ? <LoadingScreen title="Cargando ..." /> :

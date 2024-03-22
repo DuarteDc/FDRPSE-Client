@@ -16,7 +16,7 @@ export const GuidesPage = () => {
 
     const [query, setQuery] = useState<string>('');
     const { navigate } = useNavigation();
-    const { setQueryParams, parseToString } = useParams();
+    const { setQueryParams, parseToString, getValueOfQueryParams } = useParams();
     const { startGetGuides, guides, loading } = guideService();
 
     const firstRender = useRef<boolean>(true);
@@ -32,7 +32,7 @@ export const GuidesPage = () => {
     }, [debounce])
 
     return (
-        <PageLayout title="Cuestionarios" navigateTo="/auth">
+        <PageLayout title="Cuestionarios">
             <span className="text-gray-500 font-bold text-xs -mt-5 mb-4 pl-4 block">Aquí podras encontrar la lista de los cuestionarios creados</span>
             <div className="flex justify-end">
                 <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10"
@@ -60,6 +60,7 @@ export const GuidesPage = () => {
                         aria-label="Options filter"
                         color="primary"
                         variant="bordered"
+                        selectedKey={getValueOfQueryParams('type') || 'active'}
                         onSelectionChange={(key) => { !firstRender.current && setQueryParams({ type: `${key}` }) }}
                         classNames={{
                             cursor: "w-full bg-emerald-500",

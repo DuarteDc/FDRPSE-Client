@@ -1,44 +1,94 @@
-import { useEffect } from 'react';
-import { Button, Input, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, Input, Spinner, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs } from '@nextui-org/react';
 
-import { EyeIcon, PlusIcon, QuestionIcon, SearchIcon } from '../../../infraestructure/components/icons';
+import { EyeIcon, FilterIcon, PlusIcon, QuestionIcon, SearchIcon, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { questionService } from '../../../domain/services/question.service';
 import { useNavigation } from '../../hooks/useNavigation';
+import { useLocation } from 'react-router-dom';
+import { useDebounce } from '../../hooks/useDebounce';
+
+import { useParams } from '../../hooks/useParams';
 
 export const QuestionsPage = () => {
 
-    const { loading, questions, startGetQuestions } = questionService();
     const { navigate } = useNavigation();
 
-    useEffect(() => {
-        startGetQuestions();
+    const firstRender = useRef<boolean>(true);
+    const { loading, questions, startGetQuestions } = questionService();
+    const { setQueryParams, parseToString, getValueOfQueryParams } = useParams();
+
+    const [query, setQuery] = useState<string>(getValueOfQueryParams('name') ?? '');
+
+    const debounce = useDebounce(query, 500);
+
+    const handleSearch = useCallback((value: string) => {
+        setQuery(value)
     }, []);
 
+
+    useEffect(() => {
+        startGetQuestions(parseToString());
+    }, [parseToString()]);
+
+    useEffect(() => {
+        !firstRender.current && setQueryParams({ name: debounce });
+        firstRender.current = false;
+    }, [debounce])
+
+
     return (
-        <PageLayout title="Preguntas" navigateTo="/auth/">
-            <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10" 
+        <PageLayout title="Preguntas">
+            <Button className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10"
                 onClick={() => navigate('create')}
                 startContent={
                     <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
-                        <PlusIcon />
+                        <PlusIcon width={18} height={18} strokeWidth={1.5} />
                     </span>
                 }>
                 Crear Pregunta
             </Button>
-            <span className="mb-3 mt-20 block">
+            <div className="w-full pb-10 mb-5 mt-2 grid grid-cols-1 lg:grid-cols-2 items-center border-b-2">
                 <Input
-                    className="w-full md:w-8/12 lg:w-4/12"
+                    className="w-full [&>div>div>div>svg]:text-emerald-600"
                     placeholder="Buscar por nombre..."
+                    value={query}
+                    onValueChange={handleSearch}
                     startContent={
-                        <span className="text-emerald-600">
-                            <SearchIcon />
-                        </span>
+                        <SearchIcon strokeWidth={2.5} />
                     }
-                // onChange={({ target }) => setQuery(target.value)}
-                // value={query}
                 />
-            </span>
+                <div className="flex items-center lg:justify-end w-full mt-4 lg:mt-0 overflow-x-auto">
+                    <Tabs
+                        aria-label="Options filter"
+                        className="my-4"
+                        selectedKey={getValueOfQueryParams('type') || 'gradable'}
+                        color="primary"
+                        variant="bordered"
+                        onSelectionChange={(key) => { !firstRender.current && setQueryParams({ type: `${key}` }) }}
+                        classNames={{
+                            cursor: "w-full bg-emerald-500",
+                        }}
+                    >
+                        <Tab key="gradable" title={
+                            <div className="flex items-center space-x-2 font-bold">
+                                <StarsIcon strokeWidth={2} />
+                                <span>Preguntas con calificación</span>
+                            </div>
+                        } />
+                        <Tab key="nongradable" title={
+                            <div className="flex items-center space-x-2 font-bold">
+                                <StarsOff strokeWidth={2} />
+                                <span>Preguntas sin calificación</span>
+                            </div>
+                        } />
+                    </Tabs>
+                    <span className="ml-auto md:ml-4 font-bold text-sm flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
+                        <FilterIcon width={35} height={35} strokeWidth={1.5} />
+                        Filtros
+                    </span>
+                </div>
+            </div>
             <Table aria-label="Table for users">
                 <TableHeader>
                     <TableColumn className="py-5 text-emerald-700 font-extrabold text-base"> # </TableColumn>
@@ -52,7 +102,7 @@ export const QuestionsPage = () => {
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>
                                     <span className="flex items-center gap-x-3">
-                                        <span className="bg-emerald-600 h-[2.5rem] w-[2.5rem] flex items-center justify-center text-white rounded-xl">
+                                        <span className="bg-emerald-600 min-h-[2.5rem] min-w-[2.5rem] flex items-center justify-center text-white rounded-xl">
                                             <QuestionIcon />
                                         </span>
                                         {name}

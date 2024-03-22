@@ -53,7 +53,7 @@ export const ShowSectionPage = () => {
                     <p className="font-bold text-2xl">Preguntas dentro de la sección</p>
                 </span>
                 <p className="text-gray-500 font-bold text-xs pl-10">Aquí se muestran las preguntas que pertenecen a la sección</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:gap-5">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 lg:gap-5">
                     <QuestionDetailList
                         questions={sectionDetail?.questions}
                         renderChilds={(({ question, navigate }) => (

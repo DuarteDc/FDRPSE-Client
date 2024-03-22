@@ -7,7 +7,7 @@ import { ArrowNarrowLeft, ArrowNarrowRight, SaveIcon } from '../../../infraestru
 
 export const CreateGuidePage = () => {
   return (
-    <PageLayout title="Crear cuestionario" navigateTo="/auth/surveys">
+    <PageLayout title="Crear cuestionario">
       <span className="text-gray-500 font-bold text-xs -mt-5 mb-20 pl-4">Crea un nuevo cuestionario, asigna un nombre y agrega las preguntas </span>
       <Steper
         steps={GUIDE_STEPS}

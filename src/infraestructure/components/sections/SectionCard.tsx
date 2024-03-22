@@ -12,11 +12,12 @@ interface Props {
   showControlls?: boolean;
   handleSelectSection?: (section: Section) => void;
   renderContent?: () => ReactNode
+  onClick?: () => void;
 }
 
 const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-[1.02]  hover:lg:scale-[1.01] w-full'
 
-export const SectionCard = memo(({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent }: Props) => {
+export const SectionCard = memo(({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent, ...props }: Props) => {
 
   return (
     <div
@@ -24,13 +25,14 @@ export const SectionCard = memo(({ section, draggable = false, onDragStart, onDr
       draggable={draggable}
       onDragStart={(event) => { onDragStart && onDragStart(event, section) }}
       onDragEnd={() => { onDragEnd && onDragEnd() }}
+      {...props}
     >
       {
         renderContent && renderContent()
       }
       <div>
         <span className="lg:w-[4rem] lg:h-[4rem] w-[3rem] h-[3rem] text-emerald-600 border-2 mx-4 flex items-center justify-center rounded-full">
-          <SectionIcon width={30} height={30} />
+          <SectionIcon width={30} height={30} strokeWidth={1.5} />
         </span>
       </div>
       <div className="relative w-full">

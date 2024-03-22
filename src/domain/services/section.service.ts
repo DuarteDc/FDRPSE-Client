@@ -35,7 +35,7 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }, []);
 
-    const startGetSectionsBy = useCallback(async (type: boolean): Promise<void> => {
+    const startGetSectionsBy = useCallback(async (type: string): Promise<void> => {
         setLoading(prev => !prev);
         const sections = await sectionRespository.getSectionsByType(type);
         typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });

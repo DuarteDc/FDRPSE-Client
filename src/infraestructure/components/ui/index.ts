@@ -1,4 +1,5 @@
 import CardList  from './CardList';
+export { FormQualification } from './FormQualification';
 import RadioGroupStyled from './RadioGroupStyled';
 export { DatePicker } from './DatePicker';
 export { LoadingScreen } from './LoadingScreen';

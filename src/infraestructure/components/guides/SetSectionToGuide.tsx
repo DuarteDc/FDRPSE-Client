@@ -19,7 +19,7 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
     const { startGetSectionsBy, sections, loading, getSectionDetail, section, sectionsSelected  } = sectionService({ onOpenAuxiliarModel: onOpen });
 
     useEffect(() => {
-        startGetSectionsBy(guide!.gradable)
+        startGetSectionsBy(String(guide!.gradable) === 'true' ? 'gradable' : 'nongradabale')
     }, []); 
     
     useImperativeHandle(ref, () => ({

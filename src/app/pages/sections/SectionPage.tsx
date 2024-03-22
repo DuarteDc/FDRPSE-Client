@@ -12,22 +12,20 @@ import { useParams } from '../../hooks/useParams';
 import { sectionService } from '../../../domain/services/section.service';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useDebounce } from '../../hooks/useDebounce';
-import { useLocation } from 'react-router-dom';
 
 export const SectionPage = () => {
 
-    const { search } = useLocation();
     const { navigate } = useNavigation();
 
     const { setQueryParams, parseToString, getValueOfQueryParams } = useParams();
 
     const firstRender = useRef<boolean>(true);
-    
+
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    
+
     const { startGetSections, sections, loading } = sectionService({});
     const [query, setQuery] = useState<string>(getValueOfQueryParams('name') || '');
-    
+
     const handleSearch = useCallback((value: string) => {
         setQuery(value)
     }, []);
@@ -35,7 +33,7 @@ export const SectionPage = () => {
     const debounce = useDebounce(query, 500);
 
     useEffect(() => {
-        startGetSections(parseToString() || search);
+        startGetSections(parseToString());
     }, [parseToString()]);
 
     useEffect(() => {
@@ -56,21 +54,21 @@ export const SectionPage = () => {
                     Agregar sección
                 </Button>
             </span>
-            <div className="w-full pb-10 mb-5 mt-2 grid grid-cols-1 lg:grid-cols-2 items-center border-b-2">
+            <div className="w-full pb-10 mb-5 mt-2 items-center border-b-2">
                 <Input
-                    className="w-full"
+                    className="w-full [&>div>div>div>svg]:text-emerald-600"
                     placeholder="Buscar por nombre..."
-                    value={query || ''}
+                    value={query}
                     onValueChange={handleSearch}
                     startContent={
-                        <SearchIcon />
+                        <SearchIcon strokeWidth={2.5} />
                     }
                 />
                 <div className="flex items-center lg:justify-end w-full mt-4 lg:mt-0 overflow-x-auto">
                     <Tabs
                         aria-label="Options filter"
                         className="my-4"
-                        defaultSelectedKey={getValueOfQueryParams('type') || 'gradable'}
+                        selectedKey={getValueOfQueryParams('type') || 'gradable'}
                         color="primary"
                         variant="bordered"
                         onSelectionChange={(key) => { !firstRender.current && setQueryParams({ type: `${key}` }) }}
@@ -91,7 +89,7 @@ export const SectionPage = () => {
                             </div>
                         } />
                     </Tabs>
-                    <span className="ml-4 font-bold text-sm flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
+                    <span className="ml-auto md:ml-4 font-bold text-sm flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
                         <FilterIcon width={35} height={35} strokeWidth={1.5} />
                         Filtros
                     </span>

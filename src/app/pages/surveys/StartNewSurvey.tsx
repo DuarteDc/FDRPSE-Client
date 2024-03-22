@@ -19,7 +19,7 @@ export const StartNewSurvey = () => {
     }, []);
 
     return (
-        <PageLayout navigateTo="/admin" title="Comenzar encuesta">
+        <PageLayout title="Comenzar encuesta">
             <Steper
                 steps={SURVEY_STEPS}
                 renderButtons={({ step, backStep, nextStep }) =>

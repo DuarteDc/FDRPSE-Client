@@ -1,24 +1,31 @@
-import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
-import { Badge, Button, useDisclosure } from '@nextui-org/react';
-import { CheckIcon, QuestionIcon, SectionIcon } from '../icons';
+import { ForwardedRef, Fragment, forwardRef, useEffect, useImperativeHandle } from 'react';
+import { Badge, Button, Tooltip, useDisclosure } from '@nextui-org/react';
+import { CheckIcon, QuestionIcon, SectionIcon, XIcon } from '../icons';
 
 import { Modal } from '../ui/Modal';
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import type { ValidateStep, Props as PropsComponent } from '../../../app/utils/questionSteps';
 import { SectionCard } from '../sections';
+import { SectionList } from '../sections/SectionList';
+import { sectionService } from '../../../domain/services/section.service';
 
 
 export const SetSection = forwardRef<PropsComponent & ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { sections, setSectionBeforeSave, question: currentQuestion } = useQuestion();
+    const { setSectionBeforeSave, question: currentQuestion } = useQuestion();
 
-    const canContinue = (): boolean => {
+    const { startGetSectionsBy, sections } = sectionService({});
+
+    useEffect(() => {
+        startGetSectionsBy(currentQuestion!.type);
+    }, []);
+
+    const canContinue = () => {
         if (!currentQuestion?.section) {
             onOpen()
             return false;
         }
-
         return true;
     }
 
@@ -28,10 +35,20 @@ export const SetSection = forwardRef<PropsComponent & ValidateStep>((__, ref: Fo
 
     return (
         <section>
+            <span className="mb-5 block col-span-7">
+                <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
+                    <SectionIcon width={35} height={35} strokeWidth={1.5} />
+                    <p className="font-bold">Asignar sección</p>
+                </span>
+                <p className="text-gray-500 font-bold text-xs pl-10">Asigna la sección que agrupará a la pregunta</p>
+            </span>
+
             <div className="flex justify-end">
-                <Button className="bg-emerald-600 text-white" startContent={<SectionIcon />} onPress={onOpen}>
-                    Seleccionar sección
-                </Button>
+                <Tooltip content="Haz clic para abrir el panel de sección y establece una" color="foreground">
+                    <Button isIconOnly className="bg-slate-800 text-white" onClick={onOpen}>
+                        <SectionIcon strokeWidth={2} />
+                    </Button>
+                </Tooltip>
             </div>
             <div className="mt-5">
                 <h2 className="font-bold text-xl">Sección actual:</h2>
@@ -50,36 +67,41 @@ export const SetSection = forwardRef<PropsComponent & ValidateStep>((__, ref: Fo
                 </div>
             </div>
             <Modal
-                isOpen={isOpen} 
-                onChange={onOpenChange} 
-                size="full" 
-                title="Establecer sección" 
+                isOpen={isOpen}
+                onChange={onOpenChange}
+                size="full"
                 hideCloseButton
-                renderContent={() =>
+                renderContent={(onClose) =>
                     <Fragment>
-                        <span className="text-sm text-gray-500 font-semibold">Selecciona la opción a la cual quieres que pertenezca la pregunta</span>
-                        <section className="h-full">
-                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-                                {
-                                    sections.map((section) => (
-                                        <Badge
-                                            isOneChar
-                                            content={currentQuestion?.section?.id === section.id && <CheckIcon />}
-                                            key={section.id}
-                                            color={currentQuestion?.section?.id === section.id ? "primary" : "default"}
-                                            placement="top-right"
-                                            onClick={() => {setSectionBeforeSave(section)}}
-                                        >
-                                            <SectionCard 
-                                                key={section.id}
-                                                section={section}
-                                                draggable={false}
-                                            />
-                                        </Badge>
-                                    ))
-                                }
+                        <header className="flex items-center justify-between -mt-6 py-1 border-b-2 ">
+                            <div className="flex items-center font-bold [&>svg]:text-emerald-600 text-xl [&>svg]:mr-1 pt-4 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1">
+                                <SectionIcon width={35} height={35} strokeWidth={1.5} />
+                                <h1>Asignar Seccion</h1>
                             </div>
-                        </section>
+                            <Button isIconOnly className="border-2 bg-transparent" onClick={onClose}>
+                                <XIcon />
+                            </Button>
+                        </header>
+                        <SectionList
+                            sections={sections}
+                            loading={false}
+                            renderChilds={({ section }) => (
+                                <Badge
+                                    isOneChar
+                                    content={currentQuestion?.section?.id === section.id && <CheckIcon />}
+                                    key={section.id}
+                                    color={currentQuestion?.section?.id === section.id ? "primary" : "default"}
+                                    placement="top-right"
+                                >
+                                    <SectionCard
+                                        onClick={() => { setSectionBeforeSave(section); onClose() }}
+                                        key={section.id}
+                                        section={section}
+                                        draggable={false}
+                                    />
+                                </Badge>
+                            )}
+                        />
                     </Fragment>
                 }
             />

@@ -33,7 +33,7 @@ export const CardQuestion = memo(({ question, showOptionQualification, buttonFun
                     <QuestionIcon width={35} height={35} />
                     Pregunta:
                 </span>
-                <h3 className="text-sm">{question.name}</h3>
+                <h3 className="text-sm">{question?.name}</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>div]:text-xs">
                 <div className="py-2">

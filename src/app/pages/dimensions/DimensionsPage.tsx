@@ -18,7 +18,7 @@ export const DimensionsPage = () => {
     }, []);
 
     return (
-        <PageLayout title="Dimensiones" navigateTo="/auth/">
+        <PageLayout title="Dimensiones">
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 xl:gap-5 my-4 lg:mt-20">
                 <CardList data={dimensions} loading={loading} >
                     <CardList.CreateItem title="Crear dimension" image={<PlusIcon />} onPress={() => navigate('create')} />

@@ -14,9 +14,9 @@ export const questionService = () => {
 
     const toggleLoading = useCallback(() => setLoading(prev => !prev), []);
 
-    const startGetQuestions = async (): Promise<void> => {
+    const startGetQuestions = async (query: string): Promise<void> => {
         toggleLoading()
-        const questions = await questionRepository.getQuestions();
+        const questions = await questionRepository.getQuestions(query);
         typeof questions !== 'string' && dispatch({ type: 'QUESTION - Load questions', payload: questions });
         toggleLoading()
     }

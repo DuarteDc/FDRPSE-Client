@@ -19,7 +19,7 @@ export const ShowQuestionPage = () => {
   }, []);
 
   return (
-    <PageLayout title="Detalle de pregunta" navigateTo="/auth/questions">
+    <PageLayout title="Detalle de pregunta">
       <section className="grid grid-cols-1">
         {
           question ? (

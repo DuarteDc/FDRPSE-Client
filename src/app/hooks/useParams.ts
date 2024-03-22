@@ -1,13 +1,19 @@
-import { useState, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useCallback, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { parseStringToObjQueryParams } from '../helpers/parseStringToObjQueryParams';
 
 interface Params {
     [key: string]: string;
 }
 export const useParams = () => {
+    const { search } = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const [params, setParams] = useState<Params>({});
+    const [params, setParams] = useState<Params>(parseStringToObjQueryParams(search));
+
+    const parseToString = () => {
+        return search;
+    };
 
     const setQueryParams = useCallback((newParams: Params) => {
 
@@ -28,16 +34,7 @@ export const useParams = () => {
 
     const getQueryParams = (key: string) => ({ key: params[key] });
 
-    const getValueOfQueryParams = (key: string) => params[key] ?? searchParams.get(key);
-
-    const parseToString = useCallback(() => {
-        return Object.entries(params).length > 0 ?
-            Object.entries(params).reduce((quey: string, [key, value]) => {
-                quey += `${key}=${value}&`;
-                return quey;
-            }, '?')
-            : '';
-    }, [params]);
+    const getValueOfQueryParams = (key: string) => searchParams.get(key);
 
     return {
         params,
