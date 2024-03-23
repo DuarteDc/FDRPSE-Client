@@ -1,19 +1,25 @@
-import { ForwardedRef, Fragment, forwardRef, useImperativeHandle } from 'react';
+import { ForwardedRef, Fragment, forwardRef, useImperativeHandle, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import { Input, Select, SelectItem } from '@nextui-org/react';
+import { Button, Input, Select, SelectItem, Selection, useDisclosure } from '@nextui-org/react';
 
-import { BoxIcon, BrandDatabricks, CategoryIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff } from '../icons';
+import { BoxIcon, BrandDatabricks, CategoryIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff, XIcon } from '../icons';
 import { createQuestionValidation } from '../../validations/question.validations';
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import type { ValidateStep } from '../../../app/utils/questionSteps';
 import { RadioGroupStyled } from '../ui';
+import { Modal } from '../ui/Modal';
+import { Category, Domain } from '../../../domain/models';
 
+
+type SelectionType = 'categories' | 'domains';
 
 export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [selectedItem, setSelectedItem] = useState({})
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
 
     const formik = useFormik({
@@ -37,6 +43,19 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
         canContinue,
     }));
 
+    const handleSelectQualification = (type: SelectionType, selectedItem: string) => {
+        if (type === 'categories') {
+            const category = categories.find(category => category.id == selectedItem)!;
+            if (category.qualificationsCount! === 1) return;
+            setSelectedItem(category);
+        } else {
+            const domain = domains.find(domain => domain.id == selectedItem)!;
+            // if(domains.qualificationsCount! === 1) return; 
+            setSelectedItem(domain);
+        }
+        onOpen();
+    }
+
     return (
 
         <Fragment>
@@ -47,6 +66,30 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 </span>
                 <p className="text-gray-500 font-bold text-xs pl-10">Ingresa los valores generales de la pregunta continuar</p>
             </span>
+            <Modal
+                isOpen={isOpen}
+                onChange={onOpenChange}
+                hideCloseButton
+                size="4xl"
+                renderContent={(onClose) => (
+                    <Fragment>
+                        <header className="flex items-center justify-between -mt-6 py-1 border-b-2 ">
+                            <div className="flex items-center font-bold [&>svg]:text-emerald-600 text-xl [&>svg]:mr-1 pt-4 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1">
+                                <StarsIcon width={35} height={35} strokeWidth={1.5} />
+                                <h1>Lista de calificaciones</h1>
+                            </div>
+                            <Button isIconOnly className="border-2 bg-transparent" onClick={onClose}>
+                                <XIcon />
+                            </Button>
+                        </header>
+                        <code>
+                            {
+                                JSON.stringify(selectedItem)
+                            }
+                        </code>
+                    </Fragment>
+                )}
+            />
 
             <form className="[&>div>*]:text-emerald-600">
                 <Input
@@ -119,7 +162,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                                 size="md"
                                 className="my-2 text-gray-500"
                                 startContent={<CategoryIcon />}
-                                onChange={formik.handleChange}
+                                onChange={(event) => { formik.handleChange(event); handleSelectQualification('categories', event.target.value) }}
                                 defaultSelectedKeys={formik.values.category_id ? [`${formik.values?.category_id}`] : []}
                                 placeholder=""
                                 isInvalid={formik.touched.category_id && formik.errors.category_id ? true : false}
@@ -127,7 +170,10 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                             >
                                 {
                                     ({ id, name }) => (
-                                        <SelectItem key={id} textValue={name}>
+                                        <SelectItem
+                                            key={id}
+                                            textValue={name}
+                                        >
                                             {name}
                                         </SelectItem>
                                     )
@@ -140,7 +186,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                                 size="md"
                                 className="my-2 text-gray-500"
                                 startContent={<BoxIcon />}
-                                onChange={formik.handleChange}
+                                onChange={(event) => { formik.handleChange(event); handleSelectQualification('domains', event.target.value) }}
                                 defaultSelectedKeys={formik.values.domain_id ? [`${formik.values?.domain_id}`] : []}
                                 placeholder=""
                                 isInvalid={formik.touched.domain_id && formik.errors.domain_id ? true : false}

@@ -10,7 +10,8 @@ export const categoriesRepository = {
     getCategories: async (): Promise<Array<Category> | string> => {
         try {
             const { categories } = await http.get<CateoriesResponseDto>('/auth/categories');
-            return categories.map(({ id, name, created_at, updated_at }) => new Category(id, name, created_at, updated_at));
+            return categories.map(({ id, name, qualifications_count, created_at, updated_at }) =>
+                new Category(id, name, created_at, updated_at, qualifications_count));
         } catch (error) {
             return error as string;
         }
@@ -31,6 +32,15 @@ export const categoriesRepository = {
         try {
             const { categories } = await http.get<CategoriesWithQualificationDto>('/auth/categories/with/qualification');
             return categories.map(({ id, name, created_at, qualification, updated_at }) => new CategoryQualifications(id, name, { ...qualification, veryHigh: qualification.very_hight }, created_at, updated_at));
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getCategoryWithQualifications: async (): Promise<any | string> => {
+        try {
+            const { category } = await http.get<any>('/auth/categories/all/qualifications');
+            return new CategoryQualifications(category.id, category.name, { ...category.qualification, veryHigh: category.qualification.very_hight }, category.created_at, category.updated_at);
         } catch (error) {
             return error as string;
         }

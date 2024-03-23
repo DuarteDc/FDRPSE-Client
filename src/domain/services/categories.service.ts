@@ -1,8 +1,9 @@
 import { useContext, useState } from 'react';
 import { CategoryContext } from '../../infraestructure/context/category';
 import { categoriesRepository } from '../../infraestructure/repositories/categories.respository';
-import { CreateCategoryDto } from '../../infraestructure/http/dto/categories';
+import { CreateCategoryDto, SetNameToCategory } from '../../infraestructure/http/dto/categories';
 import { useNavigate } from 'react-router-dom';
+import { CommonQualifictions } from '../../infraestructure/components/ui/FormQualification';
 
 export const categoriesService = () => {
 
@@ -17,9 +18,9 @@ export const categoriesService = () => {
         setLoading(false);
     }
 
-    const startCreateCategory = async (createCategoryDto: CreateCategoryDto): Promise<void> => {
+    const startCreateCategory = async (setNameToCategory: SetNameToCategory, qualifications: Array<CommonQualifictions>): Promise<void> => {
         setLoading(true);
-        const { success } = await categoriesRepository.createCategory(createCategoryDto);
+        const { success } = await categoriesRepository.createCategory({ ...setNameToCategory, qualifications});
         success && navigate(-1);
         setLoading(false);
     }
