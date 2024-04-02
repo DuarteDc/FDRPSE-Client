@@ -4,30 +4,40 @@ import { useFormik } from 'formik';
 
 import { Button, Input, Select, SelectItem, Selection, useDisclosure } from '@nextui-org/react';
 
-import { BoxIcon, BrandDatabricks, CategoryIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff, XIcon } from '../icons';
+import { BoxIcon, BrandDatabricks, CategoryIcon, ClickIcon, ClockIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff, XIcon } from '../icons';
 import { createQuestionValidation } from '../../validations/question.validations';
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import type { ValidateStep } from '../../../app/utils/questionSteps';
-import { RadioGroupStyled } from '../ui';
+import { CommonQualification, RadioGroupStyled } from '../ui';
 import { Modal } from '../ui/Modal';
-import { Category, Domain } from '../../../domain/models';
+import { categoriesService } from '../../../domain/services/categories.service';
+import { domianService } from '../../../domain/services/domian.service';
 
 
-type SelectionType = 'categories' | 'domains';
+export type SelectionType = 'categories' | 'domains';
+
+export interface QualificationTypeFrom {
+    type: SelectionType,
+    qualificationId: number;
+}
 
 export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [selectedItem, setSelectedItem] = useState({})
+    const [selectedItem, setSelectedItem] = useState<Array<QualificationTypeFrom>>([])
+    const [currentItem, setCurrentItem] = useState<SelectionType>();
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
+    const { category, startGetCategoryWithQualifications } = categoriesService();
+    const { domain, startGetDomainWithQualifications } = domianService();
 
     const formik = useFormik({
         initialValues:
         {
             name: question?.name || '', type: question?.type || 'gradable',
             category_id: question?.category?.id || '', domain_id: question?.domain?.id || '',
-            dimension_id: question?.dimension?.id || '', section_id: ''
+            dimension_id: question?.dimension?.id || '', section_id: '',
+            qualification_id: '',
         },
         validationSchema: Yup.object(createQuestionValidation()),
         onSubmit: preSaveQuestion,
@@ -43,17 +53,30 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
         canContinue,
     }));
 
-    const handleSelectQualification = (type: SelectionType, selectedItem: string) => {
+    const handleSelectQualification = async (type: SelectionType, selectedItem: string) => {
+
+        if (!selectedItem.length) return;
+
         if (type === 'categories') {
-            const category = categories.find(category => category.id == selectedItem)!;
-            if (category.qualificationsCount! === 1) return;
-            setSelectedItem(category);
+            const currentCategory = categories.find(category => category.id == selectedItem)!;
+            if (currentCategory.qualificationsCount! <= 1) return;
+            await startGetCategoryWithQualifications(currentCategory.id)
+            formik.setFieldValue('qualification_id', currentCategory.id);
         } else {
             const domain = domains.find(domain => domain.id == selectedItem)!;
-            // if(domains.qualificationsCount! === 1) return; 
-            setSelectedItem(domain);
+            if (domain.qualificationsCount! <= 1) return;
+            await startGetDomainWithQualifications(domain.id);
+            formik.setFieldValue('qualification_id', domain.id);
         }
+        setCurrentItem(type);
         onOpen();
+    }
+
+    const selectQualification = (item: QualificationTypeFrom) => {
+        const existItem = selectedItem.find(selected => selected.type === item.type);
+        if (!existItem) return setSelectedItem(prev => [...prev, item]);
+        setSelectedItem(prev => prev.map(selected => selected.type === item.type ?
+            { ...selected, qualificationId: selected.qualificationId = item.qualificationId } : selected));
     }
 
     return (
@@ -70,6 +93,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 isOpen={isOpen}
                 onChange={onOpenChange}
                 hideCloseButton
+                isKeyboardDismissDisabled
                 size="4xl"
                 renderContent={(onClose) => (
                     <Fragment>
@@ -78,15 +102,24 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                                 <StarsIcon width={35} height={35} strokeWidth={1.5} />
                                 <h1>Lista de calificaciones</h1>
                             </div>
-                            <Button isIconOnly className="border-2 bg-transparent" onClick={onClose}>
-                                <XIcon />
-                            </Button>
                         </header>
-                        <code>
-                            {
-                                JSON.stringify(selectedItem)
-                            }
-                        </code>
+                        <CommonQualification
+                            item={currentItem === 'categories' ? category : domain}
+                            selectQualification={selectQualification}
+                            type={currentItem}
+                            selectedItem={selectedItem}
+                        />
+                        <Button
+                            className="bg-slate-800 text-white py-[23px] px-8 font-bold float-right mb-10"
+                            isDisabled={!selectedItem.find(item => item.type === currentItem)}
+                            onClick={onClose}
+                            startContent={
+                                <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
+                                    <ClickIcon width={18} height={18} strokeWidth={2} />
+                                </span>
+                            }>
+                            Seleccionar calificación
+                        </Button>
                     </Fragment>
                 )}
             />
@@ -98,7 +131,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                     size="md"
                     name="name"
                     isRequired
-                    startContent={<QuestionIcon />}
+                    startContent={<QuestionIcon strokeWidth={2.5} />}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     isInvalid={formik.touched.name && formik.errors.name ? true : false}

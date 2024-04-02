@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { DomainContext } from '../../infraestructure/context/domain';
 
 import { domainRepository } from '../../infraestructure/repositories/domain.repository';
-import { CreateDomainDto } from '../../infraestructure/http/dto/domains';
+import { CommonQualifictions } from '../../infraestructure/components/ui/FormQualification';
+
+import { SetNameToDomain } from '../../infraestructure/http/dto/domains/CreateDomainDto';
 
 export const domianService = () => {
     const [loading, setLoading] = useState(false);
-    const { dispatch, domains, domainsQualifications } = useContext(DomainContext);
+    const { dispatch, domains, domainsQualifications, domain } = useContext(DomainContext);
     const navigate = useNavigate();
 
     const startGetDomains = async (): Promise<void> => {
@@ -17,9 +19,9 @@ export const domianService = () => {
         setLoading(false);
     }
 
-    const startCreateDomain = async (createDomainDto: CreateDomainDto): Promise<void> => {
+    const startCreateDomain = async (setNameToCategory: SetNameToDomain, qualifications: Array<CommonQualifictions>): Promise<void> => {
         setLoading(true);
-        const { success } = await domainRepository.createDomain(createDomainDto);
+        const { success } = await domainRepository.createDomain({ ...setNameToCategory, qualifications });
         success && navigate(-1)
         setLoading(false);
     }
@@ -31,14 +33,21 @@ export const domianService = () => {
         setLoading(false);
     }
 
+    const startGetDomainWithQualifications = async (domainId: string): Promise<void> => {
+        if(domainId === domain?.id) return;
+        const response = await domainRepository.getDomainWithQualifications(domainId);
+        typeof response !== 'string' && dispatch({ type: 'DOMAIN - Start load domain with qualifications', payload: response });
+    }
 
     return {
-        domains,
         loading,
-        startGetDomains,
+        domain,
+        domains,
         domainsQualifications,
+        startGetDomains,
         startCreateDomain,
         startDomainsWithQualifications,
+        startGetDomainWithQualifications,
     }
 
 }

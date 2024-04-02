@@ -1,27 +1,19 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { Button, Spinner } from '@nextui-org/react';
 
 import { PageLayout } from '../../../infraestructure/components/ui';
-
-import { areaService } from '../../../domain/services/area.service';
 import { Steper } from '../../../infraestructure/components/ui/Steper';
 import { SURVEY_STEPS } from '../../utils/surveySteps';
-import { ArrowNarrowLeft, ArrowNarrowRight, SaveIcon } from '../../../infraestructure/components/icons';
+import { ArrowNarrowLeft, ArrowNarrowRight, PlayerPlay } from '../../../infraestructure/components/icons';
 
 
 export const StartNewSurvey = () => {
-
-
-    const { startLoadAreas } = areaService();
-
-    useEffect(() => {
-        startLoadAreas();
-    }, []);
 
     return (
         <PageLayout title="Comenzar encuesta">
             <Steper
                 steps={SURVEY_STEPS}
+                showProgress={false}
                 renderButtons={({ step, backStep, nextStep }) =>
                     <Fragment>
                         <Button
@@ -34,10 +26,10 @@ export const StartNewSurvey = () => {
                         <Button
                             onClick={nextStep}
                             className="float-right bg-slate-800 text-white"
-                            endContent={(step + 1) >= SURVEY_STEPS.length ? <SaveIcon /> : <ArrowNarrowRight />}
+                            endContent={(step + 1) >= SURVEY_STEPS.length ? <PlayerPlay width={20} height={20} /> : <ArrowNarrowRight />}
                             spinner={<Spinner />}
                         >
-                            {(step + 1) >= SURVEY_STEPS.length ? 'Guardar' : 'Sieguiente'}
+                            {(step + 1) >= SURVEY_STEPS.length ? 'Comenzar' : 'Sieguiente'}
                         </Button>
                     </Fragment>
                 }

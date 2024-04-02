@@ -1,6 +1,6 @@
-import { DomainResponseDto } from './';
+import { DomainResponseDto } from '.';
 
-export interface DomainWithQualificationDto {
+export interface DomainsWithQualificationDto {
     domains: Array<DomainsWithQualificationResponseDto>
 }
 

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
-import { Button, Card, CardBody, Chip, ModalFooter, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
+import { Button, Card, CardBody, Chip, ModalFooter, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
 import { CircleCheck, EyeIcon, PlayerPlay, QuestionIcon } from '../../../infraestructure/components/icons';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { parseDate } from '../../helpers/parseDate';
@@ -35,20 +35,39 @@ export const SurveyPage = () => {
           </div>
         </CardBody>
       </Card>
-      {loading && <LoadingScreen title="Cargando ..." />}
+      {
+        loading && <LoadingScreen title="Cargando ..." />
+      }
 
       <span className="flex justify-end my-10">
-        <Button className="bg-slate-800 text-white py-6 px-8 font-bold" onClick={() =>navigate('start')}
+        <Button className="bg-slate-800 text-white py-6 px-8 font-bold" onClick={() => navigate('start')}
           startContent={
             <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
               <PlayerPlay width={20} height={20} />
             </span>
           }>
-          Comenzar cuestionario
+          Comenzar serie de cuestionarios
         </Button>
       </span>
 
-      <Table aria-label="Surveys data list">
+      <Table
+        aria-label="Surveys data list"
+        bottomContent={
+          <div className="flex w-full justify-center">
+            <Pagination
+              showControls
+              showShadow
+              classNames={{
+                cursor: "bg-slate-800 text-background",
+              }}
+              color="default"
+              page={1}
+              total={10}
+            // onChange={(page) => setPage(page)}
+            />
+          </div>
+        }
+      >
         <TableHeader>
           <TableColumn>#</TableColumn>
           <TableColumn>Fecha de inicio</TableColumn>

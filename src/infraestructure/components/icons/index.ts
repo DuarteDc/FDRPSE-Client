@@ -1,3 +1,4 @@
+
 export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
@@ -16,6 +17,7 @@ export { ChevronRight } from './ChevronRight';
 export { CircleCheck } from './CircleCheck';
 export { CircleOff } from './CircleOff';
 export { ClearAllIcon } from './ClearAllIcon';
+export { ClickIcon } from './ClickIcon';
 export { ClockIcon } from './ClockIcon';
 export { DimensionsIcon } from './DimensionsIcon';
 export { DotsVertical } from './DotsVertical';

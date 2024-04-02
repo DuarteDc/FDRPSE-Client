@@ -18,16 +18,16 @@ export class CategoryQualifications implements CategorySchema {
 
     readonly id             : string;
     readonly name           : string;
-    readonly qualification : Qualifications;
+    readonly qualifications  : Array<Qualifications>;
     readonly createdAt      : Date;
     readonly updatedAt      : Date;
 
-    constructor(id: string, name:string, qualification: any, createdAt: string, updatedAt: string) {
-        this.id         = id;
-        this.name       = name;
-        this.qualification = qualification;
-        this.createdAt  = new Date(createdAt);
-        this.updatedAt  = new Date(updatedAt);
+    constructor(id: string, name:string, qualifications: any, createdAt: string, updatedAt: string) {
+        this.id                 = id;
+        this.name               = name;
+        this.qualifications     = qualifications;
+        this.createdAt          = new Date(createdAt || '');
+        this.updatedAt          = new Date(updatedAt || '');
     }
 
 }

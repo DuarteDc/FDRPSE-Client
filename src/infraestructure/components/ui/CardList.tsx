@@ -3,12 +3,13 @@ import { Card } from './';
 import { SkeletonCard } from './skeleton';
 
 interface Props {
-    data        : Array<any>;
-    loading     : boolean;
-    children    ?: ReactNode;
+    data: Array<any>;
+    loading: boolean;
+    children?: ReactNode;
+    onPress?: (item: any) => void;
 }
 
-const CardList = ({ data,loading, children }: Props) => {
+const CardList = ({ data, loading, children, onPress }: Props) => {
     return (
         <>
             {
@@ -19,8 +20,8 @@ const CardList = ({ data,loading, children }: Props) => {
                                 children
                             }
                             {
-                                data?.map(({ id, name }) => (
-                                    <Card title={name} key={id} />
+                                data?.map(({ id, name, ...rest }) => (
+                                    <Card title={name} key={id} onPress={onPress} item={{ id, name, ...rest }} />
                                 ))
                             }
                         </>
@@ -31,10 +32,11 @@ const CardList = ({ data,loading, children }: Props) => {
 }
 
 export interface CreateItemCardProps {
-    title        : string;
-    subtitle    ?: string;
-    image       ?: string | JSX.Element;
-    onPress     ?: () => void;
+    title: string;
+    subtitle?: string;
+    image?: string | JSX.Element;
+    onPress?: (item: any) => void;
+    item?: any;
 }
 const CreateItem = ({ ...props }: CreateItemCardProps) => <Card {...props} />
 

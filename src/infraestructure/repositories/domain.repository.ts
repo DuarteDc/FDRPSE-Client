@@ -1,5 +1,5 @@
 import { http } from '../http/http';
-import { CreateDomainDto, DomainWithQualificationDto, DomainsResponseDto } from '../http/dto/domains';
+import { CreateDomainDto, DomainsWithQualificationDto, DomainsResponseDto, DomainWithQualificationsDto } from '../http/dto/domains';
 import { Domain, DomainQualifications } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
@@ -9,7 +9,7 @@ export const domainRepository = {
     getDomains: async (): Promise<Array<Domain> | string> => {
         try {
             const { domains } = await http.get<DomainsResponseDto>('/auth/domains');
-            return domains.map(({ id, name, created_at, updated_at }) => new Domain(id, name, created_at, updated_at));
+            return domains.map(({ id, name, qualifications_count, created_at, updated_at }) => new Domain(id, name, created_at, updated_at, qualifications_count));
         } catch (error) {
             return error as string;
         }
@@ -28,8 +28,27 @@ export const domainRepository = {
 
     getDomainsWithQualification: async (): Promise<Array<DomainQualifications> | string> => {
         try {
-            const { domains } = await http.get<DomainWithQualificationDto>('/auth/domains/with/qualification');
+            const { domains } = await http.get<DomainsWithQualificationDto>('/auth/domains/with/qualification');
             return domains.map(({ id, name, created_at, qualification, updated_at }) => new DomainQualifications(id, name, { ...qualification, veryHigh: qualification.very_hight }, created_at, updated_at));
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    getDomainWithQualifications: async (categoryId: string): Promise<DomainQualifications | string> => {
+        try {
+            const { domain } = await http.get<DomainWithQualificationsDto>(`/auth/domains/with/qualifications/${categoryId}`);
+            return new DomainQualifications(domain.id, domain.name,
+                domain.qualifications.map((domain) => ({
+                    ...domain,
+                    despicable: domain.despicable,
+                    low: domain.low,
+                    middle: domain.middle,
+                    high: domain.high,
+                    veryHigh: domain.very_high,
+                    qualificationableId: domain.qualificationable_id
+                })),
+                domain.created_at, domain.updated_at);
         } catch (error) {
             return error as string;
         }

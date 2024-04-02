@@ -8,7 +8,7 @@ import { CommonQualifictions } from '../../infraestructure/components/ui/FormQua
 export const categoriesService = () => {
 
     const [loading, setLoading] = useState(false);
-    const { dispatch, categories, categoriesQualifications } = useContext(CategoryContext);
+    const { dispatch, categories, category, categoriesQualifications } = useContext(CategoryContext);
     const navigate = useNavigate();
 
     const startGetCategories = async (): Promise<void> => {
@@ -32,12 +32,20 @@ export const categoriesService = () => {
         setLoading(false);
     }
 
+    const startGetCategoryWithQualifications = async (categoryId: string): Promise<void> => {
+        if(categoryId === category?.id) return;
+        const response = await categoriesRepository.getCategoryWithQualifications(categoryId);
+        typeof response !== 'string' && dispatch({ type: 'CATEGORY - Start load category with qualifications', payload: response });
+    }
+
     return {
         loading,
+        category,
         categories,
         categoriesQualifications,
         startGetCategories,
         startCreateCategory,
+        startGetCategoryWithQualifications,
         startGetCategoriesWithQualifications,
     }
 }

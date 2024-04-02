@@ -4,7 +4,7 @@ import { Domain, DomainQualifications } from '../../../domain/models';
 import { DomainContext, domainReducer } from './';
 
 export interface DomainState {
-    domain                  : Domain | null;
+    domain                  : DomainQualifications | null;
     domains                 : Array<Domain>
     domainsQualifications   : Array<DomainQualifications>
 }

@@ -5,7 +5,7 @@ import { Category, CategoryQualifications } from '../../../domain/models';
 
 
 export interface CategoryState {
-    category    : Category | null;
+    category    : CategoryQualifications | null;
     categories  : Array<Category>
     categoriesQualifications: Array<CategoryQualifications>
 }

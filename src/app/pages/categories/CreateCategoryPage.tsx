@@ -7,7 +7,7 @@ import { CategoryIcon } from '../../../infraestructure/components/icons';
 export const CreateCategoryPage = () => {
   return (
     <PageLayout title="Crear categoría">
-      <div className="lg:grid lg:grid-cols-3 gap-x-10 mt-20">
+      <div className="lg:grid lg:grid-cols-3 gap-x-10">
         <span className="mb-5 block col-span-3">
           <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
             <CategoryIcon width={35} height={35} strokeWidth={1.5} />
@@ -39,7 +39,6 @@ export const CreateCategoryPage = () => {
           </div>
         </div>
       </div>
-
     </PageLayout>
   )
 }

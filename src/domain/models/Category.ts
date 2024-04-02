@@ -10,7 +10,7 @@ export class Category implements CategorySchema {
 
     readonly id                     : string;
     readonly name                   : string;
-    readonly qualificationsCount    ?: number;
+    readonly qualificationsCount   ?: number;
     readonly createdAt              : Date;
     readonly updatedAt              : Date;
 

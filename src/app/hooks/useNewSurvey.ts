@@ -14,8 +14,6 @@ export const useNewSurvey = (props: Props) => {
     const [multiSelect, setMultiSelect] = useState<boolean>(false);
     const [multipleAreasSelected, setMultipleAreasSelected] = useState<Array<string>>([]);
 
-    // const selectedAreasMemorized = useCallback((areas: Array<Area>) => dispatch({ type: 'AREA - Set Current Areas', payload: areas }), []);
-
     const onDragStart = useCallback((event: DragEvent<HTMLDivElement>, section: Section) => {
         event.stopPropagation();
         event.dataTransfer.setData('section', JSON.stringify(section));

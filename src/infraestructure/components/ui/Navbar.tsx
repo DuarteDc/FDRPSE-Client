@@ -37,7 +37,7 @@ export const Navbar = ({ toggleDrawer, isOpen }: Props) => {
                         />
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
-                        <DropdownItem key="profile" className="h-14 gap-2">
+                        <DropdownItem key="profile" className="h-14 gap-2" textValue={`Conectado como ${user?.userName}`}>
                             <p className="font-semibold">Conectado como</p>
                             <p className="font-semibold text-xs">{user?.userName}</p>
                         </DropdownItem>
