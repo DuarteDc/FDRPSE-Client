@@ -1,6 +1,8 @@
 export type * from './SectionDetail';
 
-export * from './Guide';
+export type * from './Survey';
+export type * from './Guide';
+export type * from './SurveyPagination';
 
 export { SectionQuesions } from './SectionQuestions';
 
@@ -14,6 +16,5 @@ export { DomainQualifications } from './DomainQualifications';
 export { Qualification } from './Qualification';
 export { Question } from './Question';
 export { Section } from './Section';
-export { Survey } from './Survey';
 export { SurveyUser } from './SurveyUser';
 export { User } from './User';

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import * as Yup from 'yup';
+import { useFormik } from "formik";
 import { Radio, RadioGroup } from "@nextui-org/react";
 import { QuestionsInsideSection } from "../../http/dto/questions/QuestionsBySectionResponse"
 import { createFieldQuestion } from "../../../app/helpers/createFiledsQuestion";
-import { useFormik } from "formik";
 import { useAnswerQuestion } from "../../../app/hooks/useAnswerQuestion";
 import { qustionAnswerValidation } from '../../validations/question.validations';
 import { questionService } from '../../../domain/services/question.service';
@@ -14,6 +14,7 @@ interface Props {
   hasSubquestions: string | null;
   showFooterControls?: boolean;
 }
+
 export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterControls = true }: Props) => {
 
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();

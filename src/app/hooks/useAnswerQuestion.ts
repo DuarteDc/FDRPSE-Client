@@ -6,7 +6,7 @@ export const useAnswerQuestion = () => {
     const handlePreviousStep = useCallback(() => setStep(step => step <= 1 ? step : step - 1), []);
     const handleNextStep = useCallback(() => setStep(step => step + 1), []);
 
-    const handleChangeOptionValue = (formik: any, value: number, questionId: number) => {
+    const handleChangeOptionValue = (formik: any, value: number | string, questionId: number) => {
         formik.setFieldValue(`question_id_${questionId}`, value, true);
     }
 

@@ -10,7 +10,7 @@ export const surveyService = () => {
     const [loading, setLoading] = useState(false);
     const [areas, setAreas] = useState<Array<Area>>([]);
     const navigate = useNavigate();
-    const { dispatch, surveys, hasSurvey, surveyUser, users, userDetail, totalUsersInSurvey } = useContext(SurveyContext);
+    const { dispatch, surveys, hasSurvey, surveyUser, users, userDetail, totalUsersInSurvey, survey } = useContext(SurveyContext);
 
     const handleAddAndDeleteAreas = useCallback((area: Area, add: boolean) => {
         if (add) {
@@ -24,7 +24,14 @@ export const surveyService = () => {
     const startGetSurveys = async (): Promise<void> => {
         toggleLoading();
         const response = await surveyRepository.startGetSurveys();
-        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get all surveys', payload: response.surveys });
+        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get all surveys', payload: response });
+        toggleLoading();
+    }
+
+    const startShowSurvey = async (surveyId: string): Promise<void> => {
+        toggleLoading();
+        const survey = await surveyRepository.showSurvey(surveyId);
+        typeof survey !== 'string' && dispatch({ type: 'SURVEY - Get show surveys', payload: survey });
         toggleLoading();
     }
 
@@ -57,12 +64,12 @@ export const surveyService = () => {
         toggleLoading();
     }
 
-    const getAreasToSearch = async () => {
-        toggleLoading();
-        const response = await surveyRepository.getAreas();
-        typeof response !== 'string' && setAreas(response);
-        toggleLoading();
-    }
+    // const getAreasToSearch = async () => {
+    //     toggleLoading();
+    //     const response = await surveyRepository.getAreas();
+    //     typeof response !== 'string' && setAreas(response);
+    //     toggleLoading();
+    // }
 
     const getTotalUsersInSurvey = async () => {
         const response = await surveyRepository.getTotalUsers();
@@ -98,7 +105,8 @@ export const surveyService = () => {
 
     return {
         loading,
-        surveys,
+        surveys, 
+        survey,
         hasSurvey,
         surveyUser,
         areas,
@@ -106,15 +114,16 @@ export const surveyService = () => {
         totalUsersInSurvey,
         userDetail,
         startGetSurveys,
+        startShowSurvey,
         startNewSurvey,
         startSurveyUser,
         endSurveyUser,
         hasAvailableSurvey,
-        handleAddAndDeleteAreas, 
+        handleAddAndDeleteAreas,
         clearCacheForAvailableSurvey,
         getSurveyById,
         searchByNameAndArea,
-        getAreasToSearch,
+        // getAreasToSearch,
         getTotalUsersInSurvey,
         getUserDetail,
         startFinalizeSurvey,

@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useImperativeHandle } from 'react';
+import { ForwardedRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -6,14 +6,18 @@ import { Input } from '@nextui-org/react';
 
 import { NumbersIcon, StarsIcon } from '../icons';
 
-import { ValidateStep } from '../../../app/utils/guideSteps';
+import { ValidateStep, Props as PropsComponent } from '../../../app/utils/guideSteps';
 import { guideService } from '../../../domain/services/guide.service';
 
 import { validateQualification } from '../../validations/guide.validations';
 
-export const SetQualification = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
+export const SetQualification = forwardRef<PropsComponent & ValidateStep>(({ nextStep }: PropsComponent, ref: ForwardedRef<ValidateStep>) => {
 
-    const { setQualifications, qualifications } = guideService();
+    const { setQualifications, qualifications, guide } = guideService();
+
+    useEffect(() => {
+        if (String(guide?.gradable) === 'false' && nextStep) nextStep();
+    }, []);
 
     const formik = useFormik({
         initialValues: {
@@ -25,6 +29,7 @@ export const SetQualification = forwardRef<ValidateStep>((__, ref: ForwardedRef<
     });
 
     const canContinue = async (): Promise<boolean> => {
+        if (String(guide?.gradable) === 'false') return true;
         formik.handleSubmit();
         const reasons = await formik.validateForm();
         return Object.keys(reasons).length <= 0;

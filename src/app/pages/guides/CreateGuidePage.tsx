@@ -4,8 +4,12 @@ import { Steper } from '../../../infraestructure/components/ui/Steper';
 import { GUIDE_STEPS } from '../../utils/guideSteps';
 import { Button, Spinner } from '@nextui-org/react';
 import { ArrowNarrowLeft, ArrowNarrowRight, SaveIcon } from '../../../infraestructure/components/icons';
+import { guideService } from '../../../domain/services/guide.service';
 
 export const CreateGuidePage = () => {
+
+  const { guide } = guideService();
+
   return (
     <PageLayout title="Crear cuestionario">
       <span className="text-gray-500 font-bold text-xs -mt-5 mb-20 pl-4">Crea un nuevo cuestionario, asigna un nombre y agrega las preguntas </span>
@@ -15,7 +19,7 @@ export const CreateGuidePage = () => {
         renderButtons={({ step, backStep, nextStep }) =>
           <Fragment>
             <Button
-              onClick={backStep}
+              onClick={(String(guide?.gradable) === 'false' && step === 3) ? () => { backStep(); backStep(); } : backStep}
               className="border-2 border-transparent hover:border-slate-800  bg-transparent"
               isDisabled={(step < 1)}
               startContent={<ArrowNarrowLeft />}>

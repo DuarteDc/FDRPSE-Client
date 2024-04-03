@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { questionService } from '../../../domain/services/question.service';
 import { AnswerQuestionForm } from '../../../infraestructure/components/questions/AnswerQuestionForm';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
+import { AnswerNongradableQuestion } from '../../../infraestructure/components/questions';
 
 export const UserQuestion = () => {
 
@@ -27,10 +28,16 @@ export const UserQuestion = () => {
 
                 {
                     sectionQuestions && (
-                        <AnswerQuestionForm
-                            questions={sectionQuestions.questions}
-                            hasSubquestions={sectionQuestions.question}
-                        />
+                        sectionQuestions?.type === 'gradable' ? (
+                            <AnswerQuestionForm
+                                questions={sectionQuestions.questions}
+                                hasSubquestions={sectionQuestions.question}
+                            />
+                        ) : (
+                            <AnswerNongradableQuestion
+                                section={sectionQuestions}
+                            />
+                        )
                     )
                 }
 

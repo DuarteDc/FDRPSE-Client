@@ -1,20 +1,13 @@
 import { ReactNode, useReducer } from 'react';
 import { SurveyContext, surveyReducer } from './';
-import { Survey, SurveyUser } from '../../../domain/models';
+import { Pagination, Survey, SurveyUser } from '../../../domain/models';
 
 interface Props {
     children: ReactNode
 }
-export interface SurveysPagination {
-    surveys     : Array<Survey>,
-    currentPage : number;
-    nextPageUrl : string;
-    prevPageUrl : string;
-}
-
 export interface SurveyState {
     survey              : Survey | null;
-    surveys             : Array<Survey> | []
+    surveys             : Pagination | null,
     hasSurvey           : boolean | null;
     surveyUser          : Array<SurveyUser> | [];
     users               : number;
@@ -24,7 +17,7 @@ export interface SurveyState {
 
 const INITIAL_STATE: SurveyState = {
     survey              : null,
-    surveys             : [],
+    surveys             : null,
     hasSurvey           : null,
     surveyUser          : [],
     users               : 0,

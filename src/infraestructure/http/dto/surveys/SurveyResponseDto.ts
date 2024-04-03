@@ -1,13 +1,24 @@
 export interface SurveyResponseDto {
-    id              : string;
-    start_date      : string;
-    end_date        ?: string;
-    status          : boolean;
-    created_at      : string;
-    updated_at      : string;
+    survey: SurveyClass;
 }
 
-export interface StartNewSurveyResponseDto {
-    survey: SurveyResponseDto;
-    message: string;
+export interface SurveyClass {
+    id:         number;
+    start_date: string;
+    end_date:   null;
+    status:     boolean;
+    created_at: string;
+    updated_at: string;
+    total:      string;
+    guides:     Guide[];
+}
+
+export interface Guide {
+    id:         number;
+    name:       string;
+    survey_id:  null;
+    gradable:   boolean;
+    created_at: string;
+    updated_at: string;
+    status:     boolean;
 }

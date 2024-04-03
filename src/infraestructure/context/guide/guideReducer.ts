@@ -25,7 +25,7 @@ export const guideReducer = (state: GudieState, { type, payload }: GuideActionTy
         case 'GUIDE - Presave name and type':
             return {
                 ...state,
-                guide: { ...payload, id: Date.now() },
+                guide: { ...payload, id: crypto.randomUUID() },
             }
 
         case 'GUIDE - Set qualification':

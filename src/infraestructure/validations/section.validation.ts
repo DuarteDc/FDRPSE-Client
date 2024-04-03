@@ -7,6 +7,6 @@ export const createSectionValidation = () => ({
         is: true,
         then: (schema) => schema.required('La pregunta es requerida cuando deseas que la sección sea opcional')
             .min(8, 'El nombre debe contener al menos 8 caracteres')
-            .max(200, 'El nombre debe contener 200 caracteres como máximo'),
+            // .max(200, 'El nombre debe contener 200 caracteres como máximo'),
     })
 })

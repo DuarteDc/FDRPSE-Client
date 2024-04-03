@@ -1,3 +1,5 @@
+import { TypeQuestion } from "../../../../domain/models/SectionQuestions";
+
 export interface QuestionsBySectionResponse {
     current_page : number;
     section      : QuestionsBySection;
@@ -10,7 +12,9 @@ export interface QuestionsBySection {
     id          : number;
     name        : string;
     binary      : boolean;
+    can_finish_guide: boolean;
     question    : string | null;
+    type        : TypeQuestion
     questions   : Array<QuestionsInsideSection> | [];
 }
 

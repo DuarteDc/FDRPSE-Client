@@ -3,43 +3,34 @@ import { useParams } from 'react-router-dom';
 import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { surveyService } from '../../../domain/services/survey.service';
 import { Autocomplete, AutocompleteItem, Button, Card, CardBody, CardFooter, Chip, CircularProgress, Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User, useDisclosure } from '@nextui-org/react';
-import { BuildingComunity, ClearAllIcon, EyeIcon, SearchIcon } from '../../../infraestructure/components/icons';
+import { BuildingComunity, ClearAllIcon, EyeIcon, FileDescription, SearchIcon, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
 
 import { useDebounce } from '../../hooks/useDebounce';
 import { PieChart } from '../../../infraestructure/components/charts';
 import { TransformDataToPieChart } from '../../helpers/TransformDataToPieChart';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { UserDetails } from '../../../infraestructure/components/survey/UserDetails';
+import { useNavigation } from '../../hooks/useNavigation';
 
 export const ShowSurveyPage = () => {
 
   const { id } = useParams();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { surveyUser, searchByNameAndArea, loading, areas, getAreasToSearch, users, getTotalUsersInSurvey, totalUsersInSurvey } = surveyService();
-  const [query, setQuery] = useState('');
-  const [area, setArea] = useState('');
-  const [userId, setUserId] = useState<string>();
+
+  const { startShowSurvey, survey } = surveyService();
+
+  const { navigate } = useNavigation();
 
   useEffect(() => {
-    getAreasToSearch();
-    getTotalUsersInSurvey();
+    // getAreasToSearch();
+    startShowSurvey(id!);
   }, []);
 
-  const updated = useDebounce(query, 500);
 
-  const handleClearSearch = () => {
-    if (!query && !area) return;
-    setQuery('');
-    setArea('');
-  }
 
-  useEffect(() => {
-    searchByNameAndArea(id!, query, area);
-  }, [updated, area])
-
+  console.log(survey);
   return (
     <PageLayout title="Detalle de cuestionario">
-      <>
+      {/* <>
         {
           loading ? <LoadingScreen title="Cargando ..." /> :
             <>
@@ -169,7 +160,81 @@ export const ShowSurveyPage = () => {
               />
             </>
         }
-      </>
+      </> */}
+      <span className="mb-5 block col-span-3">
+        <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
+          <FileDescription width={35} height={35} strokeWidth={1.5} />
+          <p className="font-bold">Lista de cuestionarios</p>
+        </span>
+        <p className="text-gray-500 font-bold text-xs pl-10">Aquí se muestran la serie de cuestionarios que se aplican</p>
+      </span>
+      <Fragment>
+
+        {
+          survey && (
+
+            <Table
+              aria-label="Surveys data list"
+            >
+              <TableHeader>
+                <TableColumn>#</TableColumn>
+                <TableColumn>Nombre</TableColumn>
+                <TableColumn>Fecha de inicio</TableColumn>
+                <TableColumn>Estatus</TableColumn>
+                <TableColumn>Tipo de cuestionario</TableColumn>
+                <TableColumn> </TableColumn>
+              </TableHeader>
+              <TableBody>
+                {
+                  survey?.guides?.map(({ id, name, status, createdAt, gradable }, index) => (
+                    <TableRow key={`date-key-${id}`}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell className="text-xs">{name}</TableCell>
+                      <TableCell>{createdAt.toLocaleDateString()}</TableCell>
+                      <TableCell>
+                        <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
+                          {status ? 'Finalizado' : 'En proceso'}
+                        </Chip>
+                      </TableCell>
+                      <TableCell>
+                        <Chip className="capitalize"
+                          startContent={
+                            gradable ?
+                              <span className="bg-green-300 rounded-full p-[2px] flex items-center justify-center">
+                                <StarsIcon width={15} height={15} />
+                              </span> :
+                              <span className="bg-yellow-300 rounded-full p-[2px] flex items-center justify-center">
+                                <StarsOff width={15} height={15} />
+                              </span>
+                          }
+                          classNames={{
+                            base: `${gradable ? 'bg-green-500/10' : 'bg-yellow-500/10'}`,
+                            content: 'font-bold text-xs'
+                          }}
+                          size="sm" variant="solid">
+                          {gradable ? 'Evaluativo' : 'Informativo'}
+                        </Chip>
+                      </TableCell>
+                      <TableCell>
+                        <div className="relative flex items-center gap-2">
+                          <Button onClick={() => navigate(`detail/${id}`)}
+                            className="bg-slate-800 text-white text-xs h-9 font-bold"
+                            endContent={
+                              <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
+                                <EyeIcon width={15} height={15} />
+                              </span>}>
+                            Ver
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            </Table>
+          )
+        }
+      </Fragment>
     </PageLayout >
   )
 }

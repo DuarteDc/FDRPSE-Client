@@ -1,3 +1,5 @@
+export { AnswerNongradableQuestion } from './AnswerNongradableQuestion';
+
 export { FormQuestion } from './FormQuestion';
 export { AddQualification } from './AddQualification';
 export { SetSection } from './SetSection';

@@ -20,9 +20,9 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
     }, [])
 
     const formik = useFormik({
-        initialValues: { name: guide?.name || '', gradable: guide?.gradable || true },
+        initialValues: { name: guide?.name || '', gradable: guide?.gradable ?? true },
         validationSchema: Yup.object(preSaveGuideValidation()),
-        onSubmit: (data) => handleSetNameAndType({ ...data, gradable: data.gradable })
+        onSubmit: (data) => handleSetNameAndType({ ...data, gradable: JSON.parse(String(data?.gradable)) })
     })
 
     const canContinue = async (): Promise<boolean> => {
@@ -76,7 +76,7 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
                         name="gradable"
                         isInvalid={formik.touched.gradable && formik.errors.gradable ? true : false}
                         errorMessage={formik.touched.gradable && formik.errors.gradable && formik.errors.gradable}
-                        value={formik.values.gradable + ''}
+                        value={`${formik.values.gradable}`}
                         orientation="horizontal"
                     >
                         <RadioGroupStyled.RadioItem 

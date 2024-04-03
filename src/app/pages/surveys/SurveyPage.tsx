@@ -1,8 +1,8 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
-import { Button, Card, CardBody, Chip, ModalFooter, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
-import { CircleCheck, EyeIcon, PlayerPlay, QuestionIcon } from '../../../infraestructure/components/icons';
+import { Button, Card, CardBody, Chip, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
+import { CircleCheck, EyeIcon, PlayerPlay } from '../../../infraestructure/components/icons';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { parseDate } from '../../helpers/parseDate';
 import { authService } from '../../../domain/services/auth.service';
@@ -11,9 +11,9 @@ import { useNavigation } from '../../hooks/useNavigation';
 export const SurveyPage = () => {
 
   const { user } = authService();
-  const { startGetSurveys, surveys, loading, startFinalizeSurvey } = surveyService();
+  const { startGetSurveys, surveys, loading } = surveyService();
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // const { onOpen } = useDisclosure();
   const [surveyId, setSurveyId] = useState<string>();
 
   const { navigate } = useNavigation();
@@ -50,71 +50,75 @@ export const SurveyPage = () => {
         </Button>
       </span>
 
-      <Table
-        aria-label="Surveys data list"
-        bottomContent={
-          <div className="flex w-full justify-center">
-            <Pagination
-              showControls
-              showShadow
-              classNames={{
-                cursor: "bg-slate-800 text-background",
-              }}
-              color="default"
-              page={1}
-              total={10}
-            // onChange={(page) => setPage(page)}
-            />
-          </div>
-        }
-      >
-        <TableHeader>
-          <TableColumn>#</TableColumn>
-          <TableColumn>Fecha de inicio</TableColumn>
-          <TableColumn>Fecha de finalización</TableColumn>
-          <TableColumn>Estatus</TableColumn>
-          <TableColumn> </TableColumn>
-        </TableHeader>
-        <TableBody>
-          {
-            surveys.map(({ id, startDate, endDate, status }, index) => (
-              <TableRow key={`date-key-${id}`}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{new Date(startDate).toLocaleDateString()}</TableCell>
-                <TableCell>{endDate ? new Date(endDate).toLocaleDateString() : ''}</TableCell>
-                <TableCell>
-                  <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
-                    {status ? 'Finalizado' : 'En proceso'}
-                  </Chip>
-                </TableCell>
-                <TableCell>
-                  <div className="relative flex items-center gap-2">
-                    <Button onClick={() => navigate(`show/${id}`)}
-                      className="bg-slate-800 text-white text-xs h-9 font-bold"
-                      endContent={
-                        <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
-                          <EyeIcon width={15} height={15} />
-                        </span>}>
-                      Ver
-                    </Button>
-                    {
-                      !status && (<Button
-                        onClick={() => { onOpen(); setSurveyId(id) }}
-                        className="bg-emerald-600 text-white text-xs h-9 font-bold"
-                        endContent={
-                          <CircleCheck />
-                        }>
-                        Terminar
-                      </Button>)
-                    }
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))
-          }
-        </TableBody>
-      </Table>
-      <Modal
+      {
+        surveys && (
+          <Table
+            aria-label="Surveys data list"
+            bottomContent={
+              <div className="flex w-full justify-center">
+                <Pagination
+                  showControls
+                  showShadow
+                  classNames={{
+                    cursor: "bg-slate-800 text-background",
+                  }}
+                  color="default"
+                  page={1}
+                  total={10}
+                // onChange={(page) => setPage(page)}
+                />
+              </div>
+            }
+          >
+            <TableHeader>
+              <TableColumn>#</TableColumn>
+              <TableColumn>Fecha de inicio</TableColumn>
+              <TableColumn>Fecha de finalización</TableColumn>
+              <TableColumn>Estatus</TableColumn>
+              <TableColumn> </TableColumn>
+            </TableHeader>
+            <TableBody>
+              {
+                surveys?.surveys?.map(({ id, startDate, endDate, status }, index) => (
+                  <TableRow key={`date-key-${id}`}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{new Date(startDate).toLocaleDateString()}</TableCell>
+                    <TableCell>{endDate ? new Date(endDate).toLocaleDateString() : ''}</TableCell>
+                    <TableCell>
+                      <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
+                        {status ? 'Finalizado' : 'En proceso'}
+                      </Chip>
+                    </TableCell>
+                    <TableCell>
+                      <div className="relative flex items-center gap-2">
+                        <Button onClick={() => navigate(`show/${id}`)}
+                          className="bg-slate-800 text-white text-xs h-9 font-bold"
+                          endContent={
+                            <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
+                              <EyeIcon width={15} height={15} />
+                            </span>}>
+                          Ver
+                        </Button>
+                        {
+                          !status && (<Button
+                            
+                            className="bg-emerald-600 text-white text-xs h-9 font-bold"
+                            endContent={
+                              <CircleCheck />
+                            }>
+                            Terminar
+                          </Button>)
+                        }
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              }
+            </TableBody>
+          </Table>
+        )
+      }
+      {/* <Modal
         title=""
         isOpen={isOpen}
         onChange={onOpenChange}
@@ -140,7 +144,7 @@ export const SurveyPage = () => {
             </ModalFooter>
           </Fragment>
         )}
-      />
+      /> */}
     </>
 
   )

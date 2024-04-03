@@ -1,31 +1,51 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Area, Survey, SurveyUser } from '../../domain/models';
-import { SurveysPagination } from '../context/survey';
+import { Survey, SurveyUser, Pagination } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { GetAreasDto, GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, StartNewSurveyResponseDto, SurveysResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
+import { GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 
 export const surveyRepository = {
-    startGetSurveys: async (): Promise<SurveysPagination | string> => {
+    startGetSurveys: async (): Promise<Pagination | string> => {
         try {
-            const { data, current_page, next_page_url, prev_page_url } = await http.get<SurveysResponseDto>('/auth/surveys');
+            const { data, current_page, next_page_url, prev_page_url } = await http.get<SurveysPaginationResponseDto>('/auth/surveys');
             return {
-                surveys: data.map(({ id, start_date, end_date, status, created_at, updated_at }) => new Survey(id, start_date, end_date || '', status, created_at, updated_at)),
                 currentPage: current_page,
-                nextPageUrl: next_page_url,
-                prevPageUrl: prev_page_url,
+                nextPageurl: next_page_url || null,
+                prevPageurl: prev_page_url || null,
+                surveys: data.map(({ start_date, created_at, updated_at, ...rest }) =>
+                    ({ startDate: new Date(start_date), endDate: rest.end_date, createdAt: new Date(created_at), updatedAt: new Date(updated_at), ...rest })),
             }
+
         } catch (error) {
             return error as string;
         }
     },
 
-    startNewSurvey: async (): Promise<Survey | string> => {
+    showSurvey: async (surveyId: string): Promise<Survey | string> => {
         try {
-            const { survey, message } = await http.post<StartNewSurveyResponseDto>('/auth/surveys/start', {});
+            const { survey } = await http.get<SurveyResponseDto>(`/auth/surveys/show/${surveyId}`);
+            return {
+                ...survey,
+                startDate: new Date(survey.start_date),
+                endDate: survey.end_date ? new Date(survey.end_date) : null,
+                createdAt: new Date(survey.created_at),
+                updatedAt: new Date(survey.updated_at),
+                guides: survey.guides.map(({ created_at, updated_at, survey_id, ...rest }) =>
+                    ({ surveyId: survey_id, createdAt: new Date(created_at), updatedAt: new Date(updated_at), ...rest })),
+            }
+
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    startNewSurvey: async (): Promise<any | string> => {
+        try {
+            const { survey, message } = await http.post<any>('/auth/surveys/start', {});
             succesAlert(message);
-            return new Survey(survey.id, survey.start_date, survey.end_date || '', survey.status, survey.created_at, survey.updated_at);
+            // return new Survey(survey.id, survey.start_date, survey.end_date || '', survey.status, survey.created_at, survey.updated_at);
+            return 'xs';
         } catch (error) {
             errorAlert(error as string);
             return error as string;
@@ -123,7 +143,7 @@ export const surveyRepository = {
     downloadSurveyUserResume: async (): Promise<CommonResponseDto> => {
         try {
             await http.download(`/auth/surveys/report`);
-            return { success: true, message: '|'};
+            return { success: true, message: '|' };
         } catch (error) {
             // errorAlert(error as string);
             console.log(error)

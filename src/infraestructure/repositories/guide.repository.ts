@@ -11,7 +11,8 @@ export const guideRepository = {
     getGuides: async (query: string): Promise<Array<Guide> | string> => {
         try {
             const { guides } = await http.get<GuidesResponseDto>(`/auth/guides/search${query}`);
-            return guides.map(({ id, name, gradable, created_at, updated_at }) => new Guide(id, name, gradable, [], [], created_at, updated_at))
+            return guides.map(({ created_at, updated_at, ...rest }) =>
+                ({ createdAt: new Date(created_at), updatedAt: new Date(updated_at), surveyId: rest.survey_id, ...rest }))
         } catch (error) {
             return error as string;
         }

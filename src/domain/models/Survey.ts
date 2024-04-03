@@ -1,28 +1,22 @@
-interface SurveySchema {
-    id          : string;
-    startDate  : string;
-    endDate    : string | null;
-    status      : boolean
-    createdAt   : Date;
-    updatedAt   : Date;
+import { Guide } from './';
+
+export interface Survey {
+    id:        number;
+    startDate: Date;
+    endDate:   Date | null;
+    status:    boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    total:     string;
+    guides:    Guide[];
 }
 
-export class Survey implements SurveySchema {
-
-    readonly id;
-    readonly startDate;
-    readonly endDate;
-    status;
-    readonly createdAt;
-    readonly updatedAt;
-
-    constructor(id: string, start_date:string, end_date: string | null, status: boolean, createdAt: string, updatedAt: string) {
-        this.id         = id;
-        this.startDate  = start_date;
-        this.endDate    = end_date;
-        this.status     = status;
-        this.createdAt  = new Date(createdAt);
-        this.updatedAt  = new Date(updatedAt);
-    }
-            
-}
+// export interface Guide {
+//     id:        number;
+//     name:      string;
+//     surveyid:  null;
+//     gradable:  boolean;
+//     createdAt: Date;
+//     updatedAt: Date;
+//     status:    boolean;
+// }

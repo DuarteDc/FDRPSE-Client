@@ -46,7 +46,7 @@ export const questionService = () => {
     const createBodyRequest = (formQuestionData: QuestionsField): SaveUserQuestionDto => {
         const body = Object.entries(formQuestionData).map(([key, value]) => {
             const question_id = key.split("_").pop();
-            return { question_id: question_id!, qualification: +value }
+            return { question_id: question_id!, qualification: JSON.parse(value) }
         });
 
         return { questions: body }
@@ -56,6 +56,14 @@ export const questionService = () => {
         const formQuestionData = createBodyRequest(questions!);
         await questionRepository.saveUserAnswers(formQuestionData);
         localStorage.setItem('last_page', JSON.stringify(lastPage));
+    }
+
+    const saveQuestionNongradableUser = async (questions: QuestionsField) => {
+        const formQuestionData = createBodyRequest(questions!);
+        console.log(formQuestionData);
+        return;
+
+        await questionRepository.saveUserAnswers(formQuestionData);
     }
 
     const clearNewQuestionCache = () => dispatch({ type: 'QUESTION - Clear new Question Cache' });
@@ -74,6 +82,7 @@ export const questionService = () => {
         startShowQuestion,
         clearQuestionBySection,
         saveQuestionUser,
+        saveQuestionNongradableUser,
         startGetQuestionsBySection,
         clearNewQuestionCache,
     }

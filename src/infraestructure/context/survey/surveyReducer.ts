@@ -1,14 +1,16 @@
-import { Survey, SurveyUser } from '../../../domain/models';
+import { Survey, Pagination } from '../../../domain/models';
 import { type SurveyState } from './';
 
 export type SurveyActionType =
-    | { type: 'SURVEY - Get all surveys', payload: Array<Survey> }
+    | { type: 'SURVEY - Get all surveys', payload: Pagination }
+    | { type: 'SURVEY - Get show surveys', payload: Survey }
+
     | { type: 'SURVEY - Start new survey', payload: Survey }
     | { type: 'SURVEY - Exist available survey', payload: boolean }
     | { type: 'SURVEY - Clear cache for available survey' }
-    | { type: 'SURVEY - Get survey details', payload: Array<SurveyUser> }
+    | { type: 'SURVEY - Get survey details', payload: Array<any> }
     | { type: 'SURVEY - Get total users', payload: number }
-    | { type: 'SURVEY - Get survey user detail', payload: SurveyUser }
+    | { type: 'SURVEY - Get survey user detail', payload: any }
     | { type: 'SURVEY - End survey', payload: string }
 
 export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
@@ -21,10 +23,16 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                 surveys: action.payload
             }
 
+        case 'SURVEY - Get show surveys':
+            return {
+                ...state,
+                survey: action.payload,
+            }
+
         case 'SURVEY - Start new survey':
             return {
                 ...state,
-                surveys: [action.payload, ...state.surveys]
+                // surveys: [action.payload, ...state.surveys]
             }
 
         case 'SURVEY - Exist available survey':
@@ -62,7 +70,7 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
         case 'SURVEY - End survey':
             return {
                 ...state,
-                surveys: state.surveys.map((survey) => survey.id === action.payload ? { ...survey, status: survey.status = !survey.status }: survey)
+                // surveys: state.surveys.map((survey) => survey.id === action.payload ? { ...survey, status: survey.status = !survey.status }: survey)
             }
 
         default:
