@@ -73,7 +73,7 @@ export const surveyRepository = {
 
     existAvailableSurvey: async (): Promise<boolean> => {
         try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>('/auth/surveys/current');
+            const { guide } = await http.get<GetOneSurveyResponseDto>('/auth/surveys/current');
             return survey ? true : false;
         } catch (error) {
             return false;

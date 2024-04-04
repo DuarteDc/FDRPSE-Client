@@ -4,13 +4,15 @@ import { questionService } from '../../../domain/services/question.service';
 import { AnswerQuestionForm } from '../../../infraestructure/components/questions/AnswerQuestionForm';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
 import { AnswerNongradableQuestion } from '../../../infraestructure/components/questions';
+import { guideService } from '../../../domain/services/guide.service';
 
 export const UserQuestion = () => {
 
     const { sectionQuestions, startGetQuestionsBySection, clearQuestionBySection } = questionService();
+    const { guideUser} = guideService();
 
     useEffect(() => {
-        startGetQuestionsBySection();
+        startGetQuestionsBySection(guideUser?.guideId!);
         return () => {
             clearQuestionBySection();
         }

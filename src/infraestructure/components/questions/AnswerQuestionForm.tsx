@@ -9,6 +9,7 @@ import { qustionAnswerValidation } from '../../validations/question.validations'
 import { questionService } from '../../../domain/services/question.service';
 import { FooterControls } from '.';
 import { surveyService } from '../../../domain/services/survey.service';
+import { guideService } from '../../../domain/services/guide.service';
 interface Props {
   questions: Array<QuestionsInsideSection>;
   hasSubquestions: string | null;
@@ -20,6 +21,7 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();
   const { totalQuestions, currentPage, saveQuestionUser, clearQuestionBySection, startGetQuestionsBySection } = questionService();
   const { endSurveyUser } = surveyService();
+  const { guideUser } = guideService();
 
   const [isBinary, setIsBinary] = useState(!hasSubquestions);
   const formik = useFormik({
@@ -29,14 +31,14 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
       if (!isBinary) {
         clearQuestionBySection();
         if ((currentPage) === totalQuestions) return endSurveyUser();
-        return startGetQuestionsBySection(currentPage! + 1);
+        return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       }
       saveQuestionUser(data, currentPage!).then(() => {
         clearQuestionBySection();
       }).then(() => {
         if ((currentPage) === totalQuestions) return endSurveyUser();
 
-        startGetQuestionsBySection(currentPage! + 1);
+        startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       })
 
     }

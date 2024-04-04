@@ -1,15 +1,16 @@
-import { Guide, GuideQualifications } from '../../../domain/models';
-import { type GudieState } from './';
+import { Guide, GuideUser, } from '../../../domain/models';
+import { GuideState } from './';
 
 export type GuideActionType =
     | { type: 'GUIDE - Load Guide', payload: Guide }
     | { type: 'GUIDE - Load Guides by query params', payload: Array<Guide> }
     | { type: 'GUIDE - Presave name and type', payload: { name: string, gradable: boolean } }
-    | { type: 'GUIDE - Set qualification', payload: GuideQualifications }
+    | { type: 'GUIDE - Set qualification', payload: any }
+    | { type: 'GUIDE - set guideUser', payload: GuideUser }
+    | { type: 'GUIDE - set has Guide', payload: boolean }
 
-export const guideReducer = (state: GudieState, { type, payload }: GuideActionType) => {
+export const guideReducer = (state: GuideState, { type, payload }: GuideActionType) => {
     switch (type) {
-
         case 'GUIDE - Load Guide':
             return {
                 ...state,
@@ -32,6 +33,19 @@ export const guideReducer = (state: GudieState, { type, payload }: GuideActionTy
             return {
                 ...state,
                 qualifications: payload,
+            }
+
+        case 'GUIDE - set guideUser':
+            return {
+                ...state,
+                guideUser: payload,
+                hasGuide: payload.status ? false : true,
+            }
+
+        case 'GUIDE - set has Guide':
+            return {
+                ...state,
+                hasGuide: false,
             }
 
         default:

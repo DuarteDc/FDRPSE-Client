@@ -47,7 +47,7 @@ export const surveyService = () => {
 
     const hasAvailableSurvey = async () => {
         const hasSurvey = await surveyRepository.existAvailableSurvey();
-        dispatch({ type: 'SURVEY - Exist available survey', payload: hasSurvey });
+        dispatch({ type: 'Guide', payload: hasSurvey });
     }
 
     const clearCacheForAvailableSurvey = () => dispatch({ type: 'SURVEY - Clear cache for available survey' });

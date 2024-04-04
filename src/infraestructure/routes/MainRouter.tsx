@@ -67,14 +67,16 @@ export const MainRouter = () => {
                                     </AdminRoutes>
                                 } />
                                 <Route path="/user/*" element={
-                                    <QuestionProvider>
-                                        <SurveyProvider>
-                                            <Routes>
-                                                <Route path="questions/*" index element={<UserRoutes />} />
-                                                <Route path="/*" element={<NotFound />} />
-                                            </Routes>
-                                        </SurveyProvider>
-                                    </QuestionProvider>
+                                    <GuideProvider>
+                                        <QuestionProvider>
+                                            <SurveyProvider>
+                                                <Routes>
+                                                    <Route path="questions/*" index element={<UserRoutes />} />
+                                                    <Route path="/*" element={<NotFound />} />
+                                                </Routes>
+                                            </SurveyProvider>
+                                        </QuestionProvider>
+                                    </GuideProvider>
                                 } />
                                 <Route path="*" element={<NotFound />} />
                             </Routes>

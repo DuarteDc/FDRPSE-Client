@@ -9,7 +9,8 @@ import { questionService } from '../../../domain/services/question.service';
 import { createFieldQuestion } from '../../../app/helpers/createFiledsQuestion';
 import { qustionAnswerValidation } from '../../validations/question.validations';
 import { useState } from 'react';
-import { useNavigation } from '../../../app/hooks/useNavigation';
+import { surveyService } from '../../../domain/services/survey.service';
+import { guideService } from '../../../domain/services/guide.service';
 
 interface Props {
   section: QuestionsBySection;
@@ -19,21 +20,31 @@ export const AnswerNongradableQuestion = ({ section }: Props) => {
 
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();
 
+  const { endSurveyUser } = surveyService();
   const [isBinary, setIsBinary] = useState(!section.binary);
-  const { totalQuestions, currentPage, startGetQuestionsBySection, saveQuestionNongradableUser } = questionService();
+  const { totalQuestions, currentPage, startGetQuestionsBySection, saveQuestionNongradableUser, clearQuestionBySection } = questionService();
 
-  const { navigate } = useNavigation();
+  const { guideUser } = guideService();
 
   const formik = useFormik({
     initialValues: createFieldQuestion(section.questions),
     validationSchema: Yup.object(qustionAnswerValidation(section.questions)),
     onSubmit: (data) => {
-
       if (section.can_finish_guide && !isBinary) {
-        return navigate("/auth/user/questions", { replace: true });
+        saveQuestionNongradableUser({ [`question_nongradable_${section.id}`]: JSON.stringify(isBinary) });
+        endSurveyUser();
+      } else if (section.can_finish_guide && isBinary) {
+        saveQuestionNongradableUser({ [`question_nongradable_${section.id}`]: JSON.stringify(isBinary) }).then(() => {
+          clearQuestionBySection();
+          if ((currentPage) === totalQuestions) return endSurveyUser();
+          return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+        });
+      } else {
+        saveQuestionNongradableUser(data).then(() => clearQuestionBySection())
+        if ((currentPage) === totalQuestions) return endSurveyUser();
+        return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       }
-      //saveQuestionNongradableUser(data)
-      startGetQuestionsBySection(currentPage! + 1)
+
     }
   });
   return (
@@ -60,7 +71,6 @@ export const AnswerNongradableQuestion = ({ section }: Props) => {
             <p className="font-bold">{name}</p>
             <span>
               <RadioGroup
-                label={`form-label-${section.name}`}
                 color="primary"
                 orientation="horizontal"
                 onValueChange={(value: string) => handleChangeOptionValue(formik, value, id)}

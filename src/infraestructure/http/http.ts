@@ -9,7 +9,7 @@ const get = async <T>(url: string): Promise<T> => {
         const { data } = await apiInstance.get(url);
         return data as T;
     } catch (error) {
-        if (isAxiosError(error)) throw error.response?.data;
+        if (isAxiosError(error)) throw error.response?.data?.message;
 
         throw new Error(DEFAULT_ERROR);
     }

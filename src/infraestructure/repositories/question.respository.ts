@@ -3,6 +3,7 @@ import { Question } from '../../domain/models';
 import { CreateQuestionDto, QuestionResponseDto, QuestionsBySectionResponse, QuestionsResponseDto, SaveUserQuestionDto } from '../http/dto/questions';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
+import { TypeQuestion } from '../../domain/models/SectionQuestions';
 
 export const questionRepository = {
 
@@ -35,18 +36,18 @@ export const questionRepository = {
         }
     },
 
-    getQuestionBySection: async (page: number): Promise<QuestionsBySectionResponse | string> => {
+    getQuestionBySection: async (guideId: number, page: number): Promise<QuestionsBySectionResponse | string> => {
         try {
-            const response = await http.get<QuestionsBySectionResponse>(`/auth/questions/section?page=${page}`);
+            const response = await http.get<QuestionsBySectionResponse>(`/auth/questions/section/${guideId}?page=${page}`);
             return response;
         } catch (error) {
             return error as string;
         }
     },
 
-    saveUserAnswers: async (saveUserQuestionDto: SaveUserQuestionDto): Promise<CommonResponseDto> => {
+    saveUserAnswers: async (saveUserQuestionDto: SaveUserQuestionDto, type: TypeQuestion): Promise<CommonResponseDto> => {
         try {
-            const { message, success } = await http.post<CommonResponseDto>('/auth/surveys/save-questions', saveUserQuestionDto);
+            const { message, success } = await http.post<CommonResponseDto>(`/auth/surveys/save-questions?type=${type}`, saveUserQuestionDto);
             succesAlert(message);
             return { message, success }
         } catch (error) {

@@ -1,8 +1,8 @@
 import { http } from '../http/http';
-import { CreateGuideDto, GuidesResponseDto } from '../http/dto/guide';
+import { CreateGuideDto, GuideUserResponseDto, GuidesResponseDto, OneGuideResponseDto } from '../http/dto/guide';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
-import { Guide } from '../../domain/models';
+import { Guide, GuideUser } from '../../domain/models';
 
 
 export const guideRepository = {
@@ -27,6 +27,25 @@ export const guideRepository = {
             errorAlert(error as string);
             return { message: error as string, success: false };
         }
+    },
+
+    existAvailableGuide: async (): Promise<GuideUser | string> => {
+        try {
+            const { guide } = await http.get<GuideUserResponseDto>('/auth/surveys/current');
+            return {
+                id: guide.id,
+                status: guide.status,
+                total: guide.total,
+                guideId: guide.guide_id,
+                userId: guide.user_id,
+                answers: undefined,
+                createdAt: new Date(guide.created_at),
+                updatedAt: new Date(guide.updated_at),
+            }
+        } catch (error) {
+            return error as string;
+        }
     }
+
 
 }

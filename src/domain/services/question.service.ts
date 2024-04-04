@@ -36,8 +36,8 @@ export const questionService = () => {
     }
 
 
-    const startGetQuestionsBySection = useCallback(async (page = 1) => {
-        const sectionQuestions = await questionRepository.getQuestionBySection(page);
+    const startGetQuestionsBySection = useCallback(async (guideId: number, page = 1) => {
+        const sectionQuestions = await questionRepository.getQuestionBySection(guideId, page);
         typeof sectionQuestions !== 'string' && dispatch({ type: 'QUESTION - Get Question to user', payload: sectionQuestions });
     }, []);
 
@@ -54,16 +54,12 @@ export const questionService = () => {
 
     const saveQuestionUser = async (questions: QuestionsField, lastPage: number) => {
         const formQuestionData = createBodyRequest(questions!);
-        await questionRepository.saveUserAnswers(formQuestionData);
-        localStorage.setItem('last_page', JSON.stringify(lastPage));
+        await questionRepository.saveUserAnswers(formQuestionData, 'gradable');
     }
 
     const saveQuestionNongradableUser = async (questions: QuestionsField) => {
         const formQuestionData = createBodyRequest(questions!);
-        console.log(formQuestionData);
-        return;
-
-        await questionRepository.saveUserAnswers(formQuestionData);
+        await questionRepository.saveUserAnswers(formQuestionData, 'nongradable');
     }
 
     const clearNewQuestionCache = () => dispatch({ type: 'QUESTION - Clear new Question Cache' });

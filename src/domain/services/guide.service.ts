@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { GuideContext } from '../../infraestructure/context/guide';
 import { CreateGuideDto } from '../../infraestructure/http/dto/guide';
 import { guideRepository } from '../../infraestructure/repositories/guide.repository';
-import { GuideQualifications } from '../models';
+import { GuideUser } from '../models';
 
 interface GuideNameAndType {
     name: string;
@@ -11,7 +11,7 @@ interface GuideNameAndType {
 
 export const guideService = () => {
 
-    const { dispatch, guide, qualifications, guides } = useContext(GuideContext);
+    const { dispatch, guide, qualifications, guides, guideUser, hasGuide } = useContext(GuideContext);
 
     const [loading, setLoading] = useState(false);
 
@@ -35,15 +35,27 @@ export const guideService = () => {
         dispatch({ type: 'GUIDE - Presave name and type', payload: guideNameAndType })
     }
 
-    const setQualifications = (qualifications: GuideQualifications) => dispatch({ type: 'GUIDE - Set qualification', payload: qualifications });
+    const setQualifications = (qualifications: any) => dispatch({ type: 'GUIDE - Set qualification', payload: qualifications });
+
+
+    const hasAvailableGuide = async () => {
+        toggleLoading();
+        const guide = await guideRepository.existAvailableGuide();
+        if (typeof guide !== 'string') dispatch({ type: 'GUIDE - set guideUser', payload: guide });
+        else dispatch({ type: 'GUIDE - set has Guide', payload: false });
+        toggleLoading();
+    }
 
     return {
         guide,
         guides,
         loading,
+        hasGuide,
+        guideUser,
         qualifications,
         startGetGuides,
         startCreateGuide,
+        hasAvailableGuide,
         setQualifications,
         handleSetNameAndType,
     }

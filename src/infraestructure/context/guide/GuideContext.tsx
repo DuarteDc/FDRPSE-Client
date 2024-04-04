@@ -1,7 +1,7 @@
 import { createContext, Dispatch } from 'react';
-import { GudieState, GuideActionType } from './';
+import { GuideState, GuideActionType } from './';
 
-interface ContextProps extends GudieState {
+interface ContextProps extends GuideState {
     dispatch: Dispatch<GuideActionType>
 }
 

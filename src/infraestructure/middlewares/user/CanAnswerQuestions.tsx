@@ -1,7 +1,7 @@
 import { Fragment, ReactNode, useEffect } from 'react';
-import { surveyService } from '../../../domain/services/survey.service';
 import { Navigate } from 'react-router-dom';
 import { LoadingScreen } from '../../components/ui';
+import { guideService } from '../../../domain/services/guide.service';
 
 
 interface Props {
@@ -9,22 +9,23 @@ interface Props {
 }
 export const CanAnswerQuestions = ({ children }: Props) => {
 
-    const { hasAvailableSurvey, hasSurvey, clearCacheForAvailableSurvey } = surveyService();
+    const { hasGuide, hasAvailableGuide } = guideService();
 
     useEffect(() => {
-        hasAvailableSurvey();
-        return () => {
-            clearCacheForAvailableSurvey()
-        }
+        hasAvailableGuide();
     }, []);
+
+
+    console.log(hasGuide);
+    
 
     return (
         <Fragment>
-            {
-                typeof hasSurvey === 'object' ? (
+           {
+                typeof hasGuide === 'object' ? (
                     <LoadingScreen title="Cargando" />
                 ) : (
-                    hasSurvey ? children : <Navigate to="no-available" replace />
+                    hasGuide ? children : <Navigate to="no-available" replace />
                 )
             }
         </Fragment>

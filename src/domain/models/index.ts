@@ -3,6 +3,7 @@ export type * from './SectionDetail';
 export type * from './Survey';
 export type * from './Guide';
 export type * from './SurveyPagination';
+export type * from './GuideUser';
 
 export { SectionQuesions } from './SectionQuestions';
 
