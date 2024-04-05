@@ -22,7 +22,7 @@ export const OnDropSections = ({ isDrag, sections, onDrop, allowDrop, getSection
             {
                 sections.map((section) => (
                     <SectionCard
-                        classList="py-5 cursor-pointer flex items-center border-2 w-[calc(100%-20px)] lg:w-[calc(50%-20px)] xl:w-[calc(50%-5px)] h-[7rem] rounded-lg hover:border-emerald-600 transition-all duration-400 shadow-md shadow-emerald-600/10 relative px-3"
+                        classList="py-5 cursor-pointer flex items-center border-2 w-[calc(100%-20px)] lg:w-[calc(50%-20px)] xl:w-[calc(50%-5px)] h-[7rem] rounded-lg hover:border-emerald-600 transition-all duration-400 shadow-md shadow-emerald-600/10 relative px-3 break-normal overflow-hidden "
                         key={section.id}
                         section={section}
                         draggable={false}

@@ -5,3 +5,5 @@ export type { GetAreasDto } from './GetAreasDto';
 export type { TotalUsersResponseDto } from './TotalUsersResponseDto';
 export type { GetOneSurveyUserResponseDto } from './GetOneSurveyUserResponseDto';
 
+export * from './StartNewSurveyDto';
+export * from './StartNewSurveyResonseDto';

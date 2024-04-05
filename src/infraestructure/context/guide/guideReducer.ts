@@ -8,6 +8,9 @@ export type GuideActionType =
     | { type: 'GUIDE - Set qualification', payload: any }
     | { type: 'GUIDE - set guideUser', payload: GuideUser }
     | { type: 'GUIDE - set has Guide', payload: boolean }
+    | { type: 'GUIDE - Add guide to survey', payload: Guide }
+    | { type: 'GUIDE - Delete guide to survey', payload: Guide }
+    | { type: 'GUIDE - Clear selecte guides', payload: any }
 
 export const guideReducer = (state: GuideState, { type, payload }: GuideActionType) => {
     switch (type) {
@@ -46,6 +49,33 @@ export const guideReducer = (state: GuideState, { type, payload }: GuideActionTy
             return {
                 ...state,
                 hasGuide: false,
+            }
+
+
+        case 'GUIDE - Add guide to survey':
+            return {
+                ...state,
+                guidesSelected: [...state.guidesSelected, payload],
+                guides: state.guides.filter(guide => guide.id !== payload.id)
+            }
+
+        case 'GUIDE - Delete guide to survey': {
+            const existGuide = state.guidesSelected.find(guide => guide.id === payload.id);
+            return existGuide ?
+                {
+                    ...state,
+                    guidesSelected: state.guidesSelected.filter(guide => guide.id !== payload.id),
+                    guides: [...state.guides, payload]
+                } : {
+                    ...state
+                }
+        }
+
+
+        case 'GUIDE - Clear selecte guides':
+            return {
+                ...state,
+                guidesSelected: [],
             }
 
         default:

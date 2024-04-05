@@ -81,6 +81,14 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }, []);
 
+    const startGetSectionsAvailableSections = async (type: string): Promise<void> => {
+        dispatch({ type: 'SECTION - Start load sections', payload: [] })
+        setLoading(prev => !prev);
+        const sections = await sectionRespository.getAvailableSections(type);
+        typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });
+        setLoading(prev => !prev);
+    }    
+
 
     const clearSectionCache = () => dispatch({ type: 'SECTION - Clear cache section' })
 
@@ -101,5 +109,6 @@ export const sectionService = (props: Props) => {
         clearSectionsSelected,
         startGetSectionsWithQuestions,
         getSectionsDetailWithQuestions,
+        startGetSectionsAvailableSections,
     }
 }

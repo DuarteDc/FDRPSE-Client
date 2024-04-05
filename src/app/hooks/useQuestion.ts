@@ -13,7 +13,7 @@ export const useQuestion = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const { question, questions, dispatch } = useContext(QuestionContext);
+    const { question, questions, dispatch, qualifications } = useContext(QuestionContext);
 
     const { startGetCategories, categories } = categoriesService();
     const { startGetDomains, domains } = domianService();
@@ -33,12 +33,19 @@ export const useQuestion = () => {
     });
 
     const preSaveQuestion = ({ name, type, ...rest }: CreateQuestionDto): void => {
+        const qualifications = {
+            'category': rest?.category,
+            'domain': rest?.domain,
+        }
         const getDetails = getQuestionDetailsBeforeSave(rest);
         dispatch({
             type: 'QUESTION - Presave question',
             payload: {
-                ...new Question(crypto.randomUUID(), name, type, new Date().toLocaleString(), new Date().toLocaleString()),
-                ...getDetails,
+                question: {
+                    ...new Question(crypto.randomUUID(), name, type, new Date().toLocaleString(), new Date().toLocaleString()),
+                    ...getDetails,
+                },
+                qualifications
             },
         });
     }
@@ -59,6 +66,7 @@ export const useQuestion = () => {
         sections,
         dimensions,
         categories,
+        qualifications,
         domains,
         questions,
         preSaveQuestion,

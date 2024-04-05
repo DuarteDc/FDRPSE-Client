@@ -8,7 +8,7 @@ export interface Survey {
     createdAt: Date;
     updatedAt: Date;
     total:     string;
-    guides:    Guide[];
+    guides?:    Guide[];
 }
 
 // export interface Guide {

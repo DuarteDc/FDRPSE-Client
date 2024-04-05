@@ -1,11 +1,12 @@
 import { QuestionDetail, QuestionState } from './';
 import type { Qualification, Question, Section } from '../../../domain/models';
 import type { QuestionsBySectionResponse } from '../../http/dto/questions';
+import { CommonQualificationItem } from '../../http/dto/questions/CreateQuestionDto';
 
 export type QuestionActionType =
     | { type: 'QUESTION - Load questions', payload: Array<Question> }
     | { type: 'QUESTION - Load question', payload: QuestionDetail }
-    | { type: 'QUESTION - Presave question', payload: QuestionDetail }
+    | { type: 'QUESTION - Presave question', payload: { question: QuestionDetail, qualifications: { [key: string]: CommonQualificationItem | undefined } } }
     | { type: 'QUESTION - Set qualification before save', payload: Qualification }
     | { type: 'QUESTION - Set section before save', payload: Section }
     | { type: 'QUESTION - Get Question to user', payload: QuestionsBySectionResponse }
@@ -25,11 +26,15 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
                 ...state,
                 question: action.payload,
             }
-        case 'QUESTION - Presave question':
+        case 'QUESTION - Presave question': {
+            console.log(action.payload);
             return {
                 ...state,
-                question: action.payload
+                qualifications: action.payload.qualifications,
+                question: action.payload.question,
+
             }
+        }
 
 
         case 'QUESTION - Set qualification before save': {
@@ -49,8 +54,8 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
             return {
                 ...state,
                 sectionQuestions: action.payload.section,
-                totalQuestions  : action.payload.total_pages,
-                currentPage     : action.payload.current_page
+                totalQuestions: action.payload.total_pages,
+                currentPage: action.payload.current_page
             }
 
 
@@ -61,7 +66,7 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
             }
 
 
-        case 'QUESTION - Clear new Question Cache': 
+        case 'QUESTION - Clear new Question Cache':
             return {
                 ...state,
                 question: null,

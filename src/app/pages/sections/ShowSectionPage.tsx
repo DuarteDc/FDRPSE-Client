@@ -59,7 +59,7 @@ export const ShowSectionPage = () => {
                         renderChilds={(({ question, navigate }) => (
                             <QuestionDetailItem
                                 navigate={navigate}
-                                onPress={onOpen}
+                                onPress={() => { }}
                                 question={question}
                             />
                         ))}

@@ -1,16 +1,15 @@
 export interface Pagination {
-    surveys:      Survey[];
-    currentPage:  number;
-    nextPageurl:  string | null;
-    prevPageurl:  string | null;
+    surveys: Survey[];
+    perPage: number;
+    total: number;
 }
 
 interface Survey {
-    id:        number;
+    id: number;
     startDate: Date;
-    endDate:   Date | undefined;
-    status:    boolean;
+    endDate: Date | undefined;
+    status: boolean;
     createdAt: Date;
     updatedAt: Date;
-    total:     string;
+    total: string;
 }

@@ -2,9 +2,9 @@ import { ForwardedRef, Fragment, forwardRef, useImperativeHandle, useState } fro
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import { Button, Input, Select, SelectItem, Selection, useDisclosure } from '@nextui-org/react';
+import { Button, Input, Select, SelectItem, useDisclosure } from '@nextui-org/react';
 
-import { BoxIcon, BrandDatabricks, CategoryIcon, ClickIcon, ClockIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff, XIcon } from '../icons';
+import { BoxIcon, BrandDatabricks, CategoryIcon, ClickIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff, XIcon } from '../icons';
 import { createQuestionValidation } from '../../validations/question.validations';
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
@@ -30,7 +30,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
     const { category, startGetCategoryWithQualifications } = categoriesService();
     const { domain, startGetDomainWithQualifications } = domianService();
-
+    
     const formik = useFormik({
         initialValues:
         {
@@ -40,7 +40,19 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
             qualification_id: '',
         },
         validationSchema: Yup.object(createQuestionValidation()),
-        onSubmit: preSaveQuestion,
+        onSubmit: (data) => {
+            preSaveQuestion({
+                ...data,
+                category: {
+                    id: +formik.values.category_id,
+                    qualification_id: selectedItem.find(item => item.type === 'categories')?.qualificationId,
+                },
+                domain: {
+                    id: +formik.values.domain_id,
+                    qualification_id: selectedItem.find(item => item.type === 'domains')?.qualificationId,
+                }
+            })
+        },
     });
 
     const canContinue = async (): Promise<boolean> => {
@@ -61,12 +73,10 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
             const currentCategory = categories.find(category => category.id == selectedItem)!;
             if (currentCategory.qualificationsCount! <= 1) return;
             await startGetCategoryWithQualifications(currentCategory.id)
-            formik.setFieldValue('qualification_id', currentCategory.id);
         } else {
             const domain = domains.find(domain => domain.id == selectedItem)!;
             if (domain.qualificationsCount! <= 1) return;
             await startGetDomainWithQualifications(domain.id);
-            formik.setFieldValue('qualification_id', domain.id);
         }
         setCurrentItem(type);
         onOpen();

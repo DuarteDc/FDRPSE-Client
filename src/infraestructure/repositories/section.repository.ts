@@ -16,6 +16,15 @@ export const sectionRespository = {
         }
     },
 
+    getAvailableSections: async (type: string): Promise<Array<Section> | string> => {
+        try {
+            const { sections } = await http.get<SectionsResponseDto>(`/auth/sections/available?type=${type}`);
+            return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
+        } catch (error) {
+            return error as string;
+        }
+    },
+
     getOneSection: async (sectionId: string): Promise<SectionDetail | string> => {
         try {
             const { section } = await http.get<SectionDetailResponseDto>(`/auth/sections/${sectionId}`);

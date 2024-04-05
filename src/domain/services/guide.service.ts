@@ -11,7 +11,7 @@ interface GuideNameAndType {
 
 export const guideService = () => {
 
-    const { dispatch, guide, qualifications, guides, guideUser, hasGuide } = useContext(GuideContext);
+    const { dispatch, guide, qualifications, guides, guideUser, hasGuide, guidesSelected } = useContext(GuideContext);
 
     const [loading, setLoading] = useState(false);
 
@@ -46,17 +46,21 @@ export const guideService = () => {
         toggleLoading();
     }
 
+    const clearSelectedGuide = () => dispatch({ type: 'GUIDE - Clear selecte guides', payload: '' })
+
     return {
         guide,
         guides,
         loading,
         hasGuide,
         guideUser,
+        guidesSelected,
         qualifications,
         startGetGuides,
         startCreateGuide,
         hasAvailableGuide,
         setQualifications,
+        clearSelectedGuide,
         handleSetNameAndType,
     }
 }

@@ -1,15 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
+import { PageLayout } from '../../../infraestructure/components/ui';
 import { surveyService } from '../../../domain/services/survey.service';
-import { Autocomplete, AutocompleteItem, Button, Card, CardBody, CardFooter, Chip, CircularProgress, Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User, useDisclosure } from '@nextui-org/react';
-import { BuildingComunity, ClearAllIcon, EyeIcon, FileDescription, SearchIcon, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
+import { Button, Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { CheckIcon, EyeIcon, FileDescription, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
 
-import { useDebounce } from '../../hooks/useDebounce';
-import { PieChart } from '../../../infraestructure/components/charts';
-import { TransformDataToPieChart } from '../../helpers/TransformDataToPieChart';
-import { Modal } from '../../../infraestructure/components/ui/Modal';
-import { UserDetails } from '../../../infraestructure/components/survey/UserDetails';
 import { useNavigation } from '../../hooks/useNavigation';
 
 export const ShowSurveyPage = () => {
@@ -21,13 +16,9 @@ export const ShowSurveyPage = () => {
   const { navigate } = useNavigation();
 
   useEffect(() => {
-    // getAreasToSearch();
     startShowSurvey(id!);
   }, []);
 
-
-
-  console.log(survey);
   return (
     <PageLayout title="Detalle de cuestionario">
       {/* <>
@@ -200,10 +191,10 @@ export const ShowSurveyPage = () => {
                         <Chip className="capitalize"
                           startContent={
                             gradable ?
-                              <span className="bg-green-300 rounded-full p-[2px] flex items-center justify-center">
+                              <span className="text-green-600 bg-green-300/20 rounded-full p-[2px] flex items-center justify-center">
                                 <StarsIcon width={15} height={15} />
                               </span> :
-                              <span className="bg-yellow-300 rounded-full p-[2px] flex items-center justify-center">
+                              <span className="text-yellow-600 bg-yellow-300/20 rounded-full p-[2px] flex items-center justify-center">
                                 <StarsOff width={15} height={15} />
                               </span>
                           }
@@ -221,10 +212,22 @@ export const ShowSurveyPage = () => {
                             className="bg-slate-800 text-white text-xs h-9 font-bold"
                             endContent={
                               <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
-                                <EyeIcon width={15} height={15} />
+                                <EyeIcon width={15} height={15} strokeWidth={2} />
                               </span>}>
                             Ver
                           </Button>
+                          {
+                            !status && survey.guides.find(guide => guide.id !== id && !status) &&(
+                              <Button onClick={() => navigate(`detail/${id}`)}
+                                className="bg-emerald-600 text-white text-xs h-9 font-bold"
+                                endContent={
+                                  <span className="bg-white text-emerald-600 rounded-full p-[1.2px]">
+                                    <CheckIcon width={15} height={15} strokeWidth={2.5} />
+                                  </span>}>
+                                Comenzar
+                              </Button>
+                            )
+                          }
                         </div>
                       </TableCell>
                     </TableRow>

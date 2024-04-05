@@ -8,6 +8,7 @@ export interface GuideState {
     qualifications  : null | any;
     guideUser       : GuideUser | null;
     hasGuide        : boolean | null;
+    guidesSelected   : Array<Guide> | [];
 }
 
 interface Props {
@@ -20,6 +21,7 @@ const GUIDE_INITIAL_STATE: GuideState = {
     qualifications: null,
     guideUser: null,
     hasGuide: null,
+    guidesSelected: []
 }
 
 

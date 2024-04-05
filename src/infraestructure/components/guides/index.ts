@@ -1,3 +1,4 @@
+export { OnDropGuides } from './OnDropGuides';
 
 export { FormNameAndTypeGuide } from './FormNameAndTypeGuide';
 export { FormSetQualification } from './FormSetQualification';

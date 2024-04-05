@@ -1,7 +1,9 @@
 import { useCallback, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { SurveyContext } from '../../infraestructure/context/survey';
 import { surveyRepository } from '../../infraestructure/repositories/survey.repository';
-import { useNavigate } from 'react-router-dom';
+import { StartNewSurveyDto } from '../../infraestructure/http/dto/surveys';
 import { Area } from '../models';
 
 
@@ -21,9 +23,9 @@ export const surveyService = () => {
 
     const toggleLoading = () => setLoading(prev => !prev);
 
-    const startGetSurveys = async (): Promise<void> => {
+    const startGetSurveys = async (page: number): Promise<void> => {
         toggleLoading();
-        const response = await surveyRepository.startGetSurveys();
+        const response = await surveyRepository.startGetSurveys(page);
         typeof response !== 'string' && dispatch({ type: 'SURVEY - Get all surveys', payload: response });
         toggleLoading();
     }
@@ -83,10 +85,13 @@ export const surveyService = () => {
         toggleLoading();
     }
 
-    const startNewSurvey = async () => {
+    const startNewSurvey = async (startNewSurvey: StartNewSurveyDto) => {
         toggleLoading();
-        const response = await surveyRepository.startNewSurvey();
-        typeof response !== 'string' && dispatch({ type: 'SURVEY - Start new survey', payload: response });
+        const response = await surveyRepository.startNewSurvey(startNewSurvey);
+        if (typeof response !== 'string') {
+            dispatch({ type: 'SURVEY - Start new survey', payload: response });
+            navigate(`/auth/show/${response?.id}`);
+        }
         toggleLoading();
     }
 
@@ -105,7 +110,7 @@ export const surveyService = () => {
 
     return {
         loading,
-        surveys, 
+        surveys,
         survey,
         hasSurvey,
         surveyUser,

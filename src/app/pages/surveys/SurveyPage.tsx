@@ -3,7 +3,6 @@ import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
 import { Button, Card, CardBody, Chip, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
 import { CircleCheck, EyeIcon, PlayerPlay } from '../../../infraestructure/components/icons';
-import { Modal } from '../../../infraestructure/components/ui/Modal';
 import { parseDate } from '../../helpers/parseDate';
 import { authService } from '../../../domain/services/auth.service';
 import { useNavigation } from '../../hooks/useNavigation';
@@ -12,15 +11,13 @@ export const SurveyPage = () => {
 
   const { user } = authService();
   const { startGetSurveys, surveys, loading } = surveyService();
-
-  // const { onOpen } = useDisclosure();
-  const [surveyId, setSurveyId] = useState<string>();
-
   const { navigate } = useNavigation();
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    startGetSurveys();
-  }, []);
+    startGetSurveys(page);
+  }, [page]);
 
   return (
     <>
@@ -63,9 +60,9 @@ export const SurveyPage = () => {
                     cursor: "bg-slate-800 text-background",
                   }}
                   color="default"
-                  page={1}
-                  total={10}
-                // onChange={(page) => setPage(page)}
+                  page={page}
+                  total={Math.round(surveys.total / surveys.perPage)}
+                  onChange={(newPage) => setPage(newPage)}
                 />
               </div>
             }
@@ -101,7 +98,7 @@ export const SurveyPage = () => {
                         </Button>
                         {
                           !status && (<Button
-                            
+
                             className="bg-emerald-600 text-white text-xs h-9 font-bold"
                             endContent={
                               <CircleCheck />

@@ -10,7 +10,7 @@ import { LoadingScreen } from '../ui';
 
 export const ReviewQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
-  const { question } = useQuestion();
+  const { question, qualifications } = useQuestion();
   const { startCreateQuestion } = questionService();
   const [loading, setLoading] = useState(false);
   
@@ -18,8 +18,8 @@ export const ReviewQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Va
     name: question!.name,
     type: question!.type,
     section_id: question!.section!.id,
-    category_id: question?.category?.id,
-    domain_id: question?.domain?.id,
+    category: qualifications?.category,
+    domain: qualifications?.domain,
     dimension_id: question?.dimension?.id,
     qualification_id: question?.qualification?.id,
   })

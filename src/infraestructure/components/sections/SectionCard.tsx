@@ -36,10 +36,10 @@ export const SectionCard = memo(({ section, draggable = false, onDragStart, onDr
         </span>
       </div>
       <div className="relative w-full">
-        <h2 className="font-bold text-[10px] break-all">{section.name}</h2>
+        <h2 className="font-bold text-[10px] break-normal">{section.name}</h2>
         {
           section.binary && (
-            <p className="text-xs text-gray-500 font-bold">{section.question}</p>
+            <p className="text-[9px] text-gray-500 font-bold">{section.question}</p>
           )
         }
       </div>
