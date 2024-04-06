@@ -6,6 +6,7 @@ import { Button, Chip, Table, TableBody, TableCell, TableColumn, TableHeader, Ta
 import { CheckIcon, EyeIcon, FileDescription, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
 
 import { useNavigation } from '../../hooks/useNavigation';
+import { areaService } from '../../../domain/services/area.service';
 
 export const ShowSurveyPage = () => {
 
@@ -162,8 +163,7 @@ export const ShowSurveyPage = () => {
       <Fragment>
 
         {
-          survey && (
-
+          survey?.guides && (
             <Table
               aria-label="Surveys data list"
             >
@@ -217,7 +217,7 @@ export const ShowSurveyPage = () => {
                             Ver
                           </Button>
                           {
-                            !status && survey.guides.find(guide => guide.id !== id && !status) &&(
+                            !status && survey.guides!.find(guide => guide.id !== id && !status) && (
                               <Button onClick={() => navigate(`detail/${id}`)}
                                 className="bg-emerald-600 text-white text-xs h-9 font-bold"
                                 endContent={

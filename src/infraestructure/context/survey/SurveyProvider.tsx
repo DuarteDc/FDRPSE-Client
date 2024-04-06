@@ -1,6 +1,6 @@
 import { ReactNode, useReducer } from 'react';
 import { SurveyContext, surveyReducer } from './';
-import { Pagination, Survey, SurveyUser } from '../../../domain/models';
+import { Pagination, Survey, GuideUserSurvey, SurveyUser } from '../../../domain/models';
 
 interface Props {
     children: ReactNode
@@ -9,7 +9,7 @@ export interface SurveyState {
     survey              : Survey | null;
     surveys             : Pagination | null,
     hasSurvey           : boolean | null;
-    surveyUser          : Array<SurveyUser> | [];
+    guideUserSurvey          : Array<GuideUserSurvey> | [];
     users               : number;
     userDetail          : SurveyUser | null;
     totalUsersInSurvey  : number;
@@ -19,7 +19,7 @@ const INITIAL_STATE: SurveyState = {
     survey              : null,
     surveys             : null,
     hasSurvey           : null,
-    surveyUser          : [],
+    guideUserSurvey          : [],
     users               : 0,
     userDetail          : null,
     totalUsersInSurvey  : 0

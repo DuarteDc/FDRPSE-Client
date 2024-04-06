@@ -24,6 +24,14 @@ export const guideService = () => {
         toggleLoading();
     }, []);
 
+
+    const startGetGuide = useCallback(async (guideId: string) => {
+        toggleLoading();
+        const guide = await guideRepository.getGuide(guideId);
+        typeof guide !== 'string' && dispatch({ type: 'GUIDE - Load Guide', payload: guide })
+        toggleLoading();
+    }, []);
+
     const startCreateGuide = useCallback(async (createGuideDto: CreateGuideDto) => {
         toggleLoading();
         const { message, success } = await guideRepository.createGuide(createGuideDto);
@@ -56,6 +64,7 @@ export const guideService = () => {
         guideUser,
         guidesSelected,
         qualifications,
+        startGetGuide,
         startGetGuides,
         startCreateGuide,
         hasAvailableGuide,

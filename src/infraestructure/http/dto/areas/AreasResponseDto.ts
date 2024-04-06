@@ -1,5 +1,13 @@
-import { AreaResponseDto } from './';
-
 export interface AreasResponseDto {
-    areas: Array<AreaResponseDto>
+    areas: AreaElement[];
+}
+
+interface AreaElement {
+    id:             number;
+    nombreArea:     string;
+    area_padre:     string;
+    area_nivel:     string;
+    users_count:    number;
+    subdirections?: AreaElement[];
+    departments?:   AreaElement[];
 }

@@ -7,3 +7,4 @@ export type { GetOneSurveyUserResponseDto } from './GetOneSurveyUserResponseDto'
 
 export * from './StartNewSurveyDto';
 export * from './StartNewSurveyResonseDto';
+export * from './GuideSurveyUserResponseDto';

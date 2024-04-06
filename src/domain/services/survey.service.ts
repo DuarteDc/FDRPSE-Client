@@ -12,7 +12,7 @@ export const surveyService = () => {
     const [loading, setLoading] = useState(false);
     const [areas, setAreas] = useState<Array<Area>>([]);
     const navigate = useNavigate();
-    const { dispatch, surveys, hasSurvey, surveyUser, users, userDetail, totalUsersInSurvey, survey } = useContext(SurveyContext);
+    const { dispatch, surveys, hasSurvey, guideUserSurvey, users, userDetail, totalUsersInSurvey, survey } = useContext(SurveyContext);
 
     const handleAddAndDeleteAreas = useCallback((area: Area, add: boolean) => {
         if (add) {
@@ -66,12 +66,26 @@ export const surveyService = () => {
         toggleLoading();
     }
 
-    // const getAreasToSearch = async () => {
-    //     toggleLoading();
-    //     const response = await surveyRepository.getAreas();
-    //     typeof response !== 'string' && setAreas(response);
-    //     toggleLoading();
-    // }
+    const getAreasToSearch = async () => {
+        toggleLoading();
+        const areas = await surveyRepository.getAreas();
+        typeof areas !== 'string' && setAreas(areas);
+        toggleLoading();
+    }
+
+    const getGuideSurveyUserDetail = async (surveyId: string, guideId: string) => {
+        toggleLoading();
+        const response = await surveyRepository.searchInGuideSurveyUserDetail(surveyId, guideId);
+        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey guide detail', payload: response });
+        toggleLoading();
+    }
+
+    const startSearchGuideSurveyUserDetail = async (surveyId: string, guideId: string, name = '', areaId = '', subareaId = '') => {
+        toggleLoading();
+        const response = await surveyRepository.searchInGuideSurveyUserDetail(surveyId, guideId, name, areaId, subareaId);
+        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey guide detail', payload: response });
+        toggleLoading();
+    }
 
     const getTotalUsersInSurvey = async () => {
         const response = await surveyRepository.getTotalUsers();
@@ -113,7 +127,7 @@ export const surveyService = () => {
         surveys,
         survey,
         hasSurvey,
-        surveyUser,
+        guideUserSurvey,
         areas,
         users,
         totalUsersInSurvey,
@@ -128,11 +142,13 @@ export const surveyService = () => {
         clearCacheForAvailableSurvey,
         getSurveyById,
         searchByNameAndArea,
-        // getAreasToSearch,
+        getAreasToSearch,
         getTotalUsersInSurvey,
         getUserDetail,
         startFinalizeSurvey,
         startDownloadSurveyUserResume,
+        getGuideSurveyUserDetail,
+        startSearchGuideSurveyUserDetail,
     }
 
 }

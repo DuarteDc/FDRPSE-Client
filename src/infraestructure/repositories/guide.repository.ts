@@ -18,6 +18,21 @@ export const guideRepository = {
         }
     },
 
+    getGuide: async (guideId: string): Promise<Guide | string> => {
+        try {
+            const { guide } = await http.get<OneGuideResponseDto>(`/auth/guides/${guideId}`);
+            return {
+                ...guide,
+                createdAt: new Date(guide.created_at),
+                updatedAt: new Date(guide.updated_at),
+                surveyId: guide.survey_id,
+            }
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+
     createGuide: async (createGuideDto: CreateGuideDto): Promise<CommonResponseDto> => {
         try {
             const { message } = await http.post<CommonResponseDto>('/auth/guides/create', createGuideDto);

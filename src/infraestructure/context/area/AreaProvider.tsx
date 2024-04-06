@@ -12,24 +12,13 @@ export interface DATETIME {
 }
 
 export interface AreaState {
-    area                : Area | null;
-    areas               : Array<Area | AreaSubareasDepartments> | [];
-    datetime            : DATETIME;
-    areasWithDatetime   : Array<Area> | Array<AreaSubareasDepartments>| [];
-    areaWithDatetime    : Area | null;
-    selectedAreas       : Array<Area> | [];
+    areas   : Array<Area> | [];
+    subareas: Array<Area> | [];
 }
 
 const INITIAL_STATE: AreaState = {
-    area                : null,
+    subareas            : [],
     areas               : [],
-    areasWithDatetime   : [],
-    areaWithDatetime    : null,
-    selectedAreas       : [],
-    datetime: {
-        startDate : null,
-        endDate   : null
-    },
 }
 
 export const AreaProvider = ({ children }: Props) => {

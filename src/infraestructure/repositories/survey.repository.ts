@@ -1,9 +1,10 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey, SurveyUser, Pagination } from '../../domain/models';
+import { Survey, SurveyUser, Pagination, GuideUserSurvey, Area } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
+import { GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
+import { AreasResponseDto } from '../http/dto/areas';
 
 export const surveyRepository = {
     startGetSurveys: async (page = 1): Promise<Pagination | string> => {
@@ -85,6 +86,58 @@ export const surveyRepository = {
             return false;
         }
     },
+    loadGuideSurveyUserDetail: async (surveyId: string, guideId: string, name = '', areaId = '', subareaId = ''): Promise<GuideUserSurvey | string> => {
+        try {
+            const { survey, guide } = await http.get<GuideUserSurveyResponseDto>(`/auth/surveys/${surveyId}/guide/${guideId}/find-by?name=${name}&area=${areaId}&subarea=${subareaId}`);
+            return {
+                guide: { createdAt: new Date(guide.created_at), updatedAt: new Date(guide.updated_at), surveyId: guide.survey_id, ...guide },
+                survey: survey.map((guide) => ({
+                    ...guide,
+                    createdAt: new Date(guide.created_at),
+                    updatedAt: new Date(guide.updated_at),
+                    userId: guide.user_id,
+                    guideId: guide.guide_id,
+                    surveyId: guide.survey_id,
+                    user: {
+                        id: guide.users.id,
+                        name: guide.users.nombre,
+                        last_name: `${guide.users.apellidoP} ${guide.users.apellidoM}`,
+                        area: {
+                            id: guide.users.area.id,
+                            name: guide.users.area.nombreArea,
+                        }
+                    }
+                })),
+            }
+        } catch (error) {
+            return error as string;
+        }
+    },
+
+    searchInGuideSurveyUserDetail: async (surveyId: string, guideId: string, name = '', areaId = '', subareaId = ''): Promise<Array<GuideUserSurvey> | string> => {
+        try {
+            const { survey } = await http.get<GuideUserSurveyResponseDto>(`/auth/surveys/${surveyId}/guide/${guideId}/find-by?name=${name}&area=${areaId}&subarea=${subareaId}`);
+            return survey.map((guide) => ({
+                    ...guide,
+                    createdAt: new Date(guide.created_at),
+                    updatedAt: new Date(guide.updated_at),
+                    userId: guide.user_id,
+                    guideId: guide.guide_id,
+                    surveyId: guide.survey_id,
+                    user: {
+                        id: guide.users.id,
+                        name: guide.users.nombre,
+                        last_name: `${guide.users.apellidoP} ${guide.users.apellidoM}`,
+                        area: {
+                            id: guide.users.area.id,
+                            name: guide.users.area.nombreArea,
+                        }
+                    }
+                }));
+        } catch (error) {
+            return error as string;
+        }
+    },
 
     getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
         try {
@@ -108,14 +161,20 @@ export const surveyRepository = {
         }
     },
 
-    // getAreas: async (): Promise<Array<Area> | string> => {
-    //     try {
-    //         const { areas } = await http.get<GetAreasDto>(`/auth/areas`);
-    //         return areas.map(({ id, nombreArea }) => new Area(id, nombreArea));
-    //     } catch (error) {
-    //         return error as string;
-    //     }
-    // },
+    getAreas: async (): Promise<Array<Area> | string> => {
+        try {
+            const { areas } = await http.get<AreasResponseDto>(`/auth/areas`);
+            return areas.map(({ id, nombreArea, area_nivel, area_padre, users_count, }) => ({
+                id,
+                level: area_nivel,
+                pather: area_padre,
+                usersCount: users_count,
+                name: nombreArea,
+            }))
+        } catch (error) {
+            return error as string;
+        }
+    },
 
     getTotalUsers: async (): Promise<number | string> => {
         try {

@@ -15,9 +15,11 @@ export type GuideActionType =
 export const guideReducer = (state: GuideState, { type, payload }: GuideActionType) => {
     switch (type) {
         case 'GUIDE - Load Guide':
-            return {
-                ...state,
-                guide: payload,
+            {
+                return {
+                    ...state,
+                    guide: payload,
+                }
             }
 
         case 'GUIDE - Load Guides by query params':

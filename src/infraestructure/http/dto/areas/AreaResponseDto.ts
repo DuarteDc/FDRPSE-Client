@@ -1,14 +1,13 @@
-export interface AreaResponseDto extends Area{
-    subdirections: Array<Subdirection>
+export interface AreaResponseDto {
+    areas: AreaElement[];
 }
 
-interface Subdirection extends Area {
-    departments: Array<Area>
+interface AreaElement {
+    id:             number;
+    nombreArea:     string;
+    area_padre:     string;
+    area_nivel:     string;
+    users_count:    number;
+    subdirections?: AreaElement[];
+    departments?:   AreaElement[];
 }
-interface Area {
-    id              : string;
-    nombreArea      : string;
-    area_padre      : string;
-    users_count     : string;
-}
-
