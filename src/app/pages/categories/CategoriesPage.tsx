@@ -8,7 +8,6 @@ import { CategoryIcon, PlusIcon, XIcon } from '../../../infraestructure/componen
 import { useNavigation } from '../../hooks/useNavigation';
 import { Category } from '../../../domain/models';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
-import { QualificationCard } from '../../../infraestructure/components/qualification';
 
 export const CategoriesPage = () => {
 

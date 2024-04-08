@@ -30,7 +30,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
     const { category, startGetCategoryWithQualifications } = categoriesService();
     const { domain, startGetDomainWithQualifications } = domianService();
-    
+
     const formik = useFormik({
         initialValues:
         {
@@ -43,14 +43,18 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
         onSubmit: (data) => {
             preSaveQuestion({
                 ...data,
-                category: {
-                    id: +formik.values.category_id,
-                    qualification_id: selectedItem.find(item => item.type === 'categories')?.qualificationId,
-                },
-                domain: {
-                    id: +formik.values.domain_id,
-                    qualification_id: selectedItem.find(item => item.type === 'domains')?.qualificationId,
-                }
+                ...(formik.values.category_id.length > 0 && {
+                    category: {
+                        id: +formik.values.category_id,
+                        qualification_id: selectedItem.find(item => item.type === 'categories')?.qualificationId,
+                    },
+                }),            
+                ...(formik.values.domain_id.length > 0 && {
+                    domain: {
+                        id: +formik.values.domain_id,
+                        qualification_id: selectedItem.find(item => item.type === 'domains')?.qualificationId,
+                    }
+                })
             })
         },
     });

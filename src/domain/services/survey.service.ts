@@ -92,9 +92,9 @@ export const surveyService = () => {
         typeof response === 'number' && dispatch({ type: 'SURVEY - Get total users', payload: response });
     }
 
-    const getUserDetail = async (surveyId: string, userId: string) => {
+    const getUserDetail = async (surveyId: string, userId: string, guideId: string) => {
         toggleLoading();
-        const response = await surveyRepository.getUserDetail(surveyId, userId);
+        const response = await surveyRepository.getUserDetail(surveyId, userId, guideId);
         typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey user detail', payload: response });
         toggleLoading();
     }

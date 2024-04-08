@@ -2,11 +2,13 @@ import { Fragment, useEffect, useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { useParams } from 'react-router-dom';
-import { Autocomplete, AutocompleteItem, Button, Chip, Input, Skeleton, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Button, Chip, Input, Skeleton, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User, useDisclosure } from '@nextui-org/react';
 import { BuildingComunity, ClearAllIcon, EyeIcon, SearchIcon } from '../../../infraestructure/components/icons';
 import { areaService } from '../../../domain/services/area.service';
 import { guideService } from '../../../domain/services/guide.service';
 import { useDebounce } from '../../hooks/useDebounce';
+import { Modal } from '../../../infraestructure/components/ui/Modal';
+import { UserDetails } from '../../../infraestructure/components/survey/UserDetails';
 
 export const SurveyGuideDetail = () => {
 
@@ -14,6 +16,9 @@ export const SurveyGuideDetail = () => {
   const [queryArea, setQueryArea] = useState('')
   const [querySubArea, setQuerySubArea] = useState('')
   const [query, setQuery] = useState('');
+  const [userId, setUserId] = useState('');
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const { startSearchGuideSurveyUserDetail, guideUserSurvey, loading } = surveyService();
   const { areas, subareas, startLoadAreas, startLoadSubAreas } = areaService();
@@ -42,6 +47,21 @@ export const SurveyGuideDetail = () => {
   return (
     <PageLayout title="Detalle de cuestionario">
       <Fragment>
+        <Modal
+          title=""
+          isOpen={isOpen}
+          onChange={onOpenChange}
+          size="full"
+          renderContent={() => (
+            <Fragment>
+              <UserDetails
+                surveyId={id!}
+                userId={userId!}
+                guideId={guideId!}
+              />
+            </Fragment>
+          )}
+        />
         {
           loading && (<LoadingScreen title="Cargando" />)
         }
@@ -133,7 +153,7 @@ export const SurveyGuideDetail = () => {
                   </TableCell>
                   <TableCell>{user.last_name}</TableCell>
                   <TableCell>{user.area.name} </TableCell>
-                  <TableCell>{guide?.dragable? total : 'NA'} </TableCell>
+                  <TableCell>{guide?.dragable ? total : 'NA'} </TableCell>
                   <TableCell>
                     <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
                       {status ? 'Finalizado' : 'En proceso'}
@@ -143,7 +163,7 @@ export const SurveyGuideDetail = () => {
                     {
                       status &&
                       <Button
-                        // onClick={() => { onOpen(); setUserId(user.id) }}
+                        onClick={() => { onOpen(); setUserId(`${user.id}`) }}
                         className="bg-slate-800 text-white text-xs h-7 font-bold"
                         endContent={
                           <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
@@ -161,6 +181,6 @@ export const SurveyGuideDetail = () => {
 
 
       </Fragment>
-    </PageLayout>
+    </PageLayout >
   )
 }

@@ -9,16 +9,17 @@ import { domianService } from '../../../domain/services/domian.service';
 interface Props {
   userId: string;
   surveyId: string;
+  guideId: string;
 }
 
-export const UserDetails = ({ userId, surveyId }: Props) => {
+export const UserDetails = ({ userId, surveyId, guideId }: Props) => {
 
   const { getUserDetail, userDetail, loading } = surveyService();
   const { startGetCategoriesWithQualifications, categoriesQualifications } = categoriesService();
   const { startDomainsWithQualifications, domainsQualifications } = domianService();
 
   useEffect(() => {
-    getUserDetail(surveyId, userId);
+    getUserDetail(surveyId, userId, guideId);
     startGetCategoriesWithQualifications();
     startDomainsWithQualifications();
   }, []);
@@ -29,12 +30,12 @@ export const UserDetails = ({ userId, surveyId }: Props) => {
         <Fragment>
           <h3>{userDetail.user.name} {userDetail.user.last_name}</h3>
           <section className="grid grid-cols-1 lg:grid-cols-2 overflow-scroll">
-            <BarChart
+            {/* <BarChart
               data={trasformDataToBarChart(userDetail, 'category', categoriesQualifications)}
             />
             <BarChart
               data={trasformDataToBarChart(userDetail, 'domain', domainsQualifications)}
-            />
+            /> */}
           </section>
           <Table aria-label="Example table with custom cells">
             <TableHeader>

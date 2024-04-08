@@ -1,5 +1,3 @@
-import { GuideResponseDto } from "../guide";
-
 export interface GuideUserSurveyResponseDto {
     survey: SurveyElement[];
 }
@@ -10,14 +8,14 @@ export interface SurveyElement {
     user_id:   number;
     survey_id: number;
     status:    boolean;
-    users:     Users;
+    user:     User;
     total:      number;
     created_at: string;
     updated_at: string;
 }
 
 
-interface Users {
+interface User {
     id:        number;
     nombre:    string;
     userName:  string;

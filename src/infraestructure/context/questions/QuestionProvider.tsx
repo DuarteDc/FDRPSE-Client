@@ -7,9 +7,6 @@ export interface QuestionDetail extends Question {
 
 }
 
-interface QualificationBy {
-
-}
 export interface QuestionState {
     questions: Array<Question> | [];
     question: QuestionDetail | null;

@@ -99,12 +99,12 @@ export const surveyRepository = {
                     guideId: guide.guide_id,
                     surveyId: guide.survey_id,
                     user: {
-                        id: guide.users.id,
-                        name: guide.users.nombre,
-                        last_name: `${guide.users.apellidoP} ${guide.users.apellidoM}`,
+                        id: guide.user.id,
+                        name: guide.user.nombre,
+                        last_name: `${guide.user.apellidoP} ${guide.user.apellidoM}`,
                         area: {
-                            id: guide.users.area.id,
-                            name: guide.users.area.nombreArea,
+                            id: guide.user.area.id,
+                            name: guide.user.area.nombreArea,
                         }
                     }
                 })),
@@ -125,12 +125,12 @@ export const surveyRepository = {
                     guideId: guide.guide_id,
                     surveyId: guide.survey_id,
                     user: {
-                        id: guide.users.id,
-                        name: guide.users.nombre,
-                        last_name: `${guide.users.apellidoP} ${guide.users.apellidoM}`,
+                        id: guide.user.id,
+                        name: guide.user.nombre,
+                        last_name: `${guide.user.apellidoP} ${guide.user.apellidoM}`,
                         area: {
-                            id: guide.users.area.id,
-                            name: guide.users.area.nombreArea,
+                            id: guide.user.area.id,
+                            name: guide.user.area.nombreArea,
                         }
                     }
                 }));
@@ -185,9 +185,9 @@ export const surveyRepository = {
         }
     },
 
-    getUserDetail: async (surveyId: string, userId: string): Promise<SurveyUser | string> => {
+    getUserDetail: async (surveyId: string, userId: string, guideId: string): Promise<SurveyUser | string> => {
         try {
-            const { survey_user } = await http.get<GetOneSurveyUserResponseDto>(`/auth/surveys/details/${surveyId}/${userId}`);
+            const { survey_user } = await http.get<GetOneSurveyUserResponseDto>(`/auth/surveys/details/${surveyId}/${guideId}/${userId}`);
             return new SurveyUser(survey_user.user_id, survey_user.answers, survey_user.total, { id: survey_user.user.id, name: survey_user.user.nombre, last_name: `${survey_user.user.apellidoP} ${survey_user.user.apellidoM}`, area: { id: survey_user.user.area.id, name: survey_user.user.area.nombreArea } }, survey_user.status)
         } catch (error) {
             return error as string;
