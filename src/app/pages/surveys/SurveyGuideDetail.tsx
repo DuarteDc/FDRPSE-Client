@@ -3,7 +3,7 @@ import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { useParams } from 'react-router-dom';
 import { Autocomplete, AutocompleteItem, Button, Chip, Input, Skeleton, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User, useDisclosure } from '@nextui-org/react';
-import { BuildingComunity, ClearAllIcon, EyeIcon, SearchIcon } from '../../../infraestructure/components/icons';
+import { BuildingComunity, ChartIcon, ClearAllIcon, EyeIcon, SearchIcon, XIcon } from '../../../infraestructure/components/icons';
 import { areaService } from '../../../domain/services/area.service';
 import { guideService } from '../../../domain/services/guide.service';
 import { useDebounce } from '../../hooks/useDebounce';
@@ -28,7 +28,6 @@ export const SurveyGuideDetail = () => {
 
   useEffect(() => {
     Promise.all([
-
       startGetGuide(guideId!),
       startLoadAreas(),
     ])
@@ -38,10 +37,18 @@ export const SurveyGuideDetail = () => {
     startSearchGuideSurveyUserDetail(id!, guideId!, query, queryArea, querySubArea);
   }, [queryArea, querySubArea, debounce])
 
+  console.log(guide)
+
   const handleSearchChangeArea = async (areaId: string) => {
     setQueryArea(areaId);
     setQuerySubArea('');
     await startLoadSubAreas(areaId);
+  }
+
+  const handleClearSearch = () => {
+    setQuery('');
+    setQuerySubArea('')
+    setQueryArea('');
   }
 
   return (
@@ -52,11 +59,22 @@ export const SurveyGuideDetail = () => {
           isOpen={isOpen}
           onChange={onOpenChange}
           size="full"
-          renderContent={() => (
+          hideCloseButton
+          renderContent={(onClose) => (
             <Fragment>
+              <header className="flex items-center justify-between -mt-6 py-1 border-b-2 ">
+                <div className="flex items-center font-bold [&>svg]:text-emerald-600 text-xl [&>svg]:mr-1 pt-4 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1">
+                  <ChartIcon width={35} height={35} strokeWidth={1.5} />
+                  <h1>Detalle del usuario</h1>
+                </div>
+                <Button isIconOnly className="border-2 bg-transparent" onClick={onClose}>
+                  <XIcon />
+                </Button>
+              </header>
               <UserDetails
                 surveyId={id!}
                 userId={userId!}
+                guide={guide}
                 guideId={guideId!}
               />
             </Fragment>
@@ -115,7 +133,7 @@ export const SurveyGuideDetail = () => {
           }
 
           <Button className={`bg-slate-800 text-white px-14 py-7 md:col-span-2 ${(queryArea && subareas.length > 0) ? 'lg:col-span-1' : 'lg:col-span-2'}`}
-            // onClick={handleClearSearch}
+            onClick={handleClearSearch}
             endContent={
               <span className="w-[2rem] h-[1.4rem] bg-white text-black rounded-full flex justify-center items-center">
                 <ClearAllIcon width={20} height={15} />
@@ -140,20 +158,20 @@ export const SurveyGuideDetail = () => {
           </TableHeader>
           <TableBody>
             {
-              guideUserSurvey?.map(({ id, user, total, status }, index) => (
-                <TableRow key={`date-key-${id}`}>
+              guideUserSurvey?.map(({ user, total, status }, index) => (
+                <TableRow key={`date-key-${user?.id}`}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>
                     <User
-                      avatarProps={{ radius: "lg", src: `https://ui-avatars.com/api?name=${user.name + user.last_name}&background=EAFAF5&color=059669` }}
+                      avatarProps={{ radius: "lg", src: `https://ui-avatars.com/api?name=${user?.name + user?.lastName}&background=EAFAF5&color=059669` }}
                       name={`${user.name}`}
                       className="text-sm"
                     >
                     </User>
                   </TableCell>
-                  <TableCell>{user.last_name}</TableCell>
+                  <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.area.name} </TableCell>
-                  <TableCell>{guide?.dragable ? total : 'NA'} </TableCell>
+                  <TableCell>{guide?.gradable ? total : 'NA'} </TableCell>
                   <TableCell>
                     <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
                       {status ? 'Finalizado' : 'En proceso'}

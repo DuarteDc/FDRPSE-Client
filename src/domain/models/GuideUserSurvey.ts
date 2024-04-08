@@ -3,7 +3,7 @@ export interface GuideUserSurvey {
     guideId:   number;
     userId:    number;
     surveyId:  number;
-    status:     boolean;
+    status:    boolean;
     createdAt: Date;
     updatedAt: Date;
     total:      number;
@@ -14,11 +14,11 @@ export interface GuideUserSurvey {
 interface User {
     id:         number;
     name:       string;
-    last_name:  string;
+    lastName:  string;
     area:       Area;
 }
 
 interface Area {
     id:         number;
-    name: string;
+    name:       string;
 }

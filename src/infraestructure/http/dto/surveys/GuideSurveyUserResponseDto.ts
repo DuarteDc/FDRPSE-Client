@@ -8,7 +8,7 @@ export interface SurveyElement {
     user_id:   number;
     survey_id: number;
     status:    boolean;
-    user:     User;
+    user:       User;
     total:      number;
     created_at: string;
     updated_at: string;

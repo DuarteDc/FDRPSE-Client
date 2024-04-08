@@ -7,7 +7,7 @@ interface SurveyUserSchema {
 }
 
 interface Answer{
-    question_id      : number,
+    questionId      : number,
     name            : string;
     qualification   : number;
     category        : DetailAnswer;

@@ -1,10 +1,11 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey, SurveyUser, Pagination, GuideUserSurvey, Area } from '../../domain/models';
+import { Survey, SurveyUser, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { GetOneSurveyResponseDto, GetOneSurveyUserResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
+import { GetOneSurveyResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 import { AreasResponseDto } from '../http/dto/areas';
+import { GuideSurveyUserDetailDto, GuideUserResponseDto } from '../http/dto/guide';
 
 export const surveyRepository = {
     startGetSurveys: async (page = 1): Promise<Pagination | string> => {
@@ -118,37 +119,37 @@ export const surveyRepository = {
         try {
             const { survey } = await http.get<GuideUserSurveyResponseDto>(`/auth/surveys/${surveyId}/guide/${guideId}/find-by?name=${name}&area=${areaId}&subarea=${subareaId}`);
             return survey.map((guide) => ({
-                    ...guide,
-                    createdAt: new Date(guide.created_at),
-                    updatedAt: new Date(guide.updated_at),
-                    userId: guide.user_id,
-                    guideId: guide.guide_id,
-                    surveyId: guide.survey_id,
-                    user: {
-                        id: guide.user.id,
-                        name: guide.user.nombre,
-                        last_name: `${guide.user.apellidoP} ${guide.user.apellidoM}`,
-                        area: {
-                            id: guide.user.area.id,
-                            name: guide.user.area.nombreArea,
-                        }
+                ...guide,
+                createdAt: new Date(guide.created_at),
+                updatedAt: new Date(guide.updated_at),
+                userId: guide.user_id,
+                guideId: guide.guide_id,
+                surveyId: guide.survey_id,
+                user: {
+                    id: guide.user.id,
+                    name: guide.user.nombre,
+                    lastName: `${guide.user.apellidoP} ${guide.user.apellidoM}`,
+                    area: {
+                        id: guide.user.area.id,
+                        name: guide.user.area.nombreArea,
                     }
-                }));
+                }
+            }));
         } catch (error) {
             return error as string;
         }
     },
 
-    getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
-        try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>(`/auth/surveys/${surveyId}`);
-            return survey.map(({ user_id, total, user, status }) => {
-                return new SurveyUser(user_id, [], total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
-            });
-        } catch (error) {
-            return error as string;
-        }
-    },
+    // getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
+    //     try {
+    //         const { survey } = await http.get<GetOneSurveyResponseDto>(`/auth/surveys/${surveyId}`);
+    //         return survey.map(({ user_id, total, user, status }) => {
+    //             return new SurveyUser(user_id, [], total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
+    //         });
+    //     } catch (error) {
+    //         return error as string;
+    //     }
+    // },
 
     searchByNameAndArea: async (surveyId: string, name = '', area = ''): Promise<Array<SurveyUser> | string> => {
         try {
@@ -185,10 +186,50 @@ export const surveyRepository = {
         }
     },
 
-    getUserDetail: async (surveyId: string, userId: string, guideId: string): Promise<SurveyUser | string> => {
+    getUserDetail: async (surveyId: string, userId: string, guideId: string): Promise<GuideSurveyUserDetail | string> => {
         try {
-            const { survey_user } = await http.get<GetOneSurveyUserResponseDto>(`/auth/surveys/details/${surveyId}/${guideId}/${userId}`);
-            return new SurveyUser(survey_user.user_id, survey_user.answers, survey_user.total, { id: survey_user.user.id, name: survey_user.user.nombre, last_name: `${survey_user.user.apellidoP} ${survey_user.user.apellidoM}`, area: { id: survey_user.user.area.id, name: survey_user.user.area.nombreArea } }, survey_user.status)
+            const { guide_user } = await http.get<GuideSurveyUserDetailDto>(`/auth/surveys/details/${surveyId}/${guideId}/${userId}`);
+
+            return {
+                ...guide_user,
+                userId: guide_user.user_id,
+                user: {
+                    name: guide_user.user.nombre,
+                    lastName: `${guide_user.user.apellidoP} ${guide_user.user.apellidoM}`,
+                    areaId: guide_user.user.id_area,
+                    area: {
+                        id: guide_user.user.area.id,
+                        name: guide_user.user.area.nombreArea,
+                    },
+                    id: guide_user.user.id,
+                },
+                answers: guide_user.answers.map((answer) => ({
+                    ...answer,
+                    questionId: answer.question_id,
+                    name: answer.name,
+                    category: {
+                        ...answer.category,
+                        qualification: {
+                            ...answer.category?.qualification,
+                            veryHigh: answer?.category?.qualification?.very_high,
+                        }
+                    },
+                    domain: {
+                        ...answer.domain,
+                        qualification: {
+                            ...answer.domain?.qualification,
+                            veryHigh: answer?.domain?.qualification?.very_high,
+                        }
+                    },
+                    qualificationData: {
+                        alwaysOp: answer?.qualification_data?.always_op,
+                        almostAlwyasOp: answer?.qualification_data?.almost_alwyas_op,
+                        sometimesOp: answer?.qualification_data?.sometimes_op,
+                        almostNeverOp: answer?.qualification_data?.almost_never_op,
+                        neverOp: answer?.qualification_data?.never_op,
+                    }
+                }))
+            }
         } catch (error) {
             return error as string;
         }

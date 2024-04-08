@@ -10,6 +10,7 @@ export { BuildingComunity } from './BuildingComunity';
 export { BuildingIcon } from './BuildingIcon';
 export { CalendarMonth } from './CalendarMonth';
 export { CategoryIcon } from './CategoryIcon';
+export { ChartIcon } from './ChartIcon';
 export { CheckboxIcon } from './CheckboxIcon';
 export { CheckIcon } from './CheckIcon';
 export { ChevronLeft } from './ChevronLeft';

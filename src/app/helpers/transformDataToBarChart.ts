@@ -1,43 +1,54 @@
-import { CategoryQualifications, DomainQualifications, SurveyUser } from '../../domain/models';
+import { GuideSurveyUserDetail } from '../../domain/models';
 
 interface Props {
     [key: string]: number;
 }
+interface NameOfQualification {
+    despicable: string, low: string, middle: string, high: string, value: number
+}
 
 type dataType = 'category' | 'domain';
 
-const tarnsformDataByType = (surveyUser: SurveyUser, type: dataType): Props => {
-    return surveyUser?.answers.reduce((prev: Props, curr) => {
+const tarnsformDataByType = (userDetail: GuideSurveyUserDetail, type: dataType): Props => {
+    return userDetail?.answers.reduce((prev: Props, curr) => {
         const { qualification, } = curr;
         prev[curr[type].name] = prev[curr[type].name] ? prev[curr[type].name] + qualification : qualification;
         return prev;
     }, {});
 }
 
-export const trasformDataToBarChart = (surveyUser: SurveyUser, type: dataType, data: Array<CategoryQualifications | DomainQualifications>) => {
+export const getNameOfQualification = ({ despicable, low, high, middle, value }: NameOfQualification) => {
+    if (value < +despicable) return 'Despreciable o nulo';
+    if (value >= +despicable && value < +low) return 'Bajo';
+    if (value >= +low && value < +middle) return 'Medio';
+    if (value >= +middle && value < +high) return 'Alto';
+    if (value >= +high) return 'Muy alto';
+    return 'NA'
+}
 
-    const newData = tarnsformDataByType(surveyUser, type);
+export const trasformDataToBarChart = (userDetail: GuideSurveyUserDetail | null, type: dataType) => {
+    if (!userDetail) return;
+
+    const newData = tarnsformDataByType(userDetail, type);
     return Object.entries(newData).map(([key, value]) => {
         return {
             name: key,
             calificación: value,
-            qualifications: data.map(({ qualification, name }) => {
-                const { despicable, low, middle, high } = qualification;
-                return name === key ?
-                    getNameOfQualification(+despicable, +low, +middle, +high, value)
-                    : 'NA'
-            }).find(value => value !== 'NA')
+            qualifications: getNameOfQualification({ ...getQualificationData(type, userDetail, key)!, value: value })
         }
-    }
-    ).filter(data => data.name !== '');
+    });
 }
 
 
-const getNameOfQualification = (despicable: number, low: number, middle: number, high: number, value: number) => {
-    if (value < despicable) return 'Despreciable o nulo';
-    if (value >= despicable && value < low) return 'Bajo';
-    if (value >= low && value < middle) return 'Medio';
-    if (value >= middle && value < high) return 'Alto';
-    if (value >= high) return 'Muy alto';
-    return 'NA'
+
+const getQualificationData = (type: dataType, userDetail: GuideSurveyUserDetail, name: string) => {
+    if (type === 'category') {
+        return userDetail.answers.find(({ category }) => {
+            return category.name === name;
+        })?.category.qualification;
+    }
+    return userDetail.answers.find(({ domain }) => {
+        return domain.name === name;
+    })?.domain.qualification;
+
 }

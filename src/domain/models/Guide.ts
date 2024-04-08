@@ -1,9 +1,18 @@
 export interface Guide {
-    id:        number;
-    name:      string;
-    surveyId:  number | null;
-    gradable:  boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    status:    boolean;
+    id:             number;
+    name:           string;
+    gradable:       boolean;
+    createdAt:      Date;
+    updatedAt:      Date;
+    status:         boolean;
+    qualification?: Qualification;
+}
+
+interface Qualification {
+    id:                    number;
+    low:                   string;
+    high:                  string;
+    middle:                string;
+    veryHigh:              string;
+    despicable:            string;
 }

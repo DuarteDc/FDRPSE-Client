@@ -5,6 +5,7 @@ export type * from './Guide';
 export type * from './SurveyPagination';
 export type * from './GuideUser';
 export type * from './GuideUserSurvey';
+export type * from './GuideSurveyUserDetail';
 
 export { SectionQuesions } from './SectionQuestions';
 

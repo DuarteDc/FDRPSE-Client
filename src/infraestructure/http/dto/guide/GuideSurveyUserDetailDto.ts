@@ -1,8 +1,8 @@
-export interface GuideUser {
+export interface GuideSurveyUserDetailDto {
     guide_user: GuideUserClass;
 }
 
-export interface GuideUserClass {
+interface GuideUserClass {
     user_id: number;
     total:   number;
     status:  boolean;
@@ -10,7 +10,7 @@ export interface GuideUserClass {
     user:    User;
 }
 
-export interface Answer {
+interface Answer {
     question_id:        number;
     name:               string;
     category:           Category;
@@ -21,13 +21,13 @@ export interface Answer {
     qualification_data: QualificationData;
 }
 
-export interface Category {
+interface Category {
     id:            number;
     name:          string;
     qualification: Qualification;
 }
 
-export interface Qualification {
+interface Qualification {
     id:         number;
     despicable: string;
     low:        string;
@@ -36,12 +36,12 @@ export interface Qualification {
     very_high:  string;
 }
 
-export interface Ion {
+interface Ion {
     id:   number;
     name: string;
 }
 
-export interface QualificationData {
+interface QualificationData {
     always_op:        number;
     almost_alwyas_op: number;
     sometimes_op:     number;
@@ -49,7 +49,7 @@ export interface QualificationData {
     never_op:         number;
 }
 
-export interface User {
+interface User {
     id:        number;
     nombre:    string;
     apellidoP: string;
@@ -58,7 +58,7 @@ export interface User {
     area:      Area;
 }
 
-export interface Area {
+interface Area {
     id:         number;
     nombreArea: string;
 }

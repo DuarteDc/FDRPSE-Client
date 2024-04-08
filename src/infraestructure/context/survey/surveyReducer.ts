@@ -1,4 +1,4 @@
-import { Survey, Pagination, GuideUserSurvey } from '../../../domain/models';
+import { Survey, Pagination, GuideUserSurvey, GuideSurveyUserDetail } from '../../../domain/models';
 import { type SurveyState } from './';
 
 export type SurveyActionType =
@@ -10,7 +10,7 @@ export type SurveyActionType =
     | { type: 'SURVEY - Clear cache for available survey' }
     | { type: 'SURVEY - Get survey details', payload: Array<any> }
     | { type: 'SURVEY - Get total users', payload: number }
-    | { type: 'SURVEY - Get survey user detail', payload: any }
+    | { type: 'SURVEY - Get survey user detail', payload: GuideSurveyUserDetail }
     | { type: 'SURVEY - End survey', payload: string }
 
 export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {

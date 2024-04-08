@@ -11,8 +11,16 @@ export const guideRepository = {
     getGuides: async (query: string): Promise<Array<Guide> | string> => {
         try {
             const { guides } = await http.get<GuidesResponseDto>(`/auth/guides/search${query}`);
-            return guides.map(({ created_at, updated_at, ...rest }) =>
-                ({ createdAt: new Date(created_at), updatedAt: new Date(updated_at), surveyId: rest.survey_id, ...rest }))
+            return guides.map((guide) =>
+            ({
+                id: guide.id,
+                gradable: guide.gradable,
+                name: guide.name,
+                status: guide.status,
+                createdAt: new Date(guide.created_at),
+                updatedAt: new Date(guide.updated_at),
+
+            }))
         } catch (error) {
             return error as string;
         }
@@ -22,10 +30,20 @@ export const guideRepository = {
         try {
             const { guide } = await http.get<OneGuideResponseDto>(`/auth/guides/${guideId}`);
             return {
-                ...guide,
+                id: guide.id,
+                gradable: guide.gradable,
+                name: guide.name,
+                status: guide.status,
                 createdAt: new Date(guide.created_at),
                 updatedAt: new Date(guide.updated_at),
-                surveyId: guide.survey_id,
+                qualification: (guide.survey.length > 0) ? {
+                    id: guide?.survey[0]?.pivot?.qualification?.id,
+                    low: guide?.survey[0]?.pivot?.qualification?.low,
+                    middle: guide?.survey[0]?.pivot?.qualification?.middle,
+                    despicable: guide?.survey[0]?.pivot?.qualification?.despicable,
+                    high: guide?.survey[0]?.pivot?.qualification?.high,
+                    veryHigh: guide?.survey[0]?.pivot?.qualification?.very_high,
+                } : undefined
             }
         } catch (error) {
             return error as string;
