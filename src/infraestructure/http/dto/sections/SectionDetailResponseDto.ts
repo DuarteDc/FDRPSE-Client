@@ -1,3 +1,5 @@
+import { TypeQuestion } from "../../../../domain/models/SectionQuestions";
+
 export interface SectionDetailResponseDto {
     section: SectionClass;
 }
@@ -8,7 +10,7 @@ export interface Question {
     created_at:       Date;
     updated_at:       Date;
     deleted_at:       Date;
-    type:             string;
+    type:             TypeQuestion;
     qualification:    Qualification;
     category:         Dimension | null;
     dimension:        Dimension;

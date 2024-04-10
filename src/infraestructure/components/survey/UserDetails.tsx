@@ -5,6 +5,7 @@ import { surveyService } from '../../../domain/services/survey.service';
 import { getNameOfQualification, trasformDataToBarChart } from '../../../app/helpers/transformDataToBarChart';
 import { Guide } from '../../../domain/models';
 import { BarChart } from '../charts/BarChart';
+import { UserIcon } from '../icons';
 interface Props {
   userId: string;
   guide: Guide;
@@ -26,7 +27,12 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
     <>
       {(loading || !userDetail) ? <LoadingScreen title="Cargando ..." /> :
         <Fragment>
-          <h3 className="font-bold text-lg">{userDetail?.user?.name} {userDetail?.user?.lastName}</h3>
+          <div className="flex items-center font-bold [&>svg]:text-emerald-600 text-xl [&>svg]:mr-1 pt-4 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1">
+            <UserIcon width={35} height={35} strokeWidth={1.5} />
+            <h3 className="font-bold text-lg">
+              {userDetail?.user?.name} {userDetail?.user?.lastName}
+            </h3>
+          </div>
           <span className="text-sm font-bold ml-4">{userDetail?.user?.area?.name}</span>
           {
             (userDetail && guide.gradable) &&

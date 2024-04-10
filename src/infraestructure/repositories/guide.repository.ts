@@ -29,6 +29,7 @@ export const guideRepository = {
     getGuide: async (guideId: string): Promise<Guide | string> => {
         try {
             const { guide } = await http.get<OneGuideResponseDto>(`/auth/guides/${guideId}`);
+            console.log(guide)
             return {
                 id: guide.id,
                 gradable: guide.gradable,
@@ -78,7 +79,32 @@ export const guideRepository = {
         } catch (error) {
             return error as string;
         }
-    }
+    },
+
+    getGuideBySurvey: async (guideId: string, surveyId: string): Promise<Guide | string> => {
+        try {
+            const { guide } = await http.get<OneGuideResponseDto>(`/auth/guides/${guideId}/survey/${surveyId}`);
+            console.log(guide)
+            return {
+                id: guide.id,
+                gradable: guide.gradable,
+                name: guide.name,
+                status: guide.status,
+                createdAt: new Date(guide.created_at),
+                updatedAt: new Date(guide.updated_at),
+                qualification: (guide.survey.length > 0) ? {
+                    id: guide?.survey[0]?.pivot?.qualification?.id,
+                    low: guide?.survey[0]?.pivot?.qualification?.low,
+                    middle: guide?.survey[0]?.pivot?.qualification?.middle,
+                    despicable: guide?.survey[0]?.pivot?.qualification?.despicable,
+                    high: guide?.survey[0]?.pivot?.qualification?.high,
+                    veryHigh: guide?.survey[0]?.pivot?.qualification?.very_high,
+                } : undefined
+            }
+        } catch (error) {
+            return error as string;
+        }
+    },
 
 
 }

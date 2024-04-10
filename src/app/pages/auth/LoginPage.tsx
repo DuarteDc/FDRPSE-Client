@@ -1,6 +1,32 @@
+import { useEffect, useState } from 'react';
+import { Button, useDisclosure } from '@nextui-org/react';
 import { LoginForm } from '../../../infraestructure/components/auth';
+import { Modal } from '../../../infraestructure/components/ui/Modal';
 
 export const LoginPage = () => {
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const acceptPolicy = () => {
+    localStorage.setItem('policy', JSON.stringify(true));
+  }
+
+  const handleShowPolicy = () => {
+    try {
+      const showPolicy = JSON.parse(localStorage.getItem('policy') || "false")
+      if (!showPolicy || typeof showPolicy !== 'boolean') onOpen();
+    } catch (error) {
+      onOpen();
+    }
+  }
+
+  useEffect(() => {
+    handleShowPolicy();
+    // window.addEventListener('beforeunload', () => {
+    //   localStorage.removeItem('policy');
+    // });
+  }, []);
+
   return (
     <main className="relative overflow-hidden flex flex-col justify-center items-center">
       <section className="w-full px-5 xl:px-28 max-w-[2000px] flex flex-col justify-center items-center min-h-screen">
@@ -10,8 +36,8 @@ export const LoginPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-7 w-full my-20">
           <div className="flex items-center justify-center col-span-4">
             <img
-              src="/cuestionario/public/assets/signin.svg"
-              // src="/assets/signin.svg"
+              //src="/cuestionario/public/assets/signin.svg"
+              src="/assets/signin.svg"
               width={80}
               height={80}
               alt="Icon-login"
@@ -20,6 +46,45 @@ export const LoginPage = () => {
           </div>
           <LoginForm />
         </div>
+
+        <Modal
+          isOpen={isOpen}
+          onChange={onOpenChange}
+          hideCloseButton
+          isKeyboardDismissDisabled={false}
+          placement="bottom"
+          scrollBehavior="inside"
+          size="full"
+          backdrop="blur"
+          className="-bottom-0 w-full h-[22rem] md:h-[19rem] lg:h-[17rem]"
+          renderContent={(onClose) => (
+            <section className="px-5">
+              <div className="w-full text-emerald-600 text-2xl lg:text-3xl font-bold mb-4">
+                <h2>Aviso de privacidad</h2>
+              </div>
+              <div className="*:my-2 text-xs md:text-sm">
+                <p>Los datos personales recabados serán protegidos, incorporados y tratados los términos
+                  de los Artículo 21 de la Ley Federal de Protección de Datos Personales, a si mismo, se les
+                  informa que sus datos no podrán ser difundidos sin su consentimiento expreso, salvo las
+                  excepciones contenidas en la Ley.
+                </p>
+                <p>
+                  El responsable de los datos personales es la o el titular de la Subdirección de
+                  Administración de Personal del Instituto de <b>Información e Investigación Geográfica,
+                    Estadística y Catastral del Estado de México.</b>
+                </p>
+              </div>
+              <div className="flex justify-end lg:mt-10">
+                <Button className="bg-emerald-600 text-white font-bold w-full lg:w-2/12 rounded-lg" size="lg" onClick={() => {
+                  onClose();
+                  acceptPolicy();
+                }}>
+                  Aceptar
+                </Button>
+              </div>
+            </section>
+          )}
+        />
       </section>
     </main>
   )

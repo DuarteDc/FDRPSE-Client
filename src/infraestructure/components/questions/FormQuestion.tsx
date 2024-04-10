@@ -9,7 +9,7 @@ import { createQuestionValidation } from '../../validations/question.validations
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
 import type { ValidateStep } from '../../../app/utils/questionSteps';
-import { CommonQualification, RadioGroupStyled } from '../ui';
+import { CommonQualification, LoadingScreen, RadioGroupStyled } from '../ui';
 import { Modal } from '../ui/Modal';
 import { categoriesService } from '../../../domain/services/categories.service';
 import { domianService } from '../../../domain/services/domian.service';
@@ -30,6 +30,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const { preSaveQuestion, question, domains, categories, dimensions, } = useQuestion();
     const { category, startGetCategoryWithQualifications } = categoriesService();
     const { domain, startGetDomainWithQualifications } = domianService();
+    const [loading, setLoading] = useState(false);
 
     const formik = useFormik({
         initialValues:
@@ -70,20 +71,21 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     }));
 
     const handleSelectQualification = async (type: SelectionType, selectedItem: string) => {
-
+        setLoading(true)
         if (!selectedItem.length) return;
-
+        
         if (type === 'categories') {
             const currentCategory = categories.find(category => category.id == selectedItem)!;
-            if (currentCategory.qualificationsCount! <= 1) return;
+            if (currentCategory.qualificationsCount! <= 1) return setLoading(false);
             await startGetCategoryWithQualifications(currentCategory.id)
         } else {
             const domain = domains.find(domain => domain.id == selectedItem)!;
-            if (domain.qualificationsCount! <= 1) return;
+            if (domain.qualificationsCount! <= 1) return setLoading(false);
             await startGetDomainWithQualifications(domain.id);
         }
         setCurrentItem(type);
         onOpen();
+        setLoading(false)
     }
 
     const selectQualification = (item: QualificationTypeFrom) => {
@@ -94,8 +96,10 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     }
 
     return (
-
         <Fragment>
+            {
+                loading && <LoadingScreen title="Espere ..." />
+            }
             <span className="mb-5 block col-span-7">
                 <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
                     <BrandDatabricks width={35} height={35} strokeWidth={1.5} />

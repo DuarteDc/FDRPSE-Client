@@ -11,7 +11,7 @@ import { FormQualification } from '../ui';
 import { QualifictionFormData } from '../ui/FormQualification';
 import { warningAlert } from '../../alert/alerts';
 
-interface Qualifictions {
+export interface Qualifictions {
     id: string;
     despicable: number;
     low: number;

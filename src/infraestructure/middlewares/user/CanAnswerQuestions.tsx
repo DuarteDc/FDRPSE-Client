@@ -13,11 +13,7 @@ export const CanAnswerQuestions = ({ children }: Props) => {
 
     useEffect(() => {
         hasAvailableGuide();
-    }, []);
-
-
-    console.log(hasGuide);
-    
+    }, []);    
 
     return (
         <Fragment>

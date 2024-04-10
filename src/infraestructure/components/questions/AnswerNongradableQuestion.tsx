@@ -11,12 +11,14 @@ import { qustionAnswerValidation } from '../../validations/question.validations'
 import { useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { guideService } from '../../../domain/services/guide.service';
+import { SectionQuesions } from '../../../domain/models';
 
 interface Props {
-  section: QuestionsBySection;
+  section: SectionQuesions;
+  showFooterControls?: boolean;
 }
 
-export const AnswerNongradableQuestion = ({ section }: Props) => {
+export const AnswerNongradableQuestion = ({ section, showFooterControls = true }: Props) => {
 
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();
 
@@ -30,10 +32,10 @@ export const AnswerNongradableQuestion = ({ section }: Props) => {
     initialValues: createFieldQuestion(section.questions),
     validationSchema: Yup.object(qustionAnswerValidation(section.questions)),
     onSubmit: (data) => {
-      if (section.can_finish_guide && !isBinary) {
+      if (section.canFinishGuide && !isBinary) {
         saveQuestionNongradableUser({ [`question_nongradable_${section.id}`]: JSON.stringify(isBinary) });
         endSurveyUser();
-      } else if (section.can_finish_guide && isBinary) {
+      } else if (section.canFinishGuide && isBinary) {
         saveQuestionNongradableUser({ [`question_nongradable_${section.id}`]: JSON.stringify(isBinary) }).then(() => {
           clearQuestionBySection();
           if ((currentPage) === totalQuestions) return endSurveyUser();
@@ -50,7 +52,7 @@ export const AnswerNongradableQuestion = ({ section }: Props) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       {
-        section.binary && section?.can_finish_guide && (
+        section.binary && section?.canFinishGuide && (
           <>
             <h3 className="mb-2 font-bold capitalize text-sm md:text-base lg:text-lg">{section.question}</h3>
             <RadioGroup
@@ -87,11 +89,16 @@ export const AnswerNongradableQuestion = ({ section }: Props) => {
           </div>
         ))
       }
-      <FooterControls
-        handlePreviousStep={handlePreviousStep}
-        currentPage={!isBinary ? totalQuestions! : currentPage!}
-        totalItems={totalQuestions!}
-      />
+      {
+
+        showFooterControls && (
+          <FooterControls
+            handlePreviousStep={handlePreviousStep}
+            currentPage={!isBinary ? totalQuestions! : currentPage!}
+            totalItems={totalQuestions!}
+          />
+        )
+      }
     </form>
   )
 }

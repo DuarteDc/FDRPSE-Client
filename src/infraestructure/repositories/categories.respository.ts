@@ -2,8 +2,9 @@ import { http } from '../http/http';
 
 import { Category, CategoryQualifications } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { CategoriesWithQualificationDto, CategoryWithQualificationsDto, CateoriesResponseDto, CreateCategoryDto, } from '../http/dto/categories';
+import { CategoriesWithQualificationDto, CategoryResponseDto, CategoryWithQualificationsDto, CateoriesResponseDto, CreateCategoryDto, OneCategoryResponseDto, } from '../http/dto/categories';
 import { errorAlert, succesAlert } from '../alert/alerts';
+import { AddQualificationDto } from '../http/dto/categories/AddQualificationDto';
 
 export const categoriesRepository = {
 
@@ -54,6 +55,27 @@ export const categoriesRepository = {
         } catch (error) {
             return error as string;
         }
-    }
+    },
+
+    addQualificationCategory: async (categoryId: string, qualification: AddQualificationDto): Promise<CategoryQualifications | string> => {
+        try {
+            const { message, category } = await http.post<CommonResponseDto & CategoryWithQualificationsDto>(`/auth/categories/add/qualification/${categoryId}`, qualification);
+            succesAlert(message)
+            return new CategoryQualifications(category.id, category.name,
+                category.qualifications.map((category) => ({
+                    ...category,
+                    despicable: category.despicable,
+                    low: category.low,
+                    middle: category.middle,
+                    high: category.high,
+                    veryHigh: category.very_high,
+                    qualificationableId: category.qualificationable_id
+                })),
+                category.created_at, category.updated_at);
+        } catch (error) {
+            errorAlert(error as string);
+            return error as string;
+        }
+    },
 
 }

@@ -21,10 +21,13 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }
 
-    const startCreateSection = async (createSectionDto: CreateSectionDto): Promise<void> => {
+    const startCreateSection = async (createSectionDto: CreateSectionDto, callback?: Function): Promise<void> => {
         setLoading(prev => !prev);
         const section = await sectionRespository.createSection(createSectionDto);
-        typeof section !== 'string' && dispatch({ type: 'SECTION - Create new section', payload: section });
+        if (typeof section !== 'string') {
+            dispatch({ type: 'SECTION - Create new section', payload: section });
+            callback && callback();
+        }
         setLoading(prev => !prev);
     }
 
@@ -87,7 +90,7 @@ export const sectionService = (props: Props) => {
         const sections = await sectionRespository.getAvailableSections(type);
         typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });
         setLoading(prev => !prev);
-    }    
+    }
 
 
     const clearSectionCache = () => dispatch({ type: 'SECTION - Clear cache section' })

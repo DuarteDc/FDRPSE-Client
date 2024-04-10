@@ -37,8 +37,6 @@ export const SurveyGuideDetail = () => {
     startSearchGuideSurveyUserDetail(id!, guideId!, query, queryArea, querySubArea);
   }, [queryArea, querySubArea, debounce])
 
-  console.log(guide)
-
   const handleSearchChangeArea = async (areaId: string) => {
     setQueryArea(areaId);
     setQuerySubArea('');
@@ -50,6 +48,8 @@ export const SurveyGuideDetail = () => {
     setQuerySubArea('')
     setQueryArea('');
   }
+
+  console.log(guide)
 
   return (
     <PageLayout title="Detalle de cuestionario">

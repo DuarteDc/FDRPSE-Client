@@ -11,6 +11,7 @@ import { guideService } from '../../../domain/services/guide.service';
 import { ValidateStep } from '../../../app/utils/guideSteps';
 import { parseSectionDataToIds } from '../../../app/helpers/parseSectionDataToIds';
 import { parseDataToCreateGuide } from '../../../app/helpers/parseDataToCreateGuide';
+import { AnswerNongradableQuestion } from '../questions';
 
 export const PreviewNewGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
@@ -62,11 +63,20 @@ export const PreviewNewGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                         <span className="flex items-center -mb-2">
                             <p className="font-bold text-sm">{section?.name}</p>
                         </span>
-                        <AnswerQuestionForm
-                            hasSubquestions={section?.question ?? null}
-                            questions={section!.questions}
-                            showFooterControls={false}
-                        />
+                        {
+                            section?.type === 'gradable' ? (
+                                <AnswerQuestionForm
+                                    hasSubquestions={section?.question ?? null}
+                                    questions={section!.questions}
+                                    showFooterControls={false}
+                                />
+                            ):(
+                                <AnswerNongradableQuestion
+                                    section={section!}
+                                    showFooterControls={false}
+                                 />
+                            )
+                        }
                     </Fragment>
                 )}
             />

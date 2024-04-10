@@ -3,6 +3,7 @@ import { CreateDomainDto, DomainsWithQualificationDto, DomainsResponseDto, Domai
 import { Domain, DomainQualifications } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
+import { AddQualificationDto } from '../http/dto/categories/AddQualificationDto';
 
 export const domainRepository = {
 
@@ -52,6 +53,28 @@ export const domainRepository = {
         } catch (error) {
             return error as string;
         }
-    }
+    },
+
+
+    addQualificationDomain: async (domainId: string, qualification: AddQualificationDto): Promise<DomainQualifications | string> => {
+        try {
+            const { message, domain } = await http.post<CommonResponseDto & DomainWithQualificationsDto>(`/auth/domains/add/qualification/${domainId}`, qualification);
+            succesAlert(message)
+            return new DomainQualifications(domain.id, domain.name,
+                domain.qualifications.map((domain) => ({
+                    ...domain,
+                    despicable: domain.despicable,
+                    low: domain.low,
+                    middle: domain.middle,
+                    high: domain.high,
+                    veryHigh: domain.very_high,
+                    qualificationableId: domain.qualificationable_id
+                })),
+                domain.created_at, domain.updated_at);
+        } catch (error) {
+            errorAlert(error as string);
+            return error as string;
+        }
+    },
 
 }

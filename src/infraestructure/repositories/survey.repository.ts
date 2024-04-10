@@ -1,11 +1,11 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey, SurveyUser, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail } from '../../domain/models';
+import { Survey, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { GetOneSurveyResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 import { AreasResponseDto } from '../http/dto/areas';
-import { GuideSurveyUserDetailDto, GuideUserResponseDto } from '../http/dto/guide';
+import { GuideSurveyUserDetailDto } from '../http/dto/guide';
 
 export const surveyRepository = {
     startGetSurveys: async (page = 1): Promise<Pagination | string> => {
@@ -87,33 +87,6 @@ export const surveyRepository = {
             return false;
         }
     },
-    loadGuideSurveyUserDetail: async (surveyId: string, guideId: string, name = '', areaId = '', subareaId = ''): Promise<GuideUserSurvey | string> => {
-        try {
-            const { survey, guide } = await http.get<GuideUserSurveyResponseDto>(`/auth/surveys/${surveyId}/guide/${guideId}/find-by?name=${name}&area=${areaId}&subarea=${subareaId}`);
-            return {
-                guide: { createdAt: new Date(guide.created_at), updatedAt: new Date(guide.updated_at), surveyId: guide.survey_id, ...guide },
-                survey: survey.map((guide) => ({
-                    ...guide,
-                    createdAt: new Date(guide.created_at),
-                    updatedAt: new Date(guide.updated_at),
-                    userId: guide.user_id,
-                    guideId: guide.guide_id,
-                    surveyId: guide.survey_id,
-                    user: {
-                        id: guide.user.id,
-                        name: guide.user.nombre,
-                        last_name: `${guide.user.apellidoP} ${guide.user.apellidoM}`,
-                        area: {
-                            id: guide.user.area.id,
-                            name: guide.user.area.nombreArea,
-                        }
-                    }
-                })),
-            }
-        } catch (error) {
-            return error as string;
-        }
-    },
 
     searchInGuideSurveyUserDetail: async (surveyId: string, guideId: string, name = '', areaId = '', subareaId = ''): Promise<Array<GuideUserSurvey> | string> => {
         try {
@@ -135,28 +108,6 @@ export const surveyRepository = {
                     }
                 }
             }));
-        } catch (error) {
-            return error as string;
-        }
-    },
-
-    // getSurvey: async (surveyId: string): Promise<Array<SurveyUser> | string> => {
-    //     try {
-    //         const { survey } = await http.get<GetOneSurveyResponseDto>(`/auth/surveys/${surveyId}`);
-    //         return survey.map(({ user_id, total, user, status }) => {
-    //             return new SurveyUser(user_id, [], total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
-    //         });
-    //     } catch (error) {
-    //         return error as string;
-    //     }
-    // },
-
-    searchByNameAndArea: async (surveyId: string, name = '', area = ''): Promise<Array<SurveyUser> | string> => {
-        try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>(`/auth/surveys/${surveyId}/find-by?name=${name}&area=${area}`);
-            return survey.map(({ user_id, total, user, status, answers }) => {
-                return new SurveyUser(user_id, answers, total, { id: user.id, name: user.nombre, last_name: `${user.apellidoP} ${user.apellidoM}`, area: { id: user.area.id, name: user.area.nombreArea } }, status);
-            });
         } catch (error) {
             return error as string;
         }

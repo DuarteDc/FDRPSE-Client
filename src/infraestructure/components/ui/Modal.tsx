@@ -7,20 +7,23 @@ interface Props {
     title           ?:   string;
     onChange         :   () => void;
     renderContent    :   (onClose: () => void) => ReactNode;
-    size             :   any;
+    size             :   'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full';
     hideCloseButton ?:   boolean;
     closeButton     ?:   ReactNode
     isKeyboardDismissDisabled ?: boolean;
+    backdrop ?: 'blur' | 'opaque' | 'transparent';
+    placement?: 'auto' | 'top' | 'center' | 'bottom';
+    scrollBehavior? : 'outside' | 'inside';
 }
 
-export const Modal = ({ title = '', renderContent, onChange, isKeyboardDismissDisabled = false, ...props }: Props) => {
+export const Modal = ({ title = '', renderContent, onChange, isKeyboardDismissDisabled = false, scrollBehavior = 'outside', ...props }: Props) => {
     return (
         <MainModal 
             onOpenChange={onChange} 
             isDismissable={false} 
-            scrollBehavior="outside" 
             isKeyboardDismissDisabled={isKeyboardDismissDisabled} 
             className="rounded-lg border-2"
+            scrollBehavior={scrollBehavior}
             {...props} 
             >
             <ModalContent className="overflow-y-auto">

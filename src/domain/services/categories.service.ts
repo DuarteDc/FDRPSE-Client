@@ -4,6 +4,7 @@ import { categoriesRepository } from '../../infraestructure/repositories/categor
 import { CreateCategoryDto, SetNameToCategory } from '../../infraestructure/http/dto/categories';
 import { useNavigate } from 'react-router-dom';
 import { CommonQualifictions } from '../../infraestructure/components/ui/FormQualification';
+import { AddQualificationDto } from '../../infraestructure/http/dto/categories/AddQualificationDto';
 
 export const categoriesService = () => {
 
@@ -20,7 +21,7 @@ export const categoriesService = () => {
 
     const startCreateCategory = async (setNameToCategory: SetNameToCategory, qualifications: Array<CommonQualifictions>): Promise<void> => {
         setLoading(true);
-        const { success } = await categoriesRepository.createCategory({ ...setNameToCategory, qualifications});
+        const { success } = await categoriesRepository.createCategory({ ...setNameToCategory, qualifications });
         success && navigate(-1);
         setLoading(false);
     }
@@ -33,10 +34,20 @@ export const categoriesService = () => {
     }
 
     const startGetCategoryWithQualifications = async (categoryId: string): Promise<void> => {
-        if(categoryId === category?.id) return;
+        if (categoryId === category?.id) return;
         const response = await categoriesRepository.getCategoryWithQualifications(categoryId);
         typeof response !== 'string' && dispatch({ type: 'CATEGORY - Start load category with qualifications', payload: response });
+        setLoading(false);
     }
+
+    const startAddQualification = async (categoryId: string, qualification: AddQualificationDto) => {
+        setLoading(true);
+        const category = await categoriesRepository.addQualificationCategory(categoryId, qualification);
+        typeof category !== 'string' && dispatch({ type: 'CATEGORY - Start add qualification', payload: category });
+        setLoading(false);
+    }
+
+    const clearCacheCategorySelected = () => dispatch({ type: 'CATEGORY - Start clear cache category' });
 
     return {
         loading,
@@ -45,7 +56,9 @@ export const categoriesService = () => {
         categoriesQualifications,
         startGetCategories,
         startCreateCategory,
+        startAddQualification,
         startGetCategoryWithQualifications,
         startGetCategoriesWithQualifications,
+        clearCacheCategorySelected,
     }
 }

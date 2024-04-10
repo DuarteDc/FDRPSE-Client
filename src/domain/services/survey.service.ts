@@ -47,24 +47,7 @@ export const surveyService = () => {
         success && navigate('success-answer', { replace: true });
     }
 
-    const hasAvailableSurvey = async () => {
-        const hasSurvey = await surveyRepository.existAvailableSurvey();
-        dispatch({ type: 'Guide', payload: hasSurvey });
-    }
-
     const clearCacheForAvailableSurvey = () => dispatch({ type: 'SURVEY - Clear cache for available survey' });
-
-    const getSurveyById = async (surveyId: string) => {
-        const response = await surveyRepository.getSurvey(surveyId);
-        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey details', payload: response });
-    }
-
-    const searchByNameAndArea = async (surveyId: string, name = '', area = '') => {
-        toggleLoading();
-        const response = await surveyRepository.searchByNameAndArea(surveyId, name, area);
-        typeof response !== 'string' && dispatch({ type: 'SURVEY - Get survey details', payload: response });
-        toggleLoading();
-    }
 
     const getAreasToSearch = async () => {
         toggleLoading();
@@ -137,11 +120,8 @@ export const surveyService = () => {
         startNewSurvey,
         startSurveyUser,
         endSurveyUser,
-        hasAvailableSurvey,
         handleAddAndDeleteAreas,
         clearCacheForAvailableSurvey,
-        getSurveyById,
-        searchByNameAndArea,
         getAreasToSearch,
         getTotalUsersInSurvey,
         getUserDetail,

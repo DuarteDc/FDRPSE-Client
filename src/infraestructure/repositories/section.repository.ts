@@ -10,7 +10,7 @@ export const sectionRespository = {
     getSections: async (type: string): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>(`/auth/sections${type}`);
-            return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
+            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at))
         } catch (error) {
             return error as string;
         }
@@ -19,7 +19,7 @@ export const sectionRespository = {
     getAvailableSections: async (type: string): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>(`/auth/sections/available?type=${type}`);
-            return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
+            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at))
         } catch (error) {
             return error as string;
         }
@@ -34,9 +34,10 @@ export const sectionRespository = {
                 updatedAt: new Date(section.updated_at),
                 canFinishGuide: !!(section.can_finish_guide),
                 questionsCount: section.questions_count,
-                questions: (section?.questions) && 
+                questions: (section?.questions) &&
                     section.questions.map((question) => ({
                         ...question,
+                        type: question.type,
                         createdAt: new Date(question.created_at),
                         updatedAt: new Date(question.updated_at),
                         deletedAt: new Date(question.deleted_at),
@@ -44,18 +45,18 @@ export const sectionRespository = {
                             ...question.category,
                             createdAt: new Date(question.category?.created_at),
                             updatedAt: new Date(question.category?.updated_at),
-                        }: undefined,
+                        } : undefined,
                         domain: question.domain ? {
                             ...question.domain,
                             createdAt: new Date(question.domain?.created_at),
                             updatedAt: new Date(question.domain?.updated_at),
-                        }: undefined,
+                        } : undefined,
                         dimension: question.dimension ? {
                             ...question.dimension,
                             createdAt: new Date(question.dimension?.created_at),
                             updatedAt: new Date(question.dimension?.updated_at),
-                        }: undefined,
-                        qualification: question.qualification ?  {
+                        } : undefined,
+                        qualification: question.qualification ? {
                             ...question.qualification,
                             alwaysOp: question.qualification.always_op,
                             almostAlwyasOp: question.qualification.almost_alwyas_op,
@@ -65,7 +66,7 @@ export const sectionRespository = {
                             createdAt: new Date(question.qualification.created_at),
                             updatedAt: new Date(question.qualification.updated_at),
                             deletedAt: question.qualification.deleted_at ? new Date(question.qualification?.deleted_at) : null,
-                        }: undefined
+                        } : undefined
                     })),
             }
         } catch (error) {
@@ -77,7 +78,7 @@ export const sectionRespository = {
         try {
             const { message, section } = await http.post<CreateSectioResponseDto>('/auth/sections/create', createSectionDto);
             succesAlert(message);
-            return new Section(section.id, section.name, section.question, section.binary, section.questions_count, section.created_at, section.updated_at);
+            return new Section(section.id, section.name, section.question, section.binary, section.questions_count, section.can_finish_guide, section.type, section.created_at, section.updated_at);
         } catch (error) {
             errorAlert(error as string);
             return error as string;
@@ -87,7 +88,7 @@ export const sectionRespository = {
     getSectionWithQuestions: async (): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>('/auth/sections/questions');
-            return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
+            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at))
         } catch (error) {
             return error as string;
         }
@@ -96,7 +97,7 @@ export const sectionRespository = {
     getSectionsByType: async (type: string): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>(`/auth/sections/questions/by?type=${type}`);
-            return sections.map(({ id, name, question, binary, questions_count, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, created_at, updated_at))
+            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at))
         } catch (error) {
             return error as string;
         }
@@ -105,17 +106,17 @@ export const sectionRespository = {
     getSectionDetail: async (sectionId: string): Promise<SectionQuesions | string> => {
         try {
             const { section } = await http.get<GetOneSectionWithQuestions>(`/auth/sections/questions/${sectionId}`);
-            return new SectionQuesions(section.id, section.name, section.question, section.binary, section.questions_count, section.created_at, section.updated_at, section.questions)
+            return new SectionQuesions(section.id, section.name, section.question, section.binary, section.questions_count, section.can_finish_guide, section.type, section.created_at, section.updated_at, section.questions)
         } catch (error) {
             return error as string;
         }
     },
 
-    getMultipleSectionsWithQuestions: async (sectionsId: PostSectionsIdDto) => {
+    getMultipleSectionsWithQuestions: async (sectionsId: PostSectionsIdDto): Promise<Array<SectionQuesions> | string> => {
         try {
             const { sections } = await http.post<GetSectionsWithQuestions>('/auth/sections/details', sectionsId);
-            return sections.map(({ id, name, binary, question, questions, questions_count, created_at, updated_at }) =>
-                new SectionQuesions(id, name, question, binary, questions_count, created_at, updated_at, questions))
+            return sections.map(({ id, name, binary, question, questions, questions_count, can_finish_guide, type, created_at, updated_at }) =>
+                new SectionQuesions(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at, questions))
         } catch (error) {
             return error as string;
         }

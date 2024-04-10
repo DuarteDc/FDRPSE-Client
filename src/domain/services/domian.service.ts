@@ -6,6 +6,7 @@ import { domainRepository } from '../../infraestructure/repositories/domain.repo
 import { CommonQualifictions } from '../../infraestructure/components/ui/FormQualification';
 
 import { SetNameToDomain } from '../../infraestructure/http/dto/domains/CreateDomainDto';
+import { AddQualificationDto } from '../../infraestructure/http/dto/categories/AddQualificationDto';
 
 export const domianService = () => {
     const [loading, setLoading] = useState(false);
@@ -39,6 +40,16 @@ export const domianService = () => {
         typeof response !== 'string' && dispatch({ type: 'DOMAIN - Start load domain with qualifications', payload: response });
     }
 
+    const startAddQualification = async (categoryId: string, qualification: AddQualificationDto) => {
+        setLoading(true);
+        const category = await domainRepository.addQualificationDomain(categoryId, qualification);
+        typeof category !== 'string' && dispatch({ type: 'DOMAIN - Start add qualification', payload: category });
+        setLoading(false);
+    }
+
+    const clearCacheDomainSelected = () => dispatch({ type: 'DOMAIN - Start clear cache domain' });
+
+
     return {
         loading,
         domain,
@@ -48,6 +59,8 @@ export const domianService = () => {
         startCreateDomain,
         startDomainsWithQualifications,
         startGetDomainWithQualifications,
+        startAddQualification,
+        clearCacheDomainSelected
     }
 
 }

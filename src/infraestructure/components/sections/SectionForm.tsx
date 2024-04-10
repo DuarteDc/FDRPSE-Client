@@ -21,8 +21,11 @@ export const SectionForm = ({ onClose }: Props) => {
         initialValues: { name: '', binary: false, question: '', can_finish_guide: false, type: 'gradable' },
         validationSchema: Yup.object(createSectionValidation()),
         onSubmit: (data: CreateSectionDto) =>
-            startCreateSection(data).then(() => onClose())
-
+            startCreateSection({
+                ...data,
+                binary: Boolean(data.binary),
+                can_finish_guide: (String(data?.binary) === 'true' && data.type === 'nongradable' && String(data.can_finish_guide) === 'true') ? true : false,
+            }, onClose)
     });
 
     return (
@@ -102,33 +105,40 @@ export const SectionForm = ({ onClose }: Props) => {
                     description="Al seleccionar esta opcion la sección sólo podra contener preguntas sin calificación"
                 />
             </RadioGroupStyled>
-            <Switch
-                classNames={{
-                    base: cn(
-                        "inline-flex flex-row-reverse w-full items-center my-4",
-                        "justify-between cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent w-full",
-                        "data-[selected=true]:border-emerald-600",
-                    ),
-                    wrapper: "p-0 h-4 overflow-visible group-data-[selected]:bg-emerald-600",
-                    thumb: cn("w-6 h-6 border-2 shadow-lg",
-                        "group-data-[hover=true]:border-emerald-600",
-                        //selected
-                        "group-data-[selected=true]:ml-6 bg-emerald-500",
-                        // pressed
-                        "group-data-[pressed=true]:w-7",
-                        "group-data-[selected]:group-data-[pressed]:ml-4  group-data-[selected]:bg-emerald-500",
-                    ),
-                }}
-                name="can_finish_guide"
-                onChange={formik.handleChange}
-            >
-                <div className="flex flex-col gap-1 w-full">
-                    <p className="text-medium font-bold">¿La sección puede terminar el cuestionario?</p>
-                    <p className="text-tiny text-default-400 font-bold">
-                        Al activar esta opcion la sección puede culminar el cuestionaro por lo que las secciones posteriores a esta podran ser omitidas
-                    </p>
-                </div>
-            </Switch>
+            {
+                (String(formik.values?.binary) === 'true' && formik.values.type === 'nongradable') && (
+                    <Switch
+                        classNames={{
+                            base: cn(
+                                "inline-flex flex-row-reverse w-full items-center my-4",
+                                "justify-between cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent w-full",
+                                "data-[selected=true]:border-emerald-500",
+                            ),
+                            wrapper: "p-0 h-4 overflow-visible group-data-[selected]:bg-emerald-600",
+                            thumb: cn("w-6 h-6 border-2 shadow-lg",
+                                "group-data-[hover=true]:border-emerald-600",
+                                //selected
+                                "group-data-[selected=true]:ml-6 bg-emerald-500",
+                                // pressed
+                                "group-data-[pressed=true]:w-7",
+                                "group-data-[selected]:group-data-[pressed]:ml-4  group-data-[selected]:bg-emerald-500",
+                            ),
+                        }}
+                        name="can_finish_guide"
+                        onChange={formik.handleChange}
+                        value={`${formik.values.can_finish_guide}`}
+                        isSelected={formik.values.can_finish_guide}
+                    >
+                        <div className="flex flex-col gap-1 w-full">
+                            <p className="text-medium font-bold">¿La sección puede terminar el cuestionario?</p>
+                            <p className="text-tiny text-default-400 font-bold">
+                                Al activar esta opcion la sección puede culminar el cuestionaro por lo que las secciones posteriores a esta podran ser omitidas.
+                                La sección será omitida si en la sección se responde de manera negativa(No)
+                            </p>
+                        </div>
+                    </Switch>
+                )
+            }
             <Button
                 className="w-full mt-5 bg-slate-800 py-7 text-white font-bold text-xs"
                 isLoading={loading}

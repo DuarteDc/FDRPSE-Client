@@ -6,12 +6,13 @@ interface SectionQuestionsSchema extends SectionSchema {
     questions: Array<Question>
 }
 
-export type TypeQuestion = 'gradable'| 'nongradable';
+export type TypeQuestion = 'gradable' | 'nongradable';
 interface Question {
     id: number;
     name: string;
     categoryId: number | null,
     sectionId: number,
+    canFinishGuide?: boolean;
     domainId: number | null,
     dimensionId: number;
     qualification: Qualification,
@@ -21,8 +22,8 @@ export class SectionQuesions extends Section implements SectionQuestionsSchema {
 
     readonly questions: Question[];
 
-    constructor(id: string, name: string, question: string | null, binary: boolean, questionCount: number | null, createdAt: string, updatedAt: string, questions: Array<QuestionInsideSection>) {
-        super(id, name, question, binary, questionCount, createdAt, updatedAt);
+    constructor(id: string, name: string, question: string | null, binary: boolean, questionCount: number | null, canFinishGuide: boolean | undefined, type: TypeQuestion, createdAt: string, updatedAt: string, questions: Array<QuestionInsideSection>) {
+        super(id, name, question, binary, questionCount, canFinishGuide, type, createdAt, updatedAt);
         this.questions = questions.map((question) => ({
             id: question.id,
             name: question.name,

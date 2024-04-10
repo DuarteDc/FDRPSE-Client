@@ -11,6 +11,8 @@ interface Props {
     onClose: () => void;
 }
 export const SectionDetail = ({ section, loading, onClose }: Props) => {
+
+    console.log(section)
     const { navigate } = useNavigation();
 
     return (
@@ -67,33 +69,52 @@ export const SectionDetail = ({ section, loading, onClose }: Props) => {
                                 }
                             </span>
                             <span className="mb-5 block col-span-7">
-                                <span className="flex items-center [&>svg]:text-emerald-600 mt-1">
-                                    <p className="font-bold">Preguntas:</p>
-                                </span>
                                 {
-                                    !section.questions.length ? (
-                                        <span className="font-bold text-xs ml-4 p-4 rounded-lg bg-danger/10 mt-2 flex items-center [&>svg]:text-danger-400 [&>svg]:mr-2
+                                    section.canFinishGuide ? (
+                                        <Fragment>
+                                            <span className="flex items-center [&>svg]:text-emerald-600 mt-1">
+                                                <p className="font-bold">Nota:</p>
+                                            </span>
+                                            <span className="font-bold text-xs ml-4 p-4 rounded-lg bg-danger/10 mt-2 flex items-center [&>svg]:text-danger-400 [&>svg]:mr-2
+                                        [&>svg]:border-2 [&>svg]:rounded-lg [&>svg]:p-1
+                                        ">
+                                                <XIcon strokeWidth={2} width={35} height={35} />
+                                                La sección sólo contiene una pregunta y es opcional por lo que podra responderse de manera positiva o negativa, al ser negativa la respuesta el cuestionario se terminará.
+                                            </span>
+                                        </Fragment>
+                                    ) : (
+                                        <Fragment>
+                                            <span className="flex items-center [&>svg]:text-emerald-600 mt-1">
+                                                <p className="font-bold">Preguntas:</p>
+                                            </span>
+                                            {
+                                                !section.questions.length ? (
+                                                    <span className="font-bold text-xs ml-4 p-4 rounded-lg bg-danger/10 mt-2 flex items-center [&>svg]:text-danger-400 [&>svg]:mr-2
                                                 [&>svg]:border-2 [&>svg]:rounded-lg [&>svg]:p-1
                                             ">
-                                            <XIcon strokeWidth={2} width={35} height={35} />
-                                            La sección no contiene preguntas por lo que sera omitida y no se mostrará a los usuarios
-                                        </span>
-                                    ) : (
-                                        <div className="border-2 max-h-[200px] rounded-lg p-4 overflow-x-auto">
-                                            {
-
-                                                section!.questions.map((question) => (
-                                                    <span className="flex items-center font-bold text-xs [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:text-emerald-600 p-1 [&>svg]:mr-2 cursor-pointer hover:bg-gray-100 transition-all duration-400 rounded-lg"
-                                                        key={question.id}
-                                                        aria-label={question.name}
-                                                        title={question.name}>
-                                                        <QuestionIcon strokeWidth={2} /> {question?.name}
+                                                        <XIcon strokeWidth={2} width={35} height={35} />
+                                                        La sección no contiene preguntas por lo que sera omitida y no se mostrará a los usuarios
                                                     </span>
-                                                ))
+                                                ) : (
+                                                    <div className="border-2 max-h-[200px] rounded-lg p-4 overflow-x-auto">
+                                                        {
+
+                                                            section!.questions.map((question) => (
+                                                                <span className="flex items-center font-bold text-xs [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:text-emerald-600 p-1 [&>svg]:mr-2 cursor-pointer hover:bg-gray-100 transition-all duration-400 rounded-lg"
+                                                                    key={question.id}
+                                                                    aria-label={question.name}
+                                                                    title={question.name}>
+                                                                    <QuestionIcon strokeWidth={2} /> {question?.name}
+                                                                </span>
+                                                            ))
+                                                        }
+                                                    </div>
+                                                )
                                             }
-                                        </div>
+                                        </Fragment>
                                     )
                                 }
+
                             </span>
                         </section>
                         <footer className="flex border-t-2 pt-2 [&>*]:mx-1 [&>*]:font-bold [&>*]:text-xs">
