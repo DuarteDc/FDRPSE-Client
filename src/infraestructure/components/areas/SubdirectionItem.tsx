@@ -1,7 +1,6 @@
-import { DragEvent, memo, useCallback, useState } from 'react';
-import { Area, Departments } from '../../../domain/models'
+import { memo, useCallback, useState } from 'react';
+import { Departments } from '../../../domain/models'
 import { BuildingIcon, ChevronLeft } from '../icons';
-import { Deparment } from './';
 
 interface Props {
     subdirection: Departments;
@@ -38,15 +37,6 @@ export const SubdirectionItem = memo(({ subdirection, onDragEnd }: Props) => {
                     )
                 }
             </div>
-            {
-                openDeparments &&
-                (
-                    <Deparment
-                        onDragEnd={onDragEnd}
-                        deparments={subdirection.departments as Array<Area>}
-                    />
-                )
-            }
         </div>
     )
 });

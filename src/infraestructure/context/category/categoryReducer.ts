@@ -1,7 +1,6 @@
 import { CategoryState } from './';
 
 import { Category, CategoryQualifications } from '../../../domain/models';
-import { CommonQualifictions } from '../../components/ui/FormQualification';
 
 
 export type CategoryActionType =

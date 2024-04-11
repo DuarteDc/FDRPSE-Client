@@ -2,7 +2,7 @@ import { http } from '../http/http';
 
 import { Category, CategoryQualifications } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { CategoriesWithQualificationDto, CategoryResponseDto, CategoryWithQualificationsDto, CateoriesResponseDto, CreateCategoryDto, OneCategoryResponseDto, } from '../http/dto/categories';
+import { CategoriesWithQualificationDto, CategoryWithQualificationsDto, CateoriesResponseDto, CreateCategoryDto} from '../http/dto/categories';
 import { errorAlert, succesAlert } from '../alert/alerts';
 import { AddQualificationDto } from '../http/dto/categories/AddQualificationDto';
 

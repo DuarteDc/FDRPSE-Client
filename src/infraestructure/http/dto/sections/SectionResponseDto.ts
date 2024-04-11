@@ -1,7 +1,7 @@
 import { TypeQuestion } from "../../../../domain/models/SectionQuestions";
 
 export interface SectionResponseDto {
-    id                  : string;
+    id                  : number;
     name                : string;
     question            : string | null;
     binary              : boolean;

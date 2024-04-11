@@ -12,7 +12,7 @@ interface Props {
 }
 export const SectionDetail = ({ section, loading, onClose }: Props) => {
 
-    console.log(section)
+
     const { navigate } = useNavigation();
 
     return (
@@ -88,7 +88,7 @@ export const SectionDetail = ({ section, loading, onClose }: Props) => {
                                                 <p className="font-bold">Preguntas:</p>
                                             </span>
                                             {
-                                                !section.questions.length ? (
+                                                !section.questions!.length ? (
                                                     <span className="font-bold text-xs ml-4 p-4 rounded-lg bg-danger/10 mt-2 flex items-center [&>svg]:text-danger-400 [&>svg]:mr-2
                                                 [&>svg]:border-2 [&>svg]:rounded-lg [&>svg]:p-1
                                             ">
@@ -99,7 +99,7 @@ export const SectionDetail = ({ section, loading, onClose }: Props) => {
                                                     <div className="border-2 max-h-[200px] rounded-lg p-4 overflow-x-auto">
                                                         {
 
-                                                            section!.questions.map((question) => (
+                                                            section!.questions!.map((question) => (
                                                                 <span className="flex items-center font-bold text-xs [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:text-emerald-600 p-1 [&>svg]:mr-2 cursor-pointer hover:bg-gray-100 transition-all duration-400 rounded-lg"
                                                                     key={question.id}
                                                                     aria-label={question.name}

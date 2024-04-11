@@ -1,4 +1,4 @@
-import { Guide, GuideUser, } from '../../../domain/models';
+import { Guide, GuideUser } from '../../../domain/models';
 import { GuideState } from './';
 
 export type GuideActionType =
@@ -31,7 +31,7 @@ export const guideReducer = (state: GuideState, { type, payload }: GuideActionTy
         case 'GUIDE - Presave name and type':
             return {
                 ...state,
-                guide: { ...payload, id: crypto.randomUUID() },
+                guide: { ...payload, id: new Date().getTime(), createdAt: new Date(), updatedAt: new Date(), status: 0 },
             }
 
         case 'GUIDE - Set qualification':
@@ -72,7 +72,6 @@ export const guideReducer = (state: GuideState, { type, payload }: GuideActionTy
                     ...state
                 }
         }
-
 
         case 'GUIDE - Clear selecte guides':
             return {

@@ -7,7 +7,7 @@ export interface CreateQuestionDto {
     domain              ?: CommonQualificationItem;
     dimension_id        ?: string;
     qualification_id    ?: string;
-    section_id           : string;
+    section_id           : number;
 }
 
 

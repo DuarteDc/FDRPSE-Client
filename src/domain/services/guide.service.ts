@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { GuideContext } from '../../infraestructure/context/guide';
 import { CreateGuideDto } from '../../infraestructure/http/dto/guide';
 import { guideRepository } from '../../infraestructure/repositories/guide.repository';
-import { GuideUser } from '../models';
+import { useNavigation } from '../../app/hooks/useNavigation';
 
 interface GuideNameAndType {
     name: string;
@@ -12,6 +12,8 @@ interface GuideNameAndType {
 export const guideService = () => {
 
     const { dispatch, guide, qualifications, guides, guideUser, hasGuide, guidesSelected } = useContext(GuideContext);
+
+    const { navigate } = useNavigation();
 
     const [loading, setLoading] = useState(false);
 
@@ -32,10 +34,17 @@ export const guideService = () => {
         toggleLoading();
     }, []);
 
+    const startGetGuideBySurvey = useCallback(async (surveyId: string, guideId: string) => {
+        toggleLoading();
+        const guide = await guideRepository.getGuideBySurvey(surveyId, guideId);
+        typeof guide !== 'string' && dispatch({ type: 'GUIDE - Load Guide', payload: guide })
+        toggleLoading();
+    }, []);
+
     const startCreateGuide = useCallback(async (createGuideDto: CreateGuideDto) => {
         toggleLoading();
         const { message, success } = await guideRepository.createGuide(createGuideDto);
-        console.log({ message, success })
+        success && navigate(-1)
         toggleLoading();
     }, []);
 
@@ -70,6 +79,7 @@ export const guideService = () => {
         hasAvailableGuide,
         setQualifications,
         clearSelectedGuide,
+        startGetGuideBySurvey,
         handleSetNameAndType,
     }
 }

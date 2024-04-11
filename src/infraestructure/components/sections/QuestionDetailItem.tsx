@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Button, Card, CardHeader, Chip, Popover, PopoverContent, PopoverTrigger, Tooltip } from '@nextui-org/react';
-import { BoxIcon, CategoryIcon, DimensionsIcon, DotsVertical, EyeIcon, LinkIcon, QuestionIcon, StarsIcon } from '../icons';
+import { BoxIcon, CategoryIcon, DimensionsIcon, DotsVertical, LinkIcon, QuestionIcon, StarsIcon } from '../icons';
 
 import { QuestionInsideSection } from '../../../domain/models';
 

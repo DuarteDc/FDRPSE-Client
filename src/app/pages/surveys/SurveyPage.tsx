@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen } from '../../../infraestructure/components/ui';
-import { Button, Card, CardBody, Chip, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
+import { Button, Card, CardBody, Chip, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import { CircleCheck, EyeIcon, PlayerPlay } from '../../../infraestructure/components/icons';
 import { parseDate } from '../../helpers/parseDate';
 import { authService } from '../../../domain/services/auth.service';
@@ -10,7 +10,7 @@ import { useNavigation } from '../../hooks/useNavigation';
 export const SurveyPage = () => {
 
   const { user } = authService();
-  const { startGetSurveys, surveys, loading } = surveyService();
+  const { startGetSurveys, surveys, loading, startFinalizeSurvey } = surveyService();
   const { navigate } = useNavigation();
 
   const [page, setPage] = useState(1);
@@ -98,7 +98,7 @@ export const SurveyPage = () => {
                         </Button>
                         {
                           !status && (<Button
-
+                            onClick={() => startFinalizeSurvey(`${id}`)}
                             className="bg-emerald-600 text-white text-xs h-9 font-bold"
                             endContent={
                               <CircleCheck />

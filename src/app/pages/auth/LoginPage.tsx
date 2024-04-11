@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Button, useDisclosure } from '@nextui-org/react';
 import { LoginForm } from '../../../infraestructure/components/auth';
 import { Modal } from '../../../infraestructure/components/ui/Modal';

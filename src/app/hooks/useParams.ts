@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { parseStringToObjQueryParams } from '../helpers/parseStringToObjQueryParams';
 

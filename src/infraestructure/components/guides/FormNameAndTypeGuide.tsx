@@ -20,7 +20,7 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
     }, [])
 
     const formik = useFormik({
-        initialValues: { name: guide?.name || '', gradable: guide?.gradable ?? true },
+        initialValues: { name: guide?.name || '', gradable: guide?.gradable || true },
         validationSchema: Yup.object(preSaveGuideValidation()),
         onSubmit: (data) => handleSetNameAndType({ ...data, gradable: JSON.parse(String(data?.gradable)) })
     })
@@ -62,7 +62,7 @@ export const FormNameAndTypeGuide = forwardRef<ValidateStep>((__, ref: Forwarded
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         isInvalid={formik.touched.name && formik.errors.name ? true : false}
-                        errorMessage={formik.touched.name && formik.errors.name && formik.errors.name}
+                        errorMessage={formik.touched?.name && formik.errors?.name && formik.errors?.name}
                         startContent={<FileDescription strokeWidth={1.5} />}
                     />
                 </div>

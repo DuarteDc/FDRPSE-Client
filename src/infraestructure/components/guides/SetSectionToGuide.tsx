@@ -25,7 +25,6 @@ export const SetSectionToGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef
     useImperativeHandle(ref, () => ({
         canContinue: () => sectionsSelected.length > 0,
     }));
-
     return (
         <section className="grid grid-cols-7">
             <Modal

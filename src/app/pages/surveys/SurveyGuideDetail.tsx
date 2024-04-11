@@ -22,13 +22,13 @@ export const SurveyGuideDetail = () => {
 
   const { startSearchGuideSurveyUserDetail, guideUserSurvey, loading } = surveyService();
   const { areas, subareas, startLoadAreas, startLoadSubAreas } = areaService();
-  const { startGetGuide, guide } = guideService();
+  const { startGetGuideBySurvey, guide } = guideService();
 
   const debounce = useDebounce(query, 500);
 
   useEffect(() => {
     Promise.all([
-      startGetGuide(guideId!),
+      startGetGuideBySurvey(id!, guideId!),
       startLoadAreas(),
     ])
   }, []);
@@ -48,8 +48,6 @@ export const SurveyGuideDetail = () => {
     setQuerySubArea('')
     setQueryArea('');
   }
-
-  console.log(guide)
 
   return (
     <PageLayout title="Detalle de cuestionario">
@@ -74,7 +72,7 @@ export const SurveyGuideDetail = () => {
               <UserDetails
                 surveyId={id!}
                 userId={userId!}
-                guide={guide}
+                guide={guide!}
                 guideId={guideId!}
               />
             </Fragment>

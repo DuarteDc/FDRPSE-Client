@@ -2,15 +2,15 @@ import { useCallback, useContext, useState } from 'react';
 import { QuestionContext } from '../../infraestructure/context/questions';
 import { questionRepository } from '../../infraestructure/repositories/question.respository';
 import type { CreateQuestionDto, SaveUserQuestionDto } from '../../infraestructure/http/dto/questions';
-import { useNavigate } from 'react-router-dom';
 import { QuestionsField } from '../../app/helpers/createFieldsQuestionValidations';
+import { useNavigation } from '../../app/hooks/useNavigation';
 
 export const questionService = () => {
 
     const { dispatch, questions, question, sectionQuestions, totalQuestions, currentPage } = useContext(QuestionContext);
 
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const { navigate } = useNavigation();
 
     const toggleLoading = useCallback(() => setLoading(prev => !prev), []);
 
@@ -52,14 +52,17 @@ export const questionService = () => {
         return { questions: body }
     }
 
-    const saveQuestionUser = async (questions: QuestionsField, lastPage: number) => {
+    const saveQuestionUser = async (questions: QuestionsField) => {
         const formQuestionData = createBodyRequest(questions!);
-        await questionRepository.saveUserAnswers(formQuestionData, 'gradable');
+        const { success } = await questionRepository.saveUserAnswers(formQuestionData, 'gradable');
+        if(!success) return navigate('/auth/')
+
     }
 
     const saveQuestionNongradableUser = async (questions: QuestionsField) => {
         const formQuestionData = createBodyRequest(questions!);
-        await questionRepository.saveUserAnswers(formQuestionData, 'nongradable');
+        const { success } = await questionRepository.saveUserAnswers(formQuestionData, 'nongradable');
+        if(!success) return navigate('/auth/')
     }
 
     const clearNewQuestionCache = () => dispatch({ type: 'QUESTION - Clear new Question Cache' });

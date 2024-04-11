@@ -32,12 +32,12 @@ export const UserQuestion = () => {
                     sectionQuestions && (
                         sectionQuestions?.type === 'gradable' ? (
                             <AnswerQuestionForm
-                                questions={sectionQuestions.questions}
+                                questions={sectionQuestions!.questions!}
                                 hasSubquestions={sectionQuestions.question}
                             />
                         ) : (
                             <AnswerNongradableQuestion
-                                section={sectionQuestions}
+                                section={sectionQuestions!}
                             />
                         )
                     )

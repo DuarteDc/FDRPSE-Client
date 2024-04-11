@@ -1,15 +1,16 @@
-import { Guide, GuideQualifications, SectionQuesions } from '../../domain/models';
+import { Guide, GuideQualification, SectionQuesions } from '../../domain/models';
+import { TypeQuestion } from '../../domain/models/SectionQuestions';
 
-import { TypeGudie } from '../../domain/models';
 import { CommonQualifications } from '../../infraestructure/http/dto/CommonQualificationsDto';
 
 
 interface ParseDatatToCreateGuide extends CommonQualifications {
     name: string;
-    gradable: TypeGudie;
-    sections: Array<string>
+    gradable: TypeQuestion;
+    sections: Array<number>
 }
-export const parseDataToCreateGuide = ({ name, gradable }: Guide, sections: Array<SectionQuesions>, qualifications: GuideQualifications): ParseDatatToCreateGuide =>
+
+export const parseDataToCreateGuide = ({ name, gradable }: Guide, sections: Array<SectionQuesions>, qualifications: GuideQualification): ParseDatatToCreateGuide =>
 ({
     name, gradable: gradable ? 'gradable' : 'nongradable',
     sections: sections.map((section) => section.id),

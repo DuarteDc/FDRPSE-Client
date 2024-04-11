@@ -1,7 +1,7 @@
 export type * from './SectionDetail';
 
 export type * from './Survey';
-export type * from './Guide';
+export * from './Guide';
 export type * from './SurveyPagination';
 export type * from './GuideUser';
 export type * from './GuideUserSurvey';

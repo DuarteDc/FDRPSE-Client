@@ -1,3 +1,4 @@
+export { PausePlayer } from './PausePlayer';
 
 export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';

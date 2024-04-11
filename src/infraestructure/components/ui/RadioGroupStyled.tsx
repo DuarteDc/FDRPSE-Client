@@ -11,7 +11,7 @@ interface Props {
     defautlValue ?: string;
     onValueChange?: (value: string) => void
     value: string;
-    errorMessage: string | false | undefined;
+    errorMessage: string | false | undefined | any;
     className?: string;
     orientation?: OrientationType;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;

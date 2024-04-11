@@ -103,7 +103,7 @@ export const sectionRespository = {
         }
     },
 
-    getSectionDetail: async (sectionId: string): Promise<SectionQuesions | string> => {
+    getSectionDetail: async (sectionId: number): Promise<SectionQuesions | string> => {
         try {
             const { section } = await http.get<GetOneSectionWithQuestions>(`/auth/sections/questions/${sectionId}`);
             return new SectionQuesions(section.id, section.name, section.question, section.binary, section.questions_count, section.can_finish_guide, section.type, section.created_at, section.updated_at, section.questions)

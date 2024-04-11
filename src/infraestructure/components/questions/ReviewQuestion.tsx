@@ -18,8 +18,8 @@ export const ReviewQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Va
     name: question!.name,
     type: question!.type,
     section_id: question!.section!.id,
-    category: qualifications?.category,
-    domain: qualifications?.domain,
+    category: qualifications?.category || undefined,
+    domain: qualifications?.domain || undefined,
     dimension_id: question?.dimension?.id,
     qualification_id: question?.qualification?.id,
   })

@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 
 import { Button, Input, Select, SelectItem, useDisclosure } from '@nextui-org/react';
 
-import { BoxIcon, BrandDatabricks, CategoryIcon, ClickIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff, XIcon } from '../icons';
+import { BoxIcon, BrandDatabricks, CategoryIcon, ClickIcon, DimensionsIcon, QuestionIcon, StarsIcon, StarsOff } from '../icons';
 import { createQuestionValidation } from '../../validations/question.validations';
 
 import { useQuestion } from '../../../app/hooks/useQuestion';
@@ -44,6 +44,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
         onSubmit: (data) => {
             preSaveQuestion({
                 ...data,
+                section_id: +(data.section_id),
                 ...(formik.values.category_id.length > 0 && {
                     category: {
                         id: +formik.values.category_id,
@@ -71,8 +72,8 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     }));
 
     const handleSelectQualification = async (type: SelectionType, selectedItem: string) => {
-        setLoading(true)
         if (!selectedItem.length) return;
+        setLoading(true)
         
         if (type === 'categories') {
             const currentCategory = categories.find(category => category.id == selectedItem)!;

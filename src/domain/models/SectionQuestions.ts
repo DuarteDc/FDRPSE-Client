@@ -3,7 +3,7 @@ import { QuestionInsideSection } from '../../infraestructure/http/dto/sections/G
 import { Section, SectionSchema } from './Section';
 
 interface SectionQuestionsSchema extends SectionSchema {
-    questions: Array<Question>
+    questions?: Array<Question>
 }
 
 export type TypeQuestion = 'gradable' | 'nongradable';
@@ -20,9 +20,9 @@ interface Question {
 }
 export class SectionQuesions extends Section implements SectionQuestionsSchema {
 
-    readonly questions: Question[];
+    readonly questions?: Question[];
 
-    constructor(id: string, name: string, question: string | null, binary: boolean, questionCount: number | null, canFinishGuide: boolean | undefined, type: TypeQuestion, createdAt: string, updatedAt: string, questions: Array<QuestionInsideSection>) {
+    constructor(id: number, name: string, question: string | null, binary: boolean, questionCount: number | null, canFinishGuide: boolean |  undefined, type: TypeQuestion, createdAt: string, updatedAt: string, questions: Array<QuestionInsideSection>) {
         super(id, name, question, binary, questionCount, canFinishGuide, type, createdAt, updatedAt);
         this.questions = questions.map((question) => ({
             id: question.id,

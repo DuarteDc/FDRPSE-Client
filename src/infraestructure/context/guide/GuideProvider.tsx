@@ -1,11 +1,11 @@
 import { ReactNode, useReducer } from 'react'
-import { Guide, GuideUser } from '../../../domain/models';
+import { Guide, GuideQualification, GuideUser } from '../../../domain/models';
 import { GuideContext, guideReducer } from '.';
 
 export interface GuideState {
-    guide           : any;
+    guide           : Guide | null;
     guides          : Array<Guide> | [];
-    qualifications  : null | any;
+    qualifications  : GuideQualification | null;
     guideUser       : GuideUser | null;
     hasGuide        : boolean | null;
     guidesSelected   : Array<Guide> | [];

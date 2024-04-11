@@ -1,7 +1,7 @@
-import { useState, createRef, Fragment } from 'react';
+import { useState, createRef } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { Button, Input, Spinner, Tooltip } from '@nextui-org/react';
+import { Button, Input, Spinner } from '@nextui-org/react';
 
 import { CategoryIcon, PlusIcon } from '../icons';
 import { categoriesService } from '../../../domain/services/categories.service';

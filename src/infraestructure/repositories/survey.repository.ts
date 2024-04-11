@@ -1,11 +1,11 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail } from '../../domain/models';
+import { Survey, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail, StatusGuide, ChangeStatusGuide, FinalizeGuideAndStartNextGuide } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { GetOneSurveyResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
+import { FinalizeCurrentGuideResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 import { AreasResponseDto } from '../http/dto/areas';
-import { GuideSurveyUserDetailDto } from '../http/dto/guide';
+import { GuideSurveyUserDetailDto, OneGuideResponseDto } from '../http/dto/guide';
 
 export const surveyRepository = {
     startGetSurveys: async (page = 1): Promise<Pagination | string> => {
@@ -76,15 +76,6 @@ export const surveyRepository = {
             return { message, success: true }
         } catch (error) {
             return { message: error as string, success: false }
-        }
-    },
-
-    existAvailableSurvey: async (): Promise<boolean> => {
-        try {
-            const { survey } = await http.get<GetOneSurveyResponseDto>('/auth/surveys/current');
-            return survey ? true : false;
-        } catch (error) {
-            return false;
         }
     },
 
@@ -194,6 +185,43 @@ export const surveyRepository = {
         } catch (error) {
             errorAlert(error as string);
             return { success: false, message: error as string };
+        }
+    },
+
+    changeSurveyGuideStatus: async (surveyId: string, guideId: string, status: StatusGuide.inProgress | StatusGuide.paused): Promise<ChangeStatusGuide | string> => {
+        try {
+            const { guide } = await http.patch<OneGuideResponseDto>(`/auth/surveys/${surveyId}/guide/${guideId}/change-status?status=${status}`, {});
+            succesAlert('La guía se actualizo correctamente');
+            return {
+                guide: {
+                    id: guide.id,
+                    status: guide.surveys[0].pivot.status,
+                }
+            };
+        } catch (error) {
+            errorAlert(error as string);
+            return error as string;
+        }
+    },
+
+
+    finalizeGuideSurveyAndStartNextGuide: async (surveyId: string, guideId: string): Promise<FinalizeGuideAndStartNextGuide | string> => {
+        try {
+            const { current_guide, next_guide } = await http.patch<FinalizeCurrentGuideResponseDto>(`/auth/surveys/${surveyId}/guide/${guideId}/finalized`, {});
+            succesAlert('La guía se actualizo correctamente');
+            return {
+                currentGuide: {
+                    id: current_guide.guide_id,
+                    status: current_guide.status,
+                },
+                nextGuide: (next_guide) ? {
+                    id: next_guide.guide_id,
+                    status: next_guide?.status,
+                } : null,
+            }
+        } catch (error) {
+            errorAlert(error as string);
+            return error as string;
         }
     },
 

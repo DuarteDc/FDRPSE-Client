@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { Bar, BarChart as BarChartMain, CartesianGrid, Cell, LabelList, Tooltip, XAxis, YAxis } from 'recharts';
 
 

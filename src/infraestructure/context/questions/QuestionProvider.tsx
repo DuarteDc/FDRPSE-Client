@@ -13,7 +13,7 @@ export interface QuestionState {
     sectionQuestions: QuestionsBySection | null,
     totalQuestions: number | null;
     currentPage: number | null;
-    qualifications: { [key: string]: CommonQualificationItem } | null;
+    qualifications: { [key: string]: CommonQualificationItem | undefined } | null;
 }
 interface Props {
     children: ReactNode;

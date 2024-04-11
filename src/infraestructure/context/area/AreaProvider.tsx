@@ -1,6 +1,6 @@
 import { ReactNode, useReducer } from 'react';
 import { AreaContext, areaReducer } from './';
-import { Area, AreaSubareasDepartments } from '../../../domain/models';
+import { Area  } from '../../../domain/models';
 
 
 interface Props {

@@ -45,7 +45,7 @@ export const useQuestion = () => {
                     ...new Question(crypto.randomUUID(), name, type, new Date().toLocaleString(), new Date().toLocaleString()),
                     ...getDetails,
                 },
-                qualifications
+                qualifications,
             },
         });
     }

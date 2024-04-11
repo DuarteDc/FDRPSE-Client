@@ -70,7 +70,7 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
         case 'SECTION - Get current section':
             return {
                 ...state,
-                section: state.sectionsSelected.find(section => section.id === action.payload.id),
+                section: state.sectionsSelected.find(section => section.id === action.payload.id)!,
             }
 
 
@@ -80,11 +80,11 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
                 sectionsSelected: []
             }
 
-            case 'SECTION - Load section detail':
-                return {
-                    ...state,
-                    sectionDetail: action.payload,
-                }
+        case 'SECTION - Load section detail':
+            return {
+                ...state,
+                sectionDetail: action.payload,
+            }
 
         case 'SECTION - Clear cache section':
             return {

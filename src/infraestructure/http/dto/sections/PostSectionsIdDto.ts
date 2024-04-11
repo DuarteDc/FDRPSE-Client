@@ -1,3 +1,3 @@
 export interface PostSectionsIdDto {
-    sections: Array<string>
+    sections: Array<number>
 }

@@ -1,32 +1,15 @@
-import { ForwardedRef, forwardRef, useImperativeHandle, useMemo } from 'react';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { CalendarMonth } from '../icons';
+import { ForwardedRef, forwardRef } from 'react';
 
 import { ValidateStep } from '../../../app/utils/surveySteps';
-import { areaService } from '../../../domain/services/area.service';
-import { parseDate } from '../../../app/helpers/parseDate';
-import { prepareAreasToCreateSurvey } from '../../../app/helpers/prepareAreasToCreateSurvey';
 
-export const ViewTimeLineAreas = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
-
-    const { areasWithDatetime } = areaService();
-
-    const areasMemorized = useMemo(() => {
-        return areasWithDatetime.sort((prevArea, currentArea) => prevArea.startDate! < currentArea.startDate! ? -1 : 1);
-    }, [areasWithDatetime]);
-    
-    useImperativeHandle(ref, () =>({
-        canContinue: () => false
-    }));
+export const ViewTimeLineAreas = forwardRef<ValidateStep>((__, _: ForwardedRef<ValidateStep>) => {
 
 
-    console.log(prepareAreasToCreateSurvey(areasMemorized));
 
     return (
         <div className="w-full relative after:w-2 after:bg-emerald-600 after:rounded-full after:left-0 after:right-0 after:m-auto after:absolute
         after:min-h-fit after:h-full after:top-0 after:bottom-0 animate-[fadeIn_0.5s]">
-            {
+            {/* {
                 areasMemorized.map((area, index) => (
                     <div key={area.id} className={`border-2 p-4 rounded-lg mx-2 w-[calc(50%-40px)] ${index % 2 === 0 ? ' float-left clear-right before:-right-2 before:rotate-180 after:-right-11' : ' float-right clear-left before:-left-2 after:-left-11'}
                         shadow-xl shadow-emerald-600/10
@@ -50,7 +33,7 @@ export const ViewTimeLineAreas = forwardRef<ValidateStep>((__, ref: ForwardedRef
 
                     </div>
                 ))
-            }
+            } */}
         </div>
     )
 })

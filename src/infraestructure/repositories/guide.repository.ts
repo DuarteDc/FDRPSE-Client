@@ -29,7 +29,6 @@ export const guideRepository = {
     getGuide: async (guideId: string): Promise<Guide | string> => {
         try {
             const { guide } = await http.get<OneGuideResponseDto>(`/auth/guides/${guideId}`);
-            console.log(guide)
             return {
                 id: guide.id,
                 gradable: guide.gradable,
@@ -37,13 +36,13 @@ export const guideRepository = {
                 status: guide.status,
                 createdAt: new Date(guide.created_at),
                 updatedAt: new Date(guide.updated_at),
-                qualification: (guide.survey.length > 0) ? {
-                    id: guide?.survey[0]?.pivot?.qualification?.id,
-                    low: guide?.survey[0]?.pivot?.qualification?.low,
-                    middle: guide?.survey[0]?.pivot?.qualification?.middle,
-                    despicable: guide?.survey[0]?.pivot?.qualification?.despicable,
-                    high: guide?.survey[0]?.pivot?.qualification?.high,
-                    veryHigh: guide?.survey[0]?.pivot?.qualification?.very_high,
+                qualification: (guide.surveys.length > 0) ? {
+                    id: guide?.surveys[0]?.pivot?.qualification?.id,
+                    low: guide?.surveys[0]?.pivot?.qualification?.low,
+                    middle: guide?.surveys[0]?.pivot?.qualification?.middle,
+                    despicable: guide?.surveys[0]?.pivot?.qualification?.despicable,
+                    high: guide?.surveys[0]?.pivot?.qualification?.high,
+                    veryHigh: guide?.surveys[0]?.pivot?.qualification?.very_high,
                 } : undefined
             }
         } catch (error) {
@@ -84,7 +83,6 @@ export const guideRepository = {
     getGuideBySurvey: async (guideId: string, surveyId: string): Promise<Guide | string> => {
         try {
             const { guide } = await http.get<OneGuideResponseDto>(`/auth/guides/${guideId}/survey/${surveyId}`);
-            console.log(guide)
             return {
                 id: guide.id,
                 gradable: guide.gradable,
@@ -92,13 +90,13 @@ export const guideRepository = {
                 status: guide.status,
                 createdAt: new Date(guide.created_at),
                 updatedAt: new Date(guide.updated_at),
-                qualification: (guide.survey.length > 0) ? {
-                    id: guide?.survey[0]?.pivot?.qualification?.id,
-                    low: guide?.survey[0]?.pivot?.qualification?.low,
-                    middle: guide?.survey[0]?.pivot?.qualification?.middle,
-                    despicable: guide?.survey[0]?.pivot?.qualification?.despicable,
-                    high: guide?.survey[0]?.pivot?.qualification?.high,
-                    veryHigh: guide?.survey[0]?.pivot?.qualification?.very_high,
+                qualification: (guide.surveys.length > 0) ? {
+                    id: guide?.surveys[0]?.pivot?.qualification?.id,
+                    low: guide?.surveys[0]?.pivot?.qualification?.low,
+                    middle: guide?.surveys[0]?.pivot?.qualification?.middle,
+                    despicable: guide?.surveys[0]?.pivot?.qualification?.despicable,
+                    high: guide?.surveys[0]?.pivot?.qualification?.high,
+                    veryHigh: guide?.surveys[0]?.pivot?.qualification?.very_high,
                 } : undefined
             }
         } catch (error) {

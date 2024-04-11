@@ -1,8 +1,8 @@
-import { th } from "date-fns/locale";
+
 import { TypeQuestion } from "./SectionQuestions";
 
 export interface SectionSchema {
-    id              : string;
+    id              : number;
     name            : string;
     question        : string | null;
     binary          : boolean
@@ -25,7 +25,7 @@ export class Section implements SectionSchema {
     readonly createdAt;
     readonly updatedAt;
 
-    constructor(id: string, name:string, question: string | null, binary: boolean, questionCount: number | null,canFinishGuide: boolean | undefined, type: TypeQuestion,createdAt: string, updatedAt: string) {
+    constructor(id: number, name:string, question: string | null, binary: boolean, questionCount: number | null,canFinishGuide: boolean | undefined, type: TypeQuestion,createdAt: string, updatedAt: string) {
         this.id             = id;
         this.name           = name;
         this.question       = question;

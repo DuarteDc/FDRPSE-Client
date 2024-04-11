@@ -25,6 +25,17 @@ const post = async <T>(url: string, body: object): Promise<T> => {
     }
 }
 
+
+const patch = async <T>(url: string, body: object): Promise<T> => {
+    try {
+        const { data } = await apiInstance.patch(url, body);
+        return data as T;
+    } catch (error) {
+        if (isAxiosError(error)) throw error.response?.data?.message;
+        throw new Error(DEFAULT_ERROR);
+    }
+}
+
 const download = async (url: string): Promise<void> => {
     try {
         const { data } = await apiInstance.get(url, {
@@ -40,8 +51,10 @@ const download = async (url: string): Promise<void> => {
 
 
 
+
 export const http = {
     get,
     post,
+    patch,
     download,
 }

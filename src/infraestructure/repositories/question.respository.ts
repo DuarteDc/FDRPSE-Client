@@ -39,7 +39,13 @@ export const questionRepository = {
     getQuestionBySection: async (guideId: number, page: number): Promise<QuestionsBySectionResponse | string> => {
         try {
             const response = await http.get<QuestionsBySectionResponse>(`/auth/questions/section/${guideId}?page=${page}`);
-            return response;
+            return {
+                ...response,
+                section: {
+                    ...response.section,
+                    canFinishGuide:response.section.canFinishGuide,
+                }
+            };
         } catch (error) {
             return error as string;
         }
@@ -47,9 +53,9 @@ export const questionRepository = {
 
     saveUserAnswers: async (saveUserQuestionDto: SaveUserQuestionDto, type: TypeQuestion): Promise<CommonResponseDto> => {
         try {
-            const { message, success } = await http.post<CommonResponseDto>(`/auth/surveys/save-questions?type=${type}`, saveUserQuestionDto);
+            const { message } = await http.post<CommonResponseDto>(`/auth/surveys/save-questions?type=${type}`, saveUserQuestionDto);
             succesAlert(message);
-            return { message, success }
+            return { message, success: true }
         } catch (error) {
             errorAlert(error as string);
             return { message: error as string, success: false }

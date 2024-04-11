@@ -27,12 +27,10 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
                 question: action.payload,
             }
         case 'QUESTION - Presave question': {
-            console.log(action.payload);
             return {
                 ...state,
                 qualifications: action.payload.qualifications,
                 question: action.payload.question,
-
             }
         }
 

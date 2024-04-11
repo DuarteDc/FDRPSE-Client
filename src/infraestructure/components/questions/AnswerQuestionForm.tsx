@@ -28,16 +28,15 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
     initialValues: createFieldQuestion(questions),
     validationSchema: isBinary ? Yup.object(qustionAnswerValidation(questions)) : false,
     onSubmit: (data) => {
+      clearQuestionBySection();
       if (!isBinary) {
         clearQuestionBySection();
         if ((currentPage) === totalQuestions) return endSurveyUser();
         return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       }
-      saveQuestionUser(data, currentPage!).then(() => {
-        clearQuestionBySection();
+      saveQuestionUser(data).then(() => {
       }).then(() => {
         if ((currentPage) === totalQuestions) return endSurveyUser();
-
         startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       })
 

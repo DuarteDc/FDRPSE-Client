@@ -1,18 +1,17 @@
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Chip, Skeleton, Tooltip, useDisclosure } from '@nextui-org/react';
+import { Chip, Skeleton, Tooltip } from '@nextui-org/react';
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { sectionService } from '../../../domain/services/section.service';
-import { HelpHexagon, SectionIcon, XIcon } from '../../../infraestructure/components/icons';
+import { HelpHexagon } from '../../../infraestructure/components/icons';
 import { QuestionDetailItem, QuestionDetailList } from '../../../infraestructure/components/sections';
-import { Modal } from '../../../infraestructure/components/ui/Modal';
 
 export const ShowSectionPage = () => {
 
     const { id } = useParams();
     const { getSecionById, clearSectionCache, sectionDetail } = sectionService({});
 
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    //    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     useEffect(() => {
         getSecionById(id!);
@@ -66,7 +65,7 @@ export const ShowSectionPage = () => {
                     />
                 </div>
             </section>
-            <Modal
+            {/* <Modal
                 isOpen={isOpen}
                 onChange={onOpenChange}
                 hideCloseButton
@@ -84,7 +83,7 @@ export const ShowSectionPage = () => {
                         </header>
                     </Fragment>
                 )}
-            />
+            /> */}
         </PageLayout>
     )
 }

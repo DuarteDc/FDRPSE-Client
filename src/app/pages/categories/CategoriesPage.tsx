@@ -1,8 +1,8 @@
-import { Fragment, createRef, useEffect, useState } from 'react';
+import { Fragment, createRef, useEffect } from 'react';
 import { Button, Card, Spinner, Tooltip, useDisclosure } from '@nextui-org/react';
 
 import CardList from '../../../infraestructure/components/ui/CardList';
-import { FormQualification, LoadingScreen, PageLayout } from '../../../infraestructure/components/ui'
+import { FormQualification, PageLayout } from '../../../infraestructure/components/ui'
 import { categoriesService } from '../../../domain/services/categories.service'
 import { CategoryIcon, PlusIcon, XIcon } from '../../../infraestructure/components/icons';
 import { useNavigation } from '../../hooks/useNavigation';

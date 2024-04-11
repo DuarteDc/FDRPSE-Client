@@ -32,6 +32,8 @@ export const PreviewNewGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
         canContinue,
     }));
 
+    console.log(sectionsSelected)
+
     return (
         <section>
             <span className="mb-5 block col-span-7">
@@ -67,7 +69,7 @@ export const PreviewNewGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
                             section?.type === 'gradable' ? (
                                 <AnswerQuestionForm
                                     hasSubquestions={section?.question ?? null}
-                                    questions={section!.questions}
+                                    questions={section!.questions!}
                                     showFooterControls={false}
                                 />
                             ):(

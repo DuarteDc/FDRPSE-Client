@@ -4,8 +4,8 @@ export interface GuideResponseDto {
     gradable        : boolean;
     created_at      : string;
     updated_at      : string;
-    status          : boolean;
-    survey          : Array<Survey>
+    status          : number;
+    surveys         : Array<Survey>
 }
 
 interface Survey {
@@ -17,6 +17,7 @@ interface Pivot {
     guide_id:      number;
     survey_id:     number;
     qualification: Qualification;
+    status: number;
 }
 
 interface Qualification {

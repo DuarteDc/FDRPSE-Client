@@ -21,11 +21,11 @@ export interface Guide {
     created_at: string;
     updated_at: string;
     status:     boolean;
-    pivot:      Pivot;
+    pivot:      PivotGuideSurvey;
 }
 
-export interface Pivot {
+export interface PivotGuideSurvey {
     surveyid: number;
     guideid:  number;
-    status:   boolean;
+    status:   number;
 }

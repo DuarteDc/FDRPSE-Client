@@ -5,7 +5,6 @@ import { EyeIcon, FilterIcon, PlusIcon, QuestionIcon, SearchIcon, StarsIcon, Sta
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { questionService } from '../../../domain/services/question.service';
 import { useNavigation } from '../../hooks/useNavigation';
-import { useLocation } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
 
 import { useParams } from '../../hooks/useParams';

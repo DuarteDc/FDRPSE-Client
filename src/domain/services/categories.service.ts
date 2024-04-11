@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { CategoryContext } from '../../infraestructure/context/category';
 import { categoriesRepository } from '../../infraestructure/repositories/categories.respository';
-import { CreateCategoryDto, SetNameToCategory } from '../../infraestructure/http/dto/categories';
+import { SetNameToCategory } from '../../infraestructure/http/dto/categories';
 import { useNavigate } from 'react-router-dom';
 import { CommonQualifictions } from '../../infraestructure/components/ui/FormQualification';
 import { AddQualificationDto } from '../../infraestructure/http/dto/categories/AddQualificationDto';

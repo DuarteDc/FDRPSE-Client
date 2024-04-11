@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 import { useFormik } from "formik";
 
 import { Radio, RadioGroup } from '@nextui-org/react';
-import { QuestionsBySection } from '../../http/dto/questions/QuestionsBySectionResponse';
 import { FooterControls } from '.';
 import { useAnswerQuestion } from '../../../app/hooks/useAnswerQuestion';
 import { questionService } from '../../../domain/services/question.service';
@@ -11,10 +10,10 @@ import { qustionAnswerValidation } from '../../validations/question.validations'
 import { useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { guideService } from '../../../domain/services/guide.service';
-import { SectionQuesions } from '../../../domain/models';
+import { QuestionsBySection } from '../../http/dto/questions/QuestionsBySectionResponse';
 
 interface Props {
-  section: SectionQuesions;
+  section: QuestionsBySection;
   showFooterControls?: boolean;
 }
 
@@ -29,7 +28,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
   const { guideUser } = guideService();
 
   const formik = useFormik({
-    initialValues: createFieldQuestion(section.questions),
+    initialValues: createFieldQuestion(section.questions!),
     validationSchema: Yup.object(qustionAnswerValidation(section.questions)),
     onSubmit: (data) => {
       if (section.canFinishGuide && !isBinary) {

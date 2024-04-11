@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { SurveyContext } from '../../infraestructure/context/survey';
 import { surveyRepository } from '../../infraestructure/repositories/survey.repository';
 import { StartNewSurveyDto } from '../../infraestructure/http/dto/surveys';
-import { Area } from '../models';
+import { Area, StatusGuide } from '../models';
 
 
 export const surveyService = () => {
@@ -105,6 +105,20 @@ export const surveyService = () => {
         toggleLoading();
     }
 
+    const startFinalizeGuideSurvey = async (surveyId: string, guideId: string) => {
+        toggleLoading();
+        const guides = await surveyRepository.finalizeGuideSurveyAndStartNextGuide(surveyId, guideId);
+        typeof guides !== 'string' && dispatch({ type: 'GUIDE - Finalize Guide and Start Next Guide', payload: guides });
+        toggleLoading();
+    }
+
+    const startPausedOrContinueGuide = async (surveyId: string, guideId: string, status: StatusGuide.inProgress | StatusGuide.paused) => {
+        toggleLoading();
+        const guide = await surveyRepository.changeSurveyGuideStatus(surveyId, guideId, status);
+        typeof guide !== 'string' && dispatch({ type: 'GUIDE - Change Guide Status', payload: { surveyId, guideId: guide.guide.id, status: guide.guide.status } })
+        toggleLoading();
+    }
+
     return {
         loading,
         surveys,
@@ -123,12 +137,14 @@ export const surveyService = () => {
         handleAddAndDeleteAreas,
         clearCacheForAvailableSurvey,
         getAreasToSearch,
+        startFinalizeGuideSurvey,
         getTotalUsersInSurvey,
         getUserDetail,
         startFinalizeSurvey,
         startDownloadSurveyUserResume,
         getGuideSurveyUserDetail,
         startSearchGuideSurveyUserDetail,
+        startPausedOrContinueGuide,
     }
 
 }
