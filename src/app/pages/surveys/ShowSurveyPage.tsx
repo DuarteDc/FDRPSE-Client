@@ -88,7 +88,8 @@ export const ShowSurveyPage = () => {
                           {
                             (status === StatusGuide.inProgress) && (
                               <Fragment>
-                                <Button onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.paused)}
+                                <Button 
+                                  onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.paused)}
                                   className="bg-amber-600 text-white text-xs h-9 font-bold"
                                   endContent={
                                     <span className="bg-white text-amber-600 rounded-full p-[1.2px]">
@@ -109,7 +110,8 @@ export const ShowSurveyPage = () => {
                           }
                           {
                             status === StatusGuide.paused && (
-                              <Button onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.inProgress)}
+                              <Button 
+                                onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.inProgress)}
                                 className="bg-amber-600 text-white text-xs h-9 font-bold"
                                 endContent={
                                   <span className="bg-white text-amber-600 rounded-full p-[1.2px]">

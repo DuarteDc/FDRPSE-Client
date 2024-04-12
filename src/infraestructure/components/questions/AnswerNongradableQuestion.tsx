@@ -29,19 +29,25 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
 
   const formik = useFormik({
     initialValues: createFieldQuestion(section.questions!),
-    validationSchema: Yup.object(qustionAnswerValidation(section.questions)),
+    validationSchema: isBinary ? Yup.object(qustionAnswerValidation(section.questions)) : false,
     onSubmit: (data) => {
       if (section.canFinishGuide && !isBinary) {
-        saveQuestionNongradableUser({ [`question_nongradable_${section.id}`]: JSON.stringify(isBinary) });
+        saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) });
         endSurveyUser();
       } else if (section.canFinishGuide && isBinary) {
-        saveQuestionNongradableUser({ [`question_nongradable_${section.id}`]: JSON.stringify(isBinary) }).then(() => {
+        saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => {
           clearQuestionBySection();
           if ((currentPage) === totalQuestions) return endSurveyUser();
           return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         });
       } else {
-        saveQuestionNongradableUser(data).then(() => clearQuestionBySection())
+        if (section.binary) {
+          isBinary ?
+            saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary), ...data }).then(() => clearQuestionBySection())
+            : saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => clearQuestionBySection())
+        } else {
+          saveQuestionNongradableUser(data).then(() => clearQuestionBySection())
+        }
         if ((currentPage) === totalQuestions) return endSurveyUser();
         return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       }
@@ -51,7 +57,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
   return (
     <form onSubmit={formik.handleSubmit}>
       {
-        section.binary && section?.canFinishGuide && (
+        section.binary && (
           <>
             <h3 className="mb-2 font-bold capitalize text-sm md:text-base lg:text-lg">{section.question}</h3>
             <RadioGroup
@@ -67,7 +73,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
         )
       }
       {
-        section.type === 'nongradable' && section.questions?.map(({ id, name }) => (
+        (section.type === 'nongradable' && isBinary) && section.questions?.map(({ id, name }) => (
           <div className="my-10" key={id}>
             <p className="font-bold">{name}</p>
             <span>
@@ -93,7 +99,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
         showFooterControls && (
           <FooterControls
             handlePreviousStep={handlePreviousStep}
-            currentPage={!isBinary ? totalQuestions! : currentPage!}
+            currentPage={!(isBinary && section.canFinishGuide) ? currentPage! : totalQuestions!}
             totalItems={totalQuestions!}
           />
         )

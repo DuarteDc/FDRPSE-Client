@@ -21,7 +21,10 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
     getUserDetail(surveyId, userId, guideId);
   }, []);
 
-  const sumGuideQualification = () => userDetail?.answers.reduce((a, b) => a += +b.qualification, 0) || 0;
+  const sumGuideQualification = () => userDetail?.answers.reduce((a, b) => {
+    if (!isNaN(b.questionId)) a += +b.qualification;
+    return a;
+  }, 0) || 0;
 
   return (
     <>
@@ -59,7 +62,7 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
               <section className="grid grid-cols-1 xl:grid-cols-2 overflow-auto">
                 <BarChart
                   data={trasformDataToBarChart(userDetail, 'category')!}
-                  type='category'
+                  type="category"
                 />
                 <BarChart
                   data={trasformDataToBarChart(userDetail, 'domain')!}
@@ -84,7 +87,7 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
             <TableBody>
               {
                 userDetail?.answers?.map(({ questionId, name, qualification, category, dimension, domain }, index) => (
-                  <TableRow key={questionId} className="[&>td]:py-4">
+                  <TableRow key={questionId} className={`[&>td]:py-4 ${typeof qualification === 'boolean' && isNaN(questionId) && 'bg-emerald-600/10'}`}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{name}</TableCell>
                     {
@@ -94,9 +97,18 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
                         <TableCell>{qualification}</TableCell>
                       )
                     }
-                    <TableCell>{category?.name || 'NA'}</TableCell>
-                    <TableCell>{domain?.name || 'NA'}</TableCell>
-                    <TableCell>{dimension?.name || 'NA'}</TableCell>
+                    <TableCell>{
+                      typeof qualification === 'boolean' ? '' :
+                        category?.name || 'NA'
+                    }</TableCell>
+                    <TableCell>{
+                      typeof qualification === 'boolean' ? '' :
+                        domain?.name || 'NA'
+                    }</TableCell>
+                    <TableCell>{
+                      typeof qualification === 'boolean' ? '' :
+                        dimension?.name || 'NA'
+                    }</TableCell>
                   </TableRow>
                 ))
               }

@@ -4,6 +4,7 @@ import { questionRepository } from '../../infraestructure/repositories/question.
 import type { CreateQuestionDto, SaveUserQuestionDto } from '../../infraestructure/http/dto/questions';
 import { QuestionsField } from '../../app/helpers/createFieldsQuestionValidations';
 import { useNavigation } from '../../app/hooks/useNavigation';
+import { TypeSaveAnswer } from '../../infraestructure/http/dto/questions/SaveUserQuestionDto';
 
 export const questionService = () => {
 
@@ -46,7 +47,11 @@ export const questionService = () => {
     const createBodyRequest = (formQuestionData: QuestionsField): SaveUserQuestionDto => {
         const body = Object.entries(formQuestionData).map(([key, value]) => {
             const question_id = key.split("_").pop();
-            return { question_id: question_id!, qualification: JSON.parse(value) }
+            return {
+                question_id: question_id!,
+                qualification: JSON.parse(value),
+                type: key.split("_").includes('section') ? 'section' : 'question' as TypeSaveAnswer,
+            }
         });
 
         return { questions: body }
@@ -55,14 +60,15 @@ export const questionService = () => {
     const saveQuestionUser = async (questions: QuestionsField) => {
         const formQuestionData = createBodyRequest(questions!);
         const { success } = await questionRepository.saveUserAnswers(formQuestionData, 'gradable');
-        if(!success) return navigate('/auth/')
+        if (!success) return navigate('/auth/')
 
     }
 
     const saveQuestionNongradableUser = async (questions: QuestionsField) => {
+
         const formQuestionData = createBodyRequest(questions!);
         const { success } = await questionRepository.saveUserAnswers(formQuestionData, 'nongradable');
-        if(!success) return navigate('/auth/')
+        if (!success) return navigate('/auth/')
     }
 
     const clearNewQuestionCache = () => dispatch({ type: 'QUESTION - Clear new Question Cache' });

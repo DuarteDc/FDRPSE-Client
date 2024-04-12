@@ -69,15 +69,15 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                 userDetail: action.payload,
             }
 
-        // case 'GUIDE - Change Guide Status': {
-        //     return {
-        //         ...state,
-        //         survey: {
-        //             ...state.survey,
-        //             guides: state.survey?.guides?.map(guide => guide.id === action.payload.guideId ? { ...guide, status: guide.status = action.payload.status } : guide),
-        //         }
-        //     }
-        // }
+        case 'GUIDE - Change Guide Status': {
+            return {
+                ...state,
+                survey: {
+                    ...state.survey,
+                    guides: state.survey?.guides?.map(guide => guide.id === action.payload.guideId ? { ...guide, status: guide.status = action.payload.status } : guide),
+                }
+            }
+        }
 
         // case 'GUIDE - Finalize Guide and Start Next Guide':
         //     return (action.payload.nextGuide) ? {

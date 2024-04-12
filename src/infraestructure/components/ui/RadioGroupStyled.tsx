@@ -8,7 +8,7 @@ interface Props {
     children: Array<ReactNode> | ReactNode;
     isInvalid: boolean;
     name: string;
-    defautlValue ?: string;
+    defaultValue ?: string;
     onValueChange?: (value: string) => void
     value: string;
     errorMessage: string | false | undefined | any;
@@ -36,6 +36,7 @@ interface RadioItemProps {
 export const RadioItem = ({ title, icon, ...props }: RadioItemProps) => {
     return (
         <Radio {...props}
+
             classNames={{
                 label: cn(
                     "[&>svg]:text-emerald-600"

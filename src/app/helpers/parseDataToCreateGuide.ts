@@ -10,14 +10,15 @@ interface ParseDatatToCreateGuide extends CommonQualifications {
     sections: Array<number>
 }
 
-export const parseDataToCreateGuide = ({ name, gradable }: Guide, sections: Array<SectionQuesions>, qualifications: GuideQualification): ParseDatatToCreateGuide =>
+export const parseDataToCreateGuide = ({ name, gradable }: Guide, sections: Array<SectionQuesions>, qualifications: GuideQualification | null): ParseDatatToCreateGuide =>
 ({
-    name, gradable: gradable ? 'gradable' : 'nongradable',
+    name,
+    gradable: gradable ? 'gradable' : 'nongradable',
     sections: sections.map((section) => section.id),
-        despicable: +qualifications.despicable,
-        low: +qualifications.low,
-        middle: +qualifications.middle,
-        high: +qualifications.high,
-        very_high: +qualifications.veryHigh
+    despicable: (qualifications?.despicable) ? +qualifications.despicable : 0,
+    low: (qualifications?.low) ? +qualifications.low : 0,
+    middle: (qualifications?.middle) ? +qualifications.middle : 0,
+    high: (qualifications?.high) ? +qualifications.high : 0,
+    very_high: (qualifications?.veryHigh) ? +qualifications.veryHigh : 0,
 });
 

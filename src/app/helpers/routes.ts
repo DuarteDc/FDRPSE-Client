@@ -1,10 +1,11 @@
 import { HomeIcon, QuestionIcon, CategoryIcon, BoxIcon, DimensionsIcon, SectionIcon, FileDescription } from '../../infraestructure/components/icons';
 import { IconFunction } from '../../infraestructure/components/icons/IconProps';
 
-interface Routes {
+export interface Routes {
     name: string;
     path: string;
     icon: IconFunction;
+    subroutes?: Array<Routes>;
 }
 
 export const routes: Array<Routes> = [
@@ -27,22 +28,24 @@ export const routes: Array<Routes> = [
         name: 'Preguntas',
         path: '/auth/questions',
         icon: QuestionIcon,
+        subroutes: [
+            {
+                name: 'Categorías',
+                path: '/auth/categories',
+                icon: CategoryIcon,
+            },
+            {
+                name: 'Dominios',
+                path: '/auth/domains',
+                icon: BoxIcon,
+            },
+            {
+                name: 'Dimensiones',
+                path: '/auth/dimensions',
+                icon: DimensionsIcon,
+            }
+        ]
     },
-    {
-        name: 'Categorías',
-        path: '/auth/categories',
-        icon: CategoryIcon,
-    },
-    {
-        name: 'Dominios',
-        path: '/auth/domains',
-        icon: BoxIcon,
-    },
-    {
-        name: 'Dimensiones',
-        path: '/auth/dimensions',
-        icon: DimensionsIcon,
-    }
 ]
 
 

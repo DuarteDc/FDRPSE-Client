@@ -19,7 +19,7 @@ interface Props {
 export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterControls = true }: Props) => {
 
   const { handlePreviousStep, handleChangeOptionValue } = useAnswerQuestion();
-  const { totalQuestions, currentPage, saveQuestionUser, clearQuestionBySection, startGetQuestionsBySection } = questionService();
+  const { totalQuestions, currentPage, saveQuestionUser, clearQuestionBySection, startGetQuestionsBySection, sectionQuestions } = questionService();
   const { endSurveyUser } = surveyService();
   const { guideUser } = guideService();
 
@@ -31,14 +31,23 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
       clearQuestionBySection();
       if (!isBinary) {
         clearQuestionBySection();
-        if ((currentPage) === totalQuestions) return endSurveyUser();
-        return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+        if ((currentPage) === totalQuestions) endSurveyUser();
+        else startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+        return saveQuestionUser({ [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary) });
       }
-      saveQuestionUser(data).then(() => {
-      }).then(() => {
-        if ((currentPage) === totalQuestions) return endSurveyUser();
-        startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
-      })
+      if (!sectionQuestions?.binary) {
+        saveQuestionUser(data).then(() => {
+        }).then(() => {
+          if ((currentPage) === totalQuestions) return endSurveyUser();
+          startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+        })
+      }else {
+        saveQuestionUser({[`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary), ...data }).then(() => {
+        }).then(() => {
+          if ((currentPage) === totalQuestions) return endSurveyUser();
+          startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+        })
+      }
 
     }
   })

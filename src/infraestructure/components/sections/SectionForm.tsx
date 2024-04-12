@@ -23,7 +23,7 @@ export const SectionForm = ({ onClose }: Props) => {
         onSubmit: (data: CreateSectionDto) =>
             startCreateSection({
                 ...data,
-                binary: Boolean(data.binary),
+                question: (String(data.binary) === 'true') ? data.question : '',
                 can_finish_guide: (String(data?.binary) === 'true' && data.type === 'nongradable' && String(data.can_finish_guide) === 'true') ? true : false,
             }, onClose)
     });
@@ -50,7 +50,7 @@ export const SectionForm = ({ onClose }: Props) => {
                 isInvalid={formik.touched.binary && formik.errors.binary ? true : false}
                 errorMessage={formik.touched.binary && formik.errors.binary && formik.errors.binary}
                 value={formik.values.binary + ''}
-                defautlValue="false"
+                defaultValue="false"
             >
                 <RadioGroupStyled.RadioItem
                     icon={<InfoCircle strokeWidth={2} />}
@@ -90,7 +90,7 @@ export const SectionForm = ({ onClose }: Props) => {
                 isInvalid={formik.touched.type && formik.errors.type ? true : false}
                 errorMessage={formik.touched.type && formik.errors.type && formik.errors.type}
                 value={formik.values.type + ''}
-                defautlValue="gradable"
+                defaultValue="gradable"
             >
                 <RadioGroupStyled.RadioItem
                     icon={<StarsIcon strokeWidth={2} />}

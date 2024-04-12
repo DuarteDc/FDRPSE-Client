@@ -1,4 +1,4 @@
-import { DragEvent } from 'react';
+import { DragEvent, memo } from 'react';
 import { Section } from '../../../domain/models';
 import { XIcon } from '../icons';
 import { SectionCard } from '../sections';
@@ -13,7 +13,8 @@ interface Props {
 
 }
 
-export const OnDropSections = ({ isDrag, sections, onDrop, allowDrop, getSectionDetail, handelRemoveSection }: Props) => {
+export const OnDropSections = memo(({ isDrag, sections, onDrop, allowDrop, getSectionDetail, handelRemoveSection }: Props) => {
+
     return (
         <div className={`min-h-[500px] col-span-5 w-full border-2 transition-all duration-400 rounded-xl flex flex-wrap p-2 gap-2 mt-16 ${isDrag ? 'bg-gray-200 border-dashed border-gray-400 ease-in' : 'opacity-100 ease-in-out'}`}
             onDrop={onDrop}
@@ -40,4 +41,4 @@ export const OnDropSections = ({ isDrag, sections, onDrop, allowDrop, getSection
             }
         </div>
     )
-}
+})

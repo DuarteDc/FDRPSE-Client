@@ -24,7 +24,7 @@ export const PreviewNewGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
     }, []);
 
     const canContinue = async () => {
-        await startCreateGuide(parseDataToCreateGuide(guide!, sectionsSelected, qualifications!));
+        await startCreateGuide(parseDataToCreateGuide(guide!, sectionsSelected, qualifications));
         return false;
     }
 

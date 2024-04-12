@@ -72,10 +72,10 @@ export const SectionDetail = ({ section, loading, onClose }: Props) => {
                                 {
                                     section.canFinishGuide ? (
                                         <Fragment>
-                                            <span className="flex items-center [&>svg]:text-emerald-600 mt-1">
+                                            <span className="flex items-center [&>svg]:text-blue-600 mt-1">
                                                 <p className="font-bold">Nota:</p>
                                             </span>
-                                            <span className="font-bold text-xs ml-4 p-4 rounded-lg bg-danger/10 mt-2 flex items-center [&>svg]:text-danger-400 [&>svg]:mr-2
+                                            <span className="font-bold text-xs ml-4 p-4 rounded-lg bg-blue-600/10 mt-2 flex items-center [&>svg]:text-blue-400 [&>svg]:mr-2
                                         [&>svg]:border-2 [&>svg]:rounded-lg [&>svg]:p-1
                                         ">
                                                 <XIcon strokeWidth={2} width={35} height={35} />
