@@ -1,4 +1,4 @@
-import { Survey, Pagination, GuideUserSurvey, GuideSurveyUserDetail, StatusGuide, FinalizeGuideAndStartNextGuide } from '../../../domain/models';
+import { Survey, Pagination, GuideUserSurvey, GuideSurveyUserDetail, FinalizeGuideAndStartNextGuide } from '../../../domain/models';
 import { type SurveyState } from './';
 
 export type SurveyActionType =

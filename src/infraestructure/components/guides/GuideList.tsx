@@ -12,6 +12,7 @@ interface Props {
     classNameItem?: string;
     showItemControls?: boolean;
     renderContentInsideItem?: (guide: Guide) => ReactNode;
+    showType?: boolean,
 }
 export const GuideList = memo(({ guides, loading, ...props }: Props) => {
     return (

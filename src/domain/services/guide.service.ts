@@ -43,7 +43,7 @@ export const guideService = () => {
 
     const startCreateGuide = useCallback(async (createGuideDto: CreateGuideDto) => {
         toggleLoading();
-        const { message, success } = await guideRepository.createGuide(createGuideDto);
+        const { success } = await guideRepository.createGuide(createGuideDto);
         success && navigate(-1)
         toggleLoading();
     }, []);
@@ -63,6 +63,19 @@ export const guideService = () => {
         toggleLoading();
     }
 
+    const startDisableGudie = async (guideId: number) => {
+        toggleLoading();
+        const { success } = await guideRepository.disableGudie(guideId);
+        success && dispatch({ type: 'GUIDE - Update guide status', payload: { id: guideId, status: 0 } })
+        toggleLoading();
+    }
+    const startEnableGudie = async (guideId: number) => {
+        toggleLoading();
+        const { success } = await guideRepository.enableGudie(guideId);
+        success && dispatch({ type: 'GUIDE - Update guide status', payload: { id: guideId, status: 0 } })
+        toggleLoading();
+    }
+
     const clearSelectedGuide = () => dispatch({ type: 'GUIDE - Clear selecte guides', payload: '' })
 
     return {
@@ -75,7 +88,9 @@ export const guideService = () => {
         qualifications,
         startGetGuide,
         startGetGuides,
+        startEnableGudie,
         startCreateGuide,
+        startDisableGudie,
         hasAvailableGuide,
         setQualifications,
         clearSelectedGuide,

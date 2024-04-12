@@ -36,6 +36,18 @@ const patch = async <T>(url: string, body: object): Promise<T> => {
     }
 }
 
+
+const destroy = async <T>(url: string): Promise<T> => {
+    try {
+        const { data } = await apiInstance.delete(url);
+        return data as T;
+    } catch (error) {
+        if (isAxiosError(error)) throw error.response?.data?.message;
+        throw new Error(DEFAULT_ERROR);
+    }
+}
+
+
 const download = async (url: string): Promise<void> => {
     try {
         const { data } = await apiInstance.get(url, {
@@ -56,5 +68,6 @@ export const http = {
     get,
     post,
     patch,
+    destroy,
     download,
 }

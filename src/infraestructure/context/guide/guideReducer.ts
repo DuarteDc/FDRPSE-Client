@@ -11,6 +11,7 @@ export type GuideActionType =
     | { type: 'GUIDE - Add guide to survey', payload: Guide }
     | { type: 'GUIDE - Delete guide to survey', payload: Guide }
     | { type: 'GUIDE - Clear selecte guides', payload: any }
+    | { type: 'GUIDE - Update guide status', payload: { id: number, status: number } }
 
 export const guideReducer = (state: GuideState, { type, payload }: GuideActionType) => {
     switch (type) {
@@ -23,10 +24,14 @@ export const guideReducer = (state: GuideState, { type, payload }: GuideActionTy
             }
 
         case 'GUIDE - Load Guides by query params':
-            return {
+            return state?.guidesSelected?.length > 0 ? {
                 ...state,
-                guides: payload
-            }
+                guides: payload.filter(guide => guide.id !== state.guidesSelected.find(currGuide => currGuide.id === guide.id)?.id),
+            } :
+                {
+                    ...state,
+                    guides: payload,
+                }
 
         case 'GUIDE - Presave name and type':
             return {
@@ -72,6 +77,11 @@ export const guideReducer = (state: GuideState, { type, payload }: GuideActionTy
                     ...state
                 }
         }
+
+        case 'GUIDE - Update guide status':
+            return {
+                guides: state.guides.filter(guide => guide.id !== payload.id),
+            }
 
         case 'GUIDE - Clear selecte guides':
             return {

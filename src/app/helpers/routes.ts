@@ -30,6 +30,11 @@ export const routes: Array<Routes> = [
         icon: QuestionIcon,
         subroutes: [
             {
+                name: 'Dimensiones',
+                path: '/auth/dimensions',
+                icon: DimensionsIcon,
+            },
+            {
                 name: 'Categorías',
                 path: '/auth/categories',
                 icon: CategoryIcon,
@@ -39,11 +44,6 @@ export const routes: Array<Routes> = [
                 path: '/auth/domains',
                 icon: BoxIcon,
             },
-            {
-                name: 'Dimensiones',
-                path: '/auth/dimensions',
-                icon: DimensionsIcon,
-            }
         ]
     },
 ]

@@ -1,5 +1,5 @@
 import { DragEvent, ReactNode } from 'react';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { DotsVertical, EditIcon, FileDescription, PlusIcon, TrashIcon } from '../icons';
 import { Guide } from '../../../domain/models';
 
@@ -10,12 +10,13 @@ interface Props {
     onDragEnd?: () => void;
     classNameItem?: string;
     showItemControls?: boolean;
-    renderContentInsideItem ?: (guide: Guide) => ReactNode;
+    renderContentInsideItem?: (guide: Guide) => ReactNode;
+    showType?: boolean;
 }
 
 
 const className = "isolate rounded-xl bg-white/20 shadow-lg relative p-5 overflow-hidden hover:border-emerald-600 border-2 transition-all duration-400 cursor-pointer my-2";
-export const GuideCard = ({ guide, draggable = false, onDragEnd, onDragStart, classNameItem = className, showItemControls = false, renderContentInsideItem }: Props) => {
+export const GuideCard = ({ guide, draggable = false, onDragEnd, onDragStart, classNameItem = className, showItemControls = false, renderContentInsideItem, showType = true }: Props) => {
     return (
         <article
             draggable={draggable}
@@ -25,11 +26,20 @@ export const GuideCard = ({ guide, draggable = false, onDragEnd, onDragStart, cl
         >
             {renderContentInsideItem && renderContentInsideItem(guide)}
             <div className="flex items-center justify-between w-full border-b-2 pb-2">
-                <div className="flex items-center font-bold">
-                    <span className="min-w-[2rem] min-h-[2rem] rounded-full text-emerald-600 flex justify-center items-center mr-5 border-2">
-                        <FileDescription width={20} height={20} strokeWidth={2} />
-                    </span>
-                    Cuestionario
+                <div className="flex justify-between items-center font-bold w-full mt-2">
+                    <div className="flex items-center w-full">
+                        <span className="min-w-[2rem] min-h-[2rem] rounded-full text-emerald-600 flex justify-center items-center mr-5 border-2">
+                            <FileDescription width={20} height={20} strokeWidth={2} />
+                        </span>
+                        Cuestionario
+                    </div>
+                    {
+                        showType && (
+                            <Chip color={guide.gradable ? "success" : "primary"} variant="bordered" size="sm">
+                                {guide.gradable ? 'Evaluativo' : 'Informativo'}
+                            </Chip>
+                        )
+                    }
                 </div>
                 {
                     showItemControls && (

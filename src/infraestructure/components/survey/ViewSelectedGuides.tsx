@@ -5,29 +5,22 @@ import { FileDescription } from '../icons';
 import { GuideList, OnDropGuides } from '../guides';
 import { useSurvey } from '../../../app/hooks/useSurvey';
 import { warningAlert } from '../../alert/alerts';
-import { surveyService } from '../../../domain/services/survey.service';
-import { parseSelecteGuidesToCreateSurvey } from '../../../app/helpers/parseSelecteGuidesToCreateSurvey';
 
-export const ViewAreasSelected = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
+export const ViewSelectedGuides = forwardRef<ValidateStep>((__, ref: ForwardedRef<ValidateStep>) => {
 
-    const { startGetGuides, guides, loading, guidesSelected, clearSelectedGuide } = guideService();
+    const { startGetGuides, guides, loading, guidesSelected } = guideService();
     const { onDragStart, onDragEnd, allowDrop, onDropGuide, isDrag, handleRemoveGuideSelected } = useSurvey();
-    const { startNewSurvey } = surveyService();
 
     useEffect(() => {
         startGetGuides('');
-        return () => {
-            clearSelectedGuide();
-        }
     }, []);
 
 
     const canContinue = async() => {
         if (!guidesSelected.length) {
-            warningAlert('Debes seleccionar al menos una guia para poder continuar');
+            warningAlert('Debes seleccionar al menos una guía para poder continuar');
             return false;
         }
-        await startNewSurvey(parseSelecteGuidesToCreateSurvey(guidesSelected));
         return true;
     }
 
@@ -36,7 +29,7 @@ export const ViewAreasSelected = forwardRef<ValidateStep>((__, ref: ForwardedRef
     }))
 
     return (
-        <section className="grid grid-cols-7">
+        <section className="grid grid-cols-7 animate-[fadeIn_0.5s]">
             <span className="mb-5 block col-span-7">
                 <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
                     <FileDescription width={35} height={35} strokeWidth={1.5} />

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { surveyService } from '../../../domain/services/survey.service';
 import { Button, Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
-import { CheckIcon, EyeIcon, FileDescription, PausePlayer,  PlayerPlay, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
+import { CheckIcon, EyeIcon, FileDescription, PausePlayer, PlayerPlay, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
 
 import { useNavigation } from '../../hooks/useNavigation';
 import { StatusGuide } from '../../../domain/models';
@@ -12,7 +12,7 @@ export const ShowSurveyPage = () => {
 
   const { id } = useParams();
 
-  const { startShowSurvey, survey, startPausedOrContinueGuide, loading , startFinalizeGuideSurvey} = surveyService();
+  const { startShowSurvey, survey, startPausedOrContinueGuide, loading, startFinalizeGuideSurvey } = surveyService();
 
   const { navigate } = useNavigation();
 
@@ -88,9 +88,10 @@ export const ShowSurveyPage = () => {
                           {
                             (status === StatusGuide.inProgress) && (
                               <Fragment>
-                                <Button 
+                                <Button
                                   onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.paused)}
                                   className="bg-amber-600 text-white text-xs h-9 font-bold"
+                                  isLoading={loading}
                                   endContent={
                                     <span className="bg-white text-amber-600 rounded-full p-[1.2px]">
                                       <PausePlayer width={15} height={15} strokeWidth={2.5} />
@@ -110,9 +111,10 @@ export const ShowSurveyPage = () => {
                           }
                           {
                             status === StatusGuide.paused && (
-                              <Button 
+                              <Button
                                 onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.inProgress)}
                                 className="bg-amber-600 text-white text-xs h-9 font-bold"
+                                isLoading={loading}
                                 endContent={
                                   <span className="bg-white text-amber-600 rounded-full p-[1.2px]">
                                     <PlayerPlay width={15} height={15} strokeWidth={2.5} />

@@ -4,8 +4,9 @@ import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 // import { CalendarMonth, ClockIcon, SaveIcon } from '../../infraestructure/components/icons';
 
 import { IconFunction } from '../../infraestructure/components/icons/IconProps';
-import { ViewAreasSelected } from '../../infraestructure/components/survey';
+import { ViewSelectedGuides, ViewTimeLineGuides } from '../../infraestructure/components/survey';
 import { BuildingComunity } from '../../infraestructure/components/icons';
+
 
 export interface ValidateStep {
     canContinue: () => boolean | Promise<boolean>;
@@ -19,14 +20,13 @@ export interface StepComponent {
 export const SURVEY_STEPS: Array<StepComponent> = [
     {
         name: 'Áreas seleccionadas',
-        component: ViewAreasSelected, 
+        component: ViewSelectedGuides, 
         icon: BuildingComunity
     },
-    // {
-    //     name: 'Asignar horarios',
-    //     component: StartSurvey,
-    //     icon: CalendarMonth,
-    // },
+    {
+        name: 'Asignar horarios',
+        component: ViewTimeLineGuides,
+    },
     // {
     //     name: 'Programación',
     //     component: ViewTimeLineAreas,

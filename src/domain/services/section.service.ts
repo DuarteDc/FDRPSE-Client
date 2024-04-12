@@ -85,7 +85,6 @@ export const sectionService = (props: Props) => {
     }, []);
 
     const startGetSectionsAvailableSections = async (type: string): Promise<void> => {
-        dispatch({ type: 'SECTION - Start load sections', payload: [] })
         setLoading(prev => !prev);
         const sections = await sectionRespository.getAvailableSections(type);
         typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });

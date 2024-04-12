@@ -1,3 +1,4 @@
+export { AlertConfirm } from './AlertConfirm';
 import CardList  from './CardList';
 export { CommonQualification } from './CommonQualification';
 export { FormQualification } from './FormQualification';

@@ -32,8 +32,6 @@ export const PreviewNewGuide = forwardRef<ValidateStep>((__, ref: ForwardedRef<V
         canContinue,
     }));
 
-    console.log(sectionsSelected)
-
     return (
         <section>
             <span className="mb-5 block col-span-7">

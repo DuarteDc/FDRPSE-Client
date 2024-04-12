@@ -22,6 +22,7 @@ export const guideRepository = {
 
             }))
         } catch (error) {
+            
             return error as string;
         }
     },
@@ -104,5 +105,26 @@ export const guideRepository = {
         }
     },
 
+    disableGudie: async (guideId: number): Promise<CommonResponseDto> => {
+        try {
+            const { message, success } = await http.destroy<CommonResponseDto>(`/auth/guides/disable/${guideId}`);
+            succesAlert(message)
+            return { message, success };
+        } catch (error) {
+            errorAlert(error as string);
+            return { message: error as string, success: false };
+        }
+    },
+
+    enableGudie: async (guideId: number): Promise<CommonResponseDto> => {
+        try {
+            const { message, success } = await http.patch<CommonResponseDto>(`/auth/guides/enable/${guideId}`, {});
+            succesAlert(message)
+            return { message, success };
+        } catch (error) {
+            errorAlert(error as string);
+            return { message: error as string, success: false };
+        }
+    }
 
 }

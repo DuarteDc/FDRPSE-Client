@@ -1,14 +1,20 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Button, Spinner } from '@nextui-org/react';
 
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { Steper } from '../../../infraestructure/components/ui/Steper';
 import { SURVEY_STEPS } from '../../utils/surveySteps';
 import { ArrowNarrowLeft, ArrowNarrowRight, PlayerPlay } from '../../../infraestructure/components/icons';
+import { guideService } from '../../../domain/services/guide.service';
 
 
 export const StartNewSurvey = () => {
-
+    const { clearSelectedGuide } = guideService();
+    useEffect(() => {
+        return () => {
+            clearSelectedGuide();
+        }
+    }, []);
     return (
         <PageLayout title="Comenzar encuesta">
             <Steper

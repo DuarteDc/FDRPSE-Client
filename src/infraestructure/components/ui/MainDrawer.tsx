@@ -3,7 +3,6 @@ import 'react-modern-drawer/dist/index.css';
 
 import { routes, type Routes } from '../../../app/helpers/routes';
 import { NavigateFunction, useNavigation } from '../../../app/hooks/useNavigation';
-import { IconFunction } from '../icons/IconProps';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import { memo } from 'react';
 interface Props {
@@ -49,7 +48,7 @@ const RouteList = memo(({ routes, navigate, toggleDrawer }: PropsRouteItem) => {
             fullWidth
             itemClasses={{
                 base: "py-0 w-full py-1",
-                trigger: "font-bold text-sm px-2 py-8 data-[hover=true]:bg-emerald-600 data-[hover=true]:text-white transition-all duration-600 rounded-lg h-14 flex items-center text-gray-500",
+                trigger: "font-bold text-sm px-2 py-8 data-[hover=true]:bg-emerald-600 data-[open=true]:bg-emerald-600 data-[open=true]:text-white data-[open=true]:shadow-lg data-[hover=true]:text-white transition-all duration-600 rounded-lg h-14 flex items-center text-gray-500",
             }}
         >
             {
@@ -95,7 +94,7 @@ const RouteList = memo(({ routes, navigate, toggleDrawer }: PropsRouteItem) => {
                         {
                             rest.subroutes && (
                                 <RouteList
-                                    routes={[{ name, path, icon, }, ...rest.subroutes]}
+                                    routes={[...rest.subroutes, { name, path, icon, }]}
                                     navigate={navigate}
                                     toggleDrawer={toggleDrawer}
                                 />

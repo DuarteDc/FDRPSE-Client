@@ -6,6 +6,7 @@ import { getNameOfQualification, trasformDataToBarChart } from '../../../app/hel
 import { Guide } from '../../../domain/models';
 import { BarChart } from '../charts/BarChart';
 import { UserIcon } from '../icons';
+import { GuideSurveyQualification } from '.';
 interface Props {
   userId: string;
   guide: Guide;
@@ -21,10 +22,7 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
     getUserDetail(surveyId, userId, guideId);
   }, []);
 
-  const sumGuideQualification = () => userDetail?.answers.reduce((a, b) => {
-    if (!isNaN(b.questionId)) a += +b.qualification;
-    return a;
-  }, 0) || 0;
+
 
   return (
     <>
@@ -40,25 +38,10 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
           {
             (userDetail && guide.gradable) &&
             <Fragment>
-              <div className="w-full bg-emerald-600/10 rounded-lg p-5 lg:p-10 border-2 font-bold text-sm">
-                <div>
-                  <span>Calificación: {''}</span>
-                  <b>{getNameOfQualification(
-                    {
-                      despicable: guide.qualification?.despicable!,
-                      low: guide.qualification?.low!,
-                      middle: guide.qualification?.middle!,
-                      high: guide.qualification?.high!,
-                      value: sumGuideQualification(),
-                    }
-                  )}
-                  </b>
-                </div>
-                <div>
-                  <span>Calificación del cuestionario: {''}</span>
-                  {sumGuideQualification()}
-                </div>
-              </div>
+              <GuideSurveyQualification
+                guide={guide}
+                userDetail={userDetail}
+              />
               <section className="grid grid-cols-1 xl:grid-cols-2 overflow-auto">
                 <BarChart
                   data={trasformDataToBarChart(userDetail, 'category')!}
@@ -87,7 +70,7 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
             <TableBody>
               {
                 userDetail?.answers?.map(({ questionId, name, qualification, category, dimension, domain }, index) => (
-                  <TableRow key={questionId} className={`[&>td]:py-4 ${typeof qualification === 'boolean' && isNaN(questionId) && 'bg-emerald-600/10'}`}>
+                  <TableRow key={questionId} className={`[&>td]:py-4 ${typeof qualification === 'boolean' && isNaN(questionId) && 'bg-emerald-600/10 [&>*]:font-bold'}`}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{name}</TableCell>
                     {

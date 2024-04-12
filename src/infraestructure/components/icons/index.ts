@@ -1,4 +1,4 @@
-export { PausePlayer } from './PausePlayer';
+
 
 export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
@@ -38,6 +38,7 @@ export { LinkIcon } from './LinkIcon';
 export { LockIcon } from './LockIcon';
 export { LogoutIcon } from './LogoutIcon';
 export { NumbersIcon } from './NumbersIcon';
+export { PausePlayer } from './PausePlayer';
 export { PlayerPlay } from './PlayerPlay';
 export { PlayListIcon } from './PlayListIcon';
 export { PlusIcon } from './PlusIcon';
@@ -49,6 +50,7 @@ export { SectionIcon } from './SectionIcon';
 export { SquareRoundedX } from './SquareRoundedX';
 export { StarsIcon } from './StarsIcon';
 export { StarsOff } from './StarsOff';
+export { TimeLine } from './TimeLine';
 export { TrashIcon } from './TrashIcon';
 export { UserIcon } from './UserIcon';
 export { XIcon } from './XIcon';
