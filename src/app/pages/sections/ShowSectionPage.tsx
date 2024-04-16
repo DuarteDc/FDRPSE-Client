@@ -11,8 +11,6 @@ export const ShowSectionPage = () => {
     const { id } = useParams();
     const { getSecionById, clearSectionCache, sectionDetail } = sectionService({});
 
-    //    const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
     useEffect(() => {
         getSecionById(id!);
         return () => {

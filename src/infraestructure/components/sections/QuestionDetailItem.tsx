@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Button, Card, CardHeader, Chip, Popover, PopoverContent, PopoverTrigger, Tooltip } from '@nextui-org/react';
-import { BoxIcon, CategoryIcon, DimensionsIcon, DotsVertical, LinkIcon, QuestionIcon, StarsIcon } from '../icons';
+import { BoxIcon, CategoryIcon, DimensionsIcon, LinkIcon, QuestionIcon, StarsIcon } from '../icons';
 
 import { QuestionInsideSection } from '../../../domain/models';
 
@@ -11,7 +11,7 @@ interface Props {
     navigate: NavigateFunction,
     onPress: (question?: QuestionInsideSection) => void;
 }
-export const QuestionDetailItem = ({ question, navigate, onPress }: Props) => {
+export const QuestionDetailItem = ({ question, navigate }: Props) => {
     return (
         <div key={question.id} className="my-4 border-2 p-4 rounded-lg cursor-pointer hover:border-emerald-600 transition-all duration-400 relative">
             <span className="font-bold flex items-center text-xs w-11/12">
@@ -70,11 +70,11 @@ export const QuestionDetailItem = ({ question, navigate, onPress }: Props) => {
                     )
                 }
             </div>
-            <span className="absolute right-2 top-3 h-full">
+            {/* <span className="absolute right-2 top-3 h-full">
                 <Button isIconOnly size="sm" className="border-2 bg-transparent" onClick={() => onPress(question)}>
                     <DotsVertical />
                 </Button>
-            </span>
+            </span> */}
             <div className="absolute right-1 bottom-1 flex gap-x-1">
                 {
                     question.type === 'gradable' && (

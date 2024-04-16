@@ -3,11 +3,12 @@ import { DimensionContext } from '../../infraestructure/context/dimension';
 import { dimensionRepository } from '../../infraestructure/repositories/dimension.repository';
 import { CreateDimensionDto } from '../../infraestructure/http/dto/dimensions';
 import { useNavigate } from 'react-router-dom';
+import { Dimension } from '../models';
 
 export const dimensionService = () => {
 
     const [loading, setLoading] = useState(false);
-    const { dimensions, dispatch } = useContext(DimensionContext);
+    const { dimensions, dispatch, dimension } = useContext(DimensionContext);
     const navigate = useNavigate();
 
     const startGetDimensions = async (): Promise<void> => {
@@ -25,12 +26,30 @@ export const dimensionService = () => {
         setLoading(false);
     }
 
+    const startUpdateDimension = async (dimensionId: string, createDimensionDto: CreateDimensionDto, callback?: CallableFunction): Promise<void> => {
+        setLoading(true);
+        const dimension = await dimensionRepository.updateDimension(dimensionId, createDimensionDto);
+        if (typeof dimension !== 'string') {
+            dispatch({ type: 'DIMENSION - Update dimension', payload: dimension });
+            callback && callback();
+        }
+        setLoading(false);
+    }
+
+
+
+    const startGetCurrentDimension = (dimensionId: string): void => {
+        return dispatch({ type: 'DIMENSION - Load current dimension', payload: dimensionId });
+    }
 
 
     return {
         loading,
+        dimension,
         dimensions,
         startGetDimensions,
         startCreateDimension,
+        startUpdateDimension,
+        startGetCurrentDimension,
     }
 }

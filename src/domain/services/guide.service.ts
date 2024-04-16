@@ -11,7 +11,7 @@ interface GuideNameAndType {
 
 export const guideService = () => {
 
-    const { dispatch, guide, qualifications, guides, guideUser, hasGuide, guidesSelected } = useContext(GuideContext);
+    const { dispatch, guide, qualifications, guides, guideUser, hasGuide, guidesSelected, detail } = useContext(GuideContext);
 
     const { navigate } = useNavigation();
 
@@ -78,8 +78,18 @@ export const guideService = () => {
 
     const clearSelectedGuide = () => dispatch({ type: 'GUIDE - Clear selecte guides', payload: '' })
 
+    const startGetGuideDetail = async (guideId: number) => {
+        toggleLoading();
+        const guide = await guideRepository.getGuideDetail(guideId);
+        typeof guide !== 'string' && dispatch({ type: 'GUIDE - show guide detail', payload: guide });
+        toggleLoading();
+    }
+
+    const clearGuideDetail = () => dispatch({ type: 'GUIDE - Clear cache detail', payload: null })
+
     return {
         guide,
+        detail,
         guides,
         loading,
         hasGuide,
@@ -90,10 +100,12 @@ export const guideService = () => {
         startGetGuides,
         startEnableGudie,
         startCreateGuide,
+        clearGuideDetail,
         startDisableGudie,
         hasAvailableGuide,
         setQualifications,
         clearSelectedGuide,
+        startGetGuideDetail,
         startGetGuideBySurvey,
         handleSetNameAndType,
     }

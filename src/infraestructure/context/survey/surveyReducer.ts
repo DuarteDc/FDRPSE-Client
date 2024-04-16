@@ -73,35 +73,43 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
             return {
                 ...state,
                 survey: {
-                    ...state.survey,
-                    guides: state.survey?.guides?.map(guide => guide.id === action.payload.guideId ? { ...guide, status: guide.status = action.payload.status } : guide),
+                    id: state.survey!.id,
+                    startDate: state.survey!.startDate,
+                    endDate: state.survey!.endDate,
+                    status: state.survey!.status,
+                    createdAt: state.survey!.createdAt,
+                    updatedAt: state.survey!.updatedAt,
+                    total: state.survey!.total,
+                    guides: state.survey?.guides?.map(guide => guide.id === action.payload.guideId ?
+                        ({ ...guide, status: guide.status = action.payload.status })
+                        : guide) || undefined,
                 }
             }
         }
 
-        // case 'GUIDE - Finalize Guide and Start Next Guide':
-        //     return (action.payload.nextGuide) ? {
-        //         ...state,
-        //         survey: {
-        //             ...state.survey,
-        //             guides: state.survey?.guides?.map(guide => {
-        //                 if (guide.id == action.payload.currentGuide.id)
-        //                     return { ...guide, status: guide.status = action.payload.currentGuide.status }
+        case 'GUIDE - Finalize Guide and Start Next Guide':
+            return (action.payload.nextGuide) ? {
+                ...state,
+                survey: {
+                    ...state!.survey!,
+                    guides: state.survey!.guides!.map(guide => {
+                        if (guide.id === action.payload.currentGuide!.id)
+                            return { ...guide, status: guide.status = action.payload.currentGuide!.status }
 
-        //                 if (guide.id == action.payload.nextGuide!.id)
-        //                     return { ...guide, status: guide.status = action.payload.nextGuide!.status }
+                        if (guide.id === action.payload.nextGuide!.id)
+                            return { ...guide, status: guide.status = action.payload.nextGuide!.status }
 
-        //                 return guide;
-        //             })
-        //         }
-        //     } : {
-        //         ...state,
-        //         survey: {
-        //             ...state.survey,
-        //             guides: state.survey?.guides?.map(guide => guide.id == action.payload.currentGuide.id ? { ...guide, status: guide.status = action.payload.currentGuide.status } : guide),
-        //         }
-        //     }
-        
+                        return guide;
+                    })
+                }
+            } : {
+                ...state,
+                survey: {
+                    ...state!.survey!,
+                    guides: state.survey!.guides!.map(guide => guide.id === action.payload.currentGuide.id ? { ...guide, status: guide.status = action.payload.currentGuide.status } : guide),
+                }
+            }
+
         default:
             return state
 

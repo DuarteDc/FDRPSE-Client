@@ -3,9 +3,9 @@ import { TypeQuestion } from "./SectionQuestions";
 export interface QuestionInsideSection {
     id:              number;
     name:            string;
-    createdAt:       Date;
-    updatedAt:       Date;
-    deletedAt:       Date;
+    createdAt?:       Date;
+    updatedAt?:       Date;
+    deletedAt?:       Date;
     type:            TypeQuestion;
     qualification?:   Qualification;
     category ?:       Dimension;
@@ -16,8 +16,8 @@ export interface QuestionInsideSection {
 export interface SectionDetail {
     id:             number;
     name:           string;
-    createdAt:      Date;
-    updatedAt:      Date;
+    createdAt?:      Date;
+    updatedAt?:      Date;
     binary:         boolean;
     question:       string;
     type:           string;
@@ -41,7 +41,7 @@ export interface Qualification {
     sometimesOp:    number;
     almostNeverOp:  number;
     neverOp:        number;
-    createdAt:      Date;
-    updatedAt:      Date;
-    deletedAt:      Date | null;
+    createdAt?:      Date;
+    updatedAt?:      Date;
+    deletedAt?:      Date | null;
 }

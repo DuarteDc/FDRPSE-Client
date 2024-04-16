@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import { LoadingScreen } from '../ui';
 import { Fragment, useEffect } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
-import { getNameOfQualification, trasformDataToBarChart } from '../../../app/helpers/transformDataToBarChart';
+import { trasformDataToBarChart } from '../../../app/helpers/transformDataToBarChart';
 import { Guide } from '../../../domain/models';
 import { BarChart } from '../charts/BarChart';
 import { UserIcon } from '../icons';

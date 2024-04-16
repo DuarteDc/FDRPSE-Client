@@ -29,8 +29,8 @@ export const CreateDomainPage = () => {
               delay={1000}>
               <img
                 className="drop-shadow-2xl shadow-emerald-600 cursor-pointer"
-                // src="/cuestionario/public/assets/create-resource.svg"
-                src="/assets/create-resource.svg"
+                src="/cuestionario/public/assets/create-resource.svg"
+                // src="/assets/create-resource.svg"
                 alt="form-icon"
                 width={600}
                 height={100}

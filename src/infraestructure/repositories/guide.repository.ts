@@ -1,8 +1,8 @@
 import { http } from '../http/http';
-import { CreateGuideDto, GuideUserResponseDto, GuidesResponseDto, OneGuideResponseDto } from '../http/dto/guide';
+import { CreateGuideDto, GetGuideDetailResponseDto, GuideUserResponseDto, GuidesResponseDto, OneGuideResponseDto } from '../http/dto/guide';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
-import { Guide, GuideUser } from '../../domain/models';
+import { Guide, GuideDetail, GuideUser } from '../../domain/models';
 
 
 export const guideRepository = {
@@ -22,7 +22,7 @@ export const guideRepository = {
 
             }))
         } catch (error) {
-            
+
             return error as string;
         }
     },
@@ -125,6 +125,41 @@ export const guideRepository = {
             errorAlert(error as string);
             return { message: error as string, success: false };
         }
+    },
+
+    getGuideDetail: async (guideId: number): Promise<GuideDetail | string> => {
+        try {
+            const { guide } = await http.get<GetGuideDetailResponseDto>(`/auth/guides/${guideId}/detail`);
+            return {
+                ...guide,
+                sections: guide.sections.map(
+                    section => ({
+                        ...section, guideId:
+                            section.guide_id,
+                        canFinishGuide: section.can_finish_guide,
+                        binary: section.binary,
+                        questions: section.questions.map(
+                            question => ({
+                                ...question,
+                                sectionId: question.section_id,
+                                type: question?.type === 'gradable' ? 'gradable' : 'nongradable',
+                                qualificationId: question.qualification_id || null,
+                                qualification: question.qualification ? {
+                                    id: question.qualification.id,
+                                    name: question.qualification.name,
+                                    alwaysOp: question.qualification.always_op,
+                                    almostAlwyasOp: question.qualification.almost_alwyas_op,
+                                    sometimesOp: question.qualification.sometimes_op,
+                                    almostNeverOp: question.qualification.almost_never_op,
+                                    neverOp: question.qualification.never_op,
+                                } : undefined
+                            }))
+                    }))
+            }
+        } catch (error) {
+            return error as string;
+        }
     }
+
 
 }

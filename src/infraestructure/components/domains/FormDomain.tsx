@@ -105,9 +105,10 @@ export const FormDomain = () => {
                     size="lg"
                     type="button"
                     startContent={
-                    <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
-                        <SaveIcon strokeWidth={1.5} height={22} width={22} />
-                    </span>}
+                        <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
+                            <SaveIcon strokeWidth={1.5} height={22} width={22} />
+                        </span>
+                    }
                     onClick={handleSendMainForm}
                 >
                     Crear

@@ -4,7 +4,7 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, T
 import { AlertConfirm, PageLayout } from '../../../infraestructure/components/ui';
 import { GuideList } from '../../../infraestructure/components/guides';
 
-import { CheckIcon, CircleOff, DotsVertical, EditIcon, EyeIcon, FileDescription, FilterIcon, PlusIcon, PowerIcon, SearchIcon, TrashIcon } from '../../../infraestructure/components/icons';
+import { CheckIcon, CircleOff, DotsVertical, EyeIcon, FileDescription, FilterIcon, PlusIcon, PowerIcon, SearchIcon, TrashIcon } from '../../../infraestructure/components/icons';
 
 import { useNavigation } from '../../hooks/useNavigation';
 import { useParams } from '../../hooks/useParams';

@@ -35,29 +35,35 @@ export const CardQuestion = memo(({ question, showOptionQualification, buttonFun
                 </span>
                 <h3 className="text-sm">{question?.name}</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>div]:text-xs">
-                <div className="py-2">
-                    <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
-                        <CategoryIcon width={30} height={30} />
-                        Categoría:
-                    </span>
-                    <h3>{question?.category?.name}</h3>
-                </div>
-                <div className="py-2">
-                    <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
-                        <BoxIcon width={30} height={30} />
-                        Dominio:
-                    </span>
-                    <h3>{question?.domain?.name || 'NA'}</h3>
-                </div>
-                <div className="py-2">
-                    <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
-                        <DimensionsIcon width={30} height={30} />
-                        Dimension:
-                    </span>
-                    <h3>{question?.dimension?.name || 'NA'}</h3>
-                </div>
-            </div>
+            {
+                question.type === 'gradable' && (
+
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>div]:text-xs">
+                        <div className="py-2">
+                            <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
+                                <CategoryIcon width={30} height={30} />
+                                Categoría:
+                            </span>
+                            <h3>{question?.category?.name}</h3>
+                        </div>
+                        <div className="py-2">
+                            <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
+                                <BoxIcon width={30} height={30} />
+                                Dominio:
+                            </span>
+                            <h3>{question?.domain?.name || 'NA'}</h3>
+                        </div>
+                        <div className="py-2">
+                            <span className="flex font-bold items-center [&>svg]:p-2  [&>svg]:bg-emerald-600/20 [&>svg]:rounded-lg [&>svg]:border-1 [&>svg]:border-emerald-600 [&>svg]:mr-2">
+                                <DimensionsIcon width={30} height={30} />
+                                Dimension:
+                            </span>
+                            <h3>{question?.dimension?.name || 'NA'}</h3>
+                        </div>
+                    </div>
+                )
+            }
             {
                 question?.qualification && (
                     <div className="py-2">

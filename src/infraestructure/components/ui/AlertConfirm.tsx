@@ -9,9 +9,11 @@ interface Props {
     callback: CallableFunction;
     isOpen: boolean;
     isOpenChange: () => void;
-    confirmButtonColor ?: 'danger' | 'emerald-600'
+    confirmButtonColor?: 'danger' | 'emerald-600'
 }
 export const AlertConfirm = ({ title, subtitle, callback, icon, isOpenChange, confirmButtonColor = 'danger', ...props }: Props) => {
+
+
     return (
         <Modal
             {...props}
@@ -40,7 +42,7 @@ export const AlertConfirm = ({ title, subtitle, callback, icon, isOpenChange, co
                         </Button>
                         <Button
                             onClick={() => { callback(), onClose() }}
-                            className={`w-full border-2 border-${confirmButtonColor} hover:bg-${confirmButtonColor} hover:text-white transition-all duration-400 bg-transparent`}>
+                            className={`w-full border-2 border-${confirmButtonColor} ${confirmButtonColor === 'danger' ? 'hover:bg-danger' : 'hover:border-b-emerald-600'} hover:text-white transition-all duration-400 bg-transparent`}>
                             Confirmar
                         </Button>
                     </footer>

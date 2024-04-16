@@ -1,6 +1,5 @@
-import { Button, Popover, PopoverTrigger, PopoverContent, Card, CardHeader, Chip } from '@nextui-org/react';
+
 import { Bar, BarChart as BarChartMain, CartesianGrid, Cell, LabelList, Tooltip, XAxis, YAxis } from 'recharts';
-import { InfoCircle, StarsIcon } from '../icons';
 
 
 interface Props {
