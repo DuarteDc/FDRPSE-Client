@@ -11,6 +11,7 @@ export type CategoryActionType =
     | { type: 'CATEGORY - Start load category with qualifications', payload: CategoryQualifications }
     | { type: 'CATEGORY - Start add qualification', payload: CategoryQualifications }
     | { type: 'CATEGORY - Start clear cache category', }
+    | { type: 'CATEGORY - Start remove qualification', payload: number }
 
 
 export const categoryReducer = (state: CategoryState, action: CategoryActionType): CategoryState => {
@@ -50,6 +51,17 @@ export const categoryReducer = (state: CategoryState, action: CategoryActionType
             return {
                 ...state,
                 category: null
+            }
+
+        case 'CATEGORY - Start remove qualification':
+            return (state.category?.qualifications) ? {
+                ...state,
+                category: {
+                    ...state.category,
+                    qualifications: state.category?.qualifications.filter(category => category.id != action.payload),
+                }
+            } : {
+                ...state
             }
 
         default:

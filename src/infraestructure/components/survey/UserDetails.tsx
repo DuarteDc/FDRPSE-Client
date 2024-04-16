@@ -23,7 +23,7 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
   }, []);
 
 
-
+console.log(trasformDataToBarChart(userDetail, 'domain'))
   return (
     <>
       {(loading || !userDetail) ? <LoadingScreen title="Cargando ..." /> :

@@ -60,7 +60,6 @@ export const FormDomain = () => {
 
     return (
         <div className="col-span-2">
-            <h2 className="bg-gradient-to-r from-primary to-emerald-600 inline-block text-transparent bg-clip-text lg:text-2xl font-bold">Crea un dominio para agrupar tus pregustas</h2>
             <form className="mt-10" onSubmit={formik.handleSubmit}>
                 <Input
                     placeholder="Nombre del dominio"

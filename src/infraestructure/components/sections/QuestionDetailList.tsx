@@ -1,6 +1,7 @@
 import { Fragment, ReactNode } from 'react';
 import { QuestionInsideSection } from '../../../domain/models';
 import { NavigateFunction, useNavigation } from '../../../app/hooks/useNavigation';
+import { Skeleton } from '@nextui-org/react';
 
 interface Props {
     questions?: Array<QuestionInsideSection>
@@ -14,8 +15,9 @@ export const QuestionDetailList = ({ questions, renderChilds }: Props) => {
         <Fragment>
             {
                 !questions ? (
-                    <h1>Loading</h1>
-                    //TODO make Skeleton loading
+                  <Skeleton 
+                    className="w-full h-[20rem] rounded-lg col-span-full mt-10"
+                  />
                 ) :
                     (
                         questions.map((question) =>

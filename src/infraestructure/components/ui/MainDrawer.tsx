@@ -5,6 +5,9 @@ import { routes, type Routes } from '../../../app/helpers/routes';
 import { NavigateFunction, useNavigation } from '../../../app/hooks/useNavigation';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import { memo } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { getCurrentPath } from '../../../app/helpers/getCurrentPath';
 interface Props {
     isOpen: boolean;
     toggleDrawer: () => void;
@@ -13,6 +16,8 @@ interface Props {
 export const MainDrawer = ({ isOpen, toggleDrawer }: Props) => {
 
     const { navigate } = useNavigation();
+
+    const { pathname } = useLocation();
 
     return (
         <Drawer
@@ -25,6 +30,7 @@ export const MainDrawer = ({ isOpen, toggleDrawer }: Props) => {
         >
             <div className="mt-20">
                 <RouteList
+                    pathname={pathname}
                     routes={routes}
                     toggleDrawer={toggleDrawer}
                     navigate={navigate}
@@ -37,9 +43,12 @@ export const MainDrawer = ({ isOpen, toggleDrawer }: Props) => {
 interface PropsRouteItem {
     routes: Array<Routes>;
     navigate: NavigateFunction
+    pathname: string;
     toggleDrawer: () => void;
 }
-const RouteList = memo(({ routes, navigate, toggleDrawer }: PropsRouteItem) => {
+
+
+const RouteList = memo(({ routes, navigate, toggleDrawer, pathname }: PropsRouteItem) => {
     return (
         <Accordion
             className="flex flex-col gap-1 w-full -mr-10"
@@ -47,8 +56,8 @@ const RouteList = memo(({ routes, navigate, toggleDrawer }: PropsRouteItem) => {
             variant="light"
             fullWidth
             itemClasses={{
-                base: "py-0 w-full py-1",
-                trigger: "font-bold text-sm px-2 py-8 data-[hover=true]:bg-emerald-600 data-[open=true]:bg-emerald-600 data-[open=true]:text-white data-[open=true]:shadow-lg data-[hover=true]:text-white transition-all duration-600 rounded-lg h-14 flex items-center text-gray-500",
+                base: ` py-0 w-full py-1`,
+                trigger: "font-bold text-sm px-2 py-8 data-[hover=true]:bg-emerald-600 data-[hover=true]:text-white transition-all duration-600 rounded-lg h-14 flex items-center text-gray-500",
             }}
         >
             {
@@ -79,11 +88,14 @@ const RouteList = memo(({ routes, navigate, toggleDrawer }: PropsRouteItem) => {
                                 },
                             },
                         }}
-                        data-open={false}
+                        classNames={{
+                            trigger: `${getCurrentPath(pathname, path)} rounded-lg px-4 transistion-all duration-600`,
+                        }}
                         textValue={name}
                         startContent=
                         {
-                            <li key={path} className="flex items-center rounded-2xl  [&>svg]:p-3 [&>svg]:bg-emerald-600/60 [&>svg]:rounded-lg  [&>svg]:text-white [&>svg]:mr-2">
+                            <li key={path} className={`flex w-full items-center rounded-2xl  [&>svg]:p-3 [&>svg]:bg-emerald-600/60 [&>svg]:rounded-lg  [&>svg]:text-white [&>svg]:mr-2
+                            `}>
                                 {icon({ width: 45, height: 45, strokeWidth: 2.5 })}
                                 <span>{name}</span>
                             </li>
@@ -97,6 +109,7 @@ const RouteList = memo(({ routes, navigate, toggleDrawer }: PropsRouteItem) => {
                                     routes={[...rest.subroutes, { name, path, icon, }]}
                                     navigate={navigate}
                                     toggleDrawer={toggleDrawer}
+                                    pathname={pathname}
                                 />
                             )
                         }

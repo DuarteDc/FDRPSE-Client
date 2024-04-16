@@ -14,7 +14,7 @@ import { Dimension } from '../../../domain/models';
 export const DimensionsPage = () => {
 
     const { navigate } = useNavigation();
-    const { dimensions, loading, startGetDimensions, startGetCurrentDimension, dimension } = dimensionService();
+    const { dimensions, loading, startGetDimensions, startGetCurrentDimension } = dimensionService();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     useEffect(() => {

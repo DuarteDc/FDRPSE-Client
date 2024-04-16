@@ -1,5 +1,6 @@
 
 
+
 export { AlertTriangle } from './AlertTriangle';
 export { ArrowNarrowLeft } from './ArrowNarrowLeft';
 export { ArrowNarrowRight } from './ArrowNarrowRight';
@@ -29,6 +30,7 @@ export { EyeIcon } from './EyeIcon';
 export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
 export { FilterIcon } from './FilterIcon';
+export { GhostIcon } from './GhostIcon';
 export { GoogleIcon } from './GoogleIcon';
 export { HelpHexagon } from './HelpHexagon';
 export { HomeIcon } from './HomeIcon';

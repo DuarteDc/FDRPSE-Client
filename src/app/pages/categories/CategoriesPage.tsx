@@ -1,10 +1,10 @@
-import { Fragment, createRef, useEffect } from 'react';
+import { Fragment, createRef, useEffect, useRef } from 'react';
 import { Button, Card, Spinner, Tooltip, useDisclosure } from '@nextui-org/react';
 
 import CardList from '../../../infraestructure/components/ui/CardList';
-import { FormQualification, PageLayout } from '../../../infraestructure/components/ui'
+import { AlertConfirm, FormQualification, PageLayout } from '../../../infraestructure/components/ui'
 import { categoriesService } from '../../../domain/services/categories.service'
-import { CategoryIcon, PlusIcon, XIcon } from '../../../infraestructure/components/icons';
+import { CategoryIcon, PlusIcon, TrashIcon, XIcon } from '../../../infraestructure/components/icons';
 import { useNavigation } from '../../hooks/useNavigation';
 import { Category } from '../../../domain/models';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
@@ -24,11 +24,13 @@ export const CategoriesPage = () => {
 
   const { navigate } = useNavigation();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isOpenAlert, onOpen: onOpenAlert, onOpenChange: onOpenChangeAlert } = useDisclosure();
   const { isOpen: isOpenForm, onOpen: onOpenForm, onOpenChange: onOpenChangeForm } = useDisclosure();
 
-  const { category, categories, loading, startGetCategoryWithQualifications, startGetCategories, startAddQualification, clearCacheCategorySelected } = categoriesService();
+  const { category, categories, loading, startGetCategoryWithQualifications, startGetCategories, startAddQualification, clearCacheCategorySelected, startRemoveQualification } = categoriesService();
 
   const formRef = createRef<QualifictionFormData>();
+  const categoryRef = useRef<{ [key: string]: number }>();
 
   useEffect(() => {
     startGetCategories();
@@ -69,7 +71,7 @@ export const CategoriesPage = () => {
         renderContent={(onClose) => (
           <Fragment>
             {
-              !category ? (
+              (!category || loading) ? (
                 <div className="w-full h-[20rem] overflow-hidden flex flex-col font-bold justify-center items-center text-emerald-600">
                   <Spinner color="current" />
                   <span>Cargando...</span>
@@ -104,8 +106,14 @@ export const CategoriesPage = () => {
                     {
                       category?.qualifications?.map(({ despicable, high, id, low, middle }) => (
                         <Card
-                          className={`grid grid-cols-5 text-[10px] md:text-sm text-center border-2 hover:border-emerald-600 hover:scale-[1.01] transition-all duration-400 rounded-lg cursor-pointer pb-2 my-2 font-bold [&>span]:py-1`}
+                          className={`grid grid-cols-5 text-[10px] md:text-sm text-center border-2 hover:border-emerald-600 hover:scale-[1.005] transition-all duration-400 rounded-lg cursor-pointer pb-2 my-2 font-bold [&>span]:py-1 relative overflow-visible`}
                           key={id}>
+                          <span
+                            className="bg-white absolute -top-3 -right-2 rounded-full border-2 p-1 hover:border-danger hover:text-danger transition-all duration-400 z-20"
+                            onClick={() => { categoryRef.current = { [category.id]: id }; onOpenAlert() }}
+                          >
+                            <TrashIcon height={15} width={15} strokeWidth={2} />
+                          </span>
                           <span className="bg-emerald-600 pt-2 mb-2 text-white">Nula o despreciable</span>
                           <span className="bg-emerald-600 pt-2 mb-2 text-white">Baja</span>
                           <span className="bg-emerald-600 pt-2 mb-2 text-white">Media</span>
@@ -127,7 +135,7 @@ export const CategoriesPage = () => {
         )
         }
       />
-      <Modal
+      < Modal
         isOpen={isOpenForm}
         onChange={onOpenChangeForm}
         hideCloseButton
@@ -164,6 +172,25 @@ export const CategoriesPage = () => {
           </Fragment>
         )}
       />
-    </PageLayout>
+
+      < AlertConfirm
+        isOpen={isOpenAlert}
+        isOpenChange={onOpenChangeAlert}
+        confirmButtonColor="danger"
+        title="¿Estas seguro que deseas eliminar la calificación?"
+        callback={() => { startRemoveQualification(Object.keys(categoryRef.current!)[0], Object.values(categoryRef!.current!)[0]) }}
+        subtitle={
+          < span className={`flex flex-col items-center  [&>svg]:text-danger [&>svg]:border-danger/60' 
+                     mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2 text-xs text-center py-4 [&>svg]:mb-2`}>
+            <TrashIcon width={46} height={46} strokeWidth={1.7} />
+            <p className="font-bold">
+              La calificación se eliminará de forma permanente
+            </p>
+          </span >
+        }
+
+      />
+    </PageLayout >
   )
 }
+

@@ -47,6 +47,14 @@ export const domianService = () => {
         setLoading(false);
     }
 
+
+    const startRemoveQualification = async (categoryId: string, qualificationId: number) => {
+        setLoading(true);
+        const { success } = await domainRepository.removeQualificationDomain(categoryId, qualificationId);
+        success && dispatch({ type: 'DOMAIN - Start remove qualification', payload: Number(qualificationId) });
+        setLoading(false);
+    }
+
     const clearCacheDomainSelected = () => dispatch({ type: 'DOMAIN - Start clear cache domain' });
 
 
@@ -57,10 +65,11 @@ export const domianService = () => {
         domainsQualifications,
         startGetDomains,
         startCreateDomain,
+        startAddQualification,
+        clearCacheDomainSelected,
+        startRemoveQualification,
         startDomainsWithQualifications,
         startGetDomainWithQualifications,
-        startAddQualification,
-        clearCacheDomainSelected
     }
 
 }

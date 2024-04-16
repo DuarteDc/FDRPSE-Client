@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { Chip, Skeleton, Tooltip } from '@nextui-org/react';
-import { PageLayout } from '../../../infraestructure/components/ui';
+import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Skeleton, Tooltip, useDisclosure } from '@nextui-org/react';
+import { AlertConfirm, LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { sectionService } from '../../../domain/services/section.service';
-import { HelpHexagon } from '../../../infraestructure/components/icons';
+import { DotsVertical, HelpHexagon, TrashIcon } from '../../../infraestructure/components/icons';
 import { QuestionDetailItem, QuestionDetailList } from '../../../infraestructure/components/sections';
+import { QuestionInsideSection } from '../../../domain/models';
 
 export const ShowSectionPage = () => {
 
     const { id } = useParams();
-    const { getSecionById, clearSectionCache, sectionDetail } = sectionService({});
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const questionRef = useRef<QuestionInsideSection>();
+    const { getSecionById, clearSectionCache, sectionDetail, startDeleteQuestionBySection, loading } = sectionService({});
 
     useEffect(() => {
         getSecionById(id!);
@@ -51,11 +54,37 @@ export const ShowSectionPage = () => {
                 </span>
                 <p className="text-gray-500 font-bold text-xs pl-10">Aquí se muestran las preguntas que pertenecen a la sección</p>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 lg:gap-5">
+                    {
+                        loading && (<LoadingScreen title="Espere ..." />)
+                    }
                     <QuestionDetailList
                         questions={sectionDetail?.questions}
                         renderChilds={(({ question, navigate }) => (
                             <QuestionDetailItem
                                 navigate={navigate}
+                                renderButtonOptions={(question) => (
+                                    <div className="absolute top-2 right-2">
+                                        <Dropdown>
+                                            <DropdownTrigger>
+                                                <Button className="border-2 bg-transparent" isIconOnly>
+                                                    <DotsVertical />
+                                                </Button>
+                                            </DropdownTrigger>
+                                            <DropdownMenu>
+                                                <DropdownItem
+                                                    key="show"
+                                                    color="danger"
+                                                    className="text-danger"
+                                                    onClick={() => { questionRef.current = question, onOpen() }}
+                                                    description="Puedes desactivar el cuestionario"
+                                                    startContent={<TrashIcon />}
+                                                >
+                                                    Eliminar
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </div>
+                                )}
                                 onPress={() => { }}
                                 question={question}
                             />
@@ -63,25 +92,23 @@ export const ShowSectionPage = () => {
                     />
                 </div>
             </section>
-            {/* <Modal
+            <AlertConfirm
                 isOpen={isOpen}
-                onChange={onOpenChange}
-                hideCloseButton
-                size="xl"
-                renderContent={(onClose) => (
-                    <Fragment>
-                        <header className="flex items-center justify-between -mt-6 py-1 border-b-2 ">
-                            <div className="flex items-center font-bold [&>svg]:text-emerald-600 text-xl [&>svg]:mr-1 pt-4 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1">
-                                <SectionIcon width={35} height={35} strokeWidth={1.5} />
-                                <h1>Agregar Seccion</h1>
-                            </div>
-                            <Button isIconOnly className="border-2 bg-transparent" onClick={onClose}>
-                                <XIcon />
-                            </Button>
-                        </header>
-                    </Fragment>
-                )}
-            /> */}
+                isOpenChange={onOpenChange}
+                confirmButtonColor="danger"
+                title="¿Estas seguro que deseas eliminar la pregunta?"
+                callback={() => startDeleteQuestionBySection(id!, questionRef.current?.id!)}
+                subtitle={
+                    <span className={`flex flex-col items-center  [&>svg]:text-danger [&>svg]:border-danger/60' 
+                     mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2 text-xs text-center py-4 [&>svg]:mb-2`}>
+                        <TrashIcon width={46} height={46} strokeWidth={1.7} />
+                        <p className="font-bold">
+                            La pregunta será eliminada por lo que ya no estará disponible dentro de la sección
+                        </p>
+                    </span>
+                }
+
+            />
         </PageLayout>
     )
 }

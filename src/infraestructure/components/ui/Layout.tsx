@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, ReactNode, memo, useState } from 'react';
 
 import { MainDrawer, Navbar } from './';
 import { authService } from '../../../domain/services/auth.service';
@@ -7,7 +7,7 @@ interface Props {
     children: ReactNode
 }
 
-export const Layout = ({ children }: Props) => {
+export const Layout = memo(({ children }: Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const { user } = authService();
@@ -34,4 +34,4 @@ export const Layout = ({ children }: Props) => {
         </main>
     )
 
-}
+})

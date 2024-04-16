@@ -4,6 +4,7 @@ import { CreateSectioResponseDto, CreateSectionDto, GetOneSectionWithQuestions, 
 import { errorAlert, succesAlert } from '../alert/alerts';
 import { SectionQuesions } from '../../domain/models/SectionQuestions';
 import { SectionDetail } from '../../domain/models/SectionDetail';
+import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 
 export const sectionRespository = {
 
@@ -119,6 +120,17 @@ export const sectionRespository = {
                 new SectionQuesions(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at, questions))
         } catch (error) {
             return error as string;
+        }
+    },
+
+    deleteQuestion: async (sectionId: string, questionId: number): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.destroy<CommonResponseDto>(`/auth/sections/${sectionId}/question/${questionId}`);
+            succesAlert(message);
+            return { message, success: true };
+        } catch (error) {
+            errorAlert(error as string);
+            return { message: error as string, success: false };
         }
     }
 

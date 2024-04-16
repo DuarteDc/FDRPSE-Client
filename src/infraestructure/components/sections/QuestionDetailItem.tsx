@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { Button, Card, CardHeader, Chip, Popover, PopoverContent, PopoverTrigger, Tooltip } from '@nextui-org/react';
 import { BoxIcon, CategoryIcon, DimensionsIcon, LinkIcon, QuestionIcon, StarsIcon } from '../icons';
 
@@ -10,8 +10,9 @@ interface Props {
     question: QuestionInsideSection
     navigate: NavigateFunction,
     onPress: (question?: QuestionInsideSection) => void;
+    renderButtonOptions?: (question: QuestionInsideSection) => ReactNode;
 }
-export const QuestionDetailItem = ({ question, navigate }: Props) => {
+export const QuestionDetailItem = ({ question, navigate, renderButtonOptions }: Props) => {
     return (
         <div key={question.id} className="my-4 border-2 p-4 rounded-lg cursor-pointer hover:border-emerald-600 transition-all duration-400 relative">
             <span className="font-bold flex items-center text-xs w-11/12">
@@ -20,6 +21,9 @@ export const QuestionDetailItem = ({ question, navigate }: Props) => {
                 </span>
                 {question.name}
             </span>
+            {
+                renderButtonOptions && renderButtonOptions(question)
+            }
             <div className="flex flex-wrap my-4 gap-x-2 gap-y-3 overflow-hidden">
                 {
                     question?.dimension && (

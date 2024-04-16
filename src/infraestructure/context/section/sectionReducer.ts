@@ -13,6 +13,7 @@ export type SectionActionType =
     | { type: 'SECTION - Filter bad selection by type gudide' }
     | { type: 'SECTION - Load section detail', payload: SectionDetail }
     | { type: 'SECTION - Clear cache section' }
+    | { type: 'SECTION - Delete questions inside section', payload: number }
 
 export const sectionReducer = (state: SectionState, action: SectionActionType) => {
 
@@ -90,6 +91,24 @@ export const sectionReducer = (state: SectionState, action: SectionActionType) =
             return {
                 ...state,
                 sectionDetail: null
+            }
+
+        case 'SECTION - Delete questions inside section':
+            return {
+                ...state,
+                sectionDetail: {
+                    ...state.sectionDetail,
+                    id: state.sectionDetail!.id,
+                    name: state.sectionDetail!.name,
+                    createdAt: state.sectionDetail?.createdAt || new Date(),
+                    updatedAt: state.sectionDetail?.updatedAt || new Date(),
+                    binary: state.sectionDetail!.binary,
+                    question: state.sectionDetail!.question,
+                    type: state.sectionDetail!.type,
+                    canFinishGuide: state.sectionDetail!.canFinishGuide,
+                    questionsCount: state.sectionDetail!.questionsCount,
+                    questions: state.sectionDetail?.questions?.filter(question => question.id !== action.payload),
+                }
             }
 
         default:

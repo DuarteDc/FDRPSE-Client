@@ -48,9 +48,10 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                 ...(formik.values.category_id.length > 0 && {
                     category: {
                         id: +formik.values.category_id,
-                        qualification_id: selectedItem.find(item => item.type === 'categories')?.qualificationId,
+                        qualification_id:
+                            selectedItem.find(item => item.type === 'categories')?.qualificationId,
                     },
-                }),            
+                }),
                 ...(formik.values.domain_id.length > 0 && {
                     domain: {
                         id: +formik.values.domain_id,
@@ -74,14 +75,12 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const handleSelectQualification = async (type: SelectionType, selectedItem: string) => {
         if (!selectedItem.length) return;
         setLoading(true)
-        
+
         if (type === 'categories') {
             const currentCategory = categories.find(category => category.id == selectedItem)!;
-            if (currentCategory.qualificationsCount! <= 1) return setLoading(false);
             await startGetCategoryWithQualifications(currentCategory.id)
         } else {
             const domain = domains.find(domain => domain.id == selectedItem)!;
-            if (domain.qualificationsCount! <= 1) return setLoading(false);
             await startGetDomainWithQualifications(domain.id);
         }
         setCurrentItem(type);

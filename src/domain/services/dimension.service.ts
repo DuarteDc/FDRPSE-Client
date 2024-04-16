@@ -3,7 +3,6 @@ import { DimensionContext } from '../../infraestructure/context/dimension';
 import { dimensionRepository } from '../../infraestructure/repositories/dimension.repository';
 import { CreateDimensionDto } from '../../infraestructure/http/dto/dimensions';
 import { useNavigate } from 'react-router-dom';
-import { Dimension } from '../models';
 
 export const dimensionService = () => {
 

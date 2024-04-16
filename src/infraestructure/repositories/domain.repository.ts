@@ -77,4 +77,17 @@ export const domainRepository = {
         }
     },
 
+
+
+    removeQualificationDomain: async (domainId: string, qualificationId: number): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.destroy<CommonResponseDto>(`/auth/domains/${domainId}/qualification/${qualificationId}`);
+            succesAlert(message)
+            return { message, success: true }
+        } catch (error) {
+            errorAlert(error as string);
+            return { message: error as string, success: false }
+        }
+    },
+
 }

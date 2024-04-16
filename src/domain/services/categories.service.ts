@@ -49,6 +49,14 @@ export const categoriesService = () => {
 
     const clearCacheCategorySelected = () => dispatch({ type: 'CATEGORY - Start clear cache category' });
 
+    const startRemoveQualification = async (categoryId: string, qualificationId: number) => {
+        setLoading(true);
+        const { success } = await categoriesRepository.removeQualificationCategory(categoryId, qualificationId);
+        success && dispatch({ type: 'CATEGORY - Start remove qualification', payload: Number(qualificationId) });
+        setLoading(false);
+    }
+
+
     return {
         loading,
         category,
@@ -57,6 +65,7 @@ export const categoriesService = () => {
         startGetCategories,
         startCreateCategory,
         startAddQualification,
+        startRemoveQualification,
         startGetCategoryWithQualifications,
         startGetCategoriesWithQualifications,
         clearCacheCategorySelected,

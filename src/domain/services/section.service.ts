@@ -78,10 +78,8 @@ export const sectionService = (props: Props) => {
 
 
     const getSecionById = useCallback(async (sectionId: string) => {
-        setLoading(prev => !prev);
         const section = await sectionRespository.getOneSection(sectionId);
         typeof section !== 'string' && dispatch({ type: 'SECTION - Load section detail', payload: section });
-        setLoading(prev => !prev);
     }, []);
 
     const startGetSectionsAvailableSections = async (type: string): Promise<void> => {
@@ -91,6 +89,12 @@ export const sectionService = (props: Props) => {
         setLoading(prev => !prev);
     }
 
+    const startDeleteQuestionBySection = async (sectionId: string, questionId: number) => {
+        setLoading(true);
+        const { success } = await sectionRespository.deleteQuestion(sectionId, questionId);
+        success && dispatch({ type: 'SECTION - Delete questions inside section', payload: Number(questionId) });
+        setLoading(false);
+    }
 
     const clearSectionCache = () => dispatch({ type: 'SECTION - Clear cache section' })
 
@@ -109,6 +113,7 @@ export const sectionService = (props: Props) => {
         startCreateSection,
         startGetSectionsBy,
         clearSectionsSelected,
+        startDeleteQuestionBySection,
         startGetSectionsWithQuestions,
         getSectionsDetailWithQuestions,
         startGetSectionsAvailableSections,

@@ -2,7 +2,7 @@ import { http } from '../http/http';
 
 import { Category, CategoryQualifications } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
-import { CategoriesWithQualificationDto, CategoryWithQualificationsDto, CateoriesResponseDto, CreateCategoryDto} from '../http/dto/categories';
+import { CategoriesWithQualificationDto, CategoryWithQualificationsDto, CateoriesResponseDto, CreateCategoryDto } from '../http/dto/categories';
 import { errorAlert, succesAlert } from '../alert/alerts';
 import { AddQualificationDto } from '../http/dto/categories/AddQualificationDto';
 
@@ -75,6 +75,17 @@ export const categoriesRepository = {
         } catch (error) {
             errorAlert(error as string);
             return error as string;
+        }
+    },
+
+    removeQualificationCategory: async (categoryId: string, qualificationId: number): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.destroy<CommonResponseDto>(`/auth/categories/${categoryId}/qualification/${qualificationId}`);
+            succesAlert(message)
+            return { message, success: true }
+        } catch (error) {
+            errorAlert(error as string);
+            return { message: error as string, success: false }
         }
     },
 

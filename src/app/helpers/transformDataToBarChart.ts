@@ -37,7 +37,7 @@ export const trasformDataToBarChart = (userDetail: GuideSurveyUserDetail | null,
             qualifications: getNameOfQualification({ ...getQualificationData(type, userDetail, key)!, value: value }),
             qualification: getQualificationData(type, userDetail, key)
         } 
-    }).filter(key => key.name !== "undefined");
+    }).filter(key => key.name !== "undefined" && key.name !== '');
 }
 
 
