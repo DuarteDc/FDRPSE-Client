@@ -18,12 +18,12 @@ const tarnsformDataByType = (userDetail: GuideSurveyUserDetail, type: dataType):
 }
 
 export const getNameOfQualification = ({ despicable, low, high, middle, value }: NameOfQualification) => {
-    if (value < +despicable) return 'Despreciable o nulo';
-    if (value >= +despicable && value < +low) return 'Bajo';
-    if (value >= +low && value < +middle) return 'Medio';
-    if (value >= +middle && value < +high) return 'Alto';
-    if (value >= +high) return 'Muy alto';
-    return 'NA'
+    if (value < Number(despicable)) return 'Despreciable o nulo';
+    if (value >= Number(despicable) && value < Number(low)) return 'Bajo';
+    if (value >= Number(low) && value < Number(middle)) return 'Medio';
+    if (value >= Number(middle) && value < Number(high)) return 'Alto';
+    if (value >= Number(high)) return 'Muy alto';
+    return 'Muy alto'
 }
 
 export const trasformDataToBarChart = (userDetail: GuideSurveyUserDetail | null, type: dataType) => {
@@ -36,7 +36,7 @@ export const trasformDataToBarChart = (userDetail: GuideSurveyUserDetail | null,
             calificación: value,
             qualifications: getNameOfQualification({ ...getQualificationData(type, userDetail, key)!, value: value }),
             qualification: getQualificationData(type, userDetail, key)
-        } 
+        }
     }).filter(key => key.name !== "undefined" && key.name !== '');
 }
 

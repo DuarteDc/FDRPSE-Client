@@ -12,12 +12,15 @@ export const ShowSurveyPage = () => {
 
   const { id } = useParams();
 
-  const { startShowSurvey, survey, startPausedOrContinueGuide, loading, startFinalizeGuideSurvey } = surveyService();
+  const { startShowSurvey, survey, startPausedOrContinueGuide, loading, startFinalizeGuideSurvey, clearCacheForAvailableSurvey } = surveyService();
 
   const { navigate } = useNavigation();
 
   useEffect(() => {
     startShowSurvey(id!);
+    return () => {
+      clearCacheForAvailableSurvey()
+    }
   }, []);
 
   return (
@@ -144,6 +147,21 @@ export const ShowSurveyPage = () => {
             </Table>
           )
         }
+
+        {/* <AlertConfirm
+          isOpen={isOpen}
+          isOpenChange={onOpenChange}
+          confirmButtonColor="danger"
+          subtitle={
+            <span className={`flex flex-col items-center [&>svg]:text-danger
+                     mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2 text-xs text-center py-4 [&>svg]:mb-2`}>
+              <InfoCircle />
+            </span>
+          }
+          title={''}
+          callback={() => { }}
+
+        /> */}
       </Fragment>
     </PageLayout >
   )

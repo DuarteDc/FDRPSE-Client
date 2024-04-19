@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Skeleton, Tooltip, useDisclosure } from '@nextui-org/react';
 import { AlertConfirm, LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { sectionService } from '../../../domain/services/section.service';
-import { DotsVertical, HelpHexagon, TrashIcon } from '../../../infraestructure/components/icons';
+import { DotsVertical, HelpHexagon, InfoCircle, TrashIcon } from '../../../infraestructure/components/icons';
 import { QuestionDetailItem, QuestionDetailList } from '../../../infraestructure/components/sections';
 import { QuestionInsideSection } from '../../../domain/models';
 
@@ -53,44 +53,56 @@ export const ShowSectionPage = () => {
                     <p className="font-bold text-2xl">Preguntas dentro de la sección</p>
                 </span>
                 <p className="text-gray-500 font-bold text-xs pl-10">Aquí se muestran las preguntas que pertenecen a la sección</p>
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 lg:gap-5">
-                    {
-                        loading && (<LoadingScreen title="Espere ..." />)
-                    }
-                    <QuestionDetailList
-                        questions={sectionDetail?.questions}
-                        renderChilds={(({ question, navigate }) => (
-                            <QuestionDetailItem
-                                navigate={navigate}
-                                renderButtonOptions={(question) => (
-                                    <div className="absolute top-2 right-2">
-                                        <Dropdown>
-                                            <DropdownTrigger>
-                                                <Button className="border-2 bg-transparent" isIconOnly>
-                                                    <DotsVertical />
-                                                </Button>
-                                            </DropdownTrigger>
-                                            <DropdownMenu>
-                                                <DropdownItem
-                                                    key="show"
-                                                    color="danger"
-                                                    className="text-danger"
-                                                    onClick={() => { questionRef.current = question, onOpen() }}
-                                                    description="Puedes desactivar el cuestionario"
-                                                    startContent={<TrashIcon />}
-                                                >
-                                                    Eliminar
-                                                </DropdownItem>
-                                            </DropdownMenu>
-                                        </Dropdown>
-                                    </div>
-                                )}
-                                onPress={() => { }}
-                                question={question}
+                {
+                    sectionDetail?.canFinishGuide ? (
+                        <div className="w-full p-4 h-[15rem] bg-primary/10 rounded-lg mt-2 flex flex-col items-center justify-center font-bold [&>svg]:text-yellow-500">
+                            <InfoCircle strokeWidth={2} width={80} height={80}/>
+                            La sección no cuenta con preguntas porque es una sección especial.
+                            <p>La sección puede terminar el cuestionario cuando esta se responda de manera negativa o continuar si se responde de manera positiva.</p>
+                            <sub className="mt-10 text-gray-400">Se aconseja establecer la sección al inicio del cuestionario</sub>
+                        </div>
+                    ) : (
+
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 lg:gap-5">
+                            {
+                                loading && (<LoadingScreen title="Espere ..." />)
+                            }
+                            <QuestionDetailList
+                                questions={sectionDetail?.questions}
+                                renderChilds={(({ question, navigate }) => (
+                                    <QuestionDetailItem
+                                        navigate={navigate}
+                                        renderButtonOptions={(question) => (
+                                            <div className="absolute top-2 right-2">
+                                                <Dropdown>
+                                                    <DropdownTrigger>
+                                                        <Button className="border-2 bg-transparent" isIconOnly>
+                                                            <DotsVertical />
+                                                        </Button>
+                                                    </DropdownTrigger>
+                                                    <DropdownMenu>
+                                                        <DropdownItem
+                                                            key="show"
+                                                            color="danger"
+                                                            className="text-danger"
+                                                            onClick={() => { questionRef.current = question, onOpen() }}
+                                                            description="Puedes desactivar el cuestionario"
+                                                            startContent={<TrashIcon />}
+                                                        >
+                                                            Eliminar
+                                                        </DropdownItem>
+                                                    </DropdownMenu>
+                                                </Dropdown>
+                                            </div>
+                                        )}
+                                        onPress={() => { }}
+                                        question={question}
+                                    />
+                                ))}
                             />
-                        ))}
-                    />
-                </div>
+                        </div>
+                    )
+                }
             </section>
             <AlertConfirm
                 isOpen={isOpen}
@@ -109,6 +121,6 @@ export const ShowSectionPage = () => {
                 }
 
             />
-        </PageLayout>
+        </PageLayout >
     )
 }

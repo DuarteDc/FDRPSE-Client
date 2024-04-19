@@ -8,10 +8,9 @@ interface Props {
     type: 'category' | 'domain';
 }
 
-const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
+const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink', 'green', '#F4A9F3', '#B50430', '#8A2908', '#2ECCFA'];
 
 export const BarChart = ({ data, type }: Props) => {
-    console.log(data)
     return (
         <div>
             {
@@ -29,7 +28,7 @@ export const BarChart = ({ data, type }: Props) => {
                         width={800}
                         height={300}
                         data={data}
-                        margin={{ top: 55, right: 10, left: 10, bottom: 5 }}
+                        margin={{ top: 55, right: 10, left: 2, bottom: 5 }}
                     >
 
                         <XAxis dataKey="name" fontSize={10} tick={{ stroke: '#000', strokeWidth: 0.3 }} />

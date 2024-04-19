@@ -87,6 +87,8 @@ export const guideService = () => {
 
     const clearGuideDetail = () => dispatch({ type: 'GUIDE - Clear cache detail', payload: null })
 
+    const clearGuide = () => dispatch({ type: 'GUIDE - Clear cache guide', payload: null })
+
     return {
         guide,
         detail,
@@ -96,6 +98,7 @@ export const guideService = () => {
         guideUser,
         guidesSelected,
         qualifications,
+        clearGuide,
         startGetGuide,
         startGetGuides,
         startEnableGudie,

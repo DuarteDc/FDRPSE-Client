@@ -14,6 +14,7 @@ export type GuideActionType =
     | { type: 'GUIDE - Update guide status', payload: { id: number, status: number } }
     | { type: 'GUIDE - show guide detail', payload: GuideDetail }
     | { type: 'GUIDE - Clear cache detail', payload: null }
+    | { type: 'GUIDE - Clear cache guide', payload: null }
 
 export const guideReducer = (state: GuideState, { type, payload }: GuideActionType) => {
     switch (type) {
@@ -104,6 +105,12 @@ export const guideReducer = (state: GuideState, { type, payload }: GuideActionTy
             return {
                 ...state,
                 detail: null,
+            }
+
+        case 'GUIDE - Clear cache guide':
+            return {
+                ...state,
+                guide: null
             }
 
         default:

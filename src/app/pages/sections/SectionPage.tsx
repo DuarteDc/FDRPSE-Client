@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Input, Tab, Tabs, useDisclosure } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Button, Input, Tab, Tabs, useDisclosure } from '@nextui-org/react';
 
 import { PageLayout } from '../../../infraestructure/components/ui';
 import { Modal } from '../../../infraestructure/components/ui/Modal';
@@ -12,11 +12,13 @@ import { useParams } from '../../hooks/useParams';
 import { sectionService } from '../../../domain/services/section.service';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useDebounce } from '../../hooks/useDebounce';
+import { guideService } from '../../../domain/services/guide.service';
 
 export const SectionPage = () => {
 
     const { navigate } = useNavigation();
 
+    const { startGetGuides, guides } = guideService();
     const { setQueryParams, parseToString, getValueOfQueryParams } = useParams();
 
     const firstRender = useRef<boolean>(true);
@@ -31,6 +33,10 @@ export const SectionPage = () => {
     }, []);
 
     const debounce = useDebounce(query, 500);
+
+    useEffect(() => {
+        startGetGuides('');
+    }, []);
 
     useEffect(() => {
         startGetSections(parseToString());
@@ -64,31 +70,55 @@ export const SectionPage = () => {
                         <SearchIcon strokeWidth={2.5} />
                     }
                 />
-                <div className="flex items-center lg:justify-end w-full mt-4 lg:mt-0 overflow-x-auto">
-                    <Tabs
-                        aria-label="Options filter"
-                        className="my-4"
-                        selectedKey={getValueOfQueryParams('type') || 'gradable'}
-                        color="primary"
-                        variant="bordered"
-                        onSelectionChange={(key) => { !firstRender.current && setQueryParams({ type: `${key}` }) }}
-                        classNames={{
-                            cursor: "w-full bg-emerald-500",
-                        }}
-                    >
-                        <Tab key="gradable" title={
-                            <div className="flex items-center space-x-2 font-bold">
-                                <StarsIcon strokeWidth={2} />
-                                <span>Secciones con calificación</span>
-                            </div>
-                        } />
-                        <Tab key="nongradable" title={
-                            <div className="flex items-center space-x-2 font-bold">
-                                <StarsOff strokeWidth={2} />
-                                <span>Secciones sin calificación</span>
-                            </div>
-                        } />
-                    </Tabs>
+                <div className="md:flex items-center lg:justify-end w-full mt-4 lg:mt-0">
+                    {
+                        guides && (
+                            <Autocomplete
+                                label="Filtrar por cuestionario"
+                                className="w-full lg:max-w-md lg:mr-2"
+                                size="sm"
+                                selectedKey={getValueOfQueryParams('guide') || undefined}
+                                scrollShadowProps={{
+                                    isEnabled: false,
+                                }}
+                                onSelectionChange={(key) => setQueryParams({ guide: key ? `${key}` : '' })}
+                            >
+                                {
+                                    guides.map(({ id, name }) => (
+                                        <AutocompleteItem key={id} value={id} showDivider>
+                                            {name}
+                                        </AutocompleteItem>
+                                    ))
+                                }
+                            </Autocomplete>
+                        )
+                    }
+                    <div className="overflow-x-auto">
+                        <Tabs
+                            aria-label="Options filter"
+                            className="my-4"
+                            selectedKey={getValueOfQueryParams('type') || 'gradable'}
+                            color="primary"
+                            variant="bordered"
+                            onSelectionChange={(key) => { !firstRender.current && setQueryParams({ type: `${key}` }) }}
+                            classNames={{
+                                cursor: "w-full bg-emerald-500",
+                            }}
+                        >
+                            <Tab key="gradable" title={
+                                <div className="flex items-center space-x-2 font-bold">
+                                    <StarsIcon strokeWidth={2} />
+                                    <span>Secciones con calificación</span>
+                                </div>
+                            } />
+                            <Tab key="nongradable" title={
+                                <div className="flex items-center space-x-2 font-bold">
+                                    <StarsOff strokeWidth={2} />
+                                    <span>Secciones sin calificación</span>
+                                </div>
+                            } />
+                        </Tabs>
+                    </div>
                     <span className="ml-auto md:ml-4 font-bold text-sm flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
                         <FilterIcon width={35} height={35} strokeWidth={1.5} />
                         Filtros
@@ -102,6 +132,7 @@ export const SectionPage = () => {
                     <SectionCard section={section}
                         draggable={false}
                         showControlls
+                        showGuide
                         handleSelectSection={() => navigate(`${section.id}`)}
                     />)}
             />

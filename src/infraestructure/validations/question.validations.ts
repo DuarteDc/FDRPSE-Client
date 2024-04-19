@@ -9,7 +9,7 @@ export const createQuestionValidation = () => ({
     type            : Yup.string().required('El tipo de pregunta es requerido'),
     category_id     : Yup.string(),
     domain_id       : Yup.string(), 
-    dimension_id    : Yup.string().when('gradable', {
+    dimension_id    : Yup.string().when('type', {
         is: 'gradable',
         then: (schema) => schema.required('El campo de categoría es obligatorio')
     })

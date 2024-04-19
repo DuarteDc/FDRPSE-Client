@@ -36,8 +36,10 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
         initialValues:
         {
             name: question?.name || '', type: question?.type || 'gradable',
-            category_id: question?.category?.id || '', domain_id: question?.domain?.id || '',
-            dimension_id: question?.dimension?.id || '', section_id: '',
+            category_id: '',
+            domain_id: '',
+            dimension_id: question?.dimension?.id || '',
+            section_id: '',
             qualification_id: '',
         },
         validationSchema: Yup.object(createQuestionValidation()),
@@ -65,6 +67,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
     const canContinue = async (): Promise<boolean> => {
         formik.handleSubmit();
         const reasons = await formik.validateForm();
+        // return false;
         return Object.keys(reasons).length <= 0;
     }
 
@@ -213,6 +216,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                                 size="md"
                                 className="my-2 text-gray-500"
                                 startContent={<CategoryIcon />}
+                                value={formik.values.category_id}
                                 onChange={(event) => { formik.handleChange(event); handleSelectQualification('categories', event.target.value) }}
                                 defaultSelectedKeys={formik.values.category_id ? [`${formik.values?.category_id}`] : []}
                                 placeholder=""
@@ -235,6 +239,7 @@ export const FormQuestion = forwardRef<ValidateStep>((__, ref: ForwardedRef<Vali
                                 label="Dominios"
                                 name="domain_id"
                                 size="md"
+                                value={formik.values.domain_id}
                                 className="my-2 text-gray-500"
                                 startContent={<BoxIcon />}
                                 onChange={(event) => { formik.handleChange(event); handleSelectQualification('domains', event.target.value) }}

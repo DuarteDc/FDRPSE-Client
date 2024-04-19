@@ -1,10 +1,10 @@
 import { QuestionDetail, QuestionState } from './';
-import type { Qualification, Question, Section } from '../../../domain/models';
+import type { Qualification, QuestionPagination, Section } from '../../../domain/models';
 import type { QuestionsBySectionResponse } from '../../http/dto/questions';
 import { CommonQualificationItem } from '../../http/dto/questions/CreateQuestionDto';
 
 export type QuestionActionType =
-    | { type: 'QUESTION - Load questions', payload: Array<Question> }
+    | { type: 'QUESTION - Load questions', payload: QuestionPagination }
     | { type: 'QUESTION - Load question', payload: QuestionDetail }
     | { type: 'QUESTION - Presave question', payload: { question: QuestionDetail, qualifications: { [key: string]: CommonQualificationItem | undefined } } }
     | { type: 'QUESTION - Set qualification before save', payload: Qualification }
@@ -18,7 +18,7 @@ export const questionReducer = (state: QuestionState, action: QuestionActionType
         case 'QUESTION - Load questions':
             return {
                 ...state,
-                questions: action.payload,
+                questionsPagination: action.payload,
             }
 
         case 'QUESTION - Load question':

@@ -97,6 +97,7 @@ export const SetSection = forwardRef<PropsComponent & ValidateStep>((__, ref: Fo
                                         onClick={() => { setSectionBeforeSave(section); onClose() }}
                                         key={section.id}
                                         section={section}
+                                        showGuide={true}
                                         draggable={false}
                                     />
                                 </Badge>

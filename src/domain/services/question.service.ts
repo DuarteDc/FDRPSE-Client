@@ -8,7 +8,7 @@ import { TypeSaveAnswer } from '../../infraestructure/http/dto/questions/SaveUse
 
 export const questionService = () => {
 
-    const { dispatch, questions, question, sectionQuestions, totalQuestions, currentPage } = useContext(QuestionContext);
+    const { dispatch, questions, question, sectionQuestions, totalQuestions, currentPage, questionsPagination } = useContext(QuestionContext);
 
     const [loading, setLoading] = useState(false);
     const { navigate } = useNavigation();
@@ -79,6 +79,7 @@ export const questionService = () => {
         questions,
         question,
         sectionQuestions,
+        questionsPagination,
         totalQuestions,
         currentPage,
         toggleLoading,

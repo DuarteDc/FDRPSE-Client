@@ -11,7 +11,12 @@ export const sectionRespository = {
     getSections: async (type: string): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>(`/auth/sections${type}`);
-            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at))
+            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at, guide }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at, guide ? {
+                ...guide,
+                createdAt: new Date(guide.createdAt),
+                updatedAt: new Date(guide.updatedAt),
+                status: guide.status ? 1 : 0,
+            } : undefined))
         } catch (error) {
             return error as string;
         }
@@ -98,7 +103,13 @@ export const sectionRespository = {
     getSectionsByType: async (type: string): Promise<Array<Section> | string> => {
         try {
             const { sections } = await http.get<SectionsResponseDto>(`/auth/sections/questions/by?type=${type}`);
-            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at }) => new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at))
+            return sections.map(({ id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at, guide }) =>
+                new Section(id, name, question, binary, questions_count, can_finish_guide, type, created_at, updated_at, guide ? {
+                    ...guide,
+                    createdAt: new Date(guide.createdAt),
+                    updatedAt: new Date(guide.updatedAt),
+                    status: guide.status ? 1 : 0,
+                } : undefined))
         } catch (error) {
             return error as string;
         }

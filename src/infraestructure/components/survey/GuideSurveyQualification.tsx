@@ -16,17 +16,17 @@ export const GuideSurveyQualification = ({ guide, userDetail }: Props) => {
                 low: guide.qualification?.low!,
                 middle: guide.qualification?.middle!,
                 high: guide.qualification?.high!,
-                value: userDetail?.total,
+                value: userDetail.total
             }
         )
     }, [userDetail.user.id]);
 
     const getNameByType = {
-        ['Despreciable o nulo'] : 'bg-danger/15',
-        ['Bajo']                : 'bg-warning/15',
-        ['Medio']               : 'bg-primary/15',
-        ['Alto']                : 'bg-emerald-600/15',
-        ['Muy alto']            : 'bg-success/15',
+        ['Despreciable o nulo'] : 'bg-primary/15',
+        ['Bajo']                : 'bg-emerald-400/15',
+        ['Medio']               : 'bg-yellow-400/30',
+        ['Alto']                : 'bg-orange-400/30',
+        ['Muy alto']            : 'bg-danger/15',
         ['NA']                  : 'bg-emerald-100/15'
     }
 

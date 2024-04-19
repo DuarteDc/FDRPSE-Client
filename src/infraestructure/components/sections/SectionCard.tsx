@@ -13,11 +13,12 @@ interface Props {
   handleSelectSection?: (section: Section) => void;
   renderContent?: () => ReactNode
   onClick?: () => void;
+  showGuide?: boolean;
 }
 
-const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-[1.02]  hover:lg:scale-[1.01] w-full'
+const className = 'shadow-emerald-600/10 shadow-xl rounded-xl py-5 px-2 cursor-pointer flex items-center border-2 border-slate-200 hover:border-emerald-600 tarnsition-all duration-300 ease-in-out hover:scale-[1.02]  hover:lg:scale-[1.01] w-full relative overflow-hidden'
 
-export const SectionCard = memo(({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent, ...props }: Props) => {
+export const SectionCard = memo(({ section, draggable = false, onDragStart, onDragEnd, classList = className, showControlls = false, handleSelectSection, renderContent, showGuide = false, ...props }: Props) => {
 
   return (
     <div
@@ -36,6 +37,11 @@ export const SectionCard = memo(({ section, draggable = false, onDragStart, onDr
         </span>
       </div>
       <div className="relative w-full">
+        {
+          showGuide && (
+            <p className="text-[8px] -ml-2 font-bold text-emerald-600 mb-1">{ section.guide?.name}</p>
+          )
+        }
         <h2 className="font-bold text-[10px] break-normal">{section.name}</h2>
         {
           section.binary && (

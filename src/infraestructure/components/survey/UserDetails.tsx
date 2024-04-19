@@ -7,6 +7,7 @@ import { Guide } from '../../../domain/models';
 import { BarChart } from '../charts/BarChart';
 import { UserIcon } from '../icons';
 import { GuideSurveyQualification } from '.';
+import { getAnswerNameByNumber } from '../../../app/helpers/getAnswerNameByNumber';
 interface Props {
   userId: string;
   guide: Guide;
@@ -22,8 +23,6 @@ export const UserDetails = ({ userId, surveyId, guideId, guide }: Props) => {
     getUserDetail(surveyId, userId, guideId);
   }, []);
 
-
-console.log(trasformDataToBarChart(userDetail, 'domain'))
   return (
     <>
       {(loading || !userDetail) ? <LoadingScreen title="Cargando ..." /> :
@@ -69,7 +68,7 @@ console.log(trasformDataToBarChart(userDetail, 'domain'))
             </TableHeader>
             <TableBody>
               {
-                userDetail?.answers?.map(({ questionId, name, qualification, category, dimension, domain }, index) => (
+                userDetail?.answers?.map(({ questionId, name, qualification, category, dimension, domain, qualificationData }, index) => (
                   <TableRow key={questionId} className={`[&>td]:py-4 ${typeof qualification === 'boolean' && isNaN(questionId) && 'bg-emerald-600/10 [&>*]:font-bold'}`}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{name}</TableCell>
@@ -77,7 +76,7 @@ console.log(trasformDataToBarChart(userDetail, 'domain'))
                       typeof qualification === 'boolean' ? (
                         <TableCell>{qualification ? 'Si' : 'No'}</TableCell>
                       ) : (
-                        <TableCell>{qualification}</TableCell>
+                        <TableCell>{getAnswerNameByNumber(qualification, qualificationData)}</TableCell>
                       )
                     }
                     <TableCell>{

@@ -22,7 +22,7 @@ export const UserQuestion = () => {
         <div className="flex flex-col items-center justify-center">
             {
                 !sectionQuestions && (
-                    <LoadingScreen />
+                    <LoadingScreen title="Espere ..." />
                 )
             }
             <h1 className="font-semibold text-emerald-600 text-xl">{sectionQuestions?.name}</h1>

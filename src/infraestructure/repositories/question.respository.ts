@@ -1,16 +1,20 @@
 import { http } from '../http/http';
-import { Question } from '../../domain/models';
-import { CreateQuestionDto, QuestionResponseDto, QuestionsBySectionResponse, QuestionsResponseDto, SaveUserQuestionDto } from '../http/dto/questions';
+import { Question, QuestionPagination } from '../../domain/models';
+import { CreateQuestionDto, QuestionPaginationResponseDto, QuestionResponseDto, QuestionsBySectionResponse, SaveUserQuestionDto } from '../http/dto/questions';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { errorAlert, succesAlert } from '../alert/alerts';
 import { TypeQuestion } from '../../domain/models/SectionQuestions';
 
 export const questionRepository = {
 
-    getQuestions: async (query: string): Promise<Array<Question> | string> => {
+    getQuestions: async (query: string): Promise<QuestionPagination | string> => {
         try {
-            const { questions } = await http.get<QuestionsResponseDto>(`/auth/questions${query}`);
-            return questions.map(({ id, name, type, created_at, updated_at }) => new Question(id, name, type, created_at, updated_at));
+            const { data, per_page, total } = await http.get<QuestionPaginationResponseDto>(`/auth/questions${query}`);
+            return {
+                perPage: per_page, 
+                total: total,
+                questions: data.map(({ id, name, type, created_at, updated_at }) => new Question(id, name, type, created_at, updated_at)),
+            }
         } catch (error) {
             return error as string;
         }

@@ -1,4 +1,5 @@
 
+import { Guide } from ".";
 import { TypeQuestion } from "./SectionQuestions";
 
 export interface SectionSchema {
@@ -10,6 +11,7 @@ export interface SectionSchema {
     type            : TypeQuestion;
     canFinishGuide ?: boolean;
     createdAt       : Date;
+    guide          ?: Guide;
     updatedAt       : Date;
 }
 
@@ -20,12 +22,13 @@ export class Section implements SectionSchema {
     readonly question;
     readonly binary;
     readonly canFinishGuide;
+    readonly guide;
     readonly questionCount;
     readonly type;
     readonly createdAt;
     readonly updatedAt;
 
-    constructor(id: number, name:string, question: string | null, binary: boolean, questionCount: number | null,canFinishGuide: boolean | undefined, type: TypeQuestion,createdAt: string, updatedAt: string) {
+    constructor(id: number, name:string, question: string | null, binary: boolean, questionCount: number | null,canFinishGuide: boolean | undefined, type: TypeQuestion,createdAt: string, updatedAt: string, guide ?: Guide) {
         this.id             = id;
         this.name           = name;
         this.question       = question;
@@ -35,6 +38,7 @@ export class Section implements SectionSchema {
         this.type           = type;
         this.createdAt      = new Date(createdAt);
         this.updatedAt      = new Date(updatedAt);
+        this.guide          = guide;
     }
 
 }

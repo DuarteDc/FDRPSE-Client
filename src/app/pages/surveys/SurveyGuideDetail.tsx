@@ -22,7 +22,7 @@ export const SurveyGuideDetail = () => {
 
   const { startSearchGuideSurveyUserDetail, guideUserSurvey, loading } = surveyService();
   const { areas, subareas, startLoadAreas, startLoadSubAreas } = areaService();
-  const { startGetGuideBySurvey, guide } = guideService();
+  const { startGetGuideBySurvey, guide, clearGuide } = guideService();
 
   const debounce = useDebounce(query, 500);
 
@@ -31,6 +31,9 @@ export const SurveyGuideDetail = () => {
       startGetGuideBySurvey(id!, guideId!),
       startLoadAreas(),
     ])
+    return () => {
+      clearGuide();
+    }
   }, []);
 
   useEffect(() => {
