@@ -27,6 +27,8 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
 
   const { guideUser } = guideService();
 
+  console.log(section)
+
   const formik = useFormik({
     initialValues: createFieldQuestion(section.questions!),
     validationSchema: isBinary ? Yup.object(qustionAnswerValidation(section.questions)) : false,
@@ -54,6 +56,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
 
     }
   });
+
   return (
     <form onSubmit={formik.handleSubmit}>
       {
@@ -99,7 +102,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
         showFooterControls && (
           <FooterControls
             handlePreviousStep={handlePreviousStep}
-            currentPage={!(isBinary && section.canFinishGuide) ? currentPage! : totalQuestions!}
+            currentPage={(section.canFinishGuide && !isBinary) ? totalQuestions! : currentPage!}
             totalItems={totalQuestions!}
           />
         )

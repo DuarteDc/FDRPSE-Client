@@ -1,4 +1,4 @@
-"use client";
+
 import { Layout } from "../../../infraestructure/components/ui"
 
 export const ErrorBoundaryPage = () => {

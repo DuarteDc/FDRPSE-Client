@@ -12,6 +12,7 @@ export interface QuestionsBySection {
     id          : number;
     name        : string;
     binary      : boolean;
+    can_finish_guide?: boolean;
     canFinishGuide?: boolean;
     question    : string | null;
     type        : TypeQuestion

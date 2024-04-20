@@ -1,20 +1,24 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { PageLayout } from '../../../infraestructure/components/ui';
+import { AlertConfirm, PageLayout } from '../../../infraestructure/components/ui';
 import { surveyService } from '../../../domain/services/survey.service';
-import { Button, Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
-import { CheckIcon, EyeIcon, FileDescription, PausePlayer, PlayerPlay, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
+import { Button, Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@nextui-org/react';
+import { CheckIcon, EyeIcon, FileDescription, InfoCircle, PausePlayer, PlayerPlay, StarsIcon, StarsOff } from '../../../infraestructure/components/icons';
 
 import { useNavigation } from '../../hooks/useNavigation';
-import { StatusGuide } from '../../../domain/models';
+import { Guide, StatusGuide } from '../../../domain/models';
 
 export const ShowSurveyPage = () => {
 
   const { id } = useParams();
 
-  const { startShowSurvey, survey, startPausedOrContinueGuide, loading, startFinalizeGuideSurvey, clearCacheForAvailableSurvey } = surveyService();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const { startShowSurvey, survey, startPausedOrContinueGuide, loading, startFinalizeGuideSurvey, clearCacheForAvailableSurvey, startGuide } = surveyService();
 
   const { navigate } = useNavigation();
+
+  const guideRef = useRef<Guide>();
 
   useEffect(() => {
     startShowSurvey(id!);
@@ -49,20 +53,20 @@ export const ShowSurveyPage = () => {
               </TableHeader>
               <TableBody loadingContent={<Spinner color="success" />} isLoading={loading}>
                 {
-                  survey?.guides?.map(({ id: guideId, name, status, createdAt, gradable }, index) => (
+                  survey?.guides?.map((guide, index) => (
                     <TableRow key={`date-key-${id}-${name}`}>
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell className="text-xs">{name}</TableCell>
-                      <TableCell>{createdAt.toLocaleDateString()}</TableCell>
+                      <TableCell className="text-xs">{guide.name}</TableCell>
+                      <TableCell>{guide.createdAt.toLocaleDateString()}</TableCell>
                       <TableCell>
-                        <Chip className="capitalize" color={status === 0 ? 'default' : (status === StatusGuide.inProgress || status === StatusGuide.paused) ? 'warning' : 'success'} size="sm" variant="flat">
-                          {status === StatusGuide.noInitialized ? 'No iniciado' : (status === StatusGuide.inProgress || status === StatusGuide.paused) ? 'En proceso' : 'Finalizado'}
+                        <Chip className="capitalize" color={guide.status === 0 ? 'default' : (guide.status === StatusGuide.inProgress || guide.status === StatusGuide.paused) ? 'warning' : 'success'} size="sm" variant="flat">
+                          {guide.status === StatusGuide.noInitialized ? 'No iniciado' : (guide.status === StatusGuide.inProgress || guide.status === StatusGuide.paused) ? 'En proceso' : 'Finalizado'}
                         </Chip>
                       </TableCell>
                       <TableCell>
                         <Chip className="capitalize"
                           startContent={
-                            gradable ?
+                            guide.gradable ?
                               <span className="text-green-600 bg-green-300/20 rounded-full p-[2px] flex items-center justify-center">
                                 <StarsIcon width={15} height={15} />
                               </span> :
@@ -71,16 +75,16 @@ export const ShowSurveyPage = () => {
                               </span>
                           }
                           classNames={{
-                            base: `${gradable ? 'bg-green-500/10' : 'bg-yellow-500/10'}`,
+                            base: `${guide.gradable ? 'bg-green-500/10' : 'bg-yellow-500/10'}`,
                             content: 'font-bold text-xs'
                           }}
                           size="sm" variant="solid">
-                          {gradable ? 'Evaluativo' : 'Informativo'}
+                          {guide.gradable ? 'Evaluativo' : 'Informativo'}
                         </Chip>
                       </TableCell>
                       <TableCell>
                         <div className="relative flex items-center gap-2">
-                          <Button onClick={() => navigate(`detail/${guideId}`)}
+                          <Button onClick={() => navigate(`detail/${guide.id}`)}
                             className="bg-slate-800 text-white text-xs h-9 font-bold"
                             endContent={
                               <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
@@ -89,10 +93,10 @@ export const ShowSurveyPage = () => {
                             Ver
                           </Button>
                           {
-                            (status === StatusGuide.inProgress) && (
+                            (guide.status === StatusGuide.inProgress) && (
                               <Fragment>
                                 <Button
-                                  onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.paused)}
+                                  onClick={() => { guideRef.current = guide; onOpen() }}
                                   className="bg-amber-600 text-white text-xs h-9 font-bold"
                                   isLoading={loading}
                                   endContent={
@@ -101,7 +105,7 @@ export const ShowSurveyPage = () => {
                                     </span>}>
                                   Pausar
                                 </Button>
-                                <Button onClick={() => startFinalizeGuideSurvey(id!, `${guideId}`)}
+                                <Button onClick={() => startFinalizeGuideSurvey(id!, `${guide.id}`)}
                                   className="bg-emerald-600 text-white text-xs h-9 font-bold"
                                   endContent={
                                     <span className="bg-white text-emerald-600 rounded-full p-[1.2px]">
@@ -113,9 +117,9 @@ export const ShowSurveyPage = () => {
                             )
                           }
                           {
-                            status === StatusGuide.paused && (
+                            (guide.status === StatusGuide.paused) && (
                               <Button
-                                onClick={() => startPausedOrContinueGuide(id!, `${guideId}`, StatusGuide.inProgress)}
+                                onClick={() => { guideRef.current = guide; onOpen(); }}
                                 className="bg-amber-600 text-white text-xs h-9 font-bold"
                                 isLoading={loading}
                                 endContent={
@@ -127,8 +131,8 @@ export const ShowSurveyPage = () => {
                             )
                           }
                           {
-                            (status === 0 && survey.guides!.find(guide => guide.id !== guideId && guide.status === 2)) && (
-                              <Button onClick={() => navigate(`detail/${id}`)}
+                            (guide.status === 0) && (
+                              <Button onClick={() => { guideRef.current = guide; onOpen() }}
                                 className="bg-emerald-600 text-white text-xs h-9 font-bold"
                                 endContent={
                                   <span className="bg-white text-emerald-600 rounded-full p-[1.2px]">
@@ -148,20 +152,59 @@ export const ShowSurveyPage = () => {
           )
         }
 
-        {/* <AlertConfirm
+        <AlertConfirm
           isOpen={isOpen}
           isOpenChange={onOpenChange}
-          confirmButtonColor="danger"
+          confirmButtonColor="emerald-600"
           subtitle={
-            <span className={`flex flex-col items-center [&>svg]:text-danger
+            <span className={`flex flex-col items-center [&>svg]:text-warning
                      mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2 text-xs text-center py-4 [&>svg]:mb-2`}>
-              <InfoCircle />
+              <InfoCircle width={50} height={50} strokeWidth={2} />
+              {
+                guideRef.current?.status === StatusGuide.inProgress ?
+                  (
+
+                    <p className="font-bold text-xs">
+                      El cuestionario <b className="text-emerald-600">{guideRef.current?.name}</b> será  pausado y no estara disponible para los usurios
+                    </p>
+                  ) : guideRef.current?.status === StatusGuide.paused ? (
+                    <p className="font-bold text-xs">
+                      El cuestionario <b className="text-emerald-600">{guideRef.current?.name}</b> continuara y estara disponible para los usuarios y los demás cuestionarios se pausaran
+                    </p>
+                  ) : (
+                    <p className="font-bold text-xs">
+                      Al continuar, los cuestionarios que estan proceso serán pausados y el cuestionario <b className="text-emerald-600">{guideRef.current?.name}</b> comenzará
+                    </p>
+                  )
+              }
             </span>
           }
-          title={''}
-          callback={() => { }}
+          title={
+            guideRef.current?.status === StatusGuide.inProgress ?
+              (
+                "¿Estas seguro que deseas pausar el cuestionario?"
+              ) : guideRef.current?.status === StatusGuide.paused ? (
+                "¿Estas seguro que deseas continuar el cuestionario?"
+              ) : (
+                "¿Estas seguro que deseas comenzar el cuestionario?"
+              )
+          }
+          callback={
+            async () => {
+              if (guideRef.current?.status === StatusGuide.inProgress) {
+                return startPausedOrContinueGuide(id!, `${guideRef.current.id}`, StatusGuide.paused)
+              }
+              if (guideRef.current?.status === StatusGuide.paused) {
+                return startPausedOrContinueGuide(id!, `${guideRef.current.id}`, StatusGuide.inProgress)
+              }
+              if (guideRef.current?.status === StatusGuide.noInitialized) {
+                return startGuide(id!, guideRef.current?.id)
+              }
+            }
+          }
 
-        /> */}
+
+        />
       </Fragment>
     </PageLayout >
   )

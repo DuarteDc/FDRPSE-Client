@@ -10,7 +10,6 @@ const get = async <T>(url: string): Promise<T> => {
         return data as T;
     } catch (error) {
         if (isAxiosError(error)) throw error.response?.data?.message;
-
         throw new Error(DEFAULT_ERROR);
     }
 }
@@ -57,7 +56,7 @@ const download = async (url: string): Promise<void> => {
         window.open(downloadUrl, '__blank');
     } catch (error) {
         if (isAxiosError(error)) throw error.response?.data?.message;
-        throw new Error(DEFAULT_ERROR);
+        throw new Error('Al parecer no hay reportes disponibles');
     }
 }
 

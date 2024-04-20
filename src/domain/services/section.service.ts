@@ -17,7 +17,10 @@ export const sectionService = (props: Props) => {
         dispatch({ type: 'SECTION - Start load sections', payload: [] })
         setLoading(prev => !prev);
         const sections = await sectionRespository.getSections(type);
-        typeof sections !== 'string' && dispatch({ type: 'SECTION - Start load sections', payload: sections });
+        if (typeof sections !== 'string') {
+            dispatch({ type: 'SECTION - Start load sections', payload: sections });
+            dispatch({ type: 'SECTION - Filter bad selection by type gudide' })
+        }
         setLoading(prev => !prev);
     }
 

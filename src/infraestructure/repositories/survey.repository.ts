@@ -225,13 +225,29 @@ export const surveyRepository = {
         }
     },
 
+    startGuideAndPauseOtherGuides: async (surveyId: string, guideId: string): Promise<CommonResponseDto> => {
+        try {
+            const { message } = await http.post<CommonResponseDto>(`/auth/surveys/${surveyId}/start-guide/${guideId}`, {});
+            succesAlert(message);
+            return {
+                message, success: true
+            }
+        } catch (error) {
+            errorAlert(error as string);
+            return {
+                message: error as string,
+                success: false,
+            }
+        }
+    },
+
+
     downloadSurveyUserResume: async (): Promise<CommonResponseDto> => {
         try {
             await http.download(`/auth/surveys/report`);
-            return { success: true, message: '|' };
+            return { success: true, message: '' };
         } catch (error) {
-            // errorAlert(error as string);
-            console.log(error)
+            errorAlert(error as string);    
             return { success: false, message: error as string };
         }
     }

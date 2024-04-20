@@ -1,4 +1,4 @@
-import { Survey, Pagination, GuideUserSurvey, GuideSurveyUserDetail, FinalizeGuideAndStartNextGuide } from '../../../domain/models';
+import { Survey, Pagination, GuideUserSurvey, GuideSurveyUserDetail, FinalizeGuideAndStartNextGuide, StatusGuide } from '../../../domain/models';
 import { type SurveyState } from './';
 
 export type SurveyActionType =
@@ -14,6 +14,7 @@ export type SurveyActionType =
     | { type: 'SURVEY - End survey', payload: string }
     | { type: 'GUIDE - Change Guide Status', payload: { surveyId: string, guideId: number, status: number } }
     | { type: 'GUIDE - Finalize Guide and Start Next Guide', payload: FinalizeGuideAndStartNextGuide }
+    | { type: 'SURVER - Start guide to be available for users', payload: number }
 
 export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
 
@@ -82,7 +83,7 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                     total: state.survey!.total,
                     guides: state.survey?.guides?.map(guide => guide.id === action.payload.guideId ?
                         ({ ...guide, status: guide.status = action.payload.status })
-                        : guide) || undefined,
+                        : guide.status === StatusGuide.inProgress ? { ...guide, status: guide.status = StatusGuide.paused } : guide),
                 }
             }
         }
@@ -107,6 +108,23 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                 survey: {
                     ...state!.survey!,
                     guides: state.survey!.guides!.map(guide => guide.id === action.payload.currentGuide.id ? { ...guide, status: guide.status = action.payload.currentGuide.status } : guide),
+                }
+            }
+
+        case 'SURVER - Start guide to be available for users':
+            return {
+                ...state,
+                survey: {
+                    id: state.survey!.id,
+                    startDate: state.survey!.startDate,
+                    endDate: state.survey!.endDate,
+                    status: state.survey!.status,
+                    createdAt: state.survey!.createdAt,
+                    updatedAt: state.survey!.updatedAt,
+                    total: state.survey!.total,
+                    guides: state.survey?.guides?.map(guide => guide.id === action.payload ?
+                        ({ ...guide, status: guide.status = StatusGuide.inProgress })
+                        : guide.status === StatusGuide.inProgress ? { ...guide, status: guide.status = StatusGuide.paused } : guide),
                 }
             }
 

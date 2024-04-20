@@ -11,7 +11,7 @@ export const questionRepository = {
         try {
             const { data, per_page, total } = await http.get<QuestionPaginationResponseDto>(`/auth/questions${query}`);
             return {
-                perPage: per_page, 
+                perPage: per_page,
                 total: total,
                 questions: data.map(({ id, name, type, created_at, updated_at }) => new Question(id, name, type, created_at, updated_at)),
             }
@@ -47,7 +47,7 @@ export const questionRepository = {
                 ...response,
                 section: {
                     ...response.section,
-                    canFinishGuide:response.section.canFinishGuide,
+                    canFinishGuide: response.section.can_finish_guide!,
                 }
             };
         } catch (error) {

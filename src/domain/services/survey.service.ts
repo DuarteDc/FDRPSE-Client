@@ -119,6 +119,14 @@ export const surveyService = () => {
         toggleLoading();
     }
 
+    const startGuide = async (surveyId: string, guideId: number) => {
+        toggleLoading();
+        const { success } = await surveyRepository.startGuideAndPauseOtherGuides(surveyId, `${guideId}`);
+        success && dispatch({ type: 'SURVER - Start guide to be available for users', payload: guideId });
+        toggleLoading();
+    }
+
+
     return {
         loading,
         surveys,
@@ -143,6 +151,7 @@ export const surveyService = () => {
         startFinalizeSurvey,
         startDownloadSurveyUserResume,
         getGuideSurveyUserDetail,
+        startGuide,
         startSearchGuideSurveyUserDetail,
         startPausedOrContinueGuide,
     }
