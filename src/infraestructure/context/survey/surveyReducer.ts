@@ -11,7 +11,7 @@ export type SurveyActionType =
     | { type: 'SURVEY - Get survey details', payload: Array<any> }
     | { type: 'SURVEY - Get total users', payload: number }
     | { type: 'SURVEY - Get survey user detail', payload: GuideSurveyUserDetail }
-    | { type: 'SURVEY - End survey', payload: string }
+    | { type: 'SURVEY - End survey', payload: Survey }
     | { type: 'GUIDE - Change Guide Status', payload: { surveyId: string, guideId: number, status: number } }
     | { type: 'GUIDE - Finalize Guide and Start Next Guide', payload: FinalizeGuideAndStartNextGuide }
     | { type: 'SURVER - Start guide to be available for users', payload: number }
@@ -125,6 +125,34 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                     guides: state.survey?.guides?.map(guide => guide.id === action.payload ?
                         ({ ...guide, status: guide.status = StatusGuide.inProgress })
                         : guide.status === StatusGuide.inProgress ? { ...guide, status: guide.status = StatusGuide.paused } : guide),
+                }
+            }
+
+
+        case 'SURVEY - End survey':
+            return {
+                ...state,
+                surveys: {
+                    perPage: state.surveys!.perPage,
+                    total: state.surveys!.total,
+                    surveys: state.surveys!.surveys!.map(survey => survey.id == action.payload.id ? {
+                        id: action.payload.id,
+                        startDate: action.payload!.startDate,
+                        endDate: action?.payload?.endDate || undefined,
+                        status: action.payload!.status,
+                        createdAt: action.payload!.createdAt,
+                        updatedAt: action.payload!.updatedAt,
+                        total: action.payload!.total,
+                    } : {
+                        id: survey!.id,
+                        startDate: survey!.startDate,
+                        endDate: survey?.endDate,
+                        status: survey!.status,
+                        createdAt: survey!.createdAt,
+                        updatedAt: survey!.updatedAt,
+                        total: survey!.total,
+                    }
+                    ),
                 }
             }
 

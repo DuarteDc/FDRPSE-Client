@@ -36,7 +36,7 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
         return saveQuestionUser({ [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary) });
       }
       if (!sectionQuestions?.binary) {
-        saveQuestionUser(data).then(() => {
+        return saveQuestionUser(data).then(() => {
         }).then(() => {
           if ((currentPage) === totalQuestions) return endSurveyUser();
           startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);

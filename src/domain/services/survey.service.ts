@@ -94,8 +94,8 @@ export const surveyService = () => {
 
     const startFinalizeSurvey = async (surveyId: string) => {
         toggleLoading();
-        const { success } = await surveyRepository.finalizeSurvey(surveyId);
-        success && dispatch({ type: 'SURVEY - End survey', payload: surveyId });
+        const survey = await surveyRepository.finalizeSurvey(surveyId);
+        typeof survey !== 'string' && dispatch({ type: 'SURVEY - End survey', payload: survey });
         toggleLoading();
     }
 

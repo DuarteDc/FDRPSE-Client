@@ -177,14 +177,23 @@ export const surveyRepository = {
         }
     },
 
-    finalizeSurvey: async (surveyId: string): Promise<CommonResponseDto> => {
+    finalizeSurvey: async (surveyId: string): Promise<Survey | string> => {
         try {
-            const { message } = await http.post<CommonResponseDto>(`/auth/surveys/end/${surveyId}`, {});
+            const { message, survey } = await http.post<CommonResponseDto & SurveyResponseDto>(`/auth/surveys/finalize-survey/${surveyId}`, {});
             succesAlert(message);
-            return { success: true, message };
+            return {
+                id: survey.id,
+                startDate: new Date(survey.start_date),
+                endDate: new Date(survey.end_date!),
+                status: survey.status,
+                createdAt: new Date(survey.created_at),
+                updatedAt: new Date(survey.updated_at),
+                total: survey.total,
+                guides: undefined,
+            }
         } catch (error) {
             errorAlert(error as string);
-            return { success: false, message: error as string };
+            return error as string;
         }
     },
 
@@ -247,7 +256,7 @@ export const surveyRepository = {
             await http.download(`/auth/surveys/report`);
             return { success: true, message: '' };
         } catch (error) {
-            errorAlert(error as string);    
+            errorAlert(error as string);
             return { success: false, message: error as string };
         }
     }

@@ -27,31 +27,31 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
 
   const { guideUser } = guideService();
 
-  console.log(section)
 
   const formik = useFormik({
     initialValues: createFieldQuestion(section.questions!),
     validationSchema: isBinary ? Yup.object(qustionAnswerValidation(section.questions)) : false,
-    onSubmit: (data) => {
+    onSubmit: async (data) => {
       if (section.canFinishGuide && !isBinary) {
-        saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) });
-        endSurveyUser();
+        await saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) });
+        await endSurveyUser();
+        
       } else if (section.canFinishGuide && isBinary) {
-        saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => {
-          clearQuestionBySection();
+        saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(async () => {
+          await clearQuestionBySection();
           if ((currentPage) === totalQuestions) return endSurveyUser();
-          return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+          return await startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         });
       } else {
         if (section.binary) {
           isBinary ?
-            saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary), ...data }).then(() => clearQuestionBySection())
-            : saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => clearQuestionBySection())
+            await saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary), ...data }).then(() => clearQuestionBySection())
+            : await saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => clearQuestionBySection())
         } else {
-          saveQuestionNongradableUser(data).then(() => clearQuestionBySection())
+          await saveQuestionNongradableUser(data).then(() => clearQuestionBySection())
         }
         if ((currentPage) === totalQuestions) return endSurveyUser();
-        return startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
+        return await startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       }
 
     }

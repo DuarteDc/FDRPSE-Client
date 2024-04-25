@@ -94,6 +94,9 @@ export const SurveyGuideDetail = () => {
             </div>
           )
         }
+        <div className="flex justify-end">
+          <Button>Generar reporte</Button>
+        </div>
         <div className="grid gap-y-3 lg:gap-y-0 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 py-5 text-emerald-600 items-center">
           <Input
             className="w-full"
@@ -172,7 +175,7 @@ export const SurveyGuideDetail = () => {
                   </TableCell>
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.area.name} </TableCell>
-                  <TableCell>{guide?.gradable ? total : 'NA'} </TableCell>
+                  <TableCell>{guide?.gradable ? (status ? total : '') : 'NA'} </TableCell>
                   <TableCell>
                     <Chip className="capitalize" color={status ? "success" : "warning"} size="sm" variant="flat">
                       {status ? 'Finalizado' : 'En proceso'}
