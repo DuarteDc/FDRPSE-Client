@@ -126,6 +126,11 @@ export const surveyService = () => {
         toggleLoading();
     }
 
+    const startDownloadReportByUser = async (surveyId: string, guideId: string, userId: string) => {
+        toggleLoading();
+        await surveyRepository.downloadSurveyGuideUserResume(surveyId, guideId, userId);
+        toggleLoading();
+    }
 
     return {
         loading,
@@ -154,6 +159,7 @@ export const surveyService = () => {
         startGuide,
         startSearchGuideSurveyUserDetail,
         startPausedOrContinueGuide,
+        startDownloadReportByUser,
     }
 
 }

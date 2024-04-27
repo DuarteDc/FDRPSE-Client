@@ -259,5 +259,18 @@ export const surveyRepository = {
             errorAlert(error as string);
             return { success: false, message: error as string };
         }
+    },
+
+    downloadSurveyGuideUserResume: async (surveyId: string, guideId: string, userId: string): Promise<CommonResponseDto> => {
+        try {
+            await http.download(`/auth/surveys/${surveyId}/guide/${guideId}/report/${userId}?type=user`)
+            return { success: true, message: '' };
+        } catch (error) {
+            errorAlert(error as string);
+            return { success: false, message: error as string };
+        }
     }
+
+
+
 }

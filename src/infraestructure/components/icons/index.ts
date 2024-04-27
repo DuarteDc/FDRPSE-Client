@@ -29,6 +29,7 @@ export { EditIcon } from './EditIcon';
 export { EyeIcon } from './EyeIcon';
 export { EyeOffIcon } from './EyeOffIcon';
 export { FileDescription } from './FileDescription';
+export { FileSpreadSheet } from './FileSpreadSheet';
 export { FilterIcon } from './FilterIcon';
 export { GhostIcon } from './GhostIcon';
 export { GoogleIcon } from './GoogleIcon';

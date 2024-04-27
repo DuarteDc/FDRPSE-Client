@@ -13,6 +13,7 @@ const tarnsformDataByType = (userDetail: GuideSurveyUserDetail, type: dataType):
     return userDetail?.answers.reduce((prev: Props, curr) => {
         const { qualification, } = curr;
         prev[curr[type].name] = prev[curr[type].name] ? prev[curr[type].name] + qualification : qualification;
+        
         return prev;
     }, {});
 }

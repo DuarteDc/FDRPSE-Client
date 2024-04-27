@@ -3,7 +3,7 @@ import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { useParams } from 'react-router-dom';
 import { Autocomplete, AutocompleteItem, Button, Chip, Input, Skeleton, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, User, useDisclosure } from '@nextui-org/react';
-import { BuildingComunity, ChartIcon, ClearAllIcon, EyeIcon, SearchIcon, XIcon } from '../../../infraestructure/components/icons';
+import { BuildingComunity, ChartIcon, ClearAllIcon, EyeIcon, FileSpreadSheet, SearchIcon, XIcon } from '../../../infraestructure/components/icons';
 import { areaService } from '../../../domain/services/area.service';
 import { guideService } from '../../../domain/services/guide.service';
 import { useDebounce } from '../../hooks/useDebounce';
@@ -20,7 +20,7 @@ export const SurveyGuideDetail = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const { startSearchGuideSurveyUserDetail, guideUserSurvey, loading } = surveyService();
+  const { startSearchGuideSurveyUserDetail, guideUserSurvey, loading, startDownloadReportByUser } = surveyService();
   const { areas, subareas, startLoadAreas, startLoadSubAreas } = areaService();
   const { startGetGuideBySurvey, guide, clearGuide } = guideService();
 
@@ -94,9 +94,6 @@ export const SurveyGuideDetail = () => {
             </div>
           )
         }
-        <div className="flex justify-end">
-          <Button>Generar reporte</Button>
-        </div>
         <div className="grid gap-y-3 lg:gap-y-0 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 py-5 text-emerald-600 items-center">
           <Input
             className="w-full"
@@ -184,15 +181,24 @@ export const SurveyGuideDetail = () => {
                   <TableCell>
                     {
                       status &&
-                      <Button
-                        onClick={() => { onOpen(); setUserId(`${user.id}`) }}
-                        className="bg-slate-800 text-white text-xs h-7 font-bold"
-                        endContent={
-                          <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
-                            <EyeIcon width={15} height={15} />
-                          </span>}>
-                        Ver
-                      </Button>
+                      <span className="flex items-center">
+                        <Button
+                          onClick={() => { onOpen(); setUserId(`${user.id}`) }}
+                          className="bg-slate-800 text-white text-xs h-7 font-bold mx-1"
+                          endContent={
+                            <span className="bg-white text-slate-800 rounded-full p-[1.2px]">
+                              <EyeIcon width={15} height={15} />
+                            </span>}>
+                          Ver
+                        </Button>
+                        <Button
+                          onClick={() => startDownloadReportByUser(id!, `${guide!.id}`, `${user.id}`)}
+                          className="bg-emerald-600 text-white text-xs h-7 font-bold mx-1"
+                          isIconOnly
+                        >
+                          <FileSpreadSheet width={15} height={15} />
+                        </Button>
+                      </span>
                     }
                   </TableCell>
                 </TableRow>
