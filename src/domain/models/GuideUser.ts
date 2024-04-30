@@ -2,10 +2,13 @@ export interface GuideUser {
     id:        number;
     guideId:   number;
     userId:    number;
+    surveyId:  number;
     answers?:  Answer[];
+    guide?: Guide;
     createdAt: Date;
     updatedAt: Date;
     status:    boolean;
+    success?:  boolean;
     total:     number;
 }
 
@@ -29,3 +32,11 @@ export interface Section {
     id:   number;
     name: string;
 }
+
+export interface Guide {
+    id:        number;
+    name:      string;
+    gradable:  boolean;
+    status:    boolean;
+}
+

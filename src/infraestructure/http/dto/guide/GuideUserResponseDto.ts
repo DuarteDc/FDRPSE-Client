@@ -6,9 +6,11 @@ export interface Guide {
     id:         number;
     guide_id:   number;
     user_id:    number;
+    survey_id:  number;
     answers?:   Answer[];
     created_at: string;
     updated_at: string;
+    guide ? : Guide;
     status:     boolean;
     total:      number;
 }
@@ -32,4 +34,10 @@ export interface Category {
 export interface Section {
     id:   number;
     name: string;
+}
+export interface Guide {
+    id:        number;
+    name:      string;
+    gradable:  boolean;
+    status:    boolean;
 }

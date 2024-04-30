@@ -55,9 +55,9 @@ export const questionRepository = {
         }
     },
 
-    saveUserAnswers: async (saveUserQuestionDto: SaveUserQuestionDto, type: TypeQuestion): Promise<CommonResponseDto> => {
+    saveUserAnswers: async (surveyId: string, guideId: string, saveUserQuestionDto: SaveUserQuestionDto, type: TypeQuestion): Promise<CommonResponseDto> => {
         try {
-            const { message } = await http.post<CommonResponseDto>(`/auth/surveys/save-questions?type=${type}`, saveUserQuestionDto);
+            const { message } = await http.post<CommonResponseDto>(`/auth/surveys/save-questions/${surveyId}/guide/${guideId}?type=${type}`, saveUserQuestionDto);
             succesAlert(message);
             return { message, success: true }
         } catch (error) {

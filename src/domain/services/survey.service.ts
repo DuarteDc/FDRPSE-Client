@@ -5,6 +5,7 @@ import { SurveyContext } from '../../infraestructure/context/survey';
 import { surveyRepository } from '../../infraestructure/repositories/survey.repository';
 import { StartNewSurveyDto } from '../../infraestructure/http/dto/surveys';
 import { Area, StatusGuide } from '../models';
+import { guideService } from './guide.service';
 
 
 export const surveyService = () => {
@@ -13,6 +14,7 @@ export const surveyService = () => {
     const [areas, setAreas] = useState<Array<Area>>([]);
     const navigate = useNavigate();
     const { dispatch, surveys, hasSurvey, guideUserSurvey, users, userDetail, totalUsersInSurvey, survey } = useContext(SurveyContext);
+    const { dispatch: dispatchGuide } = guideService();
 
     const handleAddAndDeleteAreas = useCallback((area: Area, add: boolean) => {
         if (add) {
@@ -37,14 +39,17 @@ export const surveyService = () => {
         toggleLoading();
     }
 
-    const startSurveyUser = async () => {
-        const { success } = await surveyRepository.startSurveyByUser();
+    const startSurveyUser = async (surveyId: number, guideId: number) => {
+        const { success } = await surveyRepository.startSurveyByUser(surveyId, guideId);
         success && navigate('questions', { replace: true });
     }
 
     const endSurveyUser = async () => {
-        const { success } = await surveyRepository.endSurveyByUser();
-        success && navigate('success-answer', { replace: true });
+        const guideUser = await surveyRepository.endSurveyByUser();
+        if (typeof guideUser !== 'string' && guideUser.success) {
+            dispatchGuide({ type: 'GUIDE - set guideUser', payload: guideUser });
+            navigate('success-answer', { replace: true });
+        }
     }
 
     const clearCacheForAvailableSurvey = () => dispatch({ type: 'SURVEY - Clear cache for available survey' });
@@ -126,9 +131,9 @@ export const surveyService = () => {
         toggleLoading();
     }
 
-    const startDownloadReportByUser = async (surveyId: string, guideId: string, userId: string) => {
+    const startDownloadReportBy = async (surveyId: string, guideId: string, userId: string, type: 'user' | 'area') => {
         toggleLoading();
-        await surveyRepository.downloadSurveyGuideUserResume(surveyId, guideId, userId);
+        await surveyRepository.downloadSurveyGuideUserResume(surveyId, guideId, userId, type);
         toggleLoading();
     }
 
@@ -159,7 +164,7 @@ export const surveyService = () => {
         startGuide,
         startSearchGuideSurveyUserDetail,
         startPausedOrContinueGuide,
-        startDownloadReportByUser,
+        startDownloadReportBy,
     }
 
 }

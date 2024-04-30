@@ -37,10 +37,10 @@ export const questionService = () => {
     }
 
 
-    const startGetQuestionsBySection = useCallback(async (guideId: number, page = 1) => {
+    const startGetQuestionsBySection = async (guideId: number, page = 1) => {
         const sectionQuestions = await questionRepository.getQuestionBySection(guideId, page);
         typeof sectionQuestions !== 'string' && dispatch({ type: 'QUESTION - Get Question to user', payload: sectionQuestions });
-    }, []);
+    };
 
     const clearQuestionBySection = () => dispatch({ type: 'QUESTION - Clear Question Cache' });
 
@@ -57,17 +57,17 @@ export const questionService = () => {
         return { questions: body }
     }
 
-    const saveQuestionUser = async (questions: QuestionsField) => {
+    const saveQuestionUser = async (surveyId: string, guideId: string, questions: QuestionsField) => {
         const formQuestionData = createBodyRequest(questions!);
-        const { success } = await questionRepository.saveUserAnswers(formQuestionData, 'gradable');
+        const { success } = await questionRepository.saveUserAnswers(surveyId, guideId, formQuestionData, 'gradable');
         if (!success) return navigate('/auth/')
 
     }
 
-    const saveQuestionNongradableUser = async (questions: QuestionsField) => {
+    const saveQuestionNongradableUser = async (surveyId: string, guideId: string, questions: QuestionsField) => {
 
         const formQuestionData = createBodyRequest(questions!);
-        const { success } = await questionRepository.saveUserAnswers(formQuestionData, 'nongradable');
+        const { success } = await questionRepository.saveUserAnswers(surveyId, guideId, formQuestionData, 'nongradable');
         if (!success) return navigate('/auth/')
     }
 

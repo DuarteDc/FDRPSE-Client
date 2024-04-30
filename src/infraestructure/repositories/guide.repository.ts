@@ -72,6 +72,8 @@ export const guideRepository = {
                 total: guide.total,
                 guideId: guide.guide_id,
                 userId: guide.user_id,
+                surveyId: guide.survey_id,
+                guide: guide?.guide,
                 answers: undefined,
                 createdAt: new Date(guide.created_at),
                 updatedAt: new Date(guide.updated_at),

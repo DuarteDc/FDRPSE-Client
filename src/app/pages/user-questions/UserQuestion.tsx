@@ -8,12 +8,14 @@ import { guideService } from '../../../domain/services/guide.service';
 
 export const UserQuestion = () => {
 
-    const { sectionQuestions, startGetQuestionsBySection } = questionService();
-    const { guideUser} = guideService();
+    const { sectionQuestions, startGetQuestionsBySection, clearQuestionBySection } = questionService();
+    const { guideUser } = guideService();
 
     useEffect(() => {
         startGetQuestionsBySection(guideUser?.guideId!);
-    
+        return () => {
+            clearQuestionBySection()
+        }
     }, []);
 
     return (

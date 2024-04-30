@@ -1,11 +1,11 @@
 import { http } from '../http/http';
 import { errorAlert, succesAlert } from '../alert/alerts';
 
-import { Survey, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail, StatusGuide, ChangeStatusGuide, FinalizeGuideAndStartNextGuide } from '../../domain/models';
+import { Survey, Pagination, GuideUserSurvey, Area, GuideSurveyUserDetail, StatusGuide, ChangeStatusGuide, FinalizeGuideAndStartNextGuide, GuideUser } from '../../domain/models';
 import { CommonResponseDto } from '../http/dto/CommonResponseDto';
 import { FinalizeCurrentGuideResponseDto, GuideUserSurveyResponseDto, StartNewSurveyDto, StartNewSurveyResonseDto, SurveyResponseDto, SurveysPaginationResponseDto, TotalUsersResponseDto } from '../http/dto/surveys';
 import { AreasResponseDto } from '../http/dto/areas';
-import { GuideSurveyUserDetailDto, OneGuideResponseDto } from '../http/dto/guide';
+import { GuideSurveyUserDetailDto, GuideUserResponseDto, OneGuideResponseDto } from '../http/dto/guide';
 
 export const surveyRepository = {
     startGetSurveys: async (page = 1): Promise<Pagination | string> => {
@@ -60,22 +60,41 @@ export const surveyRepository = {
         }
     },
 
-    startSurveyByUser: async (): Promise<CommonResponseDto> => {
+    startSurveyByUser: async (surveyId: number, guideId: number): Promise<CommonResponseDto> => {
         try {
-            return await http.post<CommonResponseDto>('/auth/surveys/start-user', {});
+            return await http.post<CommonResponseDto>(`/auth/surveys/start-user/${surveyId}/guide/${guideId}`, {});
         } catch (error) {
             errorAlert(error as string);
             return { message: error as string, success: false }
         }
     },
 
-    endSurveyByUser: async (): Promise<CommonResponseDto> => {
+    endSurveyByUser: async (): Promise<GuideUser | string> => {
         try {
-            const { message } = await http.post<CommonResponseDto>('/auth/surveys/end-user', {});
+            const { message, guide } = await http.post<CommonResponseDto & GuideUserResponseDto>('/auth/surveys/end-user', {});
             succesAlert(message);
-            return { message, success: true }
+            return {
+                success: true,
+                id: guide.id,
+                ...(guide.guide && {
+                    guide: {
+                        id: guide.guide?.id,
+                        name: guide.guide?.name,
+                        gradable: guide.guide?.gradable,
+                        status: guide.guide?.status,
+                    }
+                }),
+                guideId: guide.guide_id,
+                total: guide?.total || 0,
+                createdAt: new Date(guide.created_at),
+                updatedAt: new Date(guide.updated_at),
+                status: guide.status,
+                surveyId: guide.survey_id,
+                userId: guide.user_id
+            }
         } catch (error) {
-            return { message: error as string, success: false }
+            errorAlert(error as string);
+            return error as string;
         }
     },
 
@@ -250,7 +269,6 @@ export const surveyRepository = {
         }
     },
 
-
     downloadSurveyUserResume: async (): Promise<CommonResponseDto> => {
         try {
             await http.download(`/auth/surveys/report`);
@@ -261,9 +279,9 @@ export const surveyRepository = {
         }
     },
 
-    downloadSurveyGuideUserResume: async (surveyId: string, guideId: string, userId: string): Promise<CommonResponseDto> => {
+    downloadSurveyGuideUserResume: async (surveyId: string, guideId: string, userId: string, type: string): Promise<CommonResponseDto> => {
         try {
-            await http.download(`/auth/surveys/${surveyId}/guide/${guideId}/report/${userId}?type=user`)
+            await http.download(`/auth/surveys/${surveyId}/guide/${guideId}/report/${userId}?type=${type}`)
             return { success: true, message: '' };
         } catch (error) {
             errorAlert(error as string);

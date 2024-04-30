@@ -33,11 +33,11 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
     validationSchema: isBinary ? Yup.object(qustionAnswerValidation(section.questions)) : false,
     onSubmit: async (data) => {
       if (section.canFinishGuide && !isBinary) {
-        await saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) });
+        await saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${section.id}`]: JSON.stringify(isBinary) });
         await endSurveyUser();
-        
+
       } else if (section.canFinishGuide && isBinary) {
-        saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(async () => {
+        saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(async () => {
           await clearQuestionBySection();
           if ((currentPage) === totalQuestions) return endSurveyUser();
           return await startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
@@ -45,10 +45,10 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
       } else {
         if (section.binary) {
           isBinary ?
-            await saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary), ...data }).then(() => clearQuestionBySection())
-            : await saveQuestionNongradableUser({ [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => clearQuestionBySection())
+            await saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${section.id}`]: JSON.stringify(isBinary), ...data }).then(() => clearQuestionBySection())
+            : await saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(() => clearQuestionBySection())
         } else {
-          await saveQuestionNongradableUser(data).then(() => clearQuestionBySection())
+          await saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, data).then(() => clearQuestionBySection())
         }
         if ((currentPage) === totalQuestions) return endSurveyUser();
         return await startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);

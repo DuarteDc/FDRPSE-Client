@@ -98,6 +98,7 @@ export const guideService = () => {
         guideUser,
         guidesSelected,
         qualifications,
+        dispatch,
         clearGuide,
         startGetGuide,
         startGetGuides,

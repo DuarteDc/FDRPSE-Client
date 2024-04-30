@@ -33,16 +33,16 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
         clearQuestionBySection();
         if ((currentPage) === totalQuestions) endSurveyUser();
         else startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
-        return saveQuestionUser({ [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary) });
+        return saveQuestionUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary) });
       }
       if (!sectionQuestions?.binary) {
-        return saveQuestionUser(data).then(() => {
+        return saveQuestionUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, data).then(() => {
         }).then(() => {
           if ((currentPage) === totalQuestions) return endSurveyUser();
           startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         })
-      }else {
-        saveQuestionUser({[`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary), ...data }).then(() => {
+      } else {
+        saveQuestionUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary), ...data }).then(() => {
         }).then(() => {
           if ((currentPage) === totalQuestions) return endSurveyUser();
           startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);

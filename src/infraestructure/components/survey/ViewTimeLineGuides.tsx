@@ -61,11 +61,6 @@ export const ViewTimeLineGuides = forwardRef<ValidateStep>((__, ref: ForwardedRe
                                     {guide.gradable ? 'Evaluativo' : 'Informativo'}
                                 </Chip>
                             </div>
-                            <div className="group-hover:flex hidden transition-all duration-400 animate-[fadeIn_0.5s]">
-                                {
-                                    guide.name
-                                }
-                            </div>
                         </div>
                     ))
                 }
