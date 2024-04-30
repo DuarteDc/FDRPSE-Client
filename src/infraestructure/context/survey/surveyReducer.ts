@@ -83,7 +83,7 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                     total: state.survey!.total,
                     guides: state.survey?.guides?.map(guide => guide.id === action.payload.guideId ?
                         ({ ...guide, status: guide.status = action.payload.status })
-                        : guide.status === StatusGuide.inProgress ? { ...guide, status: guide.status = StatusGuide.paused } : guide),
+                        : guide),
                 }
             }
         }
@@ -124,7 +124,7 @@ export const surveyReducer = (state: SurveyState, action: SurveyActionType) => {
                     total: state.survey!.total,
                     guides: state.survey?.guides?.map(guide => guide.id === action.payload ?
                         ({ ...guide, status: guide.status = StatusGuide.inProgress })
-                        : guide.status === StatusGuide.inProgress ? { ...guide, status: guide.status = StatusGuide.paused } : guide),
+                        :  guide),
                 }
             }
 

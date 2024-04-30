@@ -44,9 +44,16 @@ export const surveyService = () => {
         success && navigate('questions', { replace: true });
     }
 
-    const endSurveyUser = async () => {
-        const guideUser = await surveyRepository.endSurveyByUser();
-        if (typeof guideUser !== 'string' && guideUser.success) {
+    const endSurveyUser = async (surveyId: number, guideId: number) => {
+        const guideUser = await surveyRepository.endSurveyByUser(surveyId, guideId);
+
+        console.log(guideUser)
+
+        if (!guideUser) {
+            dispatchGuide({ type: 'GUIDE - unset guideUser', payload: null });
+            navigate('success-answer', { replace: true });
+        }
+        if (typeof guideUser !== 'string' && guideUser?.success) {
             dispatchGuide({ type: 'GUIDE - set guideUser', payload: guideUser });
             navigate('success-answer', { replace: true });
         }

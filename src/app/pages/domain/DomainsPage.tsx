@@ -12,7 +12,7 @@ import { CommonQualifictions, QualifictionFormData } from '../../../infraestruct
 
 
 const initialState: Qualifictions = {
-    id: crypto.randomUUID(),
+    id: new Date().getTime().toString(),
     despicable: 0,
     low: 0,
     middle: 0,

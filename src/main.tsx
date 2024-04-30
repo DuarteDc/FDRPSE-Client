@@ -9,7 +9,7 @@ import { SnackbarProvider } from 'notistack';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
   <AuthProvider>
-    <BrowserRouter basename="/cuestionario/">
+    <BrowserRouter basename="/cuestionario">
       <NextUIProvider>
         {/* <GoogleOAuthProvider clientId={import.meta.env.GOOGLE_CLIENT_ID}> */}
           <SnackbarProvider />

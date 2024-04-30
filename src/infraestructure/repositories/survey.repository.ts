@@ -69,29 +69,29 @@ export const surveyRepository = {
         }
     },
 
-    endSurveyByUser: async (): Promise<GuideUser | string> => {
+    endSurveyByUser: async (surveyId: number, guideId: number): Promise<GuideUser | string | null> => {
         try {
-            const { message, guide } = await http.post<CommonResponseDto & GuideUserResponseDto>('/auth/surveys/end-user', {});
-            succesAlert(message);
-            return {
+            const response = await http.post<CommonResponseDto & GuideUserResponseDto | null>(`/auth/surveys/end-user/${surveyId}/guide/${guideId}`, {});
+            response?.message && succesAlert(response.message);
+            return response?.guide ? {
                 success: true,
-                id: guide.id,
-                ...(guide.guide && {
+                id: response.guide.id,
+                ...(response.guide.guide && {
                     guide: {
-                        id: guide.guide?.id,
-                        name: guide.guide?.name,
-                        gradable: guide.guide?.gradable,
-                        status: guide.guide?.status,
+                        id: response.guide.guide?.id,
+                        name: response.guide.guide?.name,
+                        gradable: response.guide.guide?.gradable,
+                        status: response.guide.guide?.status,
                     }
                 }),
-                guideId: guide.guide_id,
-                total: guide?.total || 0,
-                createdAt: new Date(guide.created_at),
-                updatedAt: new Date(guide.updated_at),
-                status: guide.status,
-                surveyId: guide.survey_id,
-                userId: guide.user_id
-            }
+                guideId: response.guide.guide_id,
+                total: response.guide?.total || 0,
+                createdAt: new Date(response.guide.created_at),
+                updatedAt: new Date(response.guide.updated_at),
+                status: response.guide.status,
+                surveyId: response.guide.survey_id,
+                userId: response.guide.user_id
+            }: null
         } catch (error) {
             errorAlert(error as string);
             return error as string;

@@ -33,7 +33,7 @@ export interface Section {
     name: string;
 }
 
-export interface Guide {
+interface Guide {
     id:        number;
     name:      string;
     gradable:  boolean;

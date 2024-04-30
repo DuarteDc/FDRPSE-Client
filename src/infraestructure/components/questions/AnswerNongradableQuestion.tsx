@@ -32,14 +32,15 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
     initialValues: createFieldQuestion(section.questions!),
     validationSchema: isBinary ? Yup.object(qustionAnswerValidation(section.questions)) : false,
     onSubmit: async (data) => {
+      clearQuestionBySection();
       if (section.canFinishGuide && !isBinary) {
         await saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${section.id}`]: JSON.stringify(isBinary) });
-        await endSurveyUser();
+        await endSurveyUser(guideUser!.surveyId,guideUser!.guideId);
 
       } else if (section.canFinishGuide && isBinary) {
         saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${section.id}`]: JSON.stringify(isBinary) }).then(async () => {
           await clearQuestionBySection();
-          if ((currentPage) === totalQuestions) return endSurveyUser();
+          if ((currentPage) === totalQuestions) return endSurveyUser(guideUser!.surveyId,guideUser!.guideId);
           return await startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         });
       } else {
@@ -50,7 +51,7 @@ export const AnswerNongradableQuestion = ({ section, showFooterControls = true }
         } else {
           await saveQuestionNongradableUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, data).then(() => clearQuestionBySection())
         }
-        if ((currentPage) === totalQuestions) return endSurveyUser();
+        if ((currentPage) === totalQuestions) return endSurveyUser(guideUser!.surveyId,guideUser!.guideId);
         return await startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
       }
 

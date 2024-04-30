@@ -12,9 +12,6 @@ export const HomePage = () => {
     const { guideUser } = guideService();
     const { user } = useContext(AuthContext);
 
-
-    console.log(guideUser?.guide)
-
     return (
         <div className="w-full flex justify-center items-center px-5">
             <div className="grid lg:grid-cols-7 py-5 lg:py-20 max-w-[2000px]">
@@ -22,8 +19,7 @@ export const HomePage = () => {
                     <h1 className="text-5xl md:text-7xl font-bold lg:mb-10 mt-10">HOLA <b className="text-emerald-600 capitalize">{`${user?.userName}`}</b></h1>
                     <span className="lg:hidden mx-auto my-10">
                         <img
-                            //src="/cuestionario/public/assets/question-home.svg"
-                            src="/assets/question-home.svg"
+                            src="/cuestionario/public/assets/question-home.svg"
                             alt="home-icon"
                             loading="lazy"
                             width="200"
@@ -43,8 +39,7 @@ export const HomePage = () => {
                 </div>
                 <div className="hidden col-span-4 lg:flex justify-end">
                     <img
-                        src="/assets/question-home.svg"
-                        //src="/cuestionario/public/assets/question-home.svg"
+                        src="/cuestionario/public/assets/question-home.svg"
                         alt="home-icon"
                         width="600"
                         height="600"

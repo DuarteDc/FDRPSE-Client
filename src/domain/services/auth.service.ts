@@ -25,7 +25,7 @@ export const authService = () => {
             const user = await authRepository.revalidateSession();
             user instanceof User && dispatch({ type: 'AUTH - Login', payload: user });
             setLoading(false)
-        }, 2000)
+        }, 1000)
     }
 
     const startLogout = async (): Promise<void> => {

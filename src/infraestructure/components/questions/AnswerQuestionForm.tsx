@@ -30,21 +30,20 @@ export const AnswerQuestionForm = ({ questions, hasSubquestions, showFooterContr
     onSubmit: (data) => {
       clearQuestionBySection();
       if (!isBinary) {
-        clearQuestionBySection();
-        if ((currentPage) === totalQuestions) endSurveyUser();
+        if ((currentPage) === totalQuestions) endSurveyUser(guideUser!.surveyId,guideUser!.guideId);
         else startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         return saveQuestionUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary) });
       }
       if (!sectionQuestions?.binary) {
         return saveQuestionUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, data).then(() => {
         }).then(() => {
-          if ((currentPage) === totalQuestions) return endSurveyUser();
+          if ((currentPage) === totalQuestions) return endSurveyUser(guideUser!.surveyId,guideUser!.guideId);
           startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         })
       } else {
         saveQuestionUser(`${guideUser!.surveyId}`, `${guideUser!.guideId}`, { [`question_section_${sectionQuestions!.id}`]: JSON.stringify(isBinary), ...data }).then(() => {
         }).then(() => {
-          if ((currentPage) === totalQuestions) return endSurveyUser();
+          if ((currentPage) === totalQuestions) return endSurveyUser(guideUser!.surveyId,guideUser!.guideId);
           startGetQuestionsBySection(guideUser?.guideId!, currentPage! + 1);
         })
       }

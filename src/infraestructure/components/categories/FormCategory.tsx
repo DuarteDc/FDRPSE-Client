@@ -21,7 +21,7 @@ export interface Qualifictions {
 }
 
 const initialState: Qualifictions = {
-    id: crypto.randomUUID(),
+    id: new Date().getTime().toString(),
     despicable: 0,
     low: 0,
     middle: 0,
@@ -79,7 +79,7 @@ export const FormCategory = () => {
                                 <PlusIcon strokeWidth={2} height={18} width={18} />
                             </span>
                         }
-                        onClick={() => setQualifications(prev => [...prev, { ...initialState, id: crypto.randomUUID() }])}>
+                        onClick={() => setQualifications(prev => [...prev, { ...initialState, id: new Date().getTime().toString(), }])}>
                         Agregar calificación
                     </Button>
                 </div>

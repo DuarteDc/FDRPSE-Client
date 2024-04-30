@@ -20,6 +20,8 @@ export const SuccessAnswer = () => {
     onOpen()
   }, []);
 
+  console.log(guideUser)
+
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -51,33 +53,32 @@ export const SuccessAnswer = () => {
         )}
       />
       <img
-        //src="/cuestionario/public/assets/completed.svg"
-        src="/assets/completed.svg"
+        src="/cuestionario/public/assets/completed.svg"
         alt="Completed-icon"
         width={300}
         height={300}
         className="mt-10" />
       <h1 className="bg-gradient-to-r from-primary via-emerald-600 to-emerald-600 inline-block text-transparent py-5 bg-clip-text text-3xl md:text-4xl lg:text-6xl font-bold mt-10 mb-5">
         {
-          !guideUser?.status ? 'Aun no terminamos' : 'Gracias por tus respuestas'
+          (guideUser && guideUser?.status) ? 'Aun no terminamos' : 'Gracias por tus respuestas'
         }
 
       </h1>
       <p className="text-gray-500 font-bold text-sm">
         {
-          !guideUser?.status ? 'Haz clic en el botón de la parte inferior para continuar' : 'No es necesario que realices otra encuestas, recuerda que las respuestas son de forma anonima'
+         (guideUser && !guideUser?.status) ? 'Haz clic en el botón de la parte inferior para continuar' : 'No es necesario que realices otra encuestas, recuerda que las respuestas son de forma anonima'
         }
       </p>
-      <Button className="bg-slate-800 text-white mt-10 w-full lg:w-3/12 py-6 font-bold"
-        onClick={() => { !guideUser?.status ? navigate('/auth/user/questions', { replace: true }) : startLogout() }}
+      <Button className="bg-slate-800 text-white mt-10 w-full lg:w-5/12 xl:w-3/12 py-6 font-bold"
+        onClick={() => {(guideUser && !guideUser?.status) ? navigate('/auth/user/questions', { replace: true }) : startLogout() }}
         endContent={
           <span className="w-[1.5rem] h-[1.5rem] bg-white text-black rounded-full flex justify-center items-center">
             {
-              guideUser?.status ? <ArrowUpRight width={18} height={18} /> : <LogoutIcon width={18} height={18} />
+              (guideUser && !guideUser?.status) ? <ArrowUpRight width={18} height={18} /> : <LogoutIcon width={18} height={18} />
             }
           </span>}>
         {
-          !guideUser?.status ? 'Comenzar siguiente cuestionario' : 'Salir'
+          (guideUser && !guideUser?.status) ? 'Comenzar siguiente cuestionario' : 'Salir'
         }
       </Button>
 

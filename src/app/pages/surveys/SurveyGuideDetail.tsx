@@ -1,4 +1,4 @@
-import { Fragment, Key, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { surveyService } from '../../../domain/services/survey.service';
 import { LoadingScreen, PageLayout } from '../../../infraestructure/components/ui';
 import { useParams } from 'react-router-dom';

@@ -50,8 +50,8 @@ export const ViewTimeLineGuides = forwardRef<ValidateStep>((__, ref: ForwardedRe
                         after:z-20 after:hover:bg-emerald-400 after:transition-all after:duration-500 [&>span>p>svg]:text-emerald-600
                         group group-hover:transition-all group-hover:duration-400 animate-[fadeIn_0.5s]
                     `}>
-                            <div className="flex justify-between">
-                                <span className="flex items-center [&>svg]:text-emerald-600 mt-1 [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
+                            <div className="flex flex-col-reverse justify-between">
+                                <span className="flex items-center [&>svg]:min-w-8 [&>svg]:min-h-8 [&>svg]:text-emerald-600 mt-1 [&>svg]:hidden [&>svg]:md:flex [&>svg]:border-2 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:mr-2">
                                     <FileDescription width={35} height={35} strokeWidth={1.5} />
                                     <p className="text-xs lg:text-lg bg-gradient-to-r from-primary via-emerald-600 to-emerald-600 text-transparent bg-clip-text font-bold">
                                         {guide.name}
